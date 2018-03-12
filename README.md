@@ -15,8 +15,8 @@ The aim of the repository is to provide for each common latex package
 
 and a generation into templates:
 
-1. Support for LNCS, IEEE, KOMAscript
-2. Support for separate documents which require `--shell-eescape` and not.
+1. Support for LNCS, IEEE, KOMA-Script
+2. Support for separate documents which require `--shell-escape` and not.
 3. Support for integrated pdflatex and lualatex documents
 
 ## Resources
