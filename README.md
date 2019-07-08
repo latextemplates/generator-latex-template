@@ -1,4 +1,4 @@
-# latex-template-generator
+# generator-latex-template
 
 > Generates latextemplates (e.g., for thesis, workshops, conferences, IEEEtran, LNCS, ...)
 
@@ -26,6 +26,29 @@ and a generation into templates:
 - [scientific-thesis-template](https://latextemplates.github.io/scientific-thesis-template/) - example: [latexhints-english.tex](https://github.com/latextemplates/scientific-thesis-template/blob/master/latexhints-english.tex)
 - [alpenwasser/TeX](https://github.com/alpenwasser/TeX)
 
+## Usage
+
+### Installing `generator-latex-template`
+
+You can install `generator-latex-template` using following command:
+
+```bash
+npm install -g yo generator-latex-template
+```
+
+### Using the Generator
+
+You can run the generator by invoking this command on a command prompt:
+
+```bash
+yo latex-template
+```
+
+<!--
+## Generator Output
+
+Use this section for documenting what your generator actually will generate.
+-->
 
 ## Development roadmap
 
@@ -40,7 +63,7 @@ In the long run, the contens of the `paper.tex` (and similar) files in repositor
 ## License
 
 The code is licenced MIT, the snippets (both latex and text) [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
-  
+
   [hyperref]: https://ctan.org/pkg/hyperref
   [listings]: https://ctan.org/pkg/listings
   [minted]: https://ctan.org/pkg/minted
