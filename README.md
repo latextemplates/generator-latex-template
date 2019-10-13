@@ -1,6 +1,6 @@
 # generator-latex-template
 
-> Generates latextemplates (e.g., for thesis, workshops, conferences, IEEEtran, LNCS, ...)
+> Generates latextemplates (e.g., for thesis, workshops, conferences, IEEEtran, LNCS, ...) out of "micro-templates"
 
 There are many latex templates out there.
 All of them make use of certain packages such as [hyperref], [listings], or [minted].
