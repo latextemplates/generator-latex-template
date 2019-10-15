@@ -1,6 +1,11 @@
-import {IConfiguration} from "./IConfiguration";
+import {Configuration} from "./Configuration";
+import {AppSetting} from "../AppSetting";
+import {Question} from "yeoman-generator";
+import {IGeneratorSettings} from "extended-yo-generator";
+import {IAppSettings} from "../IAppSettings";
 
-export class LatexCompiler implements IConfiguration {
+export class LatexCompiler extends Configuration {
+
     question = {
         name: AppSetting.LatexCompiler,
         type: "list",

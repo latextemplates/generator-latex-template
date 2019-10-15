@@ -1,8 +1,7 @@
-import { IGeneratorSettings } from "extended-yo-generator";
-import { Question } from "yeoman-generator";
-import { IConfiguration } from "../IConfiguration";
+import {IGeneratorSettings} from "extended-yo-generator";
+import {Configuration} from "../Configuration";
+import {IAppSettings} from "../../IAppSettings";
 
-export abstract class LatexPackage implements IConfiguration {
-    public requiresShellEscape: boolean = false;
-    public question: Question<IGeneratorSettings>;
+export abstract class LatexPackage extends Configuration {
+    requiresShellEscape: boolean = false;
 }

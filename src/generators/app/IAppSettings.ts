@@ -5,6 +5,6 @@ import { LatexCompiler } from "./configuration/LatexCompiler";
 
 export interface IAppSettings extends IGeneratorSettings
 {
-    [AppSetting.Language]: Language;
-    [AppSetting.LatexCompiler]: LatexCompiler;
+    [AppSetting.Language]: string;
+    [AppSetting.LatexCompiler]: string;
 }

@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import Dedent = require("dedent");
 import { Generator, IComponentProvider, Question } from "extended-yo-generator";
-import Path = require("path");
 import YoSay = require("yosay");
 import { AppSetting } from "./AppSetting";
 import { IAppSettings } from "./IAppSettings";
@@ -53,7 +52,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                     {
                                         switch (settings[AppSetting.Language])
                                         {
-                                            case Language.german:
+                                            case "german":
                                                 return "main.tex.de.ejs";
                                             default:
                                                 return "main.tex.en.ejs";
@@ -71,7 +70,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                 {
                                     Source: (settings) =>
                                     {
-                                        if (settings[AppSetting.Language] === Language.german) {
+                                        if (settings[AppSetting.Language] === "german") {
                                             return "README.md.de.ejs";
                                         } else {
                                             return "README.md.en.ejs";
@@ -82,7 +81,7 @@ export class AppGenerator extends Generator<IAppSettings>
                                         var res = {};
                                         for (var setting in AppSetting) {
                                             if (typeof AppSetting[setting] === 'number') {
-                                                keyName = AppSetting[setting];
+                                                var keyName: string = AppSetting[setting];
                                                 res[keyName] = settings[keyName];
                                             }
                                         }
