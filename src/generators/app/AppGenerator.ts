@@ -5,22 +5,17 @@ import Path = require("path");
 import YoSay = require("yosay");
 import { AppSetting } from "./AppSetting";
 import { IAppSettings } from "./IAppSettings";
-import { LicenseType } from "./LicenseType";
+import { Language } from "./configuration/Language";
+import { LatexCompiler } from "./configuration/LatexCompiler";
+import { Microtype } from "./configuration/packages/Microtype";
 
 /**
- * Provides the functionality to generate a generator written in TypeScript.
+ * Generates a LaTeX template
  */
 export class AppGenerator extends Generator<IAppSettings>
 {
-    /**
-     * Initializes a new instance of the `AppGenerator` class.
-     *
-     * @param args
-     * A set of arguments for the generator.
-     *
-     * @param options
-     * A set of options for the generator.
-     */
+    private needsShellEscape: boolean = false;
+
     public constructor(args: string | string[], options: {})
     {
         super(args, options);
@@ -34,29 +29,9 @@ export class AppGenerator extends Generator<IAppSettings>
     protected get Questions(): Array<Question<IAppSettings>>
     {
         return [
-            {
-                type: "input",
-                name: AppSetting.Destination,
-                message: "Where do you want to save your project to?",
-                default: "./",
-                filter: async input =>
-                {
-                    let destination = Path.isAbsolute(input) ? input : Path.resolve(process.cwd(), input);
-                    this.destinationRoot(destination);
-                    return destination;
-                }
-            },
-            {
-                type: "input",
-                name: AppSetting.Name,
-                message: "What's the name of your project?",
-                default: (answers: IAppSettings) => Path.basename(answers[AppSetting.Destination])
-            },
-            {
-                type: "input",
-                name: AppSetting.Description,
-                message: "Please enter a description."
-            }
+            LatexCompiler.question,
+            Language.question,
+            Microtype.question
         ];
     }
 
@@ -69,58 +44,53 @@ export class AppGenerator extends Generator<IAppSettings>
                     DisplayName: "General",
                     Components: [
                         {
+                            ID: "main",
+                            DisplayName: "Main LaTeX File",
+                            Default: true,
+                            FileMappings: [
+                                {
+                                    Source: (settings) =>
+                                    {
+                                        switch (settings[AppSetting.Language])
+                                        {
+                                            case Language.german:
+                                                return "main.tex.de.ejs";
+                                            default:
+                                                return "main.tex.en.ejs";
+                                        }
+                                    },
+                                    Destination: "main.tex"
+                                }
+                            ]
+                        },
+                        {
                             ID: "readme",
                             DisplayName: "README.md-File",
                             Default: true,
                             FileMappings: [
                                 {
-                                    Source: "README.md.ejs",
-                                    Context: (settings) =>
-                                    {
-                                        return {
-                                            Name: settings[AppSetting.Name],
-                                            Description: settings[AppSetting.Description]
-                                        };
-                                    },
-                                    Destination: "README.md"
-                                }
-                            ]
-                        },
-                        {
-                            ID: "license",
-                            DisplayName: "License-File",
-                            Questions: [
-                                {
-                                    name: AppSetting.LicenseType,
-                                    type: "list",
-                                    message: "What license do you want to use?",
-                                    choices: [
-                                        {
-                                            value: LicenseType.Apache,
-                                            name: "Apache-2.0 License"
-                                        },
-                                        {
-                                            value: LicenseType.GPL,
-                                            name: "GNU GPL License"
-                                        }
-                                    ],
-                                    default: LicenseType.GPL
-                                }
-                            ],
-                            FileMappings: [
-                                {
                                     Source: (settings) =>
                                     {
-                                        switch (settings[AppSetting.LicenseType])
-                                        {
-                                            case LicenseType.Apache:
-                                                return "Apache.txt";
-                                            case LicenseType.GPL:
-                                            default:
-                                                return "GPL.txt";
+                                        if (settings[AppSetting.Language] === Language.german) {
+                                            return "README.md.de.ejs";
+                                        } else {
+                                            return "README.md.en.ejs";
                                         }
                                     },
-                                    Destination: "LICENSE"
+                                    Context: (settings) =>
+                                    {
+                                        var res = {};
+                                        for (var setting in AppSetting) {
+                                            if (typeof AppSetting[setting] === 'number') {
+                                                keyName = AppSetting[setting];
+                                                res[keyName] = settings[keyName];
+                                            }
+                                        }
+                                        console.log(res);
+                                        this.log(res);
+                                        return res;
+                                    },
+                                    Destination: "README.md"
                                 }
                             ]
                         }
@@ -132,7 +102,7 @@ export class AppGenerator extends Generator<IAppSettings>
 
     public async prompting()
     {
-        this.log(YoSay(`Welcome to the ${chalk.whiteBright("generator-latex-template")} generator!`));
+        this.log(YoSay(`Welcome to the ${chalk.whiteBright("LaTeX template")} generator!`));
         return super.prompting();
     }
 
@@ -144,8 +114,7 @@ export class AppGenerator extends Generator<IAppSettings>
     public async end()
     {
         this.log(Dedent(`
-            Your project is ready!
-
-            It lives in "${this.Settings[AppSetting.Destination]}"`));
+            Your LaTeX project is ready!
+        `));
     }
 }

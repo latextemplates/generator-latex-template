@@ -60,6 +60,10 @@ Use this section for documenting what your generator actually will generate.
 
 In the long run, the contens of the `paper.tex` (and similar) files in repositories of the [latextemplates](https://latextemplates.github.io/) organization should be generated automatically.
 
+## Development hints
+
+- Templating language: <https://ejs.co/>
+
 ## License
 
 The code is licenced MIT, the snippets (both latex and text) [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
