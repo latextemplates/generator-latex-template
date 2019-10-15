@@ -1,0 +1,37 @@
+% !TeX spellcheck = en-US
+% !TeX encoding = utf8
+% !TeX program = <%= latexcompiler %>
+% !BIB program = <%= bibtextool %>
+% -*- coding:utf-8 mod:LaTeX -*-
+
+<% if (documentclass === 'scientific-thesis') { -%>
+% EN: The following package allows \\ at the title page
+%     For more information see https://github.com/latextemplates/scientific-thesis-cover/issues/4
+\RequirePackage{kvoptions-patch}
+<% } -%>
+
+\documentclass[
+  % fontsize=11pt is the standard
+  numbers=noenddot,
+  a4paper,  % Standard format - only KOMAScript uses paper=a4 - https://tex.stackexchange.com/a/61044/9075
+  twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
+  bibliography=totoc,
+  %               idxtotoc,   %Index ins Inhaltsverzeichnis
+  %               liststotoc, %List of X ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
+  headsepline,
+  cleardoublepage=empty,
+  parskip=half,
+  %               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
+  draft=false
+]{scrbook}
+
+<%- include('microtype.preamble.en', this); %>
+
+\begin{document}
+
+\<%= heading1 %>{LaTeX Hints}
+\label{chap:latexhints}
+
+
+
+\end{document}

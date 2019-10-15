@@ -63,6 +63,7 @@ In the long run, the contens of the `paper.tex` (and similar) files in repositor
 ## Development hints
 
 - Templating language: <https://ejs.co/>
+- Conditional questions: <https://stackoverflow.com/a/18706640/873282>.
 
 ## License
 
