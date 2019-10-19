@@ -36,7 +36,7 @@ You can install `generator-latex-template` using following command:
 npm install -g yo generator-latex-template
 ```
 
-### Using the Generator
+### Using the generator
 
 You can run the generator by invoking this command on a command prompt:
 
@@ -45,7 +45,7 @@ yo latex-template
 ```
 
 <!--
-## Generator Output
+#### Generator Output
 
 Use this section for documenting what your generator actually will generate.
 -->
@@ -64,6 +64,7 @@ In the long run, the contens of the `paper.tex` (and similar) files in repositor
 
 - Templating language: <https://ejs.co/>
 - Conditional questions: <https://stackoverflow.com/a/18706640/873282>.
+- Types of questions: <https://github.com/SBoudrias/Inquirer.js#prompt-types>
 
 ## License
 

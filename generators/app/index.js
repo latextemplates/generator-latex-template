@@ -37,16 +37,24 @@ module.exports = class extends Generator {
         message: 'Which language should the document be?',
         choices: ["english", "german"],
         default: "english"
+      },
+      {
+        type: 'confirm',
+        name: 'cleveref',
+        message: 'Use cleveref?',
+        default: true
       }
     ];
 
     return this.prompt(prompts).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
-      if (props.documentclass === 'scientific-thesis-template') {
+      if (props.documentclass === 'scientific-thesis') {
         this.props.heading1 = 'chapter';
+        this.props.heading2 = 'section';
       } else {
         this.props.heading1 = 'section';
+        this.props.heading2 = 'subsection';
       }
       this.props.lang = props.language === 'german' ? 'de' : 'en';
       this.props.requiresShellEscape = false;
@@ -63,16 +71,29 @@ module.exports = class extends Generator {
       this.destinationPath('.latexmkrc'),
       this.props
     );
-    this.fs.copyTpl(
-      this.templatePath('README.md.en'),
-      this.destinationPath('README.md'),
-      this.props
-    );
-    this.fs.copyTpl(
-      this.templatePath('main.tex.en'),
-      this.destinationPath('main.tex'),
-      this.props
-    );
+    if (this.props.lang === 'de') {
+      this.fs.copyTpl(
+        this.templatePath('main.tex.de'),
+        this.destinationPath('main.tex'),
+        this.props
+      );
+      this.fs.copyTpl(
+        this.templatePath('README.md.de'),
+        this.destinationPath('README.md'),
+        this.props
+      );
+    } else {
+      this.fs.copyTpl(
+        this.templatePath('main.tex.en'),
+        this.destinationPath('main.tex'),
+        this.props
+      );
+      this.fs.copyTpl(
+        this.templatePath('README.md.en'),
+        this.destinationPath('README.md'),
+        this.props
+      );
+    }
   }
 
   install() {
