@@ -1,5 +1,7 @@
 # Use manuth/TSGeneratorGenerator
 
+Status: Not Accepted
+
 ## Context and Problem Statement
 
 What to use as basis for the generator?
