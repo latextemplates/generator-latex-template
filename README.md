@@ -66,9 +66,15 @@ In the long run, the contens of the `paper.tex` (and similar) files in repositor
 - Conditional questions: <https://stackoverflow.com/a/18706640/873282>.
 - Types of questions: <https://github.com/SBoudrias/Inquirer.js#prompt-types>
 
+### Releasing a new version
+
+1. Update `CHANGELOG.md`
+2. Update `package.json`, publish to [npmjs](https://www.npmjs.com/package/madr), create GitHub release.  
+   Use [release-it](https://www.npmjs.com/package/release-it) (do not create a release on GitHub) and [github-release-from-changelog](https://www.npmjs.com/package/github-release-from-changelog).
+
 ## License
 
-The code is licenced MIT, the snippets (both latex and text) [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
+The code is licenced MIT, the snippets (both LaTeX and text) [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
 
   [hyperref]: https://ctan.org/pkg/hyperref
   [listings]: https://ctan.org/pkg/listings
