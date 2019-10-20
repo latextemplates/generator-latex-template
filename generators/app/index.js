@@ -73,23 +73,23 @@ module.exports = class extends Generator {
     );
     if (this.props.lang === 'de') {
       this.fs.copyTpl(
-        this.templatePath('main.tex.de'),
+        this.templatePath('main.de.tex'),
         this.destinationPath('main.tex'),
         this.props
       );
       this.fs.copyTpl(
-        this.templatePath('README.md.de'),
+        this.templatePath('README.de.md'),
         this.destinationPath('README.md'),
         this.props
       );
     } else {
       this.fs.copyTpl(
-        this.templatePath('main.tex.en'),
+        this.templatePath('main.en.tex'),
         this.destinationPath('main.tex'),
         this.props
       );
       this.fs.copyTpl(
-        this.templatePath('README.md.en'),
+        this.templatePath('README.en.md'),
         this.destinationPath('README.md'),
         this.props
       );

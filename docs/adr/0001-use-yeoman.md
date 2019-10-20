@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-We want to generate the template automatically
+We want to generate the template automatically.
 
 ## Considered Options
 
@@ -16,4 +16,4 @@ We want to generate the template automatically
 
 ## Decision Outcome
 
-Chosen option: "Yeoman", because it seems to be the most easy to use genarator.
+Chosen option: "Yeoman", because it seems to be the most easy to use generator.
