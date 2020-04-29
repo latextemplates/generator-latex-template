@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.1.2] – 2020-04-29
 
-## Changed
+### Changed
 
 - Renamed `.gitignore` to `dot.gignore` to enable uploading at npm publish
 
