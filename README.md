@@ -95,12 +95,14 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Templating language: <https://ejs.co/>
 - Conditional questions: <https://stackoverflow.com/a/18706640/873282>.
 - Types of questions: <https://github.com/SBoudrias/Inquirer.js#prompt-types>
-- Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
-  - See <https://github.com/yeoman/generator/releases> for changes in the generator.
+- Add a new question
+  - Also adapt `__tests__/app.js`
 - Test locally
   - Create empty directory
   - Run `npx yo <path-to-git-repository>`
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
+- Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
+  - See <https://github.com/yeoman/generator/releases> for changes in the generator.
 
 ### Releasing a new version
 
