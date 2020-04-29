@@ -70,11 +70,13 @@ module.exports = class extends Generator {
 
   writing() {
     this.fs.copy(
-      this.templatePath('.gitignore'),
+      // .gitignore is not uploaded by npm publish
+      // Thus, we prefix it with `dot`.
+      this.templatePath('dot.gitignore'),
       this.destinationPath('.gitignore')
     );
     this.fs.copyTpl(
-      this.templatePath('.latexmkrc'),
+      this.templatePath('dot.latexmkrc'),
       this.destinationPath('.latexmkrc'),
       this.props
     );
