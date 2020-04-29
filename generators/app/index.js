@@ -14,7 +14,20 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'documentclass',
         message: 'Which template should be generated?',
-        choices: ["scientific-thesis", "lncs", "ieee"],
+        choices: [
+          {
+            name: "Scientic Thesis",
+            value: "scientific-thesis"
+          },
+          {
+            name: "Springer's Lecture Notes in Computer Science (LNCS)",
+            value: "lncs"
+          },
+          {
+            name: "Institute of Electrical and Electronics Engineers (IEEE)",
+            value: "ieee"
+          }
+         ],
         default: "scientific-thesis"
       },
       {
@@ -28,21 +41,52 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'bibtextool',
         message: 'Which BibTeX tool should be used?',
-        choices: ["bibtex", "biblatex"],
+        choices: [
+          {
+            name: "BibTeX",
+            value: "bibtex"
+          },
+          {
+            name: "BibLaTeX + biber",
+            value: "biblatex"
+          }
+        ],
         default: "biblatex"
       },
       {
         type: 'list',
         name: 'language',
         message: 'Which language should the document be?',
-        choices: ["english", "german"],
+        choices: [
+          {
+            name: "English",
+            value: "en"
+          },
+          {
+            name: "German",
+            value: "de"
+          }
+        ],
         default: "english"
       },
       {
         type: 'list',
         name: 'font',
         message: 'Which font should be used?',
-        choices: ["arial", "times", "latex default"],
+        choices: [
+          {
+            name: "Arial",
+            value: "arial"
+          },
+          {
+            name: "Times New Roman",
+            value: "times"
+          },
+          {
+            name: "Computer Modern (Default LaTeX font)",
+            value: "default"
+          }
+        ],
         default: "latex default"
       },
       {
@@ -57,13 +101,12 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
       if (props.documentclass === 'scientific-thesis') {
-        this.props.heading1 = 'chapter';
-        this.props.heading2 = 'section';
+        this.props.heading1 = '\\chapter';
+        this.props.heading2 = '\\section';
       } else {
-        this.props.heading1 = 'section';
-        this.props.heading2 = 'subsection';
+        this.props.heading1 = '\\section';
+        this.props.heading2 = '\\subsection';
       }
-      this.props.lang = props.language === 'german' ? 'de' : 'en';
       this.props.requiresShellEscape = false;
     });
   }
@@ -80,7 +123,7 @@ module.exports = class extends Generator {
       this.destinationPath('.latexmkrc'),
       this.props
     );
-    if (this.props.lang === 'de') {
+    if (this.props.language === 'de') {
       this.fs.copyTpl(
         this.templatePath('main.de.tex'),
         this.destinationPath('main.tex'),
