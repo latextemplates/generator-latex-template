@@ -102,6 +102,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Create empty directory
   - Run `npx yo <path-to-git-repository>`
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
+  - Run `latexmk` to build the PDF
 - Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
 
@@ -116,7 +117,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 ## License
 
-The code is licenced MIT, the snippets (both LaTeX and text) [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
+The code is licensed MIT, the snippets (both LaTeX and text) [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
 
 [hyperref]: https://ctan.org/pkg/hyperref
 [listings]: https://ctan.org/pkg/listings
