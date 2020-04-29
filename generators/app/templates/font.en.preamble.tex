@@ -1,0 +1,26 @@
+<% if (latexcompiler == "lualatex") { -%>
+\usepackage[no-math]{fontspec}
+  <% if (font == "arial") { -%>
+\setmainfont{Arial}
+  <% } else if (font == "times") { -%>
+\setmainfont{TeXGyreTermes-Regular}[
+      BoldFont       = TeXGyreTermes-Bold ,
+      ItalicFont     = TeXGyreTermes-Italic ,
+      BoldItalicFont = TeXGyreTermes-BoldItalic,
+      NFSSFamily     = ntxtlf]
+\setsansfont[Scale=.9]{TeX Gyre Heros Regular}
+\setmonofont[StylisticSet={1,3},Scale=.9]{inconsolata}
+\RequirePackage{newtxmath}
+  <% } else { -%>
+  <% } -%>
+<% } else { -%>
+  <% if (font == "arial") { -%>
+  <% } else { -%>
+\RequirePackage{newtxtext}
+\RequirePackage{newtxmath}
+% EN: looks good with times, but no equivalent for lualatex found,
+%     therefore replaced with inconsolata
+%\RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
+\RequirePackage[varl,scaled=.9]{inconsolata}
+  <% } -%>
+<% } -%>

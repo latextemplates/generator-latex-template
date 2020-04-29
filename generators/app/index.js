@@ -39,6 +39,13 @@ module.exports = class extends Generator {
         default: "english"
       },
       {
+        type: 'list',
+        name: 'font',
+        message: 'Which font should be used?',
+        choices: ["arial", "times", "latex default"],
+        default: "latex default"
+      },
+      {
         type: 'confirm',
         name: 'cleveref',
         message: 'Use cleveref?',

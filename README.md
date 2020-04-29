@@ -45,6 +45,28 @@ You can run the generator by invoking this command on a command prompt:
 yo latex-template
 ```
 
+## How to update the document
+
+!! The template generator overwrites `main.tex` on each run and will destroy your work.
+
+You can use the magic of `git` to prevent that:
+
+1. After repository initialization:
+
+  - `git commit` to save your work
+  - `git checkout -b template` - to create a branch with initial template (required for updating)
+  - `git checkout master` switch back to your thesis
+
+2. Work on the `master` branch
+3. In case an update comes in, update the `template` branch
+
+  - `git checkout template` - switch to the `template` branch
+  - `yo latex-template` - generate new template
+  - `git commit` - save the new template
+  - `git checkout master` - switch to your work
+  - `git merge template` - merge in the template changes
+  - resolve conflicts ^^ (Hint: IntelliJ Community Edition has a [great conflict resolving tool](https://www.jetbrains.com/help/idea/resolving-conflicts.html#))
+
 <!--
 #### Generator Output
 
