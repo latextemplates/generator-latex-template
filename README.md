@@ -25,7 +25,7 @@ and a generation into templates:
 
 ## Talks
 
-* [Oliver Kopp - The LaTeX Template Generator](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
+- [Oliver Kopp - The LaTeX Template Generator](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
 
 ## Usage
 
@@ -34,7 +34,7 @@ and a generation into templates:
 You can install `generator-latex-template` using following command:
 
 ```bash
-npm install -g yo generator-latex-template
+npm install -g generator-latex-template
 ```
 
 ### Using the generator
@@ -47,7 +47,7 @@ yo latex-template
 
 ## How to update the document
 
-!! The template generator overwrites `main.tex` on each run and will destroy your work.
+⚠️ The template generator overwrites `main.tex` on each run. This will destroy your work. ⚠️
 
 You can use the magic of `git` to prevent that:
 
@@ -95,6 +95,12 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Templating language: <https://ejs.co/>
 - Conditional questions: <https://stackoverflow.com/a/18706640/873282>.
 - Types of questions: <https://github.com/SBoudrias/Inquirer.js#prompt-types>
+- Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
+  - See <https://github.com/yeoman/generator/releases> for changes in the generator.
+- Test locally
+  - Create empty directory
+  - Run `npx yo <path-to-git-repository>`
+    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
 
 ### Releasing a new version
 
@@ -106,6 +112,8 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 The code is licenced MIT, the snippets (both LaTeX and text) [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
 
-  [hyperref]: https://ctan.org/pkg/hyperref
-  [listings]: https://ctan.org/pkg/listings
-  [minted]: https://ctan.org/pkg/minted
+[hyperref]: https://ctan.org/pkg/hyperref
+[listings]: https://ctan.org/pkg/listings
+[minted]: https://ctan.org/pkg/minted
+
+<!-- markdownlint-disable-file MD013 -->
