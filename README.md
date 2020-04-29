@@ -102,6 +102,8 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Create empty directory
   - Run `npx yo <path-to-git-repository>`
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
+  - Parameters can be set using command line
+    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --latexcompiler=lualatex --bibtextool=biblatex --language==en --font=arial --cleveref=true`
   - Run `latexmk` to build the PDF
 - Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.

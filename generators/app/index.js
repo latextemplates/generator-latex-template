@@ -1,5 +1,6 @@
 'use strict';
 const Generator = require('yeoman-generator');
+const optionOrPrompt = require('yeoman-option-or-prompt');
 const chalk = require('chalk');
 const yosay = require('yosay');
 
@@ -9,7 +10,25 @@ module.exports = class extends Generator {
       yosay(`Welcome to the ${chalk.red('latex-template')} generator!`)
     );
 
-    const prompts = [
+    var params = {
+      // alternative libraries: https://stackoverflow.com/a/34782300/873282
+      // this here was the quickest to integrate to yeoman-option-or-prompt
+      // we accept that we currently cannot offer --help
+      // for that, command-line-args lib (https://github.com/75lb/command-line-args/) seems to be best: because, it supports multiple values for a key (which might be required at choices below)
+      // https://github.com/tj/commander.js could also be OK, but requires comma separated list for muliple values (is uncommon for command line lists, isn't it?)
+      options: require('minimist')(process.argv.slice(2)),
+      filteredProps: {},
+      prompt: function(filteredProps) {
+        this.filteredProps = filteredProps
+        return {
+          then: function(f) {
+            return f;
+          }
+        }
+      }
+    }
+
+    var mapper = optionOrPrompt.call(params, [
       {
         type: 'list',
         name: 'documentclass',
@@ -67,7 +86,7 @@ module.exports = class extends Generator {
             value: "de"
           }
         ],
-        default: "english"
+        default: "en"
       },
       {
         type: 'list',
@@ -95,9 +114,22 @@ module.exports = class extends Generator {
         message: 'Use cleveref?',
         default: true
       }
-    ];
+    ]);
 
-    return this.prompt(prompts).then(props => {
+    this.mapper = mapper;
+    this.params = params;
+
+    var prompt;
+
+    if (Object.keys(params.filteredProps).length === 0) {
+      prompt = new Promise(resolve => {
+        resolve(this.params.options)
+      })
+    } else {
+      prompt = this.prompt(params.filteredProps).then(props => this.mapper(props));
+    }
+
+    return prompt.then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
       if (props.documentclass === 'scientific-thesis') {
