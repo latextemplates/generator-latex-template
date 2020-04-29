@@ -99,7 +99,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 ### Releasing a new version
 
 1. Update `CHANGELOG.md`
-2. Update `package.json`, publish to [npmjs](https://www.npmjs.com/package/madr), create GitHub release.  
+2. Update `package.json`, publish to [npmjs](https://www.npmjs.com/package/generator-latex-template), create GitHub release.
    Use [release-it](https://www.npmjs.com/package/release-it) (do not create a release on GitHub) and [github-release-from-changelog](https://www.npmjs.com/package/github-release-from-changelog).
 
 ## License
