@@ -97,6 +97,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Types of questions: <https://github.com/SBoudrias/Inquirer.js#prompt-types>
 - Add a new question
   - Also adapt `__tests__/app.js`
+  - Execute tests with `npx jest`
 - Test locally
   - Create empty directory
   - Run `npx yo <path-to-git-repository>`

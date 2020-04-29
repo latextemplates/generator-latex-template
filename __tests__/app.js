@@ -3,8 +3,8 @@ const path = require("path");
 const assert = require("yeoman-assert");
 const helpers = require("yeoman-test");
 
-describe("en--scientific-thesis--all-packages", () => {
-  beforeAll(() => {
+describe("general tests", () => {
+  it("en--scientific-thesis--all-packages", async function () {
     return helpers
       .run(path.join(__dirname, '../generators/app'))
       .withPrompts({
@@ -12,18 +12,17 @@ describe("en--scientific-thesis--all-packages", () => {
         latexcompiler: "pdflatex",
         bibtextool: "bibtex",
         language: "english",
+        font: "arial",
         cleveref: true
+      })
+      .then(function(dir) {
+        assert.file([
+          path.join(dir, "README.md"),
+          path.join(dir, "main.tex")
+        ]);
       });
   });
-
-  it("creates files", () => {
-    assert.file(["README.md"]);
-    assert.file(["main.tex"]);
-  });
-});
-
-describe("de--scientific-thesis--all-packages", () => {
-  beforeAll(() => {
+  it("de--scientific-thesis--all-packages", () => {
     return helpers
       .run(path.join(__dirname, '../generators/app'))
       .withPrompts({
@@ -31,12 +30,14 @@ describe("de--scientific-thesis--all-packages", () => {
         latexcompiler: "pdflatex",
         bibtextool: "bibtex",
         language: "german",
+        font: "arial",
         cleveref: true
+      })
+      .then(function(dir) {
+        assert.file([
+          path.join(dir, "README.md"),
+          path.join(dir, "main.tex")
+        ]);
       });
-  });
-
-  it("creates files", () => {
-    assert.file(["README.md"]);
-    assert.file(["main.tex"]);
   });
 });
