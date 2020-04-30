@@ -16,6 +16,8 @@ module.exports = class extends Generator {
       // we accept that we currently cannot offer --help
       // for that, command-line-args lib (https://github.com/75lb/command-line-args/) seems to be best: because, it supports multiple values for a key (which might be required at choices below)
       // https://github.com/tj/commander.js could also be OK, but requires comma separated list for muliple values (is uncommon for command line lists, isn't it?)
+      // yargs supports choices: http://yargs.js.org/docs/
+      // stdio (https://github.com/sgmonda/stdio) does not support choices
       options: require('minimist')(process.argv.slice(2)),
       filteredProps: {},
       prompt: function(filteredProps) {
