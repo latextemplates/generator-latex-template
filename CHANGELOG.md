@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added support for passing options through the command line
 
+### Changed
+
+- Changed filename pattern to `.preamble.en.tex`, meaning: first comes the category, then the language, then the real file extension.
+
 ## [0.1.2] – 2020-04-29
 
 ### Changed
