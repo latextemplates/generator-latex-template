@@ -82,11 +82,11 @@ Use this section for documenting what your generator actually will generate.
 
 ## Development roadmap
 
-1. Create directory structure
-2. Sort in examples from the [scientific-thesis-template](http://latextemplates.github.io/scientific-thesis-template/)
-3. Have scientific-thesis-template generated completely.
-4. Have LNCS generated completely.
-5. Have [uni-stuttgart-dissertation-template](https://github.com/latextemplates/uni-stuttgart-dissertation-template) generated automatically.
+- [x] Create directory structure
+- [ ] Sort in examples from the [scientific-thesis-template](http://latextemplates.github.io/scientific-thesis-template/)
+- [ ] Have scientific-thesis-template generated completely.
+- [ ] Have LNCS generated completely.
+- [ ] Have [uni-stuttgart-dissertation-template](https://github.com/latextemplates/uni-stuttgart-dissertation-template) generated automatically.
 
 In the long run, the contents of the `paper.tex` (and similar) files in repositories of the [latextemplates](https://latextemplates.github.io/) organization should be generated automatically.
 
