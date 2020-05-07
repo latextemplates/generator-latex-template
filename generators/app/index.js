@@ -157,10 +157,9 @@ module.exports = class extends Generator {
       this.destinationPath('.latexmkrc'),
       this.props
     );
-    this.fs.copyTpl(
+    this.fs.copy(
       this.templatePath('examplep.sty'),
-      this.destinationPath('examplep.sty'),
-      this.props
+      this.destinationPath('examplep.sty')
     );
     if (this.props.language === 'de') {
       this.fs.copyTpl(
