@@ -25,14 +25,23 @@
   draft=false
 ]{scrbook}
 
-<%- include('microtype.preamble.en.tex', this); %>
+% backticks (`) are rendered as such in verbatim environments.
+% See following links for details:
+%   - https://tex.stackexchange.com/a/341057/9075
+%   - https://tex.stackexchange.com/a/47451/9075
+%   - https://tex.stackexchange.com/a/166791/9075
+\usepackage{upquote}
+
 <%- include('babel.preamble.tex', this); %>
 <%- include('url.preamble.en.tex', this); %>
 <%- include('font.preamble.en.tex', this); %>
+<%- include('microtype.preamble.en.tex', this); %>
+<%- include('listings.preamble.en.tex', this); %>
 <%- include('hyperref.preamble.en.tex', this); %>
 <% if (cleveref) { %><%- include('cleveref.preamble.en.tex', this); %><% } %>
 
-\usepackage{showexpl}
+\usepackage{examplep}
+\PexaDefaults{listings={language=[AlLaTeX]TeX,basicstyle=\ttfamily}}
 
 \begin{document}
 

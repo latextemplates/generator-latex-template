@@ -38,15 +38,23 @@
   draft=false
 ]{scrbook}
 
-<%- include('microtype.preamble.de.tex', this); %>
+% backticks (`) werden als solches in verbatim-Umgebungen dargestellt
+% Details unter:
+%   - https://tex.stackexchange.com/a/341057/9075
+%   - https://tex.stackexchange.com/a/47451/9075
+%   - https://tex.stackexchange.com/a/166791/9075
+\usepackage{upquote}
+
 <%- include('babel.preamble.tex', this); %>
 <%- include('url.preamble.de.tex', this); %>
 <%- include('font.preamble.en.tex', this); %>
-<%- include('listings.preamble.en.tex', this); %>
+<%- include('microtype.preamble.de.tex', this); %>
+<%- include('listings.preamble.de.tex', this); %>
 <%- include('hyperref.preamble.en.tex', this); %>
 <% if (cleveref) { %><%- include('cleveref.preamble.de.tex', this); %><% } %>
 
-\usepackage{showexpl}
+\usepackage{examplep}
+\PexaDefaults{listings={language=[AlLaTeX]TeX,basicstyle=\ttfamily}}
 
 \begin{document}
 
@@ -77,7 +85,7 @@ Eine ausführliche Motivation hierfür findet sich in \url{http://loopspace.math
 Möchte man die Art des Absatzes ändern, so kann man die Dokumentklassenoption \texttt{parskip} verwenden.
 Beispielsweise kann man mit \texttt{parskip=off} erreichen, dass statt eines freien Bereichs die erste Zeile des Absatzes eingezogen wird.
 
-<%- include('figure.example.en.tex', this); %>
+<%- include('figure.example.de.tex', this); %>
 <%- include('listings.example.de.tex', this); %>
 
 \end{document}
