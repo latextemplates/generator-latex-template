@@ -1,8 +1,10 @@
 <% if (latexcompiler == "lualatex") { -%>
 \usepackage[no-math]{fontspec}
+\usepackage{unicode-math}
   <% if (font == "arial") { -%>
 \setmainfont{Arial}
   <% } else if (font == "times") { -%>
+% See https://tug.org/FontCatalogue/texgyretermes/ for more information
 \setmainfont{texgyretermes}[
   Extension = .otf,
   UprightFont = *-regular,
@@ -11,12 +13,36 @@
   BoldItalicFont = *-bolditalic,
   Ligatures=TeX
 ]
+% See https://tug.org/FontCatalogue/texgyreheros/ for more information
 \setsansfont[Scale=.9]{TeX Gyre Heros Regular}
 \setmonofont[StylisticSet={1,3},Scale=.9]{inconsolata}
 \RequirePackage{newtxmath}
+  <% } else if (texlive === "tl2019") { -%>
+<%# no special configuration required for lualatex to use the LaTeX default font -%>
   <% } else { -%>
+% Source: https://tug.org/FontCatalogue/newcomputermoderntypewriter/
+
+\setmainfont[%
+ItalicFont=NewCM10-Italic.otf,%
+BoldFont=NewCM10-Bold.otf,%
+BoldItalicFont=NewCM10-BoldItalic.otf,%
+SmallCapsFeatures={Numbers=OldStyle}]{NewCM10-Regular.otf}
+
+\setsansfont[%
+ItalicFont=NewCMSans10-Oblique.otf,%
+BoldFont=NewCMSans10-Bold.otf,%
+BoldItalicFont=NewCMSans10-BoldOblique.otf,%
+SmallCapsFeatures={Numbers=OldStyle}]{NewCMSans10-Regular.otf}
+
+\setmonofont[ItalicFont=NewCMMono10-Italic.otf,%
+BoldFont=NewCMMono10-Bold.otf,%
+BoldItalicFont=NewCMMono10-BoldOblique.otf,%
+SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
+
+\setmathfont{NewCMMath-Regular.otf}
   <% } -%>
 <% } else { -%>
+<%# pdflatex -%>
   <% if (font == "arial") { -%>
 % EN: Headings are typset in Helvetica (which is similar to Arial)
 % DE: Schriftart fuer die Ueberschriften - ueberschreibt lmodern

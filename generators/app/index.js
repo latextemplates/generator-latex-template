@@ -48,8 +48,24 @@ module.exports = class extends Generator {
             name: "Institute of Electrical and Electronics Engineers (IEEE)",
             value: "ieee"
           }
-         ],
+        ],
         default: "scientific-thesis"
+      },
+      {
+        type: 'list',
+        name: 'texlive',
+        message: 'Which texlive compatiblity?',
+        choices: [
+          {
+            name: "TeXLive 2020 or later",
+            value: "tl2020"
+          },
+          {
+            name: "TeXLive 2019",
+            value: "tl2019"
+          }
+        ],
+        default: "tl2020"
       },
       {
         type: 'list',
@@ -108,7 +124,7 @@ module.exports = class extends Generator {
             value: "default"
           }
         ],
-        default: "latex default"
+        default: "default"
       },
       {
         type: 'confirm',
