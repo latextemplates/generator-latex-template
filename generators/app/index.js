@@ -131,6 +131,12 @@ module.exports = class extends Generator {
         name: 'cleveref',
         message: 'Use cleveref?',
         default: true
+      },
+      {
+        type: 'confirm',
+        name: 'examples',
+        message: 'Include minimal LaTeX examples?',
+        default: true
       }
     ]);
 
@@ -150,6 +156,9 @@ module.exports = class extends Generator {
     return prompt.then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
+
+      this.props.useExampleEnvironment = this.props.examples && ((this.props.language === "en") || (this.props.latexcompiler !== 'pdflatex'));
+
       if (props.documentclass === 'scientific-thesis') {
         this.props.heading1 = '\\chapter';
         this.props.heading2 = '\\section';
