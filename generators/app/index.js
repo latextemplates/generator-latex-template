@@ -161,7 +161,15 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
-      this.props.useExampleEnvironment = this.props.examples && ((this.props.language === "en") || (this.props.latexcompiler !== 'pdflatex'));
+      if (this.props.examples && ((this.props.language === "en") || (this.props.latexcompiler !== 'pdflatex'))) {
+        this.props.useExampleEnvironment = true;
+        this.props.bexample = "\\begin{example}"
+        this.props.eexample = "\\end{example}"
+      } else {
+        this.props.useExampleEnvironment = false;
+        this.props.bexample = "";
+        this.props.eexample = "";
+      }
 
       if (props.documentclass === 'scientific-thesis') {
         this.props.heading1 = '\\chapter';
