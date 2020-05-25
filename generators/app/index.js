@@ -112,6 +112,10 @@ module.exports = class extends Generator {
         message: 'Which font should be used?',
         choices: [
           {
+            name: "Computer Modern (Default LaTeX font)",
+            value: "default"
+          },
+          {
             name: "Arial",
             value: "arial"
           },
@@ -119,10 +123,6 @@ module.exports = class extends Generator {
             name: "Times New Roman",
             value: "times"
           },
-          {
-            name: "Computer Modern (Default LaTeX font)",
-            value: "default"
-          }
         ],
         default: "default"
       },

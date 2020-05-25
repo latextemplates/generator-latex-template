@@ -9,7 +9,8 @@ jobs:
         bibtextool: [biblatex]
         language: [en, de]
         font: [default, arial, times]
-        cleveref: [true]
+        cleveref: [true, false]
+        examples: [true, false]
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
@@ -20,7 +21,7 @@ jobs:
       - name: Generate template
         run: |
           mkdir tmp && cd tmp
-          npx yo $GITHUB_WORKSPACE --documentclass=scientific-thesis --texlive=tl2019 --latexcompiler=${{ matrix.latexcompiler }} --bibtextool=${{ matrix.bibtextool }} --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }}
+          npx yo $GITHUB_WORKSPACE --documentclass=scientific-thesis --texlive=tl2019 --latexcompiler=${{ matrix.latexcompiler }} --bibtextool=${{ matrix.bibtextool }} --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --examples=${{ matrix.examples }}
           pwd
           ls -la
         env:
