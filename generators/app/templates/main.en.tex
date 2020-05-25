@@ -51,8 +51,36 @@
 <%- include('hyperref.preamble.en.tex', this); %>
 <% if (cleveref) { %><%- include('cleveref.preamble.en.tex', this); %><% } %>
 
-\usepackage[listings=yes,listings-verbatimfont=ttfamily]{examplep}
-\lstset{language=[AlLaTeX]TeX}
+<% if (useExampleEnvironment) { -%>
+\usepackage{cnltx-example}
+\setcnltx{add-listings-options={literate=},gobble=0}
+\makeatletter
+\newcommand*\expl@fakefloatbegin[1]{%
+  \def\@captype{#1}%
+  \vskip\intextsep
+  \color@vbox
+    \normalcolor
+    \vbox \bgroup
+      \hsize\columnwidth
+      \@parboxrestore
+      \@floatboxreset
+}
+\newcommand*\expl@fakefloatend{\@endfloatbox\vskip\intextsep}
+
+\newcommand*\expl@resetcounter[1]{%
+  \ifstrequal{#1}{page}{}{\setcounter{#1}{0}}%
+}
+
+\setcnltx{
+  add-cmds = {listoffigures} ,
+  pre-code={%
+    \let\addtocontents\@gobbletwo
+    \let\@elt\expl@resetcounter \cl@@ckpt
+    \renewenvironment{figure}[1][]{\expl@fakefloatbegin{figure}}{\expl@fakefloatend}%
+  }
+}
+\makeatother
+<% } -%>
 
 \begin{document}
 
