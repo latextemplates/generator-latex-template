@@ -20,7 +20,8 @@ jobs:
           node-version: '10.x'
       - run: npm install
       - name: Generate template
-        if: ${{ matrix.font != 'arial' || matrix.documentclass != 'scientific-thesis' }}
+        ## TODO: Improve this by creating a custom matrix. https://github.community/t5/GitHub-Actions/Improve-matrix-exclusion-feature/m-p/32592/highlight/true#M1193
+        ## if: ${{ matrix.font != 'arial' || matrix.documentclass != 'scientific-thesis' }}
         run: |
           mkdir tmp && cd tmp
           npx yo $GITHUB_WORKSPACE --documentclass=${{ matrix.documentclass }} --texlive=tl2019 --latexcompiler=${{ matrix.latexcompiler }} --bibtextool=${{ matrix.bibtextool }} --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --examples=${{ matrix.examples }}
@@ -29,7 +30,6 @@ jobs:
         env:
           yeoman_test: true
       - name: latexmk
-        if: ${{ matrix.font != 'arial' || matrix.documentclass != 'scientific-thesis' }}
         uses: dante-ev/latex-action@master
         # "arial" and "times" are unavailable on Linux. Thus, we test for "default" only
         if: ${{ (matrix.latexcompiler != 'lualatex') || (matrix.font == 'default') }}
