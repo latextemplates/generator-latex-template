@@ -110,20 +110,24 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'font',
         message: 'Which font should be used?',
-        choices: [
-          {
+        choices: function(state) {
+          var res = [];
+          res.push({
             name: "Computer Modern (Default LaTeX font)",
             value: "default"
-          },
-          {
-            name: "Arial",
-            value: "arial"
-          },
-          {
+          });
+          if (state.documentclass === "scientific-thesis") {
+            res.push({
+              name: "Arial",
+              value: "arial"
+            })
+          }
+          res.push({
             name: "Times New Roman",
             value: "times"
-          },
-        ],
+          });
+          return res;
+        },
         default: "default"
       },
       {

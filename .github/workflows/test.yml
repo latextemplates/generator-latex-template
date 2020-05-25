@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        documentclass: [scientific-thesis]
         latexcompiler: [pdflatex, lualatex]
         bibtextool: [biblatex]
         language: [en, de]
@@ -19,14 +20,16 @@ jobs:
           node-version: '10.x'
       - run: npm install
       - name: Generate template
+        if: ${{ matrix.font != 'arial' || matrix.documentclass != 'scientific-thesis' }}
         run: |
           mkdir tmp && cd tmp
-          npx yo $GITHUB_WORKSPACE --documentclass=scientific-thesis --texlive=tl2019 --latexcompiler=${{ matrix.latexcompiler }} --bibtextool=${{ matrix.bibtextool }} --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --examples=${{ matrix.examples }}
+          npx yo $GITHUB_WORKSPACE --documentclass=${{ matrix.documentclass }} --texlive=tl2019 --latexcompiler=${{ matrix.latexcompiler }} --bibtextool=${{ matrix.bibtextool }} --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --examples=${{ matrix.examples }}
           pwd
           ls -la
         env:
           yeoman_test: true
       - name: latexmk
+        if: ${{ matrix.font != 'arial' || matrix.documentclass != 'scientific-thesis' }}
         uses: dante-ev/latex-action@master
         # "arial" and "times" are unavailable on Linux. Thus, we test for "default" only
         if: ${{ (matrix.latexcompiler != 'lualatex') || (matrix.font == 'default') }}
