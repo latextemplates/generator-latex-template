@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added support for passing options through the command line
+- Added special condition for TeXLive 2020 (which offers more packages)
 
 ### Changed
 
