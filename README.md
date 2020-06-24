@@ -94,7 +94,8 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 - Templating language: <https://ejs.co/>
 - Conditional questions: <https://stackoverflow.com/a/18706640/873282>.
-- Types of questions: <https://github.com/SBoudrias/Inquirer.js#prompt-types>
+- Types of prompts: <https://github.com/SBoudrias/Inquirer.js#prompt-types>
+  - E.g,. [Question](https://github.com/SBoudrias/Inquirer.js#question)
 - Add a new question
   - Also adapt `__tests__/app.js`
   - Execute tests with `npx jest`
