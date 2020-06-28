@@ -58,34 +58,9 @@
 <% if (cleveref) { %><%- include('cleveref.preamble.de.tex', this); %><% } -%>
 
 <% if (useExampleEnvironment) { -%>
-\usepackage{cnltx-example}
-\setcnltx{add-listings-options={literate=},gobble=0}
-\makeatletter
-\newcommand*\expl@fakefloatbegin[1]{%
-  \def\@captype{#1}%
-  \vskip\intextsep
-  \color@vbox
-    \normalcolor
-    \vbox \bgroup
-      \hsize\columnwidth
-      \@parboxrestore
-      \@floatboxreset
-}
-\newcommand*\expl@fakefloatend{\@endfloatbox\vskip\intextsep}
-
-\newcommand*\expl@resetcounter[1]{%
-  \ifstrequal{#1}{page}{}{\setcounter{#1}{0}}%
-}
-
-\setcnltx{
-  add-cmds = {listoffigures} ,
-  pre-code={%
-    \let\addtocontents\@gobbletwo
-    \let\@elt\expl@resetcounter \cl@@ckpt
-    \renewenvironment{figure}[1][]{\expl@fakefloatbegin{figure}}{\expl@fakefloatend}%
-  }
-}
-\makeatother
+\usepackage{currfile}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings}
 <% } -%>
 
 \begin{document}
@@ -93,6 +68,41 @@
 <% if (examples) { -%>
 <%= heading1 %>{LaTeX Hinweise}
 \label{chap:latexhints}
+
+<% if (useExampleEnvironment) { -%>
+% Benötigt für eine korrekte Darstellung der Hinweise im erzeugten PDF
+\newcount\LTGbeginlineexample
+\newcount\LTGendlineexample
+\newenvironment{ltgexample}%
+{\LTGbeginlineexample=\numexpr\inputlineno+1\relax}%
+{%
+\LTGendlineexample=\numexpr\inputlineno-1\relax%
+
+\tcbinputlisting{%
+  listing only,
+  listing file=\currfilepath,
+  colback=green!5!white,
+  colframe=green!25,
+  coltitle=black!90,
+  coltext=black!90,
+  left=8mm,
+  title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\currfilepath},
+  listing options={%
+    language={[LaTeX]TeX},
+    firstline=\the\LTGbeginlineexample,
+    lastline=\the\LTGendlineexample,
+    firstnumber=\the\LTGbeginlineexample,
+    basewidth=.5em,
+    aboveskip=0mm,
+    belowskip=0mm,
+    numbers=left,
+    xleftmargin=0mm,
+    numberstyle=\tiny,
+    numbersep=8pt%
+  }
+}
+}%
+<% } -%>
 
 Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiele vorliegen hat, um sofort loszulegen.
 
