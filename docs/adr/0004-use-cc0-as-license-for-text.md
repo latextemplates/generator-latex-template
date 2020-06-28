@@ -2,8 +2,8 @@
 
 Each information published should take a license to clearly state what is allowed and what not.
 
-- The template should be usable freely.
-- The license should be an accepted one at least in the European Union and the US.
+* The template should be usable freely.
+* The license should be an accepted one at least in the European Union and the US.
 
 ## Considered Options
 

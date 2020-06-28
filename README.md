@@ -67,12 +67,6 @@ You can use the magic of `git` to prevent that:
    - `git merge template` - merge in the template changes
    - resolve conflicts ^^ (Hint: IntelliJ Community Edition has a [great conflict resolving tool](https://www.jetbrains.com/help/idea/resolving-conflicts.html#))
 
-<!--
-#### Generator Output
-
-Use this section for documenting what your generator actually will generate.
--->
-
 ## Resources
 
 - [IEEE](https://latextemplates.github.io/IEEE/) - example: [paper-conference-minted.tex](https://github.com/latextemplates/IEEE/blob/master/paper-conference-minted.tex)
@@ -104,7 +98,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Run `npx yo <path-to-git-repository>`
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
   - Parameters can be set using command line
-    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --latexcompiler=lualatex --bibtextool=biblatex --language==en --font=arial --cleveref=true`
+    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --texlive=tl2020 --examples=true --documentclass=scientific-thesis --latexcompiler=lualatex --bibtextool=biblatex --language==en --font=arial --cleveref=true`
   - Run `latexmk` to build the PDF
 - Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.

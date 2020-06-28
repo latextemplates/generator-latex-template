@@ -4,18 +4,18 @@
 % !BIB program = <%= bibtextool %>
 % -*- coding:utf-8 mod:LaTeX -*-
 
-<% if (documentclass === 'scientific-thesis') { %>
+<% if (documentclass === 'scientific-thesis') { -%>
 % The following package allows \\ at the title page
 % For more information see https://github.com/latextemplates/scientific-thesis-cover/issues/4
 \RequirePackage{kvoptions-patch}
-<% } %>
+<% } -%>
 
-<% if (latexcompiler !== 'lualatex') { %>
+<% if (latexcompiler !== 'lualatex') { -%>
 % Neue deutsche Trennmuster
 % Siehe http://www.ctan.org/pkg/dehyph-exptl und http://projekte.dante.de/Trennmuster/WebHome
 % Nur für pdflatex, nicht für lualatex
 \RequirePackage[ngerman=ngerman-x-latest]{hyphsubst}
-<% } %>
+<% } -%>
 
 \documentclass[
   % fontsize=11pt is the standard
@@ -38,42 +38,77 @@
   draft=false
 ]{scrbook}
 
-<%- include('microtype.preamble.de.tex', this); %>
-<%- include('babel.preamble.tex', this); %>
+<% if (latexcompiler == "pdflatex") { -%>
+\usepackage{cmap}
+<% } -%>
+
+% backticks (`) werden als solches in verbatim-Umgebungen dargestellt
+% Details unter:
+%   - https://tex.stackexchange.com/a/341057/9075
+%   - https://tex.stackexchange.com/a/47451/9075
+%   - https://tex.stackexchange.com/a/166791/9075
+\usepackage{upquote}
+
+<%- include('babel.preamble.de.tex', this); %>
 <%- include('url.preamble.de.tex', this); %>
 <%- include('font.preamble.en.tex', this); %>
+<%- include('microtype.preamble.de.tex', this); %>
+<%- include('listings.preamble.de.tex', this); %>
 <%- include('hyperref.preamble.en.tex', this); %>
-<% if (cleveref) { %><%- include('cleveref.preamble.de.tex', this); %><% } %>
+<% if (cleveref) { %><%- include('cleveref.preamble.de.tex', this); %><% } -%>
+
+<% if (useExampleEnvironment) { -%>
+\usepackage{currfile}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings}
+<% } -%>
 
 \begin{document}
 
+<% if (examples) { -%>
 <%= heading1 %>{LaTeX Hinweise}
 \label{chap:latexhints}
 
+<% if (useExampleEnvironment) { -%>
+% Benötigt für eine korrekte Darstellung der Hinweise im erzeugten PDF
+\newcount\LTGbeginlineexample
+\newcount\LTGendlineexample
+\newenvironment{ltgexample}%
+{\LTGbeginlineexample=\numexpr\inputlineno+1\relax}%
+{%
+\LTGendlineexample=\numexpr\inputlineno-1\relax%
+
+\tcbinputlisting{%
+  listing only,
+  listing file=\currfilepath,
+  colback=green!5!white,
+  colframe=green!25,
+  coltitle=black!90,
+  coltext=black!90,
+  left=8mm,
+  title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\currfilepath},
+  listing options={%
+    language={[LaTeX]TeX},
+    firstline=\the\LTGbeginlineexample,
+    lastline=\the\LTGendlineexample,
+    firstnumber=\the\LTGbeginlineexample,
+    basewidth=.5em,
+    aboveskip=0mm,
+    belowskip=0mm,
+    numbers=left,
+    xleftmargin=0mm,
+    numberstyle=\tiny,
+    numbersep=8pt%
+  }
+}
+}%
+<% } -%>
+
 Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiele vorliegen hat, um sofort loszulegen.
 
-<%= heading2 %>{Trennung von Absätzen}
-
-Pro Satz eine neue Zeile.
-Das ist wichtig, um sauber versionieren zu können.
-In LaTeX werden Absätze durch eine Leerzeile getrennt.
-Analogie zu Word: Bei Word werden neue Absätze durch einmal Eingabetaste gemacht.
-Dies führt bei LaTeX jedoch nicht zu einem neuen Absatz, da LaTeX direkt aufeinanderfolgende Zeilen zu einer Zeile zusammenfügt.
-Möchte man nun einen Absatz haben, muss man zweimal die Eingabetaste drücken.
-Dies führt zu einer leeren Zeile.
-In Word gibt es die Funktion Großschreibetaste und Eingabetaste gleichzeitig.
-Wenn man dies drückt, wird einer harter Umbruch erzwungen.
-Der Text fängt am Anfang der neuen Zeile an.
-In LaTeX erreicht man dies durch Doppelbackslashes (\textbackslash\textbackslash) erzeugt.
-Dies verwendet man quasi nie.
-
-Folglich werden neue Abstäze insbesondere \emph{nicht} durch Doppelbackslashes erzeugt.
-Beispielsweise begann der letzte Satz in einem neuen Absatz.
-Eine ausführliche Motivation hierfür findet sich in \url{http://loopspace.mathforge.org/HowDidIDoThat/TeX/VCS/#section.3}.
-
-Möchte man die Art des Absatzes ändern, so kann man die Dokumentklassenoption \texttt{parskip} verwenden.
-Beispielsweise kann man mit \texttt{parskip=off} erreichen, dass statt eines freien Bereichs die erste Zeile des Absatzes eingezogen wird.
-
-<%- include('figure.example.en.tex', this); %>
+<%- include('paragraphs.example.de.tex', this); %>
+<%- include('figure.example.de.tex', this); %>
+<%- include('listings.example.de.tex', this); %>
+<% } -%>
 
 \end{document}

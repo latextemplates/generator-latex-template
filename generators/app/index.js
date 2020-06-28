@@ -48,8 +48,24 @@ module.exports = class extends Generator {
             name: "Institute of Electrical and Electronics Engineers (IEEE)",
             value: "ieee"
           }
-         ],
+        ],
         default: "scientific-thesis"
+      },
+      {
+        type: 'list',
+        name: 'texlive',
+        message: 'Which texlive compatiblity?',
+        choices: [
+          {
+            name: "TeXLive 2020 or later",
+            value: "tl2020"
+          },
+          {
+            name: "TeXLive 2019",
+            value: "tl2019"
+          }
+        ],
+        default: "tl2020"
       },
       {
         type: 'list',
@@ -94,26 +110,36 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'font',
         message: 'Which font should be used?',
-        choices: [
-          {
-            name: "Arial",
-            value: "arial"
-          },
-          {
-            name: "Times New Roman",
-            value: "times"
-          },
-          {
+        choices: function(state) {
+          var res = [];
+          res.push({
             name: "Computer Modern (Default LaTeX font)",
             value: "default"
+          });
+          if (state.documentclass === "scientific-thesis") {
+            res.push({
+              name: "Arial",
+              value: "arial"
+            })
           }
-        ],
-        default: "latex default"
+          res.push({
+            name: "Times New Roman",
+            value: "times"
+          });
+          return res;
+        },
+        default: "default"
       },
       {
         type: 'confirm',
         name: 'cleveref',
         message: 'Use cleveref?',
+        default: true
+      },
+      {
+        type: 'confirm',
+        name: 'examples',
+        message: 'Include minimal LaTeX examples?',
         default: true
       }
     ]);
@@ -134,6 +160,17 @@ module.exports = class extends Generator {
     return prompt.then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
+
+      if (this.props.examples) {
+        this.props.useExampleEnvironment = true;
+        this.props.bexample = "\\begin{ltgexample}"
+        this.props.eexample = "\\end{ltgexample}"
+      } else {
+        this.props.useExampleEnvironment = false;
+        this.props.bexample = "";
+        this.props.eexample = "";
+      }
+
       if (props.documentclass === 'scientific-thesis') {
         this.props.heading1 = '\\chapter';
         this.props.heading2 = '\\section';
