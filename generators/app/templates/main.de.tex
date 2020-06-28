@@ -1,10 +1,14 @@
+<% if (documentclass == 'lncs') { -%>
+% Dieses Template wurde mit der "LLNCS DOCUMENT CLASS -- version 2.20 (10-Mar-2018)" getestet
+
+<% } -%>
 % !TeX spellcheck = de-DE
 % !TeX encoding = utf8
 % !TeX program = <%= latexcompiler %>
 % !BIB program = <%= bibtextool %>
 % -*- coding:utf-8 mod:LaTeX -*-
 
-<% if (documentclass === 'scientific-thesis') { -%>
+<% if (documentclass == 'scientific-thesis') { -%>
 % The following package allows \\ at the title page
 % For more information see https://github.com/latextemplates/scientific-thesis-cover/issues/4
 \RequirePackage{kvoptions-patch}
@@ -17,6 +21,9 @@
 \RequirePackage[ngerman=ngerman-x-latest]{hyphsubst}
 <% } -%>
 
+<% if (documentclass == 'lncs') { -%>
+\documentclass[ngerman,runningheads,a4paper]{llncs}[2018/03/10]
+<% } else {-%>
 \documentclass[
   % fontsize=11pt is the standard
   % ()Aus scrguide.pdf - der Dokumentation von KOMA-Script)
@@ -26,6 +33,7 @@
   % oder Groß- oder Kleinbuchstaben gearbeitet, so steht am Ende aller Gliederungsnummern ein
   % abschließender Punkt (siehe [DUD96, R4])
   numbers=autoendperiod,
+  ngerman,  % Neue deutsche Rechtschreibung; der Parameter wird an andere Pakete weiter gegeben
   a4paper,  % Standard format - only KOMAScript uses paper=a4 - https://tex.stackexchange.com/a/61044/9075
   twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
   bibliography=totoc,
@@ -37,6 +45,7 @@
   %               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
   draft=false
 ]{scrbook}
+<% } -%>
 
 <% if (latexcompiler == "pdflatex") { -%>
 \usepackage{cmap}
@@ -53,7 +62,17 @@
 <%- include('url.preamble.de.tex', this); %>
 <%- include('font.preamble.en.tex', this); %>
 <%- include('microtype.preamble.de.tex', this); %>
+\usepackage{graphicx}
+
+% backticks (`) werden wie erwartet in verbatim-Umgebungen dargestellt. Siehe https://tex.stackexchange.com/a/341057/9075 für Details.
+\usepackage{upquote}
+
+<% if (enquotes == 'csquotes')  { %><%- include('csquotes.preamble.en.tex', this); %><% } -%>
+<%- include('url.preamble.en.tex', this); %>
+<%# Required for package pdfcomment later -%>
+\usepackage{xcolor}
 <%- include('listings.preamble.de.tex', this); %>
+<% if (todo == 'pdfcomment')  { %><%- include('pdfcomment.preamble.en.tex', this); %><% } -%>
 <%- include('hyperref.preamble.en.tex', this); %>
 <% if (cleveref) { %><%- include('cleveref.preamble.de.tex', this); %><% } -%>
 
@@ -107,6 +126,8 @@
 Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiele vorliegen hat, um sofort loszulegen.
 
 <%- include('paragraphs.example.de.tex', this); %>
+<% if (enquotes == 'csquotes')  { %><%- include('csquotes.example.en.tex', this); %><% } -%>
+<% if (enquotes == 'plainlatex')  { %><%- include('plainlatex.enquotes.example.de.tex', this); %><% } -%>
 <%- include('figure.example.de.tex', this); %>
 <%- include('listings.example.de.tex', this); %>
 <% } -%>

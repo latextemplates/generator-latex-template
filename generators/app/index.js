@@ -3,6 +3,10 @@ const Generator = require('yeoman-generator');
 const optionOrPrompt = require('yeoman-option-or-prompt');
 const chalk = require('chalk');
 const yosay = require('yosay');
+const fs = require('fs');
+
+// unzipper instead of extract-zip, because we want to excact a subset of the archive
+const unzipper = require('unzipper');
 
 module.exports = class extends Generator {
   prompting() {
@@ -137,6 +141,57 @@ module.exports = class extends Generator {
         default: true
       },
       {
+        type: 'list',
+        name: 'enquotes',
+        message: 'Which package to use to "enquote" text?',
+        choices: function(state) {
+          var res = [];
+          res.push({
+            name: "csquotes (\"simple\" and advanced \\enquote{...} commands)",
+            value: "csquotes"
+          });
+          if (state.langauge === "en") {
+            res.push({
+              name: "textcmds (\\qq{...} command)",
+              value: "textcmds"
+            })
+          }
+          if (state.langauge === "de") {
+            res.push({
+              name: "Plain LaTeX (\\glqq{}text\\grqq{} - not recommended)",
+              value: "plainlatex"
+            });
+          } else {
+            res.push({
+              name: "Plain LaTeX (``text'' - not recommended)",
+              value: "plainlatex"
+            })
+          };
+          return res;
+        },
+        default: "csquotes"
+      },
+      {
+        type: 'list',
+        name: 'todo',
+        message: 'Which package to mark TODOs?',
+        choices: [
+          {
+            name: "pdfcomment",
+            value: "pdfcomment"
+          },/*
+          {
+            name: "Plain LaTeX (simple \\commentontext and \\commentatside are defined)",
+            value: "plainlatex"
+          },*/
+          {
+            name: "None (no support)",
+            value: "none"
+          }
+        ],
+        default: "pdfcomment"
+      },
+      {
         type: 'confirm',
         name: 'examples',
         message: 'Include minimal LaTeX examples?',
@@ -171,6 +226,8 @@ module.exports = class extends Generator {
         this.props.eexample = "";
       }
 
+      this.props.requiresShellEscape = (this.props.lsitings === 'minted');
+
       if (props.documentclass === 'scientific-thesis') {
         this.props.heading1 = '\\chapter';
         this.props.heading2 = '\\section';
@@ -178,45 +235,90 @@ module.exports = class extends Generator {
         this.props.heading1 = '\\section';
         this.props.heading2 = '\\subsection';
       }
-      this.props.requiresShellEscape = false;
     });
   }
 
   writing() {
-    this.fs.copy(
-      // .gitignore is not uploaded by npm publish
-      // Thus, we prefix it with `dot`.
-      this.templatePath('dot.gitignore'),
-      this.destinationPath('.gitignore')
-    );
-    this.fs.copyTpl(
-      this.templatePath('dot.latexmkrc'),
-      this.destinationPath('.latexmkrc'),
-      this.props
-    );
-    if (this.props.language === 'de') {
-      this.fs.copyTpl(
-        this.templatePath('main.de.tex'),
-        this.destinationPath('main.tex'),
-        this.props
-      );
-      this.fs.copyTpl(
-        this.templatePath('README.de.md'),
-        this.destinationPath('README.md'),
-        this.props
-      );
-    } else {
-      this.fs.copyTpl(
-        this.templatePath('main.en.tex'),
-        this.destinationPath('main.tex'),
-        this.props
-      );
-      this.fs.copyTpl(
-        this.templatePath('README.en.md'),
-        this.destinationPath('README.md'),
-        this.props
-      );
+    var promise = new Promise(function(resolve, reject) {resolve();});
+    if ((this.props.documentclass === "lncs") && !fs.existsSync('llncs.cls')) {
+      if (!fs.existsSync('llncs2e.zip')) {
+        console.log("Need to llncs2e.zip from Springer");
+        const ftp = require("basic-ftp");
+        const client = new ftp.Client()
+        client.ftp.verbose = true
+        promise = client.access({
+            host: "ftp.springernature.com",
+            user: "anonymous",
+            password: "anonymous",
+            secure: false
+        }).then(function() {
+          return client.ensureDir("cs-proceeding/llncs")
+        }).then(function() {
+          return client.downloadTo("llncs2e.zip", "llncs2e.zip")
+        }).then(function() {
+          return new Promise(function(resolve, reject) {
+            console.log("Downloaded");
+            client.close();
+            resolve();
+          });
+        });
+      } else {
+        console.log("llncs2e.zip already exists. Needs to be extracted.");
+        promise = new Promise(function(resolve, reject) {resolve();});
+      }
+      var oldPromise = promise;
+      promise = oldPromise.then(function() {
+        return fs.createReadStream('llncs2e.zip')
+        .pipe(unzipper.Parse())
+        .on('entry', function (entry) {
+          const fileName = entry.path;
+          const type = entry.type; // 'Directory' or 'File'
+          const size = entry.vars.uncompressedSize; // There is also compressedSize;
+          if ((fileName === "llncs.cls") || (fileName === "splncs04.bst")) {
+            entry.pipe(fs.createWriteStream(fileName));
+          } else {
+            entry.autodrain();
+          }
+        })
+      });
     }
+    let global = this;
+    promise.then(function() {
+      global.fs.copy(
+        // .gitignore is not uploaded by npm publish
+        // Thus, we prefix it with `dot`.
+        global.templatePath('dot.gitignore'),
+        global.destinationPath('.gitignore')
+      );
+      global.fs.copyTpl(
+        global.templatePath('dot.latexmkrc'),
+        global.destinationPath('.latexmkrc'),
+        global.props
+      );
+      if (global.props.language === 'de') {
+        global.fs.copyTpl(
+          global.templatePath('main.de.tex'),
+          global.destinationPath('main.tex'),
+          global.props
+        );
+        global.fs.copyTpl(
+          global.templatePath('README.de.md'),
+          global.destinationPath('README.md'),
+          global.props
+        );
+      } else {
+        global.fs.copyTpl(
+          global.templatePath('main.en.tex'),
+          global.destinationPath('main.tex'),
+          global.props
+        );
+        global.fs.copyTpl(
+          global.templatePath('README.en.md'),
+          global.destinationPath('README.md'),
+          global.props
+        );
+      }
+    });
   }
 
   install() {
