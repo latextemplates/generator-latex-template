@@ -1,9 +1,14 @@
 <% if (latexcompiler == "lualatex") { -%>
 \usepackage[no-math]{fontspec}
 \usepackage{unicode-math}
-  <% if (font == "arial") { -%>
-\setmainfont{Arial}
-  <% } else if (font == "times") { -%>
+<% if (font == "arial") { -%>
+\setmainfont[Ligatures=TeX]{Arial}
+\setsansfont[Ligatures=TeX]{Arial}
+% Use Inconsolata font (https://ctan.org/pkg/inconsolata)
+% See https://tex.stackexchange.com/q/2241/9075 for a list of other alternative mono-spaced fonts
+% No [Ligatures=TeX], because we want " rendered as upquotes, not as typographic correct ones
+\setmonofont{Inconsolatazi4}
+<% } else if (font == "times") { -%>
 % See https://tug.org/FontCatalogue/texgyretermes/ for more information
 \setmainfont{texgyretermes}[
   Extension = .otf,
@@ -17,9 +22,9 @@
 \setsansfont[Scale=.9]{TeX Gyre Heros Regular}
 \setmonofont[StylisticSet={1,3},Scale=.9]{inconsolata}
 \RequirePackage{newtxmath}
-  <% } else if (texlive === "tl2019") { -%>
+<% } else if (texlive === "tl2019") { -%>
 <%# no special configuration required for lualatex to use the LaTeX default font -%>
-  <% } else { -%>
+<% } else { -%>
 % Source: https://tug.org/FontCatalogue/newcomputermoderntypewriter/
 
 \setmainfont[%
@@ -40,14 +45,14 @@ BoldItalicFont=NewCMMono10-BoldOblique.otf,%
 SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
 
 \setmathfont{NewCMMath-Regular.otf}
-  <% } -%>
+<% } -%>
 <% } else { -%>
 <%# pdflatex -%>
-  <% if (font == "arial") { -%>
+<% if (font == "arial") { -%>
 % EN: Headings are typset in Helvetica (which is similar to Arial)
 % DE: Schriftart fuer die Ueberschriften - ueberschreibt lmodern
 \usepackage[scaled=.95]{helvet}
-  <% } else if (font == "times") { -%>
+<% } else if (font == "times") { -%>
 \RequirePackage{newtxtext}
 \RequirePackage{newtxmath}
 \RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
@@ -55,7 +60,7 @@ SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
 %     therefore could/should replaced with inconsolata
 %\RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
 \RequirePackage[varl,scaled=.9]{inconsolata}
-  <% } else { -%>
+<% } else { -%>
 % This is the modern package for "Computer Modern".
 % In case this gets activated, one has to switch from cmap package to glyphtounicode (in the case of pdflatex)
 \usepackage[%
@@ -70,4 +75,3 @@ SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
 % Has to be loaded AFTER any font packages. See https://tex.stackexchange.com/a/2869/9075.
 \usepackage[T1]{fontenc}
 <% } -%>
-

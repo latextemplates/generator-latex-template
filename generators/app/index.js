@@ -163,8 +163,8 @@ module.exports = class extends Generator {
 
       if (this.props.examples && ((this.props.language === "en") || (this.props.latexcompiler !== 'pdflatex'))) {
         this.props.useExampleEnvironment = true;
-        this.props.bexample = "\\begin{example}"
-        this.props.eexample = "\\end{example}"
+        this.props.bexample = "\\begin{ltgexample}"
+        this.props.eexample = "\\end{ltgexample}"
       } else {
         this.props.useExampleEnvironment = false;
         this.props.bexample = "";
