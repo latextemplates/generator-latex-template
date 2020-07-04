@@ -1,11 +1,10 @@
-name: Test Scientific Thesis
+name: Test pdfaltex Scientific Thesis
 on: [push]
 jobs:
-  pdflatex:
+  bibtex:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bibtextool: [bibtex, biblatex]
         language: [en, de]
         font: [default, arial, times]
         cleveref: [true, false]
@@ -19,11 +18,9 @@ jobs:
           node-version: '10.x'
       - run: npm install
       - name: Generate template
-        ## TODO: Improve this by creating a custom matrix. https://github.community/t5/GitHub-Actions/Improve-matrix-exclusion-feature/m-p/32592/highlight/true#M1193
-        ## if: ${{ matrix.font != 'arial' || matrix.documentclass != 'scientific-thesis' }}
         run: |
           mkdir tmp && cd tmp
-          npx yo $GITHUB_WORKSPACE --documentclass=scientific-thesis --texlive=tl2019 --latexcompiler=pdflatex --bibtextool=${{ matrix.bibtextool }} --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }} --examples=${{ matrix.examples }}.
+          npx yo $GITHUB_WORKSPACE --documentclass=scientific-thesis --texlive=tl2019 --latexcompiler=pdflatex --bibtextool=bibtex --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }} --examples=${{ matrix.examples }}.
           pwd
           ls -la
         env:
@@ -34,13 +31,12 @@ jobs:
           root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
-  lualatex:
+  biblatex:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bibtextool: [bibtex]
         language: [en, de]
-        font: [default, times]
+        font: [default, arial, times]
         cleveref: [true, false]
         enquotes: [csquotes, textcmds, plainlatex]
         examples: [true, false]
@@ -52,11 +48,9 @@ jobs:
           node-version: '10.x'
       - run: npm install
       - name: Generate template
-        ## TODO: Improve this by creating a custom matrix. https://github.community/t5/GitHub-Actions/Improve-matrix-exclusion-feature/m-p/32592/highlight/true#M1193
-        ## if: ${{ matrix.font != 'arial' || matrix.documentclass != 'scientific-thesis' }}
         run: |
           mkdir tmp && cd tmp
-          npx yo $GITHUB_WORKSPACE --documentclass=scientific-thesis --texlive=tl2019 --latexcompiler=lualatex --bibtextool=${{ matrix.bibtextool }} --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }} --examples=${{ matrix.examples }}.
+          npx yo $GITHUB_WORKSPACE --documentclass=scientific-thesis --texlive=tl2019 --latexcompiler=pdflatex --bibtextool=biblatex --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }} --examples=${{ matrix.examples }}.
           pwd
           ls -la
         env:

@@ -1,12 +1,12 @@
-name: Test LNCS
+name: Test lualatex Scientific Thesis
 on: [push]
 jobs:
-  pdflatex:
+  bibtex:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bibtextool: [bibtex, biblatex]
         language: [en, de]
+        # "arial" not available on linux
         font: [default, times]
         cleveref: [true, false]
         enquotes: [csquotes, textcmds, plainlatex]
@@ -21,7 +21,7 @@ jobs:
       - name: Generate template
         run: |
           mkdir tmp && cd tmp
-          npx yo $GITHUB_WORKSPACE --documentclass=lncs --texlive=tl2019 --latexcompiler=pdflatex --bibtextool=${{ matrix.bibtextool }} --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }} --examples=${{ matrix.examples }}.
+          npx yo $GITHUB_WORKSPACE --documentclass=scientific-thesis --texlive=tl2019 --latexcompiler=lualatex --bibtextool=bibtex --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }} --examples=${{ matrix.examples }}.
           pwd
           ls -la
         env:
@@ -32,11 +32,10 @@ jobs:
           root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
-  lualatex:
+  biblatex:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bibtextool: [bibtex]
         language: [en, de]
         font: [default, times]
         cleveref: [true, false]
@@ -52,7 +51,7 @@ jobs:
       - name: Generate template
         run: |
           mkdir tmp && cd tmp
-          npx yo $GITHUB_WORKSPACE --documentclass=lncs --texlive=tl2019 --latexcompiler=lualatex --bibtextool=${{ matrix.bibtextool }} --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }} --examples=${{ matrix.examples }}.
+          npx yo $GITHUB_WORKSPACE --documentclass=scientific-thesis --texlive=tl2019 --latexcompiler=lualatex --bibtextool=biblatex --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }} --examples=${{ matrix.examples }}.
           pwd
           ls -la
         env:
