@@ -10,6 +10,7 @@ jobs:
         cleveref: [true, false]
         enquotes: [csquotes, textcmds, plainlatex]
         examples: [true, false]
+        todo: [pdfcomment, none]
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
@@ -24,6 +25,7 @@ jobs:
            --latexcompiler=lualatex --bibtextool=bibtex\
            --language==${{ matrix.language }} --font=${{ matrix.font }}\
            --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }}\
+           --todo=${{ matrix.todo }}\
            --examples=${{ matrix.examples }}
           pwd
           ls -la
@@ -44,6 +46,7 @@ jobs:
         cleveref: [true, false]
         enquotes: [csquotes, textcmds, plainlatex]
         examples: [true, false]
+        todo: [pdfcomment, none]
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
@@ -54,7 +57,12 @@ jobs:
       - name: Generate template
         run: |
           mkdir tmp && cd tmp
-          npx yo $GITHUB_WORKSPACE --documentclass=lncs --texlive=tl2019 --latexcompiler=lualatex --bibtextool=biblatex --language==${{ matrix.language }} --font=${{ matrix.font }} --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }} --examples=${{ matrix.examples }}.
+          npx yo $GITHUB_WORKSPACE --documentclass=lncs --texlive=tl2019\
+           --latexcompiler=lualatex --bibtextool=biblatex\
+           --language==${{ matrix.language }} --font=${{ matrix.font }}\
+           --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }}\
+           --todo=${{ matrix.todo }}\
+           --examples=${{ matrix.examples }}
           pwd
           ls -la
         env:
