@@ -1,4 +1,4 @@
-name: lualatex LNCS
+name: LNCS lualatex
 on: [push]
 jobs:
   bibtex:
@@ -21,8 +21,12 @@ jobs:
       - name: Generate template
         run: |
           mkdir tmp && cd tmp
-          npx yo $GITHUB_WORKSPACE --documentclass=lncs --texlive=tl2019\
-           --latexcompiler=lualatex --bibtextool=bibtex\
+          mkdir tmp && cd tmp
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=lncs
+           --latexcompiler=lualatex\
+           --bibtextool=bibtex\
+           --texlive=tl2019\
            --language==${{ matrix.language }} --font=${{ matrix.font }}\
            --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }}\
            --todo=${{ matrix.todo }}\
@@ -57,8 +61,11 @@ jobs:
       - name: Generate template
         run: |
           mkdir tmp && cd tmp
-          npx yo $GITHUB_WORKSPACE --documentclass=lncs --texlive=tl2019\
-           --latexcompiler=lualatex --bibtextool=biblatex\
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=lncs
+           --latexcompiler=lualatex\
+           --bibtextool=biblatex\
+           --texlive=tl2019\
            --language==${{ matrix.language }} --font=${{ matrix.font }}\
            --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }}\
            --todo=${{ matrix.todo }}\
