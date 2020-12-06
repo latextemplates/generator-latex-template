@@ -13,6 +13,8 @@ jobs:
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
+      if (documentclass == 'lncs') and (bibtextool == 'biblatex'):
+        continue
       yml.write("  %s-%s-%s:\n" % (documentclass, latexcompiler, bibtextool))
       yml.write('''    runs-on: ubuntu-latest
     strategy:
