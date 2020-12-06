@@ -11,6 +11,12 @@ Compile it using
 }
 %>
 
+## Benefits
+
+<% if (documentclass == 'lncs') { -%>
+- Example to have an image being placed right to a text.
+<% } -%>
+
 ## FAQs
 
 ##### Q: I get `Package csquotes Error: Unbalanced groups or invalid nesting.` What can I do?
