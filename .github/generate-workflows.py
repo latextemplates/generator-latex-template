@@ -23,7 +23,7 @@ for documentclass in documentclasses:
         # "arial" not available on linux
         font: [default, times]
         cleveref: [true, false]
-        enquotes: [csquotes, textcmds, plainlatex]
+        enquotes: [csquotes, plainlatex]
         examples: [true, false]
     steps:
       - name: Set up Git repository
