@@ -1,12 +1,21 @@
 <%= heading2 %>{Hyphenation}
 
-<%- bexample %>
-You can now write words containing hyphens which are hyphenated (application"=specific) at other places.
-This is enabled by an additional configuration of the babel package.
-<% if (enquotes == 'csquotes') { %><%- include('csquotes.example.en.tex', this); %><% } -%>
-<% if (enquotes == 'textcmds')  { %><%- include('textcmds.example.en.tex', this); %><% } -%>
-<% if (enquotes == 'plainlatex')  { %><%- include('plainlatex.enquotes.example.en.tex', this); %><% } -%>
+\LaTeX{} automatically hyphenates words.
+When using microtype, there should be less hypnetations than in other settings.
+It might be necessary to tweak the hyphenations nevertheless.
+Here are some hints:
 
+<%- bexample %>
 In case you write <% if (enquotes == 'csquotes') { %>\enquote{<% } else if (enquotes == 'textcmds') { %>\qq{<% } else { %>``<% } %>application-specific<% if ((enquotes == 'csquotes') || (enquotes == 'textcmds')) { %>}<% } else { %>''<% } %>, then the word will only be hyphenated at the dash.
-You can also write applica\allowbreak{}tion-specific, but this is much more effort.
+You can also write \verb1applica\allowbreak{}tion-specific1 (result: applica\allowbreak{}tion-specific), but this is much more effort.
+
+<% if (enquotes == 'csquotes') { -%>
+In the net, you will read about that one can use a normal quote sign followed by an equal sign (\verb1"=1) to specify that hyphenation is allowed at other places in the word.
+Since we use the quote sign for automatic quoation, this is not possible anymore.
+Please use the command \verb1\diviswithhyphenation1 for the same purpose.
+Example: \verb1application\diviswithhyphenation specific1 (result: application\diviswithhyphenation specific).
+<% } else { -%>
+You can now write words containing hyphens which are hyphenated (\verb1application"=specific1 gets application"=specific) at other places in the word.
+This is enabled by an additional configuration of the babel package.
+<% } -%>
 <%- eexample %>
