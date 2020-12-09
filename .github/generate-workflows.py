@@ -22,6 +22,7 @@ for documentclass in documentclasses:
         language: [en, de]
         # "arial" not available on linux
         font: [default, times]
+        listings: [listings, minted]
         cleveref: [true, false]
         enquotes: [csquotes, plainlatex]
         examples: [true, false]
@@ -42,6 +43,7 @@ for documentclass in documentclasses:
       yml.write("           --bibtextool=%s\\\n" % bibtextool)
       yml.write('''           --texlive=tl2019\\
            --language==${{ matrix.language }} --font=${{ matrix.font }}\\
+           --listings==${{ matrix.listings }}\\
            --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }}\\
            --todo=${{ matrix.todo }}\\
            --examples=${{ matrix.examples }}

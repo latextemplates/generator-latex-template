@@ -135,6 +135,22 @@ module.exports = class extends Generator {
         default: "default"
       },
       {
+        type: 'list',
+        name: 'listings',
+        message: 'Which package to typeset listings?',
+        choices: [
+          {
+            name: "listings",
+            value: "listings"
+          },
+          {
+            name: "minted (requires a working Python installation)",
+            value: "minted"
+          }
+        ],
+        default: "pdfcomment"
+      },
+      {
         type: 'confirm',
         name: 'cleveref',
         message: 'Use cleveref?',
