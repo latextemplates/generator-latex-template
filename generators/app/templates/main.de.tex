@@ -75,8 +75,48 @@
 <%- include('listings.preamble.de.tex', this); %>
 <%- include('booktabs.preamble.en.tex', this); %>
 <%- include('paralist.preamble.en.tex', this); %>
-<% if (documentclass == 'lncs')  { %><%- include('floatflt.preamble.en.tex', this); %><% } -%>
+<% if (documentclass == 'lncs')  { -%>
+<%- include('floatflt.preamble.en.tex', this); %>
+% Bibliopgraphy enhancements
+%  - enable \cite[prenote][]{ref}
+%  - enable \cite{ref1,ref2}
+% Alternative: \usepackage{cite}, which enables \cite{ref1, ref2} only (otherwise: Error message: "White space in argument")
+
+% Doc: http://texdoc.net/natbib
+\usepackage[%
+  square,        % for square brackets
+  comma,         % use commas as separators
+  numbers,       % for numerical citations;
+%  sort,          % orders multiple citations into the sequence in which they appear in the list of references;
+  sort&compress, % as sort but in addition multiple numerical citations
+                 % are compressed if possible (as 3-6, 15);
+]{natbib}
+% In the bibliography, references have to be formatted as 1., 2., ... not [1], [2], ...
+\renewcommand{\bibnumfmt}[1]{#1.}
+
+<% if (latexcompiler !== 'lualatex') { -%>
+<%#
+  does not work when using luatex
+  see: https://tex.stackexchange.com/q/419288/9075 -%>
+% Prepare more space-saving rendering of the bibliography
+% Source: https://tex.stackexchange.com/a/280936/9075
+\SetExpansion
+[ context = sloppy,
+  stretch = 30,
+  shrink = 60,
+  step = 5 ]
+{ encoding = {OT1,T1,TS1} }
+{ }
+<% } -%>
+<% } -%>
 <% if (todo == 'pdfcomment')  { %><%- include('pdfcomment.preamble.en.tex', this); %><% } -%>
+
+% Fußnoten unter Gleitumgebungen ("floats") platzieren
+% Quelle: https://tex.stackexchange.com/a/32993/9075
+\usepackage{stfloats}
+\fnbelowfloat
+
+<%- include('siunitx.preamble.en.tex'); %>
 <%- include('hyperref.preamble.en.tex', this); %>
 <% if (cleveref) { %><%- include('cleveref.preamble.de.tex', this); %><% } -%>
 
@@ -140,6 +180,7 @@ Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiel
 
 <%- include('paragraphs.example.de.tex', this); %>
 <%- include('hyphenation.example.en.tex', this); %>
+<%- include('siunitx.example.en.tex', this); %>
 <% if (enquotes == 'csquotes')  { %><%- include('csquotes.example.en.tex', this); %><% } -%>
 <% if (enquotes == 'plainlatex')  { %><%- include('plainlatex.enquotes.example.de.tex', this); %><% } -%>
 <%- include('paralist.example.en.tex', this); %>
