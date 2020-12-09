@@ -47,10 +47,6 @@
 ]{scrbook}
 <% } -%>
 
-<% if (latexcompiler == "pdflatex") { -%>
-\usepackage{cmap}
-<% } -%>
-
 % backticks (`) werden als solches in verbatim-Umgebungen dargestellt
 % Details unter:
 %   - https://tex.stackexchange.com/a/341057/9075
@@ -131,8 +127,53 @@
 % These packages can be removed when all examples have been deleted
 \usepackage[math]{blindtext}
 \usepackage{mwe}
-% Required for hyphentation.example.en.tex
-\usepackage{textcomp}
+<% } -%>
+
+% Introduce \powerset - hint by http://matheplanet.com/matheplanet/nuke/html/viewtopic.php?topic=136492&post_id=997377
+\DeclareFontFamily{U}{MnSymbolC}{}
+\DeclareSymbolFont{MnSyC}{U}{MnSymbolC}{m}{n}
+\DeclareFontShape{U}{MnSymbolC}{m}{n}{
+  <-6>    MnSymbolC5
+  <6-7>   MnSymbolC6
+  <7-8>   MnSymbolC7
+  <8-9>   MnSymbolC8
+  <9-10>  MnSymbolC9
+  <10-12> MnSymbolC10
+  <12->   MnSymbolC12%
+}{}
+\DeclareMathSymbol{\powerset}{\mathord}{MnSyC}{180}
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+<% if (documentclass == 'lncs') { -%>
+
+% Add copyright
+% Do that for the final version or if you send it to colleagues
+\iffalse
+  %state: intended|submitted|llncs
+  %you can add "crop" if the paper should be cropped to the format Springer is publishing
+  \usepackage[intended]{llncsconf}
+
+  \conference{name of the conference}
+
+  %in case of "llncs" (final version!)
+  %example: llncs{Anonymous et al. (eds). \emph{Proceedings of the International Conference on \LaTeX-Hacks}, LNCS~42. Some Publisher, 2016.}{0042}
+  \llncs{book editors and title}{0042} %% 0042 is the start page
+\fi
+<% } -%>
+<% if (latexcompiler == "pdflatex") { -%>
+
+% Enable copy and paste of text from the PDF
+% Only required for pdflatex. It "just works" in the case of lualatex.
+% Alternative: cmap or mmap package
+% mmap enables mathematical symbols, but does not work with the newtx font set
+% See: https://tex.stackexchange.com/a/64457/9075
+% Other solutions outlined at http://goemonx.blogspot.de/2012/01/pdflatex-ligaturen-und-copynpaste.html and http://tex.stackexchange.com/questions/4397/make-ligatures-in-linux-libertine-copyable-and-searchable
+% Trouble shooting outlined at https://tex.stackexchange.com/a/100618/9075
+%
+% According to https://tex.stackexchange.com/q/451235/9075 this is the way to go
+\input glyphtounicode
+\pdfgentounicode=1
 <% } -%>
 
 \begin{document}
