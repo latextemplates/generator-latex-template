@@ -99,8 +99,8 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Run `npx yo <path-to-git-repository>`
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
   - Parameters can be set using command line
-    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --texlive=tl2020 --examples=true --documentclass=scientific-thesis --latexcompiler=lualatex --bibtextool=biblatex --language==en --font=arial --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment`
-    - Windows automatic generation of a LNCS template (with lualatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs --latexcompiler=lualatex --bibtextool=bibtex --texlive=tl2020 --examples=true --language==en --font=default  --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment`
+    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --texlive=tl2020 --examples=true --documentclass=scientific-thesis --latexcompiler=lualatex --bibtextool=biblatex --language=en --font=arial --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment`
+    - Windows automatic generation of a LNCS template (with lualatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs --latexcompiler=lualatex --bibtextool=bibtex --texlive=tl2020 --examples=true --language=en --font=default  --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment`
   - Run `latexmk` to build the PDF
 - Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.

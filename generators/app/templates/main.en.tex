@@ -72,7 +72,7 @@
 <% if (enquotes == 'csquotes')  { %><%- include('csquotes.preamble.en.tex', this); %><% } -%>
 <% if (enquotes == 'textcmds')  { %><%- include('textcmds.preamble.en.tex', this); %><% } -%>
 
-<%- include('diagbox.preamble.en.tex', this); %>
+<%- include('diagbox.preamble.en.tex', this); -%>
 
 <%# Required for package pdfcomment later -%>
 \usepackage{xcolor}
@@ -99,10 +99,6 @@
 % In the bibliography, references have to be formatted as 1., 2., ... not [1], [2], ...
 \renewcommand{\bibnumfmt}[1]{#1.}
 
-<% if (latexcompiler !== 'lualatex') { -%>
-<%#
-  does not work when using luatex
-  see: https://tex.stackexchange.com/a/339490/9075 -%>
 % Prepare more space-saving rendering of the bibliography
 % Source: https://tex.stackexchange.com/a/280936/9075
 \SetExpansion
@@ -112,7 +108,6 @@
   step = 5 ]
 { encoding = {OT1,T1,TS1} }
 { }
-<% } -%>
 <% } -%>
 <% if (todo == 'pdfcomment')  { %><%- include('pdfcomment.preamble.en.tex', this); %><% } -%>
 
@@ -183,13 +178,15 @@
 <% if (documentclass == 'lncs') { -%>
 
 \title{Paper Title}
-%If Title is too long, use \titlerunning
+% If Title is too long, use \titlerunning
 %\titlerunning{Short Title}
 
-%Single insitute
+% Single insitute
 \author{Firstname Lastname \and Firstname Lastname}
-%If there are too many authors, use \authorrunning
+
+% If there are too many authors, use \authorrunning
 %\authorrunning{First Author et al.}
+
 \institute{Institute}
 
 %% Multiple insitutes - ALTERNATIVE to the above
@@ -217,12 +214,30 @@
 \begin{keywords}
   keyword1, keyword2
 \end{keywords}
+
+\section{Introduction}
+\label{sec:intro}
+\lipsum[1-3]\todo{Refine me}
+
+The remainder of the paper starts with a presentation of related work (\cref{sec:relatedwork}).
+<% if (examples) { %>It is followed by a presentation of hints on \LaTeX{} (\cref{sec:hints}).<% } -%>
+Finally, a conclusion is drawn and outlook on future work is made (\cref{sec:outlook}).
+
+\section{Related Work}
+\label{sec:relatedwork}
+
+Winery~\cite{Winery} is a graphical \commentontext{modeling}{modeling with one ``l'', because of AE} tool.
+The whole idea of TOSCA is explained by \citet{Binz2009}.
 <% } -%>
 
 <% if (examples) { -%>
 
 <%= heading1 %>{LaTeX Hints}
+<% if (documentclass == 'lncs') { -%>
+\label{sec:latexhints}
+<% } else { -%>
 \label{chap:latexhints}
+<% } -%>
 
 <% if (useExampleEnvironment) { -%>
 % Required for proper example rendering in the compiled PDF
@@ -270,10 +285,41 @@ It focuses on minimal examples, which can be directly adapted to the content
 <% if (enquotes == 'csquotes')  { %><%- include('csquotes.example.en.tex', this); %><% } -%>
 <% if (enquotes == 'textcmds')  { %><%- include('textcmds.example.en.tex', this); %><% } -%>
 <% if (enquotes == 'plainlatex')  { %><%- include('plainlatex.enquotes.example.en.tex', this); %><% } -%>
-<%- include('paralist.example.en.tex', this); %>
+<%- include('cleveref.example.en.tex', this); %>
 <%- include('figure.example.en.tex', this); %>
-<%- include('listings.example.en.tex', this); %>
 <%- include('tables.example.en.tex', this); %>
+<%- include('listings.example.en.tex', this); %>
+<%- include('paralist.example.en.tex', this); %>
+<%- include('otherfeatures.example.en.tex', this); %>
 <% } -%>
 
+<% if (documentclass == 'lncs') { -%>
+\section{Conclusion and Outlook}
+\label{sec:outlook}
+\lipsum[1-2]
+
+\subsubsection*{Acknowledgments}
+\ldots
+
+In the bibliography, use \texttt{\textbackslash textsuperscript} for <%- bquote %>st<%- equote %>, <%- bquote %>nd<%- equote %>, \ldots:
+E.g., <%- bquote %>The 2\textsuperscript{nd} conference on examples<%- equote %>.
+When you use \href{https://www.jabref.org}{JabRef}, you can use the clean up command to achieve that.
+See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the cleanup functionality.
+
+\renewcommand{\bibsection}{\section*{References}} % requried for natbib to have "References" printed and as section*, not chapter*
+% Use natbib compatbile splncsnat style.
+% It does provide all features of splncs03, but is developed in a clean way.
+% Source: http://phaseportrait.blogspot.de/2011/02/natbib-compatible-bibtex-style-bst-file.html
+\bibliographystyle{splncsnat}
+\begingroup
+  \microtypecontext{expansion=sloppy}
+  \small % ensure correct font size for the bibliography
+  \bibliography{bibliography}
+\endgroup
+
+% Enfore empty line after bibliography
+\ \\
+%
+All links were last followed on October 5, 2020.
+<% } -%>
 \end{document}

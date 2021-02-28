@@ -259,6 +259,20 @@ module.exports = class extends Generator {
         this.props.eexample = "";
       }
 
+      if (this.props.tweak_outerquote == 'outerquote') {
+        this.props.bquote = "\"";
+        this.props.equote = "\"";
+      } else if (this.props.enquotes == 'csquotes') {
+        this.props.bquote = "\enquote{";
+        this.props.equote = "}";
+      } else if (this.props.enquotes == 'textcmds') {
+        this.props.bquote = "\qq{";
+        this.props.equote = "}";
+      } else {
+        this.props.bquote = "\"`";
+        this.props.equote = "\"'";
+      }
+
       this.props.requiresShellEscape = (this.props.lsitings === 'minted');
 
       if (props.documentclass === 'scientific-thesis') {
@@ -328,6 +342,17 @@ module.exports = class extends Generator {
         global.destinationPath('.latexmkrc'),
         global.props
       );
+      global.fs.copyTpl(
+        global.templatePath('bibliography.bib'),
+        global.destinationPath('bibliography.bib'),
+        global.props
+      );
+      if (global.props.documentclass === 'lncs') {
+        global.fs.copy(
+          global.templatePath('splncsnat.bst'),
+          global.destinationPath('splncsnat.bst')
+        );
+      }
       if (global.props.language === 'de') {
         global.fs.copyTpl(
           global.templatePath('main.de.tex'),
