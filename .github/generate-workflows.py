@@ -35,7 +35,14 @@ for documentclass in documentclasses:
         with:
           node-version: '10.x'
       - run: npm install
-      - name: Generate template
+''')
+      if (documentclass == 'lncs'):
+        yml.write('''      - run: 'echo "$LLNCS_CLS" > llncs.cls'
+        shell: bash
+        env:
+          LLNCS_CLS: ${{secrets.LLNCS_CLS}}
+''')
+      yml.write('''      - name: Generate template
         run: |
           mkdir tmp && cd tmp
           npx yo $GITHUB_WORKSPACE\\
