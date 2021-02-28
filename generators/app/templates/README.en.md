@@ -10,7 +10,6 @@ Compile it using
 <%
 }
 %>
-
 ## Benefits
 
 <% if (documentclass == 'lncs') { -%>
@@ -23,7 +22,9 @@ Compile it using
 
 A: You have activated `\MakeOuterQuote{"}` and used some special babel command to allow hyphenation at other places as a dash. One example is writing `application"=specific`.
 Now, you have to decide whether you want keep using plain quotes to enquote a word or use the special hyphenation command.
-In other words: Do you want `"quote"` and `application\diviswithhiphenation specific` or `\enquote{quote} and  application"=specific`?
+In other words: Do you want `"quote"` and `app\-lication\-specific` or `\enquote{quote} and  application"=specific`?
+
+Note that this should not happen when the template is generated as the setting `tweak_outerquote` ensures that these two options are mutually exclusive.
 
 <!-- disable markdown-lint rules contradicting our writing of FAQs -->
 <!-- markdownlint-disable-file MD001 MD013 MD026 -->

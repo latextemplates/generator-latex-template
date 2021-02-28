@@ -34,6 +34,7 @@ module.exports = class extends Generator {
       }
     }
 
+    // see "Development hints" in README.md for help on Inquirer.js
     var mapper = optionOrPrompt.call(params, [
       {
         type: 'list',
@@ -163,7 +164,7 @@ module.exports = class extends Generator {
         choices: function(state) {
           var res = [];
           res.push({
-            name: "csquotes (\"simple\" and advanced \\enquote{...} commands)",
+            name: "csquotes (\\enquote{...} command)",
             value: "csquotes"
           });
           if (state.langauge === "en") {
@@ -186,6 +187,22 @@ module.exports = class extends Generator {
           return res;
         },
         default: "csquotes"
+      },
+      {
+        type: 'list',
+        name: 'tweak_outerquote',
+        message: 'Enable hyphenation tweak (e.g., application"=specific for app-lication-specific at a linebreak) or enable easy quotation (e.g., "application"; not common in default latex setups)?',
+        choices: [
+          {
+            name: "Hyphenation tweak",
+            value: "babel"
+          },
+          {
+            name: "Easy quotation",
+            value: "outerquote"
+          }
+        ],
+        default: "babel"
       },
       {
         type: 'list',

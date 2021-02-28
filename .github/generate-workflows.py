@@ -25,6 +25,8 @@ for documentclass in documentclasses:
         listings: [listings, minted]
         cleveref: [true, false]
         enquotes: [csquotes, plainlatex]
+        tweak_outerquote: [babel, outerquote]
+        todo: [pdfcomment, none]
         examples: [true, false]
     steps:
       - name: Set up Git repository
@@ -44,7 +46,9 @@ for documentclass in documentclasses:
       yml.write('''           --texlive=tl2019\\
            --language==${{ matrix.language }} --font=${{ matrix.font }}\\
            --listings==${{ matrix.listings }}\\
-           --cleveref=${{ matrix.cleveref }} --enquotes=${{ matrix.enquotes }}\\
+           --cleveref=${{ matrix.cleveref }}\\
+           --enquotes=${{ matrix.enquotes }}\\
+           --tweak_outerquote=${{ matrix.tweak_outerquote }}\\
            --todo=${{ matrix.todo }}\\
            --examples=${{ matrix.examples }}
           pwd
