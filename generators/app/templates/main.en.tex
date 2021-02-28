@@ -72,12 +72,11 @@
 <% if (enquotes == 'csquotes')  { %><%- include('csquotes.preamble.en.tex', this); %><% } -%>
 <% if (enquotes == 'textcmds')  { %><%- include('textcmds.preamble.en.tex', this); %><% } -%>
 
-% Diagonal lines in a table - http://tex.stackexchange.com/questions/17745/diagonal-lines-in-table-cell
-% Slashbox is not available in texlive (due to licensing) and also gives bad results. This, we use diagbox
-%\usepackage{diagbox}
+<%- include('diagbox.preamble.en.tex', this); %>
 
 <%# Required for package pdfcomment later -%>
 \usepackage{xcolor}
+
 <%- include('listings.preamble.en.tex', this); %>
 <%- include('booktabs.preamble.en.tex', this); %>
 <%- include('paralist.preamble.en.tex', this); %>
@@ -103,7 +102,7 @@
 <% if (latexcompiler !== 'lualatex') { -%>
 <%#
   does not work when using luatex
-  see: https://tex.stackexchange.com/q/419288/9075 -%>
+  see: https://tex.stackexchange.com/a/339490/9075 -%>
 % Prepare more space-saving rendering of the bibliography
 % Source: https://tex.stackexchange.com/a/280936/9075
 \SetExpansion
