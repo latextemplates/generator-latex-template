@@ -51,7 +51,8 @@ for documentclass in documentclasses:
       yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
       yml.write("           --bibtextool=%s\\\n" % bibtextool)
       yml.write('''           --texlive=tl2019\\
-           --language==${{ matrix.language }} --font=${{ matrix.font }}\\
+           --language==${{ matrix.language }}\\
+           --font=${{ matrix.font }}\\
            --listings==${{ matrix.listings }}\\
            --cleveref=${{ matrix.cleveref }}\\
            --enquotes=${{ matrix.enquotes }}\\
