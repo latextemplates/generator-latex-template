@@ -263,10 +263,10 @@ module.exports = class extends Generator {
         this.props.bquote = "\"";
         this.props.equote = "\"";
       } else if (this.props.enquotes == 'csquotes') {
-        this.props.bquote = "\enquote{";
+        this.props.bquote = "\\enquote{";
         this.props.equote = "}";
       } else if (this.props.enquotes == 'textcmds') {
-        this.props.bquote = "\qq{";
+        this.props.bquote = "\\qq{";
         this.props.equote = "}";
       } else {
         this.props.bquote = "\"`";
