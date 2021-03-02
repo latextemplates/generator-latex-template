@@ -21,7 +21,9 @@ jobs:
         with:
           node-version: '10.x'
       - run: npm install
-      - run: 'echo "$LLNCS_CLS" > llncs.cls'
+      - run: |
+           mkdir tmp
+           [[ $LLNCS_CLS ]] && echo "$LLNCS_CLS" > tmp/llncs.cls
         shell: bash
         env:
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
@@ -71,7 +73,9 @@ jobs:
         with:
           node-version: '10.x'
       - run: npm install
-      - run: 'echo "$LLNCS_CLS" > llncs.cls'
+      - run: |
+           mkdir tmp
+           [[ $LLNCS_CLS ]] && echo "$LLNCS_CLS" > tmp/llncs.cls
         shell: bash
         env:
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}

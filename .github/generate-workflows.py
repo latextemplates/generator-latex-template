@@ -37,7 +37,9 @@ for documentclass in documentclasses:
       - run: npm install
 ''')
       if (documentclass == 'lncs'):
-        yml.write('''      - run: 'echo "$LLNCS_CLS" > llncs.cls'
+        yml.write('''      - run: |
+           mkdir tmp
+           [[ $LLNCS_CLS ]] && echo "$LLNCS_CLS" > tmp/llncs.cls
         shell: bash
         env:
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
