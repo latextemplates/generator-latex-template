@@ -30,6 +30,10 @@ for documentclass in documentclasses:
         todo: [pdfcomment, none]
         examples: [true, false]
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
       - name: Set up Git repository
         uses: actions/checkout@v2
       - uses: actions/setup-node@v1
