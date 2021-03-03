@@ -1,6 +1,7 @@
 documentclasses = ['lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
-bibtextools = ['bibtex', 'biblatex']
+# bibtextools = ['bibtex', 'biblatex']
+bibtextools = ['bibtex']
 
 yml = open("workflows/check-build.yml", "w+")
 
