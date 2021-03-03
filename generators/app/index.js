@@ -282,6 +282,14 @@ module.exports = class extends Generator {
         this.props.heading1 = '\\section';
         this.props.heading2 = '\\subsection';
       }
+
+      this.props.available = {};
+
+      if (props.bibtextool == 'bibtex' && props.documentclass !== 'lncs') {
+        this.props.available.citet = false;
+      } else {
+        this.props.available.citet = true;
+      }
     });
   }
 
