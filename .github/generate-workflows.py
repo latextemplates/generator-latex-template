@@ -38,16 +38,18 @@ for documentclass in documentclasses:
       - run: npm install
 ''')
       if (documentclass == 'lncs'):
-        yml.write('''      - run: |
+        yml.write('''      - name: Create llncs.cls
+        run: |
            mkdir tmp
            [[ $LLNCS_CLS ]] && echo "$LLNCS_CLS" > tmp/llncs.cls
+           ls -la tmp
         shell: bash
         env:
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
       yml.write('''      - name: Generate template
         run: |
-          mkdir tmp && cd tmp
+          cd tmp
           npx yo $GITHUB_WORKSPACE\\
 ''')
       yml.write("           --documentclass=%s\\\n" % documentclass)

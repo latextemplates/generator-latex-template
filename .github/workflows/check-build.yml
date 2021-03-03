@@ -21,15 +21,17 @@ jobs:
         with:
           node-version: '10.x'
       - run: npm install
-      - run: |
+      - name: Create llncs.cls
+        run: |
            mkdir tmp
            [[ $LLNCS_CLS ]] && echo "$LLNCS_CLS" > tmp/llncs.cls
+           ls -la tmp
         shell: bash
         env:
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
       - name: Generate template
         run: |
-          mkdir tmp && cd tmp
+          cd tmp
           npx yo $GITHUB_WORKSPACE\
            --documentclass=lncs\
            --latexcompiler=pdflatex\
@@ -73,15 +75,17 @@ jobs:
         with:
           node-version: '10.x'
       - run: npm install
-      - run: |
+      - name: Create llncs.cls
+        run: |
            mkdir tmp
            [[ $LLNCS_CLS ]] && echo "$LLNCS_CLS" > tmp/llncs.cls
+           ls -la tmp
         shell: bash
         env:
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
       - name: Generate template
         run: |
-          mkdir tmp && cd tmp
+          cd tmp
           npx yo $GITHUB_WORKSPACE\
            --documentclass=lncs\
            --latexcompiler=lualatex\
@@ -127,7 +131,7 @@ jobs:
       - run: npm install
       - name: Generate template
         run: |
-          mkdir tmp && cd tmp
+          cd tmp
           npx yo $GITHUB_WORKSPACE\
            --documentclass=scientific-thesis\
            --latexcompiler=pdflatex\
@@ -173,7 +177,7 @@ jobs:
       - run: npm install
       - name: Generate template
         run: |
-          mkdir tmp && cd tmp
+          cd tmp
           npx yo $GITHUB_WORKSPACE\
            --documentclass=scientific-thesis\
            --latexcompiler=lualatex\
