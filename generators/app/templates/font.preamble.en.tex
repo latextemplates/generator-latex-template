@@ -2,13 +2,21 @@
 \usepackage[no-math]{fontspec}
 \usepackage{unicode-math}
 <% if (font == "arial") { -%>
+<%# -%>
+<%# Arial and LuaLaTeX -%>
+<%# -%>
 \setmainfont[Ligatures=TeX]{Arial}
 \setsansfont[Ligatures=TeX]{Arial}
 % Use Inconsolata font (https://ctan.org/pkg/inconsolata)
 % See https://tex.stackexchange.com/q/2241/9075 for a list of other alternative mono-spaced fonts
 % No [Ligatures=TeX], because we want " rendered as upquotes, not as typographic correct ones
-\setmonofont{Inconsolatazi4}
+% shapely l, upright quotes
+% If it is too large, add ",Scale=.9"
+\setmonofont[StylisticSet={1,3}]{Inconsolatazi4}
 <% } else if (font == "times") { -%>
+<%# -%>
+<%# Times New Roman and LuaLaTeX -%>
+<%# -%>
 % See https://tug.org/FontCatalogue/texgyretermes/ for more information
 \setmainfont{texgyretermes}[
   Extension = .otf,
@@ -20,11 +28,30 @@
 ]
 % See https://tug.org/FontCatalogue/texgyreheros/ for more information
 \setsansfont[Scale=.9]{TeX Gyre Heros Regular}
-\setmonofont[StylisticSet={1,3},Scale=.9]{inconsolata}
-\RequirePackage{newtxmath}
-<% } else if (texlive === "tl2019") { -%>
-<%# no special configuration required for lualatex to use the LaTeX default font -%>
+<% if (documentclass == 'lncs') { -%>
+% newtxtt looks good with times, but no equivalent for lualatex found,
+% therefore tried to replace with inconsolata.
+% However, inconsolata does not look good in the context of LNCS ...
+%\setmonofont[StylisticSet={1,3},Scale=.9]{inconsolata}
+% ... thus, we use the good old Latin Modern Mono font for source code.
+\setmonofont{Latin Modern Mono} % "variable=false"
+<%# \setmonofont{Latin Modern Mono Prop} % "variable=true" -%>
 <% } else { -%>
+% shapely l, upright quotes
+% Normal scaling is too large --> thus, we use ",Scale=.9"
+\setmonofont[StylisticSet={1,3},Scale=.9]{Inconsolatazi4}
+<% } -%>
+<% } else if (texlive == "tl2019") { -%>
+<%# no special configuration required for lualatex to use the LaTeX default font.
+  # See https://tex.stackexchange.com/a/423225/9075 for details
+-%>
+<% } else { -%>
+<%# -%>
+<%# Default LaTeX Font and LuaLaTeX -%>
+<%# -%>
+
+% Typewriter font (for source code etc)
+% Use New Computer Modern font (Computer Modern is the default LaTeX font; this is the implemented modern variant)
 % Source: https://tug.org/FontCatalogue/newcomputermoderntypewriter/
 
 \setmainfont[%
@@ -46,21 +73,31 @@ SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
 
 \setmathfont{NewCMMath-Regular.otf}
 <% } -%>
+
+% Enable proper ligatures
+% For more information see https://ctan.org/pkg/selnolig
+% language "english" or "ngerman" is passed to selnolig by the document class
+\usepackage{selnolig}
 <% } else { -%>
 <%# pdflatex -%>
 <% if (font == "arial") { -%>
-% EN: Headings are typset in Helvetica (which is similar to Arial)
+<%# -%>
+<%# Arial and pdflatex -%>
+<%# -%>
+% Headings are typset in Helvetica (which is similar to Arial)
 % DE: Schriftart fuer die Ueberschriften - ueberschreibt lmodern
 \usepackage[scaled=.95]{helvet}
 <% } else if (font == "times") { -%>
+<%# -%>
+<%# Times New Roman and pdflatex -%>
+<%# -%>
 \RequirePackage{newtxtext}
 \RequirePackage{newtxmath}
 \RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
-% EN: looks good with times, but no equivalent for lualatex found,
-%     therefore could/should replaced with inconsolata
-%\RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
-\RequirePackage[varl,scaled=.9]{inconsolata}
 <% } else { -%>
+<%# -%>
+<%# Computer Modern and pdflatex -%>
+<%# -%>
 % This is the modern package for "Computer Modern".
 % In case this gets activated, one has to switch from cmap package to glyphtounicode (in the case of pdflatex)
 \usepackage[%
@@ -72,6 +109,12 @@ SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
     qt=false%
 ]{cfr-lm}
 <% } -%>
+<% if (documentclass == 'scientific-thesis') { -%>
+
+\usepackage{setspace}
+\setstretch{1.2}
+<% } -%>
+
 % Has to be loaded AFTER any font packages. See https://tex.stackexchange.com/a/2869/9075.
 \usepackage[T1]{fontenc}
 <% } -%>

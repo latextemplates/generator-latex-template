@@ -1,6 +1,6 @@
 #`-file-line-error` is similar to `--interaction nonstopmode`, but shows the concrete line number
 #Remove it, it you want lualatex to stop on errors
-$pdflatex = '<%= latexcompiler %> <% if (requiresShellEscape) { %>-shell-escape <% } %>-file-line-error --synctex=-1 %O %S';
+$pdflatex = '<%= latexcompiler %> <% if (requiresShellEscape) { %>--shell-escape <% } %>-file-line-error --synctex=-1 %O %S';
 
 #Use SumatraPDF instead of the default PDF viewer
 $pdf_previewer = 'start "C:\Program Files\SumatraPDF\SumatraPDF.exe"';

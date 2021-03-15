@@ -3,11 +3,13 @@
 % Even though `american`, `english` and `USenglish` are synonyms for babel package (according to https://tex.stackexchange.com/questions/12775/babel-english-american-usenglish), the llncs document class is prepared to avoid the overriding of certain names (such as "Abstract." -> "Abstract" or "Fig." -> "Figure") when using `english`, but not when using the other 2.
 % english has to go last to set it as default language
 \usepackage[ngerman,main=english]{babel}
-
+<% if (tweak_outerquote == "babel")  { -%>
+%
 % Hint by http://tex.stackexchange.com/a/321066/9075 -> enable "= as dashes
 \addto\extrasenglish{\languageshorthands{ngerman}\useshorthands{"}}
-
-<% if (documentclass === "lncs") { -%>
+<% } -%>
+<% if (documentclass == "lncs") { -%>
+%
 % Fix by https://tex.stackexchange.com/a/441701/9075
 \usepackage{regexpatch}
 \makeatletter

@@ -99,6 +99,7 @@ The source code contains the `example` environment (taken from <http://blog.kars
 
 ### Self-made with [standalone](https://ctan.org/pkg/standalone) package
 
-
+* Good, because complete documents can be typeset
+* Bad, because -write-18 will be required
 
 <!-- markdownlint-disable-file MD013 -->

@@ -1,0 +1,221 @@
+name: Check Build
+on: [push]
+jobs:
+  lncs-pdflatex-bibtex:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [en, de]
+        # "arial" not available on linux
+        font: [default, times]
+        listings: [listings, minted]
+        cleveref: [true, false]
+        enquotes: [csquotes, plainlatex]
+        tweak_outerquote: [babel, outerquote]
+        todo: [pdfcomment, none]
+        examples: [true, false]
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: npm install
+      - name: Create llncs.cls
+        run: |
+           mkdir tmp
+           [[ $LLNCS_CLS ]] && echo "$LLNCS_CLS" > tmp/llncs.cls
+        shell: bash
+        env:
+          LLNCS_CLS: ${{secrets.LLNCS_CLS}}
+      - name: Generate template
+        run: |
+          mkdir -p tmp
+          cd tmp
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=lncs\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --texlive=tl2019\
+           --language==${{ matrix.language }}\
+           --font=${{ matrix.font }}\
+           --listings==${{ matrix.listings }}\
+           --cleveref=${{ matrix.cleveref }}\
+           --enquotes=${{ matrix.enquotes }}\
+           --tweak_outerquote=${{ matrix.tweak_outerquote }}\
+           --todo=${{ matrix.todo }}\
+           --examples=${{ matrix.examples }}
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+      - name: latexmk
+        uses: dante-ev/latex-action@master
+        with:
+          root_file: main.tex
+          # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
+          working_directory: '/github/workspace/tmp'
+  lncs-lualatex-bibtex:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [en, de]
+        # "arial" not available on linux
+        font: [default, times]
+        listings: [listings, minted]
+        cleveref: [true, false]
+        enquotes: [csquotes, plainlatex]
+        tweak_outerquote: [babel, outerquote]
+        todo: [pdfcomment, none]
+        examples: [true, false]
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: npm install
+      - name: Create llncs.cls
+        run: |
+           mkdir tmp
+           [[ $LLNCS_CLS ]] && echo "$LLNCS_CLS" > tmp/llncs.cls
+        shell: bash
+        env:
+          LLNCS_CLS: ${{secrets.LLNCS_CLS}}
+      - name: Generate template
+        run: |
+          mkdir -p tmp
+          cd tmp
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=lncs\
+           --latexcompiler=lualatex\
+           --bibtextool=bibtex\
+           --texlive=tl2019\
+           --language==${{ matrix.language }}\
+           --font=${{ matrix.font }}\
+           --listings==${{ matrix.listings }}\
+           --cleveref=${{ matrix.cleveref }}\
+           --enquotes=${{ matrix.enquotes }}\
+           --tweak_outerquote=${{ matrix.tweak_outerquote }}\
+           --todo=${{ matrix.todo }}\
+           --examples=${{ matrix.examples }}
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+      - name: latexmk
+        uses: dante-ev/latex-action@master
+        with:
+          root_file: main.tex
+          # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
+          working_directory: '/github/workspace/tmp'
+  scientific-thesis-pdflatex-bibtex:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [en, de]
+        # "arial" not available on linux
+        font: [default, times]
+        listings: [listings, minted]
+        cleveref: [true, false]
+        enquotes: [csquotes, plainlatex]
+        tweak_outerquote: [babel, outerquote]
+        todo: [pdfcomment, none]
+        examples: [true, false]
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: npm install
+      - name: Generate template
+        run: |
+          mkdir -p tmp
+          cd tmp
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=scientific-thesis\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --texlive=tl2019\
+           --language==${{ matrix.language }}\
+           --font=${{ matrix.font }}\
+           --listings==${{ matrix.listings }}\
+           --cleveref=${{ matrix.cleveref }}\
+           --enquotes=${{ matrix.enquotes }}\
+           --tweak_outerquote=${{ matrix.tweak_outerquote }}\
+           --todo=${{ matrix.todo }}\
+           --examples=${{ matrix.examples }}
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+      - name: latexmk
+        uses: dante-ev/latex-action@master
+        with:
+          root_file: main.tex
+          # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
+          working_directory: '/github/workspace/tmp'
+  scientific-thesis-lualatex-bibtex:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [en, de]
+        # "arial" not available on linux
+        font: [default, times]
+        listings: [listings, minted]
+        cleveref: [true, false]
+        enquotes: [csquotes, plainlatex]
+        tweak_outerquote: [babel, outerquote]
+        todo: [pdfcomment, none]
+        examples: [true, false]
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ github.token }}
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - run: npm install
+      - name: Generate template
+        run: |
+          mkdir -p tmp
+          cd tmp
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=scientific-thesis\
+           --latexcompiler=lualatex\
+           --bibtextool=bibtex\
+           --texlive=tl2019\
+           --language==${{ matrix.language }}\
+           --font=${{ matrix.font }}\
+           --listings==${{ matrix.listings }}\
+           --cleveref=${{ matrix.cleveref }}\
+           --enquotes=${{ matrix.enquotes }}\
+           --tweak_outerquote=${{ matrix.tweak_outerquote }}\
+           --todo=${{ matrix.todo }}\
+           --examples=${{ matrix.examples }}
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+      - name: latexmk
+        uses: dante-ev/latex-action@master
+        with:
+          root_file: main.tex
+          # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
+          working_directory: '/github/workspace/tmp'
