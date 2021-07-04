@@ -37,4 +37,4 @@ First release of Markdown Architectural Decision Records.
 [0.1.1]: https://github.com/latextemplates/generator-latex-template/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/latextemplates/generator-latex-template/releases/tag/0.1.0
 
-<!-- markdownlint-disable-file MD013 MD024 -->
+<!-- markdownlint-disable-file MD013 MD024 CHANGELOG-RULE-003 -->
