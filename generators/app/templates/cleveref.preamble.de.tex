@@ -1,7 +1,11 @@
 % cleveref für cref statt autoref, da cleveref auch bei Definitionen funktioniert
-\usepackage[capitalise,nameinlink,noabbrev]{cleveref}
+\usepackage[capitalise,nameinlink<% if (documentclass != 'lncs') { %>,noabbrev<% } %>]{cleveref}
 
+<% if (documentclass == 'lncs') { -%>
+\crefname{table}{Tabelle}{Tab.}
+<% } else { -%>
 \crefname{table}{Tabelle}{Tabellen}
+<% } -%>
 \Crefname{table}{Tabelle}{Tabellen}
 \crefname{figure}{\figurename}{\figurename}
 \Crefname{figure}{Abbildung}{Abbildungen}
@@ -17,3 +21,9 @@
 \Crefname{paragraph}{Abschnitt}{Abschnitte}
 \crefname{subparagraph}{Abschnitt}{Abschnitte}
 \Crefname{subparagraph}{Abschnitt}{Abschnitte}
+<% if (listings == 'minted') { -%>
+
+% Intermediate solution for hyperlinked refs. See https://tex.stackexchange.com/q/132420/9075 for more information.
+\newcommand{\llabel}[1]{\label[line]{#1}\hypertarget{#1}{}}
+\newcommand{\lref}[1]{\hyperlink{#1}{\FancyVerbLineautorefname~\ref*{#1}}}
+<% } -%>

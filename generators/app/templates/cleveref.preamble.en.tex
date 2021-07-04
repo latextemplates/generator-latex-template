@@ -1,5 +1,18 @@
 % Extensions for references inside the document (\cref{fig:sample}, ...)
-\usepackage[capitalise,nameinlink,noabbrev]{cleveref}
+% Enable usage \cref{...} and \Cref{...} instead of \ref: Type of reference included in the link
+% That means, "Figure 5" is a full link instead of just "5".
+\usepackage[capitalise,nameinlink<% if (documentclass != 'lncs') { %>,noabbrev<% } %>]{cleveref}
 
-\crefname{listing}{Listing}{Listing}
+<% if (documentclass == 'lncs') { -%>
+\crefname{section}{Sect.}{Sect.}
+\Crefname{section}{Section}{Sections}
+\crefname{listing}{List.}{List.}
+<% } -%>
+\crefname{listing}{Listing}{Listings}
 \Crefname{listing}{Listing}{Listings}
+<% if (listings == 'minted') { -%>
+
+% Intermediate solution for hyperlinked refs. See https://tex.stackexchange.com/q/132420/9075 for more information.
+\newcommand{\llabel}[1]{\label[line]{#1}\hypertarget{#1}{}}
+\newcommand{\lref}[1]{\hyperlink{#1}{\FancyVerbLineautorefname~\ref*{#1}}}
+<% } -%>
