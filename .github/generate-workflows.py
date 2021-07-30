@@ -73,7 +73,7 @@ for documentclass in documentclasses:
         env:
           yeoman_test: true
       - name: latexmk
-        uses: dante-ev/latex-action@latest
+        uses: dante-ev/latex-action@edge
         with:
           root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
