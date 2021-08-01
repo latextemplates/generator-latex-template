@@ -38,7 +38,7 @@ for documentclass in documentclasses:
         uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: '14'
       - run: npm install
 ''')
       if (documentclass == 'lncs'):
@@ -59,7 +59,7 @@ for documentclass in documentclasses:
       yml.write("           --documentclass=%s\\\n" % documentclass)
       yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
       yml.write("           --bibtextool=%s\\\n" % bibtextool)
-      yml.write('''           --texlive=tl2019\\
+      yml.write('''           --texlive=2021\\
            --language==${{ matrix.language }}\\
            --font=${{ matrix.font }}\\
            --listings==${{ matrix.listings }}\\
@@ -73,7 +73,7 @@ for documentclass in documentclasses:
         env:
           yeoman_test: true
       - name: latexmk
-        uses: dante-ev/latex-action@master
+        uses: dante-ev/latex-action@edge
         with:
           root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)

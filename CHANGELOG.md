@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added support for passing options through the command line
-- Added special condition for TeXLive 2020 (which offers more packages)
+- Added special condition for TeXLive 2021 (which offers more packages)
 
 ### Changed
 
 - Changed filename pattern to `.preamble.en.tex`, meaning: first comes the category, then the language, then the real file extension.
+
+### Fixed
+
+- siunitx: `Error: Key 'siunitx/group-four-digits' accepts only a fixed set of choices.`
 
 ## [0.1.2] – 2020-04-29
 
