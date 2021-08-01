@@ -38,7 +38,7 @@ for documentclass in documentclasses:
         uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: '14'
       - run: npm install
 ''')
       if (documentclass == 'lncs'):
