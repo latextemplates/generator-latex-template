@@ -62,15 +62,15 @@ module.exports = class extends Generator {
         message: 'Which texlive compatiblity?',
         choices: [
           {
-            name: "TeXLive 2020 or later",
-            value: "tl2020"
+            name: "TeXLive 2021",
+            value: 2021
           },
           {
             name: "TeXLive 2019",
-            value: "tl2019"
+            value: 2019
           }
         ],
-        default: "tl2020"
+        default:  2021
       },
       {
         type: 'list',
