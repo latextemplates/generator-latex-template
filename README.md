@@ -116,7 +116,8 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 ## License
 
-The code is licensed MIT, the snippets (both LaTeX and text) [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
+The code is licensed [BSD0](https://choosealicense.com/licenses/0bsd/#), the snippets (both LaTeX and text) BSD0, too.
+See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomment-599704662), for a reasoning, why [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/) cannot be used.
 
 [hyperref]: https://ctan.org/pkg/hyperref
 [listings]: https://ctan.org/pkg/listings

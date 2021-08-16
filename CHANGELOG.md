@@ -11,10 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added support for passing options through the command line
 - Added special condition for TeXLive 2021 (which offers more packages)
+- Added number example for situnitx
 
 ### Changed
 
 - Changed filename pattern to `.preamble.en.tex`, meaning: first comes the category, then the language, then the real file extension.
+- Changed from MIT+CC0 licenses to BSD0. See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomment-866607666) for the reasoning regarding templates.
 
 ### Fixed
 
