@@ -43,10 +43,16 @@ for documentclass in documentclasses:
 ''')
       if (documentclass == 'lncs'):
         yml.write('''      - name: Create llncs.cls
+        id: createllncs
+        shell: bash
         run: |
            mkdir tmp
-           [[ $LLNCS_CLS ]] && echo "$LLNCS_CLS" > tmp/llncs.cls
-        shell: bash
+           if [ "$LLNCS_CLS" == "" ]; then
+             echo ::set-output name=lncsclspresent::false
+           else
+             echo ::set-output name=lncsclspresent::true
+             echo "$LLNCS_CLS" > tmp/llncs.cls
+           fi
         env:
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
@@ -72,13 +78,17 @@ for documentclass in documentclasses:
           ls -la
         env:
           yeoman_test: true
-      - name: latexmk
+''')
+      if (documentclass == 'lncs'):
+        yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
+      yml.write('''      - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
           root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
 ''')
-
+      if (documentclass == 'lncs'):
+        yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
 
 yml.close()
