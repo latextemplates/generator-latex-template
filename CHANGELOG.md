@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added support for passing options through the command line
 - Added special condition for TeXLive 2021 (which offers more packages)
+- Added number example for situnitx
 
 ### Changed
 
