@@ -1,4 +1,18 @@
+<% if (githubpublish)  {
+  switch (documentclass) {
+    case "lncs": -%>
+# Simplified LNCS Template
+<%  break;
+    default:  -%>
 # LaTeX Document
+<%
+    break;
+  }
+} else { -%>
+# LaTeX Document
+<% } -%>
+
+This document was created using the [latex-template generator](https://www.npmjs.com/package/generator-latex-template).
 
 Compile it using
 <% if (latexcompiler == "pdflatex")  { %>
