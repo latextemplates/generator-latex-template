@@ -359,6 +359,11 @@ module.exports = class extends Generator {
         global.props
       );
       global.fs.copyTpl(
+        global.templatePath('localSettings.yaml'),
+        global.destinationPath('localSettings.yaml'),
+        global.props
+      );
+      global.fs.copyTpl(
         global.templatePath('LICENSE'),
         global.destinationPath('LICENSE'),
         global.props
