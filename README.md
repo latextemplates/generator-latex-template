@@ -105,6 +105,11 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
 
+### Debugging
+
+A `launch.json` configured for Windows and Visual Studio Code is included.
+Just press <kbd>F5</kbd> and the generator should run in debug mode.
+
 ### Releasing a new version
 
 1. Update `CHANGELOG.md`
@@ -123,4 +128,4 @@ See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomme
 [listings]: https://ctan.org/pkg/listings
 [minted]: https://ctan.org/pkg/minted
 
-<!-- markdownlint-disable-file MD013 -->
+<!-- markdownlint-disable-file MD013 MD033 -->
