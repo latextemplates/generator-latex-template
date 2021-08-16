@@ -149,7 +149,7 @@ module.exports = class extends Generator {
             value: "minted"
           }
         ],
-        default: "pdfcomment"
+        default: "listings"
       },
       {
         type: 'confirm',
