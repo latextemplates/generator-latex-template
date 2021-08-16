@@ -355,6 +355,11 @@ module.exports = class extends Generator {
         global.destinationPath('bibliography.bib'),
         global.props
       );
+      global.fs.copyTpl(
+        global.templatePath('LICENSE'),
+        global.destinationPath('LICENSE'),
+        global.props
+      );
       if (global.props.documentclass === 'lncs') {
         global.fs.copy(
           global.templatePath('splncsnat.bst'),
