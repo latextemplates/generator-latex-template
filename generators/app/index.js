@@ -276,7 +276,7 @@ module.exports = class extends Generator {
         this.props.equote = "\"'";
       }
 
-      this.props.requiresShellEscape = (this.props.lsitings === 'minted');
+      this.props.requiresShellEscape = (this.props.listings === 'minted');
 
       this.props.isPaper = (this.props.documentclass === 'lncs');
       if (this.props.isPaper) {
