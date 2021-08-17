@@ -4,6 +4,37 @@
 It uses the \href{http://pygments.org/}{pygments} library, which in turn requires Python.
 
 <%- bexample %>
+<% if (cleveref) { %>\Cref<% } else { %>Listing~\ref<% } %>{lst:XML} shows source code written in XML.
+\lref{line:comment} contains a comment.
+
+\begin{listing}[htbp]
+    \begin{minted}[linenos=true,escapeinside=||]{xml}
+<listing name="example">
+  <!-- comment --> |\Vlabel{line:comment}|
+  <content>not interesting</content>
+</listing>
+\end{minted}
+  \caption{Example XML listing using minted}
+  \label{lst:XML}
+\end{listing}
+<%- eexample %>
+
+One can also typeset JSON as shown in <% if (cleveref) { %>\cref<% } else { %>Listing~<% } %>{lst:flJSON}.
+
+<%- bexample %>
+\begin{listing}[htbp]
+    \begin{minted}[linenos=true,escapeinside=||]{json}
+{
+  key: "value"
+}
+\end{minted}
+  \caption{Example JSON listing using minted}
+  \label{lst:flJSON}
+\end{listing}
+
+Java is also possible as shown in <% if (cleveref) { %>\cref<% } else { %>Listing~<% } %>{lst:flJava}.
+
+<%- bexample %>
 \begin{listing}[htbp]
     \begin{minted}[linenos=true,escapeinside=||]{java}
 public class Hello {
@@ -11,22 +42,8 @@ public class Hello {
         System.out.println("Hello World!");
     }
 }
-  \end{minted}
+\end{minted}
   \caption{Java code rendered using minted}
   \label{lst:java}
-\end{listing}
-<%- eexample %>
-
-<%- bexample %>
-\begin{listing}[htbp]
-  \begin{minted}[linenos=true,escapeinside=||]{xml}
-<demo>
-  <node>
-    <!-- comment --> |\Vlabel{commentline}|
-  </node>
-</demo>
-  \end{minted}
-  \caption{XML-Dokument rendered using minted}
-  \label{lst:xml}
 \end{listing}
 <%- eexample %>
