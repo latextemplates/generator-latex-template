@@ -31,7 +31,7 @@ Compile it using
 Following features are enabled in this template:
 
 <% if (documentclass == 'lncs') { -%>
-- Provides a skeletal [main.tex](main.tex) file
+- Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
 - Example to have an image being placed right to a text
 <% if (language == 'de') { -%>
 - Support for German documents (without broken headers):
@@ -218,7 +218,7 @@ The most simple solution to get more space is to exchange the font.
 Execute following command:
 
 ```shell
-latexindent -l -s -sl -w paper.tex
+latexindent -l -s -sl -w <%= filenames.main %>.tex
 ```
 
 ### Q: I want to obey the one-sentence-per-line rule. How can I do that?
@@ -226,7 +226,7 @@ latexindent -l -s -sl -w paper.tex
 Execute following command:
 
 ```shell
-latexindent -m -l -s -sl -w paper.tex
+latexindent -m -l -s -sl -w <%= filenames.main %>.tex
 ```
 
 Attention! This is work in progress and does not always produce best results.
@@ -235,7 +235,7 @@ Attention! This is work in progress and does not always produce best results.
 ### Q: Is it possible to have a footer indicating that the paper is intended to be submitted/submitted/published?
 
 Activate the `llncsconf` package.
-The possible options are listed in `main.tex`.
+The possible options are listed in `<%= filenames.main %>.tex`.
 <% } -%>
 
 ### Q: Can I also write in German?
