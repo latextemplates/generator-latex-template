@@ -278,6 +278,19 @@ module.exports = class extends Generator {
 
       this.props.requiresShellEscape = (this.props.lsitings === 'minted');
 
+      this.props.isPaper = (this.props.documentclass === 'lncs');
+      if (this.props.isPaper) {
+        this.props.filenames = {
+          "main": "paper",
+          "bib": "paper"
+        };
+      } else {
+        this.props.filenames = {
+          "main": "main",
+          "bib": "bibliography"
+        };
+      }
+
       if (props.documentclass === 'scientific-thesis') {
         this.props.heading1 = '\\chapter';
         this.props.heading2 = '\\section';
@@ -355,7 +368,7 @@ module.exports = class extends Generator {
       );
       global.fs.copyTpl(
         global.templatePath('bibliography.bib'),
-        global.destinationPath('bibliography.bib'),
+        global.destinationPath(global.props.filenames.bib + ".bib"),
         global.props
       );
       global.fs.copyTpl(
@@ -377,7 +390,7 @@ module.exports = class extends Generator {
       if (global.props.language === 'de') {
         global.fs.copyTpl(
           global.templatePath('main.de.tex'),
-          global.destinationPath('main.tex'),
+          global.destinationPath(global.props.filenames.main + ".tex"),
           global.props
         );
         global.fs.copyTpl(
@@ -388,7 +401,7 @@ module.exports = class extends Generator {
       } else {
         global.fs.copyTpl(
           global.templatePath('main.en.tex'),
-          global.destinationPath('main.tex'),
+          global.destinationPath(global.props.filenames.main + ".tex"),
           global.props
         );
         global.fs.copyTpl(
