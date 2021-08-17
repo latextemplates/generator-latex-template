@@ -38,33 +38,37 @@ Following features are enabled in this template:
   Contains a fix to increase compatibility with Babel.
   See <https://tex.stackexchange.com/a/441701/9075> for details.
 <% } -%>
-<% if (cleveref) { -%>
-- Automatic setting of "Fig." and "Section"/"Sect." according to the LNCS style.
+<% if (cleveref || githubpublish) { -%>
+- <% if (githubpublish) { -%>(Optional) <% } %>Automatic setting of "Fig." and "Section"/"Sect." according to the LNCS style.
   Just use `\Cref{sec:xy}` at the beginning of a sentence and `\cref{sec:xy}` in the middle of a sentence.
   Thanx to [cleveref].
 <% } -%>
-<% if (font == "default") { -%>
+<% if (font == "default" || githubpublish) { -%>
 - Sharper font (still compatible with Springer's requirements).
 <% } -%>
 <% } -%>
-<% if (listings == "minted") { -%>
-- Typesetting of listings using advanced highlighting powered by the [minted] package.
+<% if (listings == "minted" || githubpublish) { -%>
+- <% if (githubpublish) { -%>(Optional) <% } %>Typesetting of listings using advanced highlighting powered by the [minted] package.
 <% } -%>
-<% if (latexcompiler == "pdflatex") { -%>
+<% if (latexcompiler == "pdflatex" || githubpublish) { -%>
 - Generated PDF allows for copy and paste of text without getting words with ligatures such as "workflow" destroyed.
   This is enabled by `glyphtounicode`, which encodes ligatures (such as fl) using unicode characters.
 <% } -%>
 - Support of hyperlinked references without extra color thanx to [hyperref].
 - Better breaking of long URLs.
 - Support for `\powerset` command.
-<% if (todo == "pdfcomment") { -%>
-- Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
+<% if (todo == "pdfcomment" || githubpublish) { -%>
+- <% if (githubpublish) { -%>(Optional) <% } %>Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
 <% } -%>
 - [microtypographic extensions](https://www.ctan.org/pkg/microtype) for a better look of the paper.
-- Modern packages such as [microtype]<% if (cleveref) { %>, [cleveref]<% } %><% if (enquotes == "csquotes") { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
+- Modern packages such as [microtype]<% if (cleveref || githubpublish) { %>, [cleveref]<% } %><% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
+<% if (latexcompiler == "lualatex") { -%>
+- <% if (githubpublish) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
+<% } -%>
 - Ready-to-go configuration for [latexindent].
 
-## Disabled Features
+<% if (!githubpublish) { -%>
+## Disabled features
 
 Following features were not activated for this template.
 You can rerun the latex-template generator to enable the features.
@@ -88,16 +92,18 @@ You can rerun the latex-template generator to enable the features.
 <% if (todo == "none") { missingFeatures = true; -%>
 - Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
 <% } -%>
+<% if (!cleveref || enquotes == "plainlatex") { -%>
 - Modern packages such as <% if (!cleveref) { missingFeatures = true; %>, [cleveref]<% } %><% if (enquotes == "plainlatex") { missingFeatures = true; %>, [csquotes]<% } %>.
+<% } -%>
 <% if (latexcompiler != "lualatex") { -%>
 - LaTeX compilation using the modern lualatex compiler.
 <% } -%>
-
 <% if (!missingFeatures) { -%>
 Congratulations. You chose to use all available features.
 
 <% } -%>
-<% if (githubpublish)  {
+<% } -%>
+<% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
 ## Examples
@@ -159,7 +165,6 @@ MiKTeX installation hints are given at <http://latextemplates.github.io/scientif
   Note that it is enough to point to `languagetool.jar`.
   **If TeXstudio doesn't fit your need, check [the list of all available LaTeX Editors](http://tex.stackexchange.com/questions/339/latex-editors-ides).**
 - Use [JabRef] to manage your bibliography (Windows: `choco install jabref`).
-
 <% if (listings == "minted") { -%>
 To have minted running properly, you have to do following steps on Windows:
 
@@ -194,7 +199,6 @@ Please use the latest version offered by Springer.
 
 After that you can use and push the `main` branch as usual.
 Notes on syncing with the upstream repository [are available from GitHub](https://help.github.com/articles/syncing-a-fork/).
-
 <% } -%>
 
 ### Q: I get the error  `! pdfTeX error (font expansion): auto expansion is only possible with scalable fonts.`
@@ -217,17 +221,13 @@ The most simple solution to get more space is to exchange the font.
 
 Execute following command:
 
-```shell
-latexindent -l -s -sl -w <%= filenames.main %>.tex
-```
+    latexindent -l -s -sl -w <%= filenames.main %>.tex
 
 ### Q: I want to obey the one-sentence-per-line rule. How can I do that?
 
 Execute following command:
 
-```shell
-latexindent -m -l -s -sl -w <%= filenames.main %>.tex
-```
+    latexindent -m -l -s -sl -w <%= filenames.main %>.tex
 
 Attention! This is work in progress and does not always produce best results.
 <% if (documentclass == 'lncs') { -%>
