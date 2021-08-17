@@ -99,9 +99,9 @@ for documentclass in documentclasses:
           working_directory: '/github/workspace/tmp'
 ''')
       if (documentclass == 'lncs'):
-        yml.write("          root_file: main.tex\n")
+        yml.write("          root_file: paper.tex\n")
         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
       else:
-        yml.write("          root_file: paper.tex\n")
+        yml.write("          root_file: main.tex\n")
 
 yml.close()
