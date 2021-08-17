@@ -3,33 +3,79 @@
 <%- bexample %>
 <% if (cleveref) { -%>
 \Cref{lst:XML} zeigt XML-Quelltext.
+\Cref{line:comment} enthält einen Kommentar.
 <% } else { -%>
 Listing~\ref{fig:label} zeigt XML-Quelltext.
+Zeile~\ref{line:comment} enthält einen Kommentar.
 <% } -%>
 
 \begin{lstlisting}[
   language=XML,
   caption={Beispiel-XML-Listing},
   label={lst:XML}]
-<listing name="first sample">
-  <!-- comment -->
+<listing name="example">
+  <!-- comment --> (* \label{line:comment} *)
   <content>not interesting</content>
 </listing>
 \end{lstlisting}
 <%- eexample %>
 
-Der zusätzliche Paramter \verb+float+ führt dazu, dass das Listing auch floatet.
+Der zusätzliche Paramter \verb+float+ führt dazu, dass das Listing auch floated.
+<% if (cleveref) { -%>
+\Cref{lst:flXML} zeigt das gleitendede Listing.
+<% } else { -%>
+Listing~\ref{lst:flXML} zeigt das gleitendede Listing.
+<% } -%>
 
-One can also typeset JSON as shown in <% if (cleveref) { %>\cref<% } else { %>Listing~<% } %>{lst:flJSON}.
+<%- bexample %>
+\begin{lstlisting}[
+  % Es ist möglcih, die Abstände bei Bedarf einzustellen
+  % aboveskip=2.5\baselineskip,
+  % belowskip=-.8\baselineskip,
+  float,
+  language=XML,
+  caption={Beispiel-XML-Listing -- gleitend},
+  label={lst:flXML}]
+<listing name="example">
+  Floating
+</listing>
+\end{lstlisting}
+<%- eexample %>
+
+<% if (cleveref) { -%>
+Es ist möglich auch JSON zu setzen, wie in \cref{lst:json} gezeigt.
+<% } else { -%>
+Es ist möglich auch JSON zu setzen, wie in Listing~\ref{lst:json} gezeigt.
+<% } -%>
 
 <%- bexample %>
 \begin{lstlisting}[
   float,
   language=json,
-  caption={Example JSON Listing -- placed as floating figure},
-  label={lst:flJSN}]
+  caption={Beispiel-JSON-listing},
+  label={lst:json}]
 {
   key: "value"
+}
+\end{lstlisting}
+<%- eexample %>
+
+<% if (cleveref) { -%>
+Java ist auch möglich -- \cref{lst:java}.
+<% } else { -%>
+Java ist auch möglich -- Listing~\ref{lst:java}.
+<% } -%>
+
+<%- bexample %>
+\begin{lstlisting}[
+  caption={Example Java listing},
+  label=lst:java,
+  language=Java,
+  float]
+public class Hello {
+    public static void main (String[] args) {
+        System.out.println("Hello World!");
+    }
 }
 \end{lstlisting}
 <%- eexample %>
