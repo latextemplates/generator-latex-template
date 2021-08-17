@@ -79,7 +79,20 @@ for documentclass in documentclasses:
 ''')
       if (documentclass == 'lncs'):
         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
-      yml.write('''      - name: latexmk
+      yml.write('''      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.x'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
+        if: ${{ matrix.listings == 'minted' }}
+      - name: Install pygments
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygments
+        if: ${{ matrix.listings == 'minted' }}
+      - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
