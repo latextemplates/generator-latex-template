@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added special condition for TeXLive 2021 (which offers more packages)
 - Added number example for situnitx
 - Added switch `--githubpublish` to enable generating `README.md` for repositories hosted at <https://github.com/latextemplates>.
+- Added support for [minted](https://ctan.org/pkg/minted)
 
 ### Changed
 
