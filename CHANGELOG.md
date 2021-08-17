@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added switch `--githubpublish` to enable generating `README.md` for repositories hosted at <https://github.com/latextemplates>.
 - Added support for [minted](https://ctan.org/pkg/minted)
 - `.editorconfig` is now generated
+- For development, `launch.json` is added
 
 ### Changed
 
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - siunitx: `Error: Key 'siunitx/group-four-digits' accepts only a fixed set of choices.`
+- Development: Fixed GitHub actions to really cover German as check
 
 ## [0.1.2] – 2020-04-29
 
