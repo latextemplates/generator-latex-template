@@ -249,8 +249,12 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
-      // Command line argument "-githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
+      // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
       this.props.githubpublish = this.params.options.githubpublish;
+
+      // convert "String" Boolean command line options
+      this.props.cleveref = (this.props.cleveref === true) || (this.props.cleveref === 'true')
+      this.props.examples = (this.props.examples === true) || (this.props.examples === 'true')
 
       if (this.props.examples) {
         this.props.useExampleEnvironment = true;
