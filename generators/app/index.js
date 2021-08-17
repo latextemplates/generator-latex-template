@@ -402,11 +402,14 @@ module.exports = class extends Generator {
           global.destinationPath(global.props.filenames.main + ".tex"),
           global.props
         );
-        global.fs.copyTpl(
-          global.templatePath('README.de.md'),
-          global.destinationPath('README.md'),
-          global.props
-        );
+        if (!global.props.githubpublish) {
+          // we keep the English README.md in case of GitHub publish
+          global.fs.copyTpl(
+            global.templatePath('README.de.md'),
+            global.destinationPath('README.md'),
+            global.props
+          );
+        }
       } else {
         global.fs.copyTpl(
           global.templatePath('main.en.tex'),
