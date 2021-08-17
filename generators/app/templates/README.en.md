@@ -166,6 +166,7 @@ MiKTeX installation hints are given at <http://latextemplates.github.io/scientif
   **If TeXstudio doesn't fit your need, check [the list of all available LaTeX Editors](http://tex.stackexchange.com/questions/339/latex-editors-ides).**
 - Use [JabRef] to manage your bibliography (Windows: `choco install jabref`).
 <% if (listings == "minted") { -%>
+
 To have minted running properly, you have to do following steps on Windows:
 
 1. Install python: `choco install python` - that uses [chocolatey](https://chocolatey.org/) to install Python
