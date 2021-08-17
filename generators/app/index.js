@@ -362,6 +362,11 @@ module.exports = class extends Generator {
         global.destinationPath('.gitignore')
       );
       global.fs.copyTpl(
+        global.templatePath('dot.editorconfig'),
+        global.destinationPath('.editorconfig'),
+        global.props
+      );
+      global.fs.copyTpl(
         global.templatePath('dot.latexmkrc'),
         global.destinationPath('.latexmkrc'),
         global.props
