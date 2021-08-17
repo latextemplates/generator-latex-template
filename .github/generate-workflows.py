@@ -74,8 +74,6 @@ for documentclass in documentclasses:
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\\
            --todo=${{ matrix.todo }}\\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
 ''')
@@ -84,11 +82,13 @@ for documentclass in documentclasses:
       yml.write('''      - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
 ''')
       if (documentclass == 'lncs'):
+        yml.write("          root_file: main.tex\n")
         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
+      else:
+        yml.write("          root_file: paper.tex\n")
 
 yml.close()

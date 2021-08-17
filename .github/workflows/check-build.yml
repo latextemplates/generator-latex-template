@@ -55,17 +55,15 @@ jobs:
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\
            --todo=${{ matrix.todo }}\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
         if: ${{ steps.createllncs.outputs.lncsclspresent }}
       - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
+          root_file: main.tex
         if: ${{ steps.createllncs.outputs.lncsclspresent }}
   lncs-lualatex-bibtex:
     runs-on: ubuntu-latest
@@ -121,17 +119,15 @@ jobs:
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\
            --todo=${{ matrix.todo }}\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
         if: ${{ steps.createllncs.outputs.lncsclspresent }}
       - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
+          root_file: main.tex
         if: ${{ steps.createllncs.outputs.lncsclspresent }}
   scientific-thesis-pdflatex-bibtex:
     runs-on: ubuntu-latest
@@ -174,16 +170,14 @@ jobs:
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\
            --todo=${{ matrix.todo }}\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
       - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
+          root_file: paper.tex
   scientific-thesis-lualatex-bibtex:
     runs-on: ubuntu-latest
     strategy:
@@ -225,13 +219,11 @@ jobs:
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\
            --todo=${{ matrix.todo }}\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
       - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
+          root_file: paper.tex
