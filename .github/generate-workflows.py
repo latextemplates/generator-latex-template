@@ -1,7 +1,20 @@
 documentclasses = ['lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
+
 # bibtextools = ['bibtex', 'biblatex']
 bibtextools = ['bibtex']
+
+languages = ['en', 'de']
+
+# "arial" not available on linux
+fonts = ['default', 'times']
+
+listings = ['listings', 'minted']
+cleverefs = ['true', 'false']
+enquotes = ['csquotes', 'plainlatex']
+tweak_outerquotes = ['babel', 'outerquote']
+todos = ['pdfcomment', 'none']
+examples = ['true', 'false']
 
 yml = open("workflows/check-build.yml", "w+")
 
@@ -18,17 +31,6 @@ for documentclass in documentclasses:
         continue
       yml.write("  %s-%s-%s:\n" % (documentclass, latexcompiler, bibtextool))
       yml.write('''    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        language: [en, de]
-        # "arial" not available on linux
-        font: [default, times]
-        listings: [listings, minted]
-        cleveref: [true, false]
-        enquotes: [csquotes, plainlatex]
-        tweak_outerquote: [babel, outerquote]
-        todo: [pdfcomment, none]
-        examples: [true, false]
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.8.0
@@ -56,29 +58,6 @@ for documentclass in documentclasses:
         env:
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
-      yml.write('''      - name: Generate template
-        run: |
-          mkdir -p tmp
-          cd tmp
-          npx yo $GITHUB_WORKSPACE\\
-''')
-      yml.write("           --documentclass=%s\\\n" % documentclass)
-      yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
-      yml.write("           --bibtextool=%s\\\n" % bibtextool)
-      yml.write('''           --texlive=2021\\
-           --language=${{ matrix.language }}\\
-           --font=${{ matrix.font }}\\
-           --listings=${{ matrix.listings }}\\
-           --cleveref=${{ matrix.cleveref }}\\
-           --enquotes=${{ matrix.enquotes }}\\
-           --tweak_outerquote=${{ matrix.tweak_outerquote }}\\
-           --todo=${{ matrix.todo }}\\
-           --examples=${{ matrix.examples }}
-        env:
-          yeoman_test: true
-''')
-      if (documentclass == 'lncs'):
-        yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
       yml.write('''      - name: Set up Python 3.x
         uses: actions/setup-python@v2
         with:
@@ -86,22 +65,54 @@ for documentclass in documentclasses:
           python-version: '3.x'
           # Optional - x64 or x86 architecture, defaults to x64
           architecture: 'x64'
-        if: ${{ matrix.listings == 'minted' }}
       - name: Install pygments
         run: |
           python -m pip install --upgrade pip
           pip install pygments
-        if: ${{ matrix.listings == 'minted' }}
-      - name: latexmk
-        uses: dante-ev/latex-action@edge
+''')
+      for language in languages:
+        for font in fonts:
+          for listing in listings:
+            for cleveref in cleverefs:
+              for enquote in enquotes:
+                for tweak_outerquote in tweak_outerquotes:
+                  for todo in todos:
+                    for example in examples:
+                      variantName = "{}_{}_{}_{}_{}_{}_{}\n".format(language, listing, cleveref, enquote, tweak_outerquote, todo, example)
+                      yml.write("      - name: Create {}".format(variantName))
+                      yml.write('''        run: |
+          mkdir -p tmp
+          cd tmp
+          npx yo $GITHUB_WORKSPACE\\
+''')
+                      yml.write("           --documentclass=%s\\\n" % documentclass)
+                      yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
+                      yml.write("           --bibtextool=%s\\\n" % bibtextool)
+                      yml.write("           --texlive=2021\\\n")
+                      yml.write("           --language=%s\\\n" % language)
+                      yml.write("           --font=%s\\\n" % font)
+                      yml.write("           --listings=%s\\\n" % listing)
+                      yml.write("           --cleveref=%s\\\n" % cleveref)
+                      yml.write("           --enquotes=%s\\\n" % enquote)
+                      yml.write("           --tweak_outerquote=%s\\\n" % tweak_outerquote)
+                      yml.write("           --todo=%s\\\n" % todo)
+                      yml.write("           --examples=%s\n" % example)
+                      yml.write('''        env:
+          yeoman_test: true
+''')
+                      if (documentclass == 'lncs'):
+                        yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
+                      yml.write("      - name: latexmk {}".format(variantName))
+                      yml.write('''        uses: dante-ev/latex-action@edge
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
+          # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/8 for details
           working_directory: '/github/workspace/tmp'
 ''')
-      if (documentclass == 'lncs'):
-        yml.write("          root_file: paper.tex\n")
-        yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
-      else:
-        yml.write("          root_file: main.tex\n")
+                      if (documentclass == 'lncs'):
+                        yml.write("          root_file: paper.tex\n")
+                        yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
+                      else:
+                        yml.write("          root_file: main.tex\n")
 
 yml.close()
