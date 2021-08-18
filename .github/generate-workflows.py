@@ -25,7 +25,7 @@ for documentclass in documentclasses:
       yml.write("name: Check {}-{}-{}\n".format(documentclass, latexcompiler, bibtextool))
       yml.write("on: [push]\n")
       yml.write("jobs:\n")
-      yml.write("  %s-%s-%s:\n" % (documentclass, latexcompiler, bibtextool))
+      yml.write("  check:\n")
       yml.write('''    runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
