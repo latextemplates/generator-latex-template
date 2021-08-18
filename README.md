@@ -79,7 +79,7 @@ You can use the magic of `git` to prevent that:
 - [x] Create directory structure
 - [ ] Sort in examples from the [scientific-thesis-template](http://latextemplates.github.io/scientific-thesis-template/)
 - [ ] Have scientific-thesis-template generated completely.
-- [ ] Have LNCS generated completely.
+- [x] Have LNCS generated completely.
 - [ ] Have [uni-stuttgart-dissertation-template](https://github.com/latextemplates/uni-stuttgart-dissertation-template) generated automatically.
 
 In the long run, the contents of the `paper.tex` (and similar) files in repositories of the [latextemplates](https://latextemplates.github.io/) organization should be generated automatically.
@@ -105,6 +105,11 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
 
+### Debugging
+
+A `launch.json` configured for Windows and Visual Studio Code is included.
+Just press <kbd>F5</kbd> and the generator should run in debug mode.
+
 ### Releasing a new version
 
 1. Update `CHANGELOG.md`
@@ -116,11 +121,11 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 ## License
 
-The code is licensed [BSD0](https://choosealicense.com/licenses/0bsd/#), the snippets (both LaTeX and text) BSD0, too.
+The code is licensed [0BSD](https://choosealicense.com/licenses/0bsd/#), the snippets (both LaTeX and text) 0BSD, too.
 See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomment-599704662), for a reasoning, why [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/) cannot be used.
 
 [hyperref]: https://ctan.org/pkg/hyperref
 [listings]: https://ctan.org/pkg/listings
 [minted]: https://ctan.org/pkg/minted
 
-<!-- markdownlint-disable-file MD013 -->
+<!-- markdownlint-disable-file MD013 MD033 -->

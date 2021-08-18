@@ -47,25 +47,36 @@ jobs:
            --latexcompiler=pdflatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --language==${{ matrix.language }}\
+           --language=${{ matrix.language }}\
            --font=${{ matrix.font }}\
-           --listings==${{ matrix.listings }}\
+           --listings=${{ matrix.listings }}\
            --cleveref=${{ matrix.cleveref }}\
            --enquotes=${{ matrix.enquotes }}\
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\
            --todo=${{ matrix.todo }}\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
         if: ${{ steps.createllncs.outputs.lncsclspresent }}
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.x'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
+        if: ${{ matrix.listings == 'minted' }}
+      - name: Install pygments
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygments
+        if: ${{ matrix.listings == 'minted' }}
       - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
+          root_file: paper.tex
         if: ${{ steps.createllncs.outputs.lncsclspresent }}
   lncs-lualatex-bibtex:
     runs-on: ubuntu-latest
@@ -113,25 +124,36 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --language==${{ matrix.language }}\
+           --language=${{ matrix.language }}\
            --font=${{ matrix.font }}\
-           --listings==${{ matrix.listings }}\
+           --listings=${{ matrix.listings }}\
            --cleveref=${{ matrix.cleveref }}\
            --enquotes=${{ matrix.enquotes }}\
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\
            --todo=${{ matrix.todo }}\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
         if: ${{ steps.createllncs.outputs.lncsclspresent }}
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.x'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
+        if: ${{ matrix.listings == 'minted' }}
+      - name: Install pygments
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygments
+        if: ${{ matrix.listings == 'minted' }}
       - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
+          root_file: paper.tex
         if: ${{ steps.createllncs.outputs.lncsclspresent }}
   scientific-thesis-pdflatex-bibtex:
     runs-on: ubuntu-latest
@@ -166,24 +188,35 @@ jobs:
            --latexcompiler=pdflatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --language==${{ matrix.language }}\
+           --language=${{ matrix.language }}\
            --font=${{ matrix.font }}\
-           --listings==${{ matrix.listings }}\
+           --listings=${{ matrix.listings }}\
            --cleveref=${{ matrix.cleveref }}\
            --enquotes=${{ matrix.enquotes }}\
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\
            --todo=${{ matrix.todo }}\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.x'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
+        if: ${{ matrix.listings == 'minted' }}
+      - name: Install pygments
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygments
+        if: ${{ matrix.listings == 'minted' }}
       - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
+          root_file: main.tex
   scientific-thesis-lualatex-bibtex:
     runs-on: ubuntu-latest
     strategy:
@@ -217,21 +250,32 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --language==${{ matrix.language }}\
+           --language=${{ matrix.language }}\
            --font=${{ matrix.font }}\
-           --listings==${{ matrix.listings }}\
+           --listings=${{ matrix.listings }}\
            --cleveref=${{ matrix.cleveref }}\
            --enquotes=${{ matrix.enquotes }}\
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\
            --todo=${{ matrix.todo }}\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.x'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
+        if: ${{ matrix.listings == 'minted' }}
+      - name: Install pygments
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygments
+        if: ${{ matrix.listings == 'minted' }}
       - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
+          root_file: main.tex

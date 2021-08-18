@@ -149,7 +149,7 @@ module.exports = class extends Generator {
             value: "minted"
           }
         ],
-        default: "pdfcomment"
+        default: "listings"
       },
       {
         type: 'confirm',
@@ -249,6 +249,13 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
+      // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
+      this.props.githubpublish = this.params.options.githubpublish;
+
+      // convert "String" Boolean command line options
+      this.props.cleveref = (this.props.cleveref === true) || (this.props.cleveref === 'true')
+      this.props.examples = (this.props.examples === true) || (this.props.examples === 'true')
+
       if (this.props.examples) {
         this.props.useExampleEnvironment = true;
         this.props.bexample = "\\begin{ltgexample}"
@@ -273,7 +280,20 @@ module.exports = class extends Generator {
         this.props.equote = "\"'";
       }
 
-      this.props.requiresShellEscape = (this.props.lsitings === 'minted');
+      this.props.requiresShellEscape = (this.props.listings === 'minted');
+
+      this.props.isPaper = (this.props.documentclass === 'lncs');
+      if (this.props.isPaper) {
+        this.props.filenames = {
+          "main": "paper",
+          "bib": "paper"
+        };
+      } else {
+        this.props.filenames = {
+          "main": "main",
+          "bib": "bibliography"
+        };
+      }
 
       if (props.documentclass === 'scientific-thesis') {
         this.props.heading1 = '\\chapter';
@@ -346,13 +366,23 @@ module.exports = class extends Generator {
         global.destinationPath('.gitignore')
       );
       global.fs.copyTpl(
+        global.templatePath('dot.editorconfig'),
+        global.destinationPath('.editorconfig'),
+        global.props
+      );
+      global.fs.copyTpl(
         global.templatePath('dot.latexmkrc'),
         global.destinationPath('.latexmkrc'),
         global.props
       );
       global.fs.copyTpl(
         global.templatePath('bibliography.bib'),
-        global.destinationPath('bibliography.bib'),
+        global.destinationPath(global.props.filenames.bib + ".bib"),
+        global.props
+      );
+      global.fs.copyTpl(
+        global.templatePath('localSettings.yaml'),
+        global.destinationPath('localSettings.yaml'),
         global.props
       );
       global.fs.copyTpl(
@@ -369,18 +399,21 @@ module.exports = class extends Generator {
       if (global.props.language === 'de') {
         global.fs.copyTpl(
           global.templatePath('main.de.tex'),
-          global.destinationPath('main.tex'),
+          global.destinationPath(global.props.filenames.main + ".tex"),
           global.props
         );
-        global.fs.copyTpl(
-          global.templatePath('README.de.md'),
-          global.destinationPath('README.md'),
-          global.props
-        );
+        if (!global.props.githubpublish) {
+          // we keep the English README.md in case of GitHub publish
+          global.fs.copyTpl(
+            global.templatePath('README.de.md'),
+            global.destinationPath('README.md'),
+            global.props
+          );
+        }
       } else {
         global.fs.copyTpl(
           global.templatePath('main.en.tex'),
-          global.destinationPath('main.tex'),
+          global.destinationPath(global.props.filenames.main + ".tex"),
           global.props
         );
         global.fs.copyTpl(

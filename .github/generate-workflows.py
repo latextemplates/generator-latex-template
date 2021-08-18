@@ -66,29 +66,42 @@ for documentclass in documentclasses:
       yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
       yml.write("           --bibtextool=%s\\\n" % bibtextool)
       yml.write('''           --texlive=2021\\
-           --language==${{ matrix.language }}\\
+           --language=${{ matrix.language }}\\
            --font=${{ matrix.font }}\\
-           --listings==${{ matrix.listings }}\\
+           --listings=${{ matrix.listings }}\\
            --cleveref=${{ matrix.cleveref }}\\
            --enquotes=${{ matrix.enquotes }}\\
            --tweak_outerquote=${{ matrix.tweak_outerquote }}\\
            --todo=${{ matrix.todo }}\\
            --examples=${{ matrix.examples }}
-          pwd
-          ls -la
         env:
           yeoman_test: true
 ''')
       if (documentclass == 'lncs'):
         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
-      yml.write('''      - name: latexmk
+      yml.write('''      - name: Set up Python 3.x
+        uses: actions/setup-python@v2
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.x'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
+        if: ${{ matrix.listings == 'minted' }}
+      - name: Install pygments
+        run: |
+          python -m pip install --upgrade pip
+          pip install pygments
+        if: ${{ matrix.listings == 'minted' }}
+      - name: latexmk
         uses: dante-ev/latex-action@edge
         with:
-          root_file: main.tex
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           working_directory: '/github/workspace/tmp'
 ''')
       if (documentclass == 'lncs'):
+        yml.write("          root_file: paper.tex\n")
         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
+      else:
+        yml.write("          root_file: main.tex\n")
 
 yml.close()
