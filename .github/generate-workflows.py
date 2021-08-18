@@ -22,7 +22,7 @@ for documentclass in documentclasses:
       if (documentclass == 'lncs') and (bibtextool == 'biblatex'):
         continue
       yml = open("workflows/check-{}-{}-{}.yml".format(documentclass, latexcompiler, bibtextool), "w+")
-      yml.write("name: Check {}\n".format(documentclass))
+      yml.write("name: Check {}-{}-{}\n".format(documentclass, latexcompiler, bibtextool))
       yml.write("on: [push]\n")
       yml.write("jobs:\n")
       yml.write("  %s-%s-%s:\n" % (documentclass, latexcompiler, bibtextool))
