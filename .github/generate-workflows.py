@@ -17,15 +17,14 @@ todos = ['pdfcomment', 'none']
 examples = ['true', 'false']
 
 for documentclass in documentclasses:
-  yml = open("workflows/check-{}.yml".format(documentclass), "w+")
-  yml.write("name: Check {}\n".format(documentclass))
-  yml.write("on: [push]\n")
-  yml.write("jobs:\n")
-
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
       if (documentclass == 'lncs') and (bibtextool == 'biblatex'):
         continue
+      yml = open("workflows/check-{}-{}-{}.yml".format(documentclass, latexcompiler, bibtextool), "w+")
+      yml.write("name: Check {}\n".format(documentclass))
+      yml.write("on: [push]\n")
+      yml.write("jobs:\n")
       yml.write("  %s-%s-%s:\n" % (documentclass, latexcompiler, bibtextool))
       yml.write('''    runs-on: ubuntu-latest
     steps:
@@ -111,4 +110,4 @@ for documentclass in documentclasses:
                         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
                       else:
                         yml.write("          root_file: main.tex\n")
-  yml.close()
+      yml.close()
