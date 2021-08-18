@@ -16,15 +16,12 @@ tweak_outerquotes = ['babel', 'outerquote']
 todos = ['pdfcomment', 'none']
 examples = ['true', 'false']
 
-yml = open("workflows/check-build.yml", "w+")
-
-yml.write('''name: Check Build
-on: [push]
-jobs:
-''')
-
-
 for documentclass in documentclasses:
+  yml = open("workflows/check-{}.yml".format(documentclass), "w+")
+  yml.write("name: Check {}\n".format(documentclass))
+  yml.write("on: [push]\n")
+  yml.write("jobs:\n")
+
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
       if (documentclass == 'lncs') and (bibtextool == 'biblatex'):
@@ -78,7 +75,7 @@ for documentclass in documentclasses:
                 for tweak_outerquote in tweak_outerquotes:
                   for todo in todos:
                     for example in examples:
-                      variantName = "{}_{}_{}_{}_{}_{}_{}\n".format(language, listing, cleveref, enquote, tweak_outerquote, todo, example)
+                      variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}\n".format(documentclass, latexcompiler, bibtextool, language, listing, cleveref, enquote, tweak_outerquote, todo, example)
                       yml.write("      - name: Create {}".format(variantName))
                       yml.write('''        run: |
           mkdir -p tmp
@@ -114,5 +111,4 @@ for documentclass in documentclasses:
                         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
                       else:
                         yml.write("          root_file: main.tex\n")
-
-yml.close()
+  yml.close()
