@@ -132,6 +132,10 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 A `launch.json` configured for Windows and Visual Studio Code is included.
 Just press <kbd>F5</kbd> and the generator should run in debug mode.
 
+```terminal
+ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generators\app\templates\main.en.tex
+```
+
 ### Releasing a new version
 
 1. Update `CHANGELOG.md`
