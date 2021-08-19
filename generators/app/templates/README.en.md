@@ -165,7 +165,7 @@ MiKTeX installation hints are given at <http://latextemplates.github.io/scientif
   Note that it is enough to point to `languagetool.jar`.
   **If TeXstudio doesn't fit your need, check [the list of all available LaTeX Editors](http://tex.stackexchange.com/questions/339/latex-editors-ides).**
 - Use [JabRef] to manage your bibliography (Windows: `choco install jabref`).
-<% if (listings == "minted") { -%>
+<% if (listings == "minted" || githubpublish) { -%>
 
 To have minted running properly, you have to do following steps on Windows:
 
