@@ -72,8 +72,6 @@ for documentclass in documentclasses:
                       yml.write("      - run: mkdir {}\n".format(variantName))
                       yml.write("      - name: Create {}\n".format(variantName))
                       yml.write('''        run: |
-          mkdir -p tmp
-          cd tmp
           echo "$LLNCS_CLS" > llncs.cls
           npx yo $GITHUB_WORKSPACE\\
 ''')
