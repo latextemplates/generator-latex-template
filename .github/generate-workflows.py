@@ -68,7 +68,7 @@ for documentclass in documentclasses:
                 for tweak_outerquote in tweak_outerquotes:
                   for todo in todos:
                     for example in examples:
-                      variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, language, listing, cleveref, enquote, tweak_outerquote, todo, example)
+                      variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, language, font, listing, cleveref, enquote, tweak_outerquote, todo, example)
                       yml.write("      - run: mkdir {}\n".format(variantName))
                       yml.write("      - name: Create {}\n".format(variantName))
                       yml.write('''        run: |
