@@ -18,11 +18,11 @@ This document was created using the [latex-template generator](https://www.npmjs
 
 Compile it using
 <% if (latexcompiler == "pdflatex")  { %>
-    pdflatex main
+    pdflatex <%= filenames.main %>
 <%
 } else {
 %>
-    lualatex main
+    lualatex <%= filenames.main %>
 <%
 }
 %>
@@ -31,7 +31,7 @@ Compile it using
 Following features are enabled in this template:
 
 <% if (documentclass == 'lncs') { -%>
-- Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
+- Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/LNCS/<% } %><%= filenames.main %>.tex) file
 - Example to have an image being placed right to a text
 <% if (language == 'de') { -%>
 - Support for German documents (without broken headers):
