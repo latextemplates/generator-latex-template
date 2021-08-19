@@ -38,23 +38,7 @@ for documentclass in documentclasses:
         with:
           node-version: '14'
       - run: npm install
-''')
-      if (documentclass == 'lncs'):
-        yml.write('''      - name: Create llncs.cls
-        id: createllncs
-        shell: bash
-        run: |
-           mkdir tmp
-           if [ "$LLNCS_CLS" == "" ]; then
-             echo ::set-output name=lncsclspresent::false
-           else
-             echo ::set-output name=lncsclspresent::true
-             echo "$LLNCS_CLS" > tmp/llncs.cls
-           fi
-        env:
-          LLNCS_CLS: ${{secrets.LLNCS_CLS}}
-''')
-      yml.write('''      - name: Set up Python 3.x
+      - name: Set up Python 3.x
         uses: actions/setup-python@v2
         with:
           # Semantic version range syntax or exact version of a Python version
@@ -65,6 +49,16 @@ for documentclass in documentclasses:
         run: |
           python -m pip install --upgrade pip
           pip install pygments
+      - id: lncsclspresent
+        shell: bash
+        run: |
+           if [ "$LLNCS_CLS" == "" ]; then
+             echo ::set-output name=lncsclspresent::false
+           else
+             echo ::set-output name=lncsclspresent::true
+           fi
+        env:
+          LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
       for language in languages:
         for font in fonts:
@@ -80,6 +74,7 @@ for documentclass in documentclasses:
                       yml.write('''        run: |
           mkdir -p tmp
           cd tmp
+          echo "$LLNCS_CLS" > llncs.cls
           npx yo $GITHUB_WORKSPACE\\
 ''')
                       yml.write("           --documentclass=%s\\\n" % documentclass)
@@ -98,7 +93,7 @@ for documentclass in documentclasses:
           yeoman_test: true
 ''')
                       if (documentclass == 'lncs'):
-                        yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
+                        yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                       yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                       yml.write("      - name: latexmk {}\n".format(variantName))
                       yml.write('''        uses: dante-ev/latex-action@edge
@@ -109,7 +104,7 @@ for documentclass in documentclasses:
                       yml.write("          working_directory: '/github/workspace/{}'\n".format(variantName))
                       if (documentclass == 'lncs'):
                         yml.write("          root_file: paper.tex\n")
-                        yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
+                        yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                       else:
                         yml.write("          root_file: main.tex\n")
       yml.close()
