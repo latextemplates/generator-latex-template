@@ -99,7 +99,7 @@ for documentclass in documentclasses:
 ''')
                       if (documentclass == 'lncs'):
                         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
-                      yml.write("        working_directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
+                      yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                       yml.write("      - name: latexmk {}\n".format(variantName))
                       yml.write('''        uses: dante-ev/latex-action@edge
         with:
