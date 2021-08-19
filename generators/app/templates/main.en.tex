@@ -193,7 +193,8 @@
 <% } -%>
 
 \begin{document}
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) {
+  case "lncs": -%>
 
 \title{Paper Title}
 % If Title is too long, use \titlerunning
@@ -246,10 +247,14 @@ Finally, a conclusion is drawn and outlook on future work is made (<% if (clever
 
 Winery~\cite{Winery} is a graphical \commentontext{modeling}{modeling with one ``l'', because of AE} tool.
 The whole idea of TOSCA is explained by <% if (available.citet) { %>\citet<% } else { %>Binz et al.~\cite<% } %>{Binz2009}.
-<% } -%>
+<%  break;
+default:  -%>
+\lipsum[1]
+<%
+break;
+} -%>
 
 <% if (examples) { -%>
-
 <%= heading1 %>{LaTeX Hints}
 <% if (documentclass == 'lncs') { -%>
 \label{sec:latexhints}

@@ -2,11 +2,11 @@
 
 Kompiliere es mittels
 <% if (latexcompiler == "pdflatex")  { %>
-    pdflatex main
+    pdflatex <%= filenames.main %>
 <%
 } else {
 %>
-    lualatex main
+    lualatex <%= filenames.main %>
 <%
 }
 %>
