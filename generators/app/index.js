@@ -226,6 +226,12 @@ module.exports = class extends Generator {
       },
       {
         type: 'confirm',
+        name: 'howtotext',
+        message: 'Include hints on text (e.g., how to write an abstract)?',
+        default: true
+      },
+      {
+        type: 'confirm',
         name: 'examples',
         message: 'Include minimal LaTeX examples?',
         default: true
@@ -255,6 +261,7 @@ module.exports = class extends Generator {
       // convert "String" Boolean command line options
       this.props.cleveref = (this.props.cleveref === true) || (this.props.cleveref === 'true')
       this.props.examples = (this.props.examples === true) || (this.props.examples === 'true')
+      this.props.howtotext = (this.props.howtotext === true) || (this.props.howtotext === 'true')
 
       if (this.props.examples) {
         this.props.useExampleEnvironment = true;
