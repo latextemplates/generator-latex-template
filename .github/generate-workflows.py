@@ -74,8 +74,9 @@ for documentclass in documentclasses:
                 for tweak_outerquote in tweak_outerquotes:
                   for todo in todos:
                     for example in examples:
-                      variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}\n".format(documentclass, latexcompiler, bibtextool, language, listing, cleveref, enquote, tweak_outerquote, todo, example)
-                      yml.write("      - name: Create {}".format(variantName))
+                      variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, language, listing, cleveref, enquote, tweak_outerquote, todo, example)
+                      yml.write("      - run: mkdir {}\n".format(variantName))
+                      yml.write("      - name: Create {}\n".format(variantName))
                       yml.write('''        run: |
           mkdir -p tmp
           cd tmp
@@ -98,13 +99,14 @@ for documentclass in documentclasses:
 ''')
                       if (documentclass == 'lncs'):
                         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
-                      yml.write("      - name: latexmk {}".format(variantName))
+                      yml.write("        working_directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
+                      yml.write("      - name: latexmk {}\n".format(variantName))
                       yml.write('''        uses: dante-ev/latex-action@edge
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/8 for details
-          working_directory: '/github/workspace/tmp'
 ''')
+                      yml.write("          working_directory: '/github/workspace/{}'\n".format(variantName))
                       if (documentclass == 'lncs'):
                         yml.write("          root_file: paper.tex\n")
                         yml.write("        if: ${{ steps.createllncs.outputs.lncsclspresent }}\n")
