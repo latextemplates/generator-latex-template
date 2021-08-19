@@ -89,7 +89,9 @@ for documentclass in documentclasses:
                       yml.write("           --tweak_outerquote=%s\\\n" % tweak_outerquote)
                       yml.write("           --todo=%s\\\n" % todo)
                       yml.write("           --examples=%s\n" % example)
-                      yml.write('''        env:
+                      yml.write('''          pwd
+          ls -la
+        env:
           yeoman_test: true
 ''')
                       if (documentclass == 'lncs'):
@@ -99,7 +101,7 @@ for documentclass in documentclasses:
                       yml.write('''        uses: dante-ev/latex-action@edge
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
-          # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/8 for details
+          # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
 ''')
                       yml.write("          working_directory: '/github/workspace/{}'\n".format(variantName))
                       if (documentclass == 'lncs'):
