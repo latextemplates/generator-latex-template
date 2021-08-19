@@ -390,6 +390,11 @@ module.exports = class extends Generator {
         global.destinationPath('LICENSE'),
         global.props
       );
+      global.fs.copyTpl(
+        global.templatePath('Makefile'),
+        global.destinationPath('Makefile'),
+        global.props
+      );
       if (global.props.documentclass === 'lncs') {
         global.fs.copy(
           global.templatePath('splncsnat.bst'),
