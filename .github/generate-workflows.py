@@ -91,6 +91,7 @@ for documentclass in documentclasses:
           ls -la
         env:
           yeoman_test: true
+          LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
                       if (documentclass == 'lncs'):
                         yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
