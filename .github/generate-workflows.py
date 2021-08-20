@@ -88,7 +88,7 @@ for documentclass in documentclasses:
                         yml.write("           --enquotes=%s\\\n" % enquote)
                         yml.write("           --tweak_outerquote=%s\\\n" % tweak_outerquote)
                         yml.write("           --todo=%s\\\n" % todo)
-                        yml.write("           --examples=%s\n" % example)
+                        yml.write("           --examples=%s\\\n" % example)
                         yml.write("           --howtotext=%s\n" % howtotext)
                         yml.write('''          pwd
           ls -la
