@@ -38,6 +38,9 @@ Following features are enabled in this template:
   Contains a fix to increase compatibility with Babel.
   See <https://tex.stackexchange.com/a/441701/9075> for details.
 <% } -%>
+<% if (howtotext) { -%>
+- Hints on writing an abstract and thesis by Dirk Fahland.
+<% } -%>
 <% if (cleveref || githubpublish) { -%>
 - <% if (githubpublish) { -%>(Optional) <% } %>Automatic setting of "Fig." and "Section"/"Sect." according to the LNCS style.
   Just use `\Cref{sec:xy}` at the beginning of a sentence and `\cref{sec:xy}` in the middle of a sentence.
@@ -67,13 +70,16 @@ Following features are enabled in this template:
 <% } -%>
 - Ready-to-go configuration for [latexindent].
 
-<% if (!githubpublish) { -%>
 ## Disabled features
 
 Following features were not activated for this template.
-You can rerun the latex-template generator to enable the features.
+You can <% if (!githubpublish) { %>re<% } %>run the latex-template generator to enable the features.
 
 <% var missingFeatures = false -%>
+<% if (!howtotext) { missingFeatures = true; -%>
+<% if (!githubpublish) { %>- <% } %>Hints on writing an abstract and thesis by Dirk Fahland.
+<% } -%>
+<% if (!githubpublish) { -%>
 <% if (documentclass == 'lncs') { -%>
 <% if (language != 'de') { missingFeatures = true; -%>
 - Support for German documents (without broken headers):
@@ -98,14 +104,14 @@ You can rerun the latex-template generator to enable the features.
 <% if (latexcompiler != "lualatex") { -%>
 - LaTeX compilation using the modern lualatex compiler.
 <% } -%>
+<% } -%>
 <% if (!missingFeatures) { -%>
 Congratulations. You chose to use all available features.
-
-<% } -%>
 <% } -%>
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
+
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/LNCS/paper.pdf) - normal paper.
@@ -129,15 +135,15 @@ Follow the quick start instructions.
 
 ## Quick start
 
-* Click on `Download ZIP` or [here](https://github.com/latextemplates/LNCS/archive/master.zip).
-* Extract `LNCS-master.zip` in the folder where you want to write your paper.
-* Place `llncs.cls` into the directory
+- Click on `Download ZIP` or [here](https://github.com/latextemplates/LNCS/archive/master.zip).
+- Extract `LNCS-master.zip` in the folder where you want to write your paper.
+- Place `llncs.cls` into the directory
   - Download `llncs2e.zip` from <ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip> and extract it in the directory.
     On Linux, just execute `download-llncs-files-from-springer.sh`.
   - In case ftp does not work at your side, you can try online ftp services such as http://www.net2ftp.com/ to download the files.
     Open the connection to `ftp.springernature.com` and navigate to `cs-proceeding`, `llncs`, and download the ZIP archive.
-* Edit [paper.tex](paper.tex).
-* `latexmk paper`.
+- Edit [paper.tex](paper.tex).
+- `latexmk paper`.
 
  As you see on GitHub actions, the paper compiles out of the box.
  There is no need to adjust the packages or to remove some of them.
