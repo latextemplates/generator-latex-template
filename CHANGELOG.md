@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added support for [minted](https://ctan.org/pkg/minted)
 - `.editorconfig` is now generated
 - For development, `launch.json` is added
+- Add option `howtotext` which includes the text of @dfahland's [LaTeX template for Bachelor and Master theses at Eindhoven University of Technology](https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology)
 
 ### Changed
 
