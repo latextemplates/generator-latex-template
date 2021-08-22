@@ -1,4 +1,4 @@
-documentclasses = ['lncs', 'scientific-thesis']
+documentclasses = ['ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
 # bibtextools = ['bibtex', 'biblatex']
@@ -22,6 +22,8 @@ for documentclass in documentclasses:
     for bibtextool in bibtextools:
       for example in examples:
         if (documentclass == 'lncs') and (bibtextool == 'biblatex'):
+          continue
+        if (documentclass == 'ieee') and (bibtextool == 'biblatex'):
           continue
         yml = open("workflows/check-{}-{}-{}-{}.yml".format(documentclass, latexcompiler, bibtextool, example), "w+")
         yml.write("name: Check {}-{}-{}-{}\n".format(documentclass, latexcompiler, bibtextool, example))
@@ -65,6 +67,8 @@ for documentclass in documentclasses:
         for howtotext in howtotexts:
           for language in languages:
             for font in fonts:
+              if (documentclass == 'IEEE') and (font == 'default'):
+                continue
               for listing in listings:
                 for cleveref in cleverefs:
                   for enquote in enquotes:

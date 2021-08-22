@@ -117,10 +117,12 @@ module.exports = class extends Generator {
         message: 'Which font should be used?',
         choices: function(state) {
           var res = [];
-          res.push({
-            name: "Computer Modern (Default LaTeX font)",
-            value: "default"
-          });
+          if (state.documentclass !== "ieee") {
+            res.push({
+              name: "Computer Modern (Default LaTeX font)",
+              value: "default"
+            })
+          }
           if (state.documentclass === "scientific-thesis") {
             res.push({
               name: "Arial",
