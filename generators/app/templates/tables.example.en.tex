@@ -1,7 +1,11 @@
 <%= heading2 %>{Tables}
+<% if (documentclass == 'ieee') { -%>
+
+Note that IEEE does not support \verb+\begin{table}+, one has to use \verb+\begin{figure}+.
+<% } -%>
 
 <%- bexample %>
-\begin{table}
+\begin{<% if (documentclass == 'ieee') { %>figure<% } else { %>table<% } %>}
   \caption{Simple Table}
   \label{tab:simple}
   \centering
@@ -13,7 +17,7 @@
     Thee     & Four     \\
     \bottomrule
   \end{tabular}
-\end{table}
+\end{<% if (documentclass == 'ieee') { %>figure<% } else { %>table<% } %>}
 <%- eexample %>
 
 <%- include('diagbox.example.en.tex', this); %>
