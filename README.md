@@ -105,10 +105,36 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Update npm dependencies: `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
 
+### Useful snippets
+
+```ejs
+<% if (howtotext) { -%>
+<% } else { -%>
+<% } -%>
+```
+
+```ejs
+<% switch (documentclass) {
+  case "lncs": -%>
+<%  break;
+  default:  -%>
+<%
+  break;
+} -%>
+```
+
+```ejs
+<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~<% } else { %>Section~<% } %>{sec:relatedwork}
+```
+
 ### Debugging
 
 A `launch.json` configured for Windows and Visual Studio Code is included.
 Just press <kbd>F5</kbd> and the generator should run in debug mode.
+
+```terminal
+ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generators\app\templates\main.en.tex
+```
 
 ### Releasing a new version
 
