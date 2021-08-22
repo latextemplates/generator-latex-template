@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Changed filename pattern to `.preamble.en.tex`, meaning: first comes the category, then the language, then the real file extension.
 - Changed from MIT+CC0 licenses to 0BSD. See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomment-866607666) for the reasoning regarding templates.
 - When generating a conference paper, the main file name is `paper.tex` and the bibliography is named `paper.bib`. The defaults are `main.tex` and `bibliography.bib`.
+- Changed from `\textwidth` to `\columnwidth`, which works same in one-column documents, but produces intended results in two-column documents.
 
 ### Fixed
 
