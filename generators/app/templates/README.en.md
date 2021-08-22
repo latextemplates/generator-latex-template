@@ -76,7 +76,7 @@ Following features are enabled in this template:
 <% } -%>
 - [microtypographic extensions](https://www.ctan.org/pkg/microtype) for a better look of the paper.
 - Modern packages such as [microtype]<% if (cleveref || githubpublish) { %>, [cleveref]<% } %><% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
-<% if (latexcompiler == "lualatex") { -%>
+<% if (latexcompiler == "lualatex" || githubpublish) { -%>
 - <% if (githubpublish) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
 <% } -%>
 - Ready-to-go configuration for [latexindent].
