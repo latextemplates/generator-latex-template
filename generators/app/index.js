@@ -117,25 +117,33 @@ module.exports = class extends Generator {
         message: 'Which font should be used?',
         choices: function(state) {
           var res = [];
-          if (state.documentclass !== "ieee") {
+          if (state.documentclass === "ieee") {
+            res.push({
+              name: "IEEE Default",
+              value: "default"
+            })
+          } else {
             res.push({
               name: "Computer Modern (Default LaTeX font)",
               value: "default"
             })
-          }
-          if (state.documentclass === "scientific-thesis") {
+            if (state.documentclass === "scientific-thesis") {
+              res.push({
+                name: "Arial",
+                value: "arial"
+              })
+            }
             res.push({
-              name: "Arial",
-              value: "arial"
-            })
+              name: "Times New Roman",
+              value: "times"
+            });
           }
-          res.push({
-            name: "Times New Roman",
-            value: "times"
-          });
           return res;
         },
-        default: "default"
+        default: "default",
+        when: function(response) {
+          return response.documentclass !== 'ieee';
+        }
       },
       {
         type: 'list',
@@ -259,6 +267,10 @@ module.exports = class extends Generator {
 
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
       this.props.githubpublish = this.params.options.githubpublish;
+
+      // IEEE class offers "compsoc"
+      // In 2021 this is not used any more, all papers are the "normal" IEEE format
+      this.props.ieee_compsoc = false;
 
       // convert "String" Boolean command line options
       this.props.cleveref = (this.props.cleveref === true) || (this.props.cleveref === 'true')
