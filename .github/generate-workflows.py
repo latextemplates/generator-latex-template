@@ -126,7 +126,7 @@ for documentclass in documentclasses:
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
 ''')
                               yml.write("          working_directory: '/github/workspace/{}'\n".format(variantName))
-                              if (documentclass == 'lncs'):
+                              if ((documentclass == 'lncs') or (documentclass == 'ieee')):
                                 yml.write("          root_file: paper.tex\n")
                                 yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                               else:
