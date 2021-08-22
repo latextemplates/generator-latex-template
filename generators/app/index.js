@@ -362,7 +362,7 @@ module.exports = class extends Generator {
 
       this.props.requiresShellEscape = (this.props.listings === 'minted');
 
-      this.props.isPaper = (this.props.documentclass === 'lncs');
+      this.props.isPaper = (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
       if (this.props.isPaper) {
         this.props.filenames = {
           "main": "paper",
@@ -385,7 +385,7 @@ module.exports = class extends Generator {
 
       this.props.available = {};
 
-      if (props.bibtextool == 'bibtex' && props.documentclass !== 'lncs') {
+      if (props.bibtextool == 'bibtex' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
         this.props.available.citet = false;
       } else {
         this.props.available.citet = true;
