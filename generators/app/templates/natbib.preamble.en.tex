@@ -28,8 +28,20 @@
 ]{natbib}
 \fi
 <% } -%>
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) { case "lncs": -%>
 
 % In the bibliography, references have to be formatted as 1., 2., ... not [1], [2], ...
 \renewcommand{\bibnumfmt}[1]{#1.}
-<% } -%>
+<% break; case "ieee": -%>
+
+% Same fontsize as without natbib
+\renewcommand{\bibfont}{\normalfont\footnotesize}
+<% break; default: -%>
+<% break; } -%>
+
+% Enable hyperlinked author names in the case of \citet
+% Source: https://tex.stackexchange.com/a/76075/9075
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\NAT@test}{\else \NAT@nm}{\else \NAT@hyper@{\NAT@nm}}{}{}
+\makeatother

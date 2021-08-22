@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added support for [minted](https://ctan.org/pkg/minted)
 - `.editorconfig` is now generated
 - For development, `launch.json` is added
+- Added initial [subfig](https://www.ctan.org/pkg/subfig) configuration
 
 ### Changed
 
