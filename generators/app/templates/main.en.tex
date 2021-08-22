@@ -199,8 +199,7 @@ default:  -%>
 <% } -%>
 
 \begin{document}
-<% switch (documentclass) {
-  case "lncs": -%>
+<% switch (documentclass) { case "lncs": -%>
 
 \title{Paper Title}
 % If Title is too long, use \titlerunning
@@ -233,12 +232,55 @@ default:  -%>
 \maketitle
 
 \begin{abstract}
-<%  break;
-default:  -%>
+<% break; case "ieee": -%>
+% Enable following command if you need to typeset "IEEEpubid".
+% See https://bytefreaks.net/tag/ieeeoverridecommandlockouts for details.
+%\IEEEoverridecommandlockouts
+
+\title{Quick start for LaTeXing with IEEEtran.cls for\\ IEEE Computer Society Conferences}
+
+\author{%
+  \IEEEauthorblockN{First Author}
+  \IEEEauthorblockA{University of Examples, Germany\\
+    \{lastname\}@example.org}
+  \and
+  \IEEEauthorblockN{Second Author}
+  \IEEEauthorblockA{School of Electrical and\\Computer Examples\\
+    Georgia Institute of Examples\\
+    Atlanta, Georgia 30332--0250\\
+    \url{http://www.example.org}}
+}
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+% make the title area
+\maketitle
+
+% In case you want to add a copyright statement.
+% Works only in the compsoc conference mode.
+%
+% Source: https://tex.stackexchange.com/a/325013/9075
+%
+% All possible solutions:
+%  - https://tex.stackexchange.com/a/325013/9075
+%  - https://tex.stackexchange.com/a/279134/9075
+%  - https://tex.stackexchange.com/q/279789/9075 (TikZ)
+%  - https://tex.stackexchange.com/a/200330/9075 - for non-compsocc papers
+\iffalse
+  \IEEEoverridecommandlockouts
+  \IEEEpubid{\begin{minipage}{\textwidth}\ \\[12pt] \centering
+      1551-3203 \copyright 2015 IEEE.
+      Personal use is permitted, but republication/redistribution requires IEEE permission.
+      \\
+      See \url{https://www.ieee.org/publications_standards/publications/rights/index.html} for more information.
+    \end{minipage}}
+\fi
+
+\begin{abstract}
+<% break; default: -%>
 \section*{Abstract}
-<%
-break;
-} -%>
+<% break; } -%>
 <% if (howtotext) { -%>
 \textsf{Write an abstract for your work. Replace each of the points below with one sentence (two if you must) and you have your abstract. Write it when you finished your entire report.\footnote{https://www.easterbrook.ca/steve/2010/01/how-to-write-a-scientific-abstract-in-six-easy-steps/}}
 
@@ -256,20 +298,28 @@ break;
 <% } else { -%>
 \lipsum[1]
 <% } -%>
-<% switch (documentclass) {
-  case "lncs": -%>
+<% switch (documentclass) { case "lncs": -%>
 \end{abstract}
 
 \begin{keywords}
   keyword1, keyword2
 \end{keywords}
-<%  break;
-default:  -%>
+<% break; case "ieee": -%>
+\end{abstract}
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+<% break; default: -%>
 
 \tableofcontents
-<%
-break;
-} -%>
+<% break; } -%>
 
 <% if (howtotext) { -%>
 %%% ===============================================================================
@@ -515,6 +565,7 @@ An interpretation can only be followed after all results have been described. Th
 
 The remainder of the paper starts with a presentation of related work (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:relatedwork}).
 <% if (examples) { %>It is followed by a presentation of hints on \LaTeX{} (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:latexhints}).<% } -%>
+<% if (!examples && (documentclass == 'ieee')) { %>Afterwards, we present some Lorem Ipsum (\cref{sec:loremipsum}).<% } -%>
 Finally, a conclusion is drawn and outlook on future work is made (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:outlook}).
 
 <%= heading2 %>{Related Work}
@@ -613,14 +664,27 @@ Your conclusions are not just a factual summary of your work, but they position,
 
 You should explicitly discuss limitations and shortcomings of your work and detail what kind of future studies are needed to overcome these limitations. Be specific in the sense that your arguments for future work should be based on concrete findings and insights you obtained in your report. 
 <% } else { -%>
+<% if (!examples && (documentclass == 'ieee')) { -%>
 
-<%= heading2 %>{Conclusion and Outlook}
+<%= heading1 %>{Lorem ipsum}
+\label{sec:loremipsum}
+\lipsum[1-4]
+<% } -%>
+
+<%= heading1 %>{Conclusion and Outlook}
 \label{sec:outlook}
 \lipsum[1-2]
 <% } -%>
-<% if (documentclass == 'lncs') { -%>
 
+<% switch (documentclass) { case "lncs": -%>
 \subsubsection*{Acknowledgments}
+<% break; case "ieee": -%>
+
+% regular IEEE prefers the singular form
+\section*{Acknowledgment}
+<% break; default: -%>
+<% break; } -%>
+<% if ((documentclass == 'lncs') || (documentclass = 'ieee')) { -%>
 <% if (howtotext) { -%>
 The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology}{LaTeX template for Bachelor and Master theses at Eindhoven University of Technology}.
 <% } else { -%>
