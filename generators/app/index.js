@@ -58,6 +58,48 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
+        name: 'ieee_variant',
+        when: function(response) {
+          return response.documentclass === 'ieee';
+        },
+        message: 'Which variant of IEEE paper?',
+        choices: [
+          {
+            name: "conference paper",
+            value: "conference"
+          },
+          {
+            name: "journal paper",
+            value: "journal"
+          },
+          {
+            name: "peerreview paper - similar to journal paper, but additional cover page and on first \"real\" paper page title without authors",
+            value: "peerreview"
+          }
+        ],
+        default: "conference"
+      },
+      {
+        type: 'list',
+        name: 'papersize',
+        when: function(response) {
+          return response.documentclass === 'ieee';
+        },
+        message: 'Which paper size to use?',
+        choices: [
+          {
+            name: "A4",
+            value: "a4"
+          },
+          {
+            name: "US letter",
+            value: "letter"
+          }
+        ],
+        default: "a4paper"
+      },
+      {
+        type: 'list',
         name: 'texlive',
         message: 'Which texlive compatiblity?',
         choices: [
@@ -80,6 +122,9 @@ module.exports = class extends Generator {
         default: "pdflatex"
       },
       {
+        when: function(response) {
+          return response.documentclass !== 'ieee';
+        },
         type: 'list',
         name: 'bibtextool',
         message: 'Which BibTeX tool should be used?',
@@ -93,7 +138,15 @@ module.exports = class extends Generator {
             value: "biblatex"
           }
         ],
-        default: "biblatex"
+        default: function(response) {
+          switch (response.documentclass) {
+            case 'ieee':
+            case 'lncs':
+              return 'bibtex'
+            default:
+              return 'biblatex'
+          }
+        },
       },
       {
         type: 'list',
@@ -267,6 +320,12 @@ module.exports = class extends Generator {
 
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
       this.props.githubpublish = this.params.options.githubpublish;
+
+      // Ensure all values are set - even if the user was not asked
+      if (this.props.documentclass === 'ieee') {
+        this.props.bibtextool = 'bibtex';
+        this.props.font = 'default';
+      }
 
       // IEEE class offers "compsoc"
       // In 2021 this is not used any more, all papers are the "normal" IEEE format
