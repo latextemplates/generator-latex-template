@@ -151,6 +151,9 @@ module.exports = class extends Generator {
       {
         type: 'list',
         name: 'language',
+        when: function(response) {
+          return response.documentclass !== 'ieee';
+        },
         message: 'Which language should the document be?',
         choices: [
           {
@@ -230,13 +233,13 @@ module.exports = class extends Generator {
             name: "csquotes (\\enquote{...} command)",
             value: "csquotes"
           });
-          if (state.langauge === "en") {
+          if (state.language === "en") {
             res.push({
               name: "textcmds (\\qq{...} command)",
               value: "textcmds"
             })
           }
-          if (state.langauge === "de") {
+          if (state.language === "de") {
             res.push({
               name: "Plain LaTeX (\\glqq{}text\\grqq{} - not recommended)",
               value: "plainlatex"
@@ -325,6 +328,7 @@ module.exports = class extends Generator {
       if (this.props.documentclass === 'ieee') {
         this.props.bibtextool = 'bibtex';
         this.props.font = 'default';
+        this.props.language = 'en';
       }
 
       // IEEE class offers "compsoc"

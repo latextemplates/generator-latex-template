@@ -77,8 +77,10 @@ for documentclass in documentclasses:
 ''')
             for howtotext in howtotexts:
               for language in languages:
+                if (documentclass == 'ieee') and (language != 'en'):
+                  continue
                 for font in fonts:
-                  if (documentclass == 'IEEE') and (font == 'default'):
+                  if (documentclass == 'ieee') and (font != 'default'):
                     continue
                   for listing in listings:
                     for cleveref in cleverefs:
