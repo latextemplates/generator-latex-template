@@ -4,17 +4,24 @@
 # Simplified LNCS Template
 
 > Quick start for modern LaTeXing with [LNCS](http://www.springer.com/computer/lncs).
-<%  break;
-    default:  -%>
+<% break; case "ieee": -%>
+# Simplified IEEE Template
+
+> Quick start for modern LaTeXing for an IEEE conference, based on the [Manuscript Template for Conference Proceedings](https://www.ieee.org/conferences_events/conferences/publishing/templates.html).
+
+The official template is distributed via CTAN as the [IEEEtran package](https://ctan.org/pkg/ieeetran), which is actively maintained.
+However, de-facto configurations (hyperref) and modern features of latex (microtype) are not configured.
+This template does it.
+
+This template is for the conferences.
+It is based on the `bare_conf_compsoc.tex` distributed by IEEE.
+In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
+<%  break; default: -%>
 # LaTeX Document
-<%
-    break;
-  }
+<% break; }
 } else { -%>
 # LaTeX Document
 <% } -%>
-
-This document was created using the [latex-template generator](https://www.npmjs.com/package/generator-latex-template).
 
 Compile it using
 <% if (latexcompiler == "pdflatex")  { %>
@@ -30,6 +37,10 @@ Compile it using
 
 Following features are enabled in this template:
 
+<% if (documentclass == 'ieee') { -%>
+- Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/IEEE/<% } %><%= filenames.main %>.tex) file
+- Shows how IEEE copyright notice can be added.
+<% } -%>
 <% if (documentclass == 'lncs') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/LNCS/<% } %><%= filenames.main %>.tex) file
 - Example to have an image being placed right to a text
@@ -73,7 +84,7 @@ Following features are enabled in this template:
 ## Disabled features
 
 Following features were not activated for this template.
-You can <% if (!githubpublish) { %>re<% } %>run the latex-template generator to enable the features.
+You can <% if (!githubpublish) { %>re<% } %>run the [latex template generator] to enable the features.
 
 <% var missingFeatures = false -%>
 <% if (!howtotext) { missingFeatures = true; -%>
@@ -126,7 +137,7 @@ Deep link: <ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip>.
 
 > **The class file authored by Springer is needed to get the template working:**
 > `llncs.cls`
->  You get it from inside the ZIP of `llncs2e.zip` available at <ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip>.
+> You get it from inside the ZIP of `llncs2e.zip` available at <ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip>.
 
 Reason: Licensing restrictions of Springer do not allow distribution outside of springer.
 See [message #47 for debian bug 31897](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=31897#47) for details.
@@ -135,8 +146,8 @@ Follow the quick start instructions.
 
 ## Quick start
 
-- Click on `Download ZIP` or [here](https://github.com/latextemplates/LNCS/archive/master.zip).
-- Extract `LNCS-master.zip` in the folder where you want to write your paper.
+- Click on `Download ZIP` or [here](https://github.com/latextemplates/LNCS/archive/main.zip).
+- Extract `LNCS-main.zip` in the folder where you want to write your paper.
 - Place `llncs.cls` into the directory
   - Download `llncs2e.zip` from <ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip> and extract it in the directory.
     On Linux, just execute `download-llncs-files-from-springer.sh`.
@@ -149,20 +160,76 @@ Follow the quick start instructions.
  There is no need to adjust the packages or to remove some of them.
  This might lead to undesiered results such as hyperlinks not working any more or no good microtypographic features.
  In case you think, a package needs to be altered or added, feel free to open an issue.
-<%  break;
-    default:  -%>
-<%
-    break;
-  }
+<% break; case "ieee": -%>
+
+## Examples
+
+- [paper-conference.pdf](https://latextemplates.github.io/IEEE/paper-conference.pdf) - regular conference paper.
+- [paper-conference-minted.pdf](https://latextemplates.github.io/IEEE/paper-conference-minted.pdf) - conference paper showing minted in action.
+
+## Quick start
+
+- Click on `Download ZIP` or [here](https://github.com/latextemplates/IEEE/archive/main.zip).
+- Extract `main.zip` in the folder where you want to write your paper.
+- Edit [paper-conference.tex](paper-conference.tex).
+- `latexmk paper-conference`.
+
+## Attention regarding `compsocconf`
+
+Some conferences distribute a `IEEEtran.cls` V1.7a dated 2007 and a parameter `compsocconf`.
+**The parameter `compsocconf` was NEVER included in Michael Shell's IEEEtran.cls file. It is unclear, who did this patch and why it is around in the wild.**
+
+The most recent version is V1.8b and automatically distributed over CTAN, because it is actively maintained by Michael Shell at <http://www.michaelshell.org/tex/ieeetran/>.
+A full changelog is available at <http://mirror.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/changelog.txt>.
+
+```text
+ 2014/09/17 V1.8a (MDS) changes:
+
+ 1) Extensive rework of the compsoc mode to comply with the latest standards
+    of the IEEE Computer Society.
+```
+
+The class parameter `compsocconf` never existed officially.
+One has to use `conference, compsoc`, because the parameters are "orthogonal": Either "conference" or "journal", either "compsoc" or not.
+With a modern IEEEtran.cls, you'll get
+
+```text
+LaTeX Warning: Unused global option(s):
+    [compsocconf].
+```
+
+## `compsoc` option is not needed any more
+
+When using the 2007 version or the most recent version with (the unhandled) `compsocconf`, you'll get [paper-conference.pdf](https://latextemplates.github.io/IEEE/paper-conference.pdf) instead of `paper-conference-compsoc.pdf`.
+That differs significantly in the style used for section headings.
+`paper-conference-compsoc.pdf` was removed from the build since August 2021, because `compsoc` option was not used by computer science conferences in 2021.
+
+IEEE distributes their templates at <https://www.ieee.org/conferences_events/conferences/publishing/templates.html>.
+With the update of July 2017, the archive <https://www.ieee.org/documents/ieee-latex-conference-template.zip> contains both `bare_conf.tex` and `bare_conf_compsoc.tex`.
+Thus, the conference should state which option to use.
+
+All in all, the distributions of IEEEtran from 2007 are roughly equivalent to `\documentclass[conference]{IEEEtran}` (and version V1.8b), which **does not comply** with IEEE's rules for computer science conferences, because the `compsoc` option is missing.
+
+Hence, **double check with your conference whether you have to use `compsoc` or not.**
+
+Statement from IEEE:
+
+> Please note that, as stated on the webpage <https://www.ieee.org/conferences_events/conferences/publishing/templates.html>. "IEEE does not require a specific format for their conference articles". Thus, we dot not purport that the "compsoc" is a requirement for publishing conference papers with us.
+<% break; default: -%>
+<% break; }
 } else { -%>
 <% } -%>
 
 ## Tool hints
 
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) { case "lncs": -%>
 There is currently no official biblatex support.
 A first step towards that is done at [biblatex-lncs](https://github.com/mgttlinger/biblatex-lncs).
-<% } -%>
+<% break; case "ieee": -%>
+There is currently no official biblatex support.
+A first step towards that is done at the [biblatex-ieee package](https://ctan.org/pkg/biblatex-ieee).
+<% break; default: -%>
+<% break; } -%>
 
 MiKTeX installation hints are given at <http://latextemplates.github.io/scientific-thesis-template/#installation-hints-for-windows>.
 
@@ -182,7 +249,7 @@ To have minted running properly, you have to do following steps on Windows:
 <% } -%>
 
 ## FAQs
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) { case "lncs": -%>
 
 ### Q: ShareLaTeX outputs a warning regarding the llncs class
 
@@ -195,7 +262,16 @@ ShareLaTeX might output following warning:
 
 The reason is that you did not use `llncs.cls` from a recent llncs2e.zip (which can be downloaded from <ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip>), but a copy from somewhere else.
 Please use the latest version offered by Springer.
-<% } -%>
+<% break; case "ieee": -%>
+
+### Q: I have questions on the IEEEtran class itself.
+
+The author of the class offers a large FAQ at <http://www.michaelshell.org/tex/ieeetran/>.
+Please read on there.
+The other possiblity is to execute `texdoc ieeetran` and read in the documentation.
+For example, there is an explanation of how to typeset the afficiliation information with four or more authors properly.
+<% break; default: -%>
+<% break; } -%>
 <% if (githubpublish) { -%>
 
 ### Q: How can I synchronize updates from the template to my repository?
@@ -277,8 +353,9 @@ Yes. You can regenerate the template and choose "German" as language.
 
 [JabRef]: https://www.jabref.org
 [LanguageTool]: https://languagetool.org/
-[TeXstudio]: http://texstudio.sourceforge.net/
+[latex template generator]: https://www.npmjs.com/package/generator-latex-template
 [pygments]: http://pygments.org/
+[TeXstudio]: http://texstudio.sourceforge.net/
 <% if (documentclass == 'lncs') { -%>
 
 [llncs2e.zip]: ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip
