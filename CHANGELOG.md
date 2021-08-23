@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Included more elements from the "original" scientific-thesis template.
+
 ### Changed
 
 - Changed from `\columnwidth` to `\linewidth`, which is more readable for `.tex` authors.
