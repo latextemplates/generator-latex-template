@@ -484,6 +484,11 @@ module.exports = class extends Generator {
           global.templatePath('splncsnat.bst'),
           global.destinationPath('splncsnat.bst')
         );
+      } else if (global.props.documentclass === 'ieee') {
+        global.fs.copy(
+          global.templatePath('acronyms.' + global.props.language + '.tex'),
+          global.destinationPath('acronyms.tex')
+        );
       }
       if (global.props.language === 'de') {
         global.fs.copyTpl(

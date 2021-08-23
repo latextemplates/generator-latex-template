@@ -1,8 +1,7 @@
 documentclasses = ['ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
-# bibtextools = ['bibtex', 'biblatex']
-bibtextools = ['bibtex']
+bibtextools = ['bibtex', 'biblatex']
 
 languages = ['en', 'de']
 
@@ -22,6 +21,8 @@ ieee_variants = ['conference', 'journal', 'peerreview']
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
+      if (documentclass == 'scientific-thesis') and (bibtextool == 'bibtex'):
+        continue
       for example in examples:
         if (documentclass == 'lncs') and (bibtextool == 'biblatex'):
           continue

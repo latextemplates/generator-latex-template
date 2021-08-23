@@ -185,6 +185,10 @@ default:  -%>
 <% } -%>
 <% if (documentclass == 'scientific-thesis') { -%>
 
+\input{acronyms}
+
+\makeindex
+
 <%- include('scientific-thesis-cover.preamble.en.tex', this); %>
 <% } -%>
 <% if (latexcompiler == "pdflatex") { -%>
@@ -283,6 +287,17 @@ default:  -%>
 
 \begin{abstract}
 <% break; default: -%>
+\pagenumbering{arabic}
+\Titelblatt
+
+%Eigener Seitenstil fuer die Kurzfassung und das Inhaltsverzeichnis
+\deftriplepagestyle{preamble}{}{}{}{}{}{\pagemark}
+%Doku zu deftriplepagestyle: scrguide.pdf
+\pagestyle{preamble}
+\renewcommand*{\chapterpagestyle}{preamble}
+
+% Kurzfassung / abstract
+% auch im Stil vom Inhaltsverzeichnis
 \section*{Abstract}
 <% break; } -%>
 <% if (howtotext) { -%>
@@ -322,7 +337,53 @@ default:  -%>
 \IEEEpeerreviewmaketitle
 <% break; default: -%>
 
+\microtypesetup{protrusion=false}
+
+% In case you have trouble with headings reaching into the page numbers, enable the following three lines.
+% Hint by http://golatex.de/inhaltsverzeichnis-schreibt-ueber-rand-t3106.html
+%
+%\makeatletter
+%\renewcommand{\@pnumwidth}{2em}
+%\makeatother
+%
+% In case of a strange break in the table of contents,
+% a page break can be inserted by issuing the following command at the "right" place in the main text:
+%   \addtocontents{toc}{\protect\newpage}
 \tableofcontents
+
+\listoffigures
+
+\listoftables
+<% if (listings == 'listings') { -%>
+
+% We use lstlisting environments with caption paramters.
+% Thus, we need that command.
+% Alternative: \listof{Listing}{List of Listings}
+\lstlistoflistings
+<% } else { -%>
+\listof{Listing}{List of Listings}
+<% } -%>
+
+%mittels \newfloat wurde die Algorithmus-Gleitumgebung definiert.
+%Mit folgendem Befehl werden alle floats dieses Typs ausgegeben
+%\listof{Algorithmus}{List of Algorithms}
+%\listofalgorithms %Ist nur für Algorithmen, die mittels \begin{algorithm} umschlossen werden, nötig
+
+% Abbreviations
+\printnoidxglossaries
+
+\microtypesetup{protrusion=true}
+
+% Headline and footline
+\renewcommand*{\chapterpagestyle}{scrplain}
+\pagestyle{scrheadings}
+\pagestyle{scrheadings}
+\ihead[]{}
+\chead[]{}
+\ohead[]{\headmark}
+\cfoot[]{}
+\ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
+\ifoot[]{}
 <% break; } -%>
 
 <% if (howtotext) { -%>
@@ -738,17 +799,20 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 
 \bibliographystyle{plain}
 \bibliography{<%= filenames.bib %>}
+<% break; default: -%>
+\printbibliography
 <% break; } -%>
+
 
 % Enfore empty line after bibliography
 \ \\
 %
 All links were last followed on October 5, 2020.
-<% if (documentclass != 'lncs') { -%>
+<% if (documentclass == 'scientific-thesis') { -%>
 
 %%% ===============================================================================
-%\appendix 
-%\addcontentsline{toc}{chapter}{APPENDICES}
+\appendix 
+\addcontentsline{toc}{chapter}{Appendices}
 
 %\listoffigures
 %\listoftables
@@ -757,6 +821,9 @@ All links were last followed on October 5, 2020.
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
 %%% ===============================================================================
-<% } -%>
 
+\pagestyle{empty}
+\renewcommand*{\chapterpagestyle}{empty}
+\Versicherung
+<% } -%>
 \end{document}
