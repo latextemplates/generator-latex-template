@@ -114,13 +114,10 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 ```
 
 ```ejs
-<% switch (documentclass) {
-  case "lncs": -%>
-<%  break;
-  default:  -%>
-<%
-  break;
-} -%>
+<% switch (documentclass) { case "lncs": -%>
+<% break; case "ieee": -%>
+<% break; default: -%>
+<% break; } -%>
 ```
 
 ```ejs

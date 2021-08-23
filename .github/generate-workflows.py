@@ -1,4 +1,4 @@
-documentclasses = ['lncs', 'scientific-thesis']
+documentclasses = ['ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
 # bibtextools = ['bibtex', 'biblatex']
@@ -16,6 +16,8 @@ tweak_outerquotes = ['babel', 'outerquote']
 todos = ['pdfcomment', 'none']
 examples = ['true', 'false']
 howtotexts = ['true', 'false']
+papersizes = ['a4', 'letter']
+ieee_variants = ['conference', 'journal', 'peerreview']
 
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
@@ -23,12 +25,23 @@ for documentclass in documentclasses:
       for example in examples:
         if (documentclass == 'lncs') and (bibtextool == 'biblatex'):
           continue
-        yml = open("workflows/check-{}-{}-{}-{}.yml".format(documentclass, latexcompiler, bibtextool, example), "w+")
-        yml.write("name: Check {}-{}-{}-{}\n".format(documentclass, latexcompiler, bibtextool, example))
-        yml.write("on: [push]\n")
-        yml.write("jobs:\n")
-        yml.write("  check:\n")
-        yml.write('''    runs-on: ubuntu-latest
+        if (documentclass == 'ieee') and (bibtextool == 'biblatex'):
+          continue
+        for papersize in papersizes:
+          for ieee_variant in ieee_variants:
+            if ((documentclass != 'ieee') and ((papersize != 'a4') or (ieee_variant != 'conference'))):
+              # we just go on for one IEEE specific element to enable this part being executed exactly ones for the "example" outer loop for non-IEEE
+              continue
+            if (documentclass == 'ieee'):
+              dashedPart = "{}-{}-{}-{}-{}-{}".format(documentclass, ieee_variant, papersize, latexcompiler, bibtextool, example);
+            else:
+              dashedPart = "{}-{}-{}-{}".format(documentclass, latexcompiler, bibtextool, example);
+            yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
+            yml.write("name: Check {}\n".format(dashedPart))
+            yml.write("on: [push]\n")
+            yml.write("jobs:\n")
+            yml.write("  check:\n")
+            yml.write('''    runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.8.0
@@ -62,53 +75,60 @@ for documentclass in documentclasses:
         env:
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
-        for howtotext in howtotexts:
-          for language in languages:
-            for font in fonts:
-              for listing in listings:
-                for cleveref in cleverefs:
-                  for enquote in enquotes:
-                    for tweak_outerquote in tweak_outerquotes:
-                      for todo in todos:
-                          variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, language, font, listing, cleveref, enquote, tweak_outerquote, todo, example, howtotext)
-                          yml.write("      - run: mkdir {}\n".format(variantName))
-                          yml.write("      - name: Create {}\n".format(variantName))
-                          yml.write('''        run: |
+            for howtotext in howtotexts:
+              for language in languages:
+                if (documentclass == 'ieee') and (language != 'en'):
+                  continue
+                for font in fonts:
+                  if (documentclass == 'ieee') and (font != 'default'):
+                    continue
+                  for listing in listings:
+                    for cleveref in cleverefs:
+                      for enquote in enquotes:
+                        for tweak_outerquote in tweak_outerquotes:
+                          for todo in todos:
+                              variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, language, font, listing, cleveref, enquote, tweak_outerquote, todo, example, howtotext)
+                              yml.write("      - run: mkdir {}\n".format(variantName))
+                              yml.write("      - name: Create {}\n".format(variantName))
+                              yml.write('''        run: |
           echo "$LLNCS_CLS" > llncs.cls
           npx yo $GITHUB_WORKSPACE\\
 ''')
-                          yml.write("           --documentclass=%s\\\n" % documentclass)
-                          yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
-                          yml.write("           --bibtextool=%s\\\n" % bibtextool)
-                          yml.write("           --texlive=2021\\\n")
-                          yml.write("           --language=%s\\\n" % language)
-                          yml.write("           --font=%s\\\n" % font)
-                          yml.write("           --listings=%s\\\n" % listing)
-                          yml.write("           --cleveref=%s\\\n" % cleveref)
-                          yml.write("           --enquotes=%s\\\n" % enquote)
-                          yml.write("           --tweak_outerquote=%s\\\n" % tweak_outerquote)
-                          yml.write("           --todo=%s\\\n" % todo)
-                          yml.write("           --examples=%s\\\n" % example)
-                          yml.write("           --howtotext=%s\n" % howtotext)
-                          yml.write('''          pwd
+                              yml.write("           --documentclass=%s\\\n" % documentclass)
+                              if (documentclass == 'ieee'):
+                                yml.write("           --papersize=%s\\\n" % papersize)
+                                yml.write("           --ieee_variant=%s\\\n" % ieee_variant)
+                              yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
+                              yml.write("           --bibtextool=%s\\\n" % bibtextool)
+                              yml.write("           --texlive=2021\\\n")
+                              yml.write("           --language=%s\\\n" % language)
+                              yml.write("           --font=%s\\\n" % font)
+                              yml.write("           --listings=%s\\\n" % listing)
+                              yml.write("           --cleveref=%s\\\n" % cleveref)
+                              yml.write("           --enquotes=%s\\\n" % enquote)
+                              yml.write("           --tweak_outerquote=%s\\\n" % tweak_outerquote)
+                              yml.write("           --todo=%s\\\n" % todo)
+                              yml.write("           --examples=%s\\\n" % example)
+                              yml.write("           --howtotext=%s\n" % howtotext)
+                              yml.write('''          pwd
           ls -la
         env:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
-                          if (documentclass == 'lncs'):
-                            yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
-                          yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-                          yml.write("      - name: latexmk {}\n".format(variantName))
-                          yml.write('''        uses: dante-ev/latex-action@edge
+                              if (documentclass == 'lncs'):
+                                yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
+                              yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
+                              yml.write("      - name: latexmk {}\n".format(variantName))
+                              yml.write('''        uses: dante-ev/latex-action@edge
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
 ''')
-                          yml.write("          working_directory: '/github/workspace/{}'\n".format(variantName))
-                          if (documentclass == 'lncs'):
-                            yml.write("          root_file: paper.tex\n")
-                            yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
-                          else:
-                            yml.write("          root_file: main.tex\n")
+                              yml.write("          working_directory: '/github/workspace/{}'\n".format(variantName))
+                              if ((documentclass == 'lncs') or (documentclass == 'ieee')):
+                                yml.write("          root_file: paper.tex\n")
+                                yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
+                              else:
+                                yml.write("          root_file: main.tex\n")
         yml.close()

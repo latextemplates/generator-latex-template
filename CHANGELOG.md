@@ -9,20 +9,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Add option `howtotext` which includes the text of @dfahland's [LaTeX template for Bachelor and Master theses at Eindhoven University of Technology](https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology)
+- Added support for [Springer's LNCS](http://www.springer.com/computer/lncs)
+- Added support for [IEEE](https://www.ieee.org/conferences/publishing/templates.html)
 - Added support for passing options through the command line
 - Added special condition for TeXLive 2021 (which offers more packages)
-- Added number example for situnitx
+- Added number example for [situnitx](https://ctan.org/pkg/siunitx)
 - Added switch `--githubpublish` to enable generating `README.md` for repositories hosted at <https://github.com/latextemplates>.
 - Added support for [minted](https://ctan.org/pkg/minted)
 - `.editorconfig` is now generated
 - For development, `launch.json` is added
-- Add option `howtotext` which includes the text of @dfahland's [LaTeX template for Bachelor and Master theses at Eindhoven University of Technology](https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology)
+- Added initial [subfig](https://www.ctan.org/pkg/subfig) configuration
 
 ### Changed
 
 - Changed filename pattern to `.preamble.en.tex`, meaning: first comes the category, then the language, then the real file extension.
 - Changed from MIT+CC0 licenses to 0BSD. See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomment-866607666) for the reasoning regarding templates.
 - When generating a conference paper, the main file name is `paper.tex` and the bibliography is named `paper.bib`. The defaults are `main.tex` and `bibliography.bib`.
+- Changed from `\textwidth` to `\columnwidth`, which works same in one-column documents, but produces intended results in two-column documents.
 
 ### Fixed
 

@@ -58,6 +58,48 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
+        name: 'ieee_variant',
+        when: function(response) {
+          return response.documentclass === 'ieee';
+        },
+        message: 'Which variant of IEEE paper?',
+        choices: [
+          {
+            name: "conference paper",
+            value: "conference"
+          },
+          {
+            name: "journal paper",
+            value: "journal"
+          },
+          {
+            name: "peerreview paper - similar to journal paper, but additional cover page and on first \"real\" paper page title without authors",
+            value: "peerreview"
+          }
+        ],
+        default: "conference"
+      },
+      {
+        type: 'list',
+        name: 'papersize',
+        when: function(response) {
+          return response.documentclass === 'ieee';
+        },
+        message: 'Which paper size to use?',
+        choices: [
+          {
+            name: "A4",
+            value: "a4"
+          },
+          {
+            name: "US letter",
+            value: "letter"
+          }
+        ],
+        default: "a4paper"
+      },
+      {
+        type: 'list',
         name: 'texlive',
         message: 'Which texlive compatiblity?',
         choices: [
@@ -80,6 +122,9 @@ module.exports = class extends Generator {
         default: "pdflatex"
       },
       {
+        when: function(response) {
+          return response.documentclass !== 'ieee';
+        },
         type: 'list',
         name: 'bibtextool',
         message: 'Which BibTeX tool should be used?',
@@ -93,11 +138,22 @@ module.exports = class extends Generator {
             value: "biblatex"
           }
         ],
-        default: "biblatex"
+        default: function(response) {
+          switch (response.documentclass) {
+            case 'ieee':
+            case 'lncs':
+              return 'bibtex'
+            default:
+              return 'biblatex'
+          }
+        },
       },
       {
         type: 'list',
         name: 'language',
+        when: function(response) {
+          return response.documentclass !== 'ieee';
+        },
         message: 'Which language should the document be?',
         choices: [
           {
@@ -117,23 +173,33 @@ module.exports = class extends Generator {
         message: 'Which font should be used?',
         choices: function(state) {
           var res = [];
-          res.push({
-            name: "Computer Modern (Default LaTeX font)",
-            value: "default"
-          });
-          if (state.documentclass === "scientific-thesis") {
+          if (state.documentclass === "ieee") {
             res.push({
-              name: "Arial",
-              value: "arial"
+              name: "IEEE Default",
+              value: "default"
             })
+          } else {
+            res.push({
+              name: "Computer Modern (Default LaTeX font)",
+              value: "default"
+            })
+            if (state.documentclass === "scientific-thesis") {
+              res.push({
+                name: "Arial",
+                value: "arial"
+              })
+            }
+            res.push({
+              name: "Times New Roman",
+              value: "times"
+            });
           }
-          res.push({
-            name: "Times New Roman",
-            value: "times"
-          });
           return res;
         },
-        default: "default"
+        default: "default",
+        when: function(response) {
+          return response.documentclass !== 'ieee';
+        }
       },
       {
         type: 'list',
@@ -167,13 +233,13 @@ module.exports = class extends Generator {
             name: "csquotes (\\enquote{...} command)",
             value: "csquotes"
           });
-          if (state.langauge === "en") {
+          if (state.language === "en") {
             res.push({
               name: "textcmds (\\qq{...} command)",
               value: "textcmds"
             })
           }
-          if (state.langauge === "de") {
+          if (state.language === "de") {
             res.push({
               name: "Plain LaTeX (\\glqq{}text\\grqq{} - not recommended)",
               value: "plainlatex"
@@ -258,6 +324,17 @@ module.exports = class extends Generator {
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
       this.props.githubpublish = this.params.options.githubpublish;
 
+      // Ensure all values are set - even if the user was not asked
+      if (this.props.documentclass === 'ieee') {
+        this.props.bibtextool = 'bibtex';
+        this.props.font = 'default';
+        this.props.language = 'en';
+      }
+
+      // IEEE class offers "compsoc"
+      // In 2021 this is not used any more, all papers are the "normal" IEEE format
+      this.props.ieee_compsoc = false;
+
       // convert "String" Boolean command line options
       this.props.cleveref = (this.props.cleveref === true) || (this.props.cleveref === 'true')
       this.props.examples = (this.props.examples === true) || (this.props.examples === 'true')
@@ -289,7 +366,7 @@ module.exports = class extends Generator {
 
       this.props.requiresShellEscape = (this.props.listings === 'minted');
 
-      this.props.isPaper = (this.props.documentclass === 'lncs');
+      this.props.isPaper = (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
       if (this.props.isPaper) {
         this.props.filenames = {
           "main": "paper",
@@ -312,7 +389,7 @@ module.exports = class extends Generator {
 
       this.props.available = {};
 
-      if (props.bibtextool == 'bibtex' && props.documentclass !== 'lncs') {
+      if (props.bibtextool == 'bibtex' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
         this.props.available.citet = false;
       } else {
         this.props.available.citet = true;

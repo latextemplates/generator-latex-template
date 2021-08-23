@@ -1,7 +1,12 @@
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) {
+  case "lncs": -%>
 % This template has been tested with LLNCS DOCUMENT CLASS -- version 2.20 (10-Mar-2018)
-
-<% } -%>
+<%  break;
+  case "ieee":  -%>
+% This template has been tested with IEEEtran of 2015.
+<%
+break;
+} -%>
 % !TeX spellcheck = en-US
 % !TeX encoding = utf8
 % !TeX program = <%= latexcompiler %>
@@ -16,7 +21,8 @@
 %     For more information see https://github.com/latextemplates/scientific-thesis-cover/issues/4
 \RequirePackage{kvoptions-patch}
 <% } -%>
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) {
+  case "lncs": -%>
 
 % "a4paper" enables:
 %
@@ -38,7 +44,19 @@
 %
 % To disable outputting page headers and footers, remove "runningheads"
 \documentclass[runningheads,a4paper,english]{llncs}[2018/03/10]
-<% } else {-%>
+<%  break;
+case "ieee": -%>
+
+% DO NOT DOWNLOAD IEEEtran.cls - Use the one of your LaTeX distribution
+% For the final version, replace "draftcls" by "final"
+\documentclass[<%= ieee_variant %>,<%= papersize %>paper]{IEEEtran}[2015/08/26]
+
+% Balance the last page
+% The pbalance package (see https://ctan.org/pkg/pbalance) "just works" (in contrast to balance.sty or other solutions)
+\usepackage{pbalance}
+
+<%  break;
+default:  -%>
 \documentclass[
   % fontsize=11pt is the standard
   numbers=noenddot,
@@ -54,7 +72,7 @@
   %               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
   draft=false
 ]{scrbook}
-<% } -%>
+<% break; } -%>
 
 % backticks (`) are rendered as such in verbatim environments.
 % See following links for details:
@@ -85,24 +103,10 @@
 
 <%- include('booktabs.preamble.en.tex', this); %>
 <%- include('paralist.preamble.en.tex', this); %>
+<% if (documentclass == 'lncs' || documentclass == 'ieee')  { -%>
+<%- include('natbib.preamble.en.tex', this); %>
+<% } -%>
 <% if (documentclass == 'lncs')  { -%>
-<%- include('floatflt.preamble.en.tex', this); %>
-% Bibliopgraphy enhancements
-%  - enable \cite[prenote][]{ref}
-%  - enable \cite{ref1,ref2}
-% Alternative: \usepackage{cite}, which enables \cite{ref1, ref2} only (otherwise: Error message: "White space in argument")
-
-% Doc: http://texdoc.net/natbib
-\usepackage[%
-  square,        % for square brackets
-  comma,         % use commas as separators
-  numbers,       % for numerical citations;
-%  sort,          % orders multiple citations into the sequence in which they appear in the list of references;
-  sort&compress, % as sort but in addition multiple numerical citations
-                 % are compressed if possible (as 3-6, 15);
-]{natbib}
-% In the bibliography, references have to be formatted as 1., 2., ... not [1], [2], ...
-\renewcommand{\bibnumfmt}[1]{#1.}
 
 % Prepare more space-saving rendering of the bibliography
 % Source: https://tex.stackexchange.com/a/280936/9075
@@ -114,6 +118,7 @@
 { encoding = {OT1,T1,TS1} }
 { }
 
+<%- include('floatflt.preamble.en.tex', this); %>
 <% } -%>
 <% if (todo == 'pdfcomment') { -%>
 <%- include('pdfcomment.preamble.en.tex', this); %>
@@ -128,6 +133,7 @@
 
 <%- include('siunitx.preamble.en.tex'); %>
 <%- include('hyperref.preamble.en.tex', this); %>
+<%- include('subfig.preamble.en.tex', this); %>
 <% if (cleveref) { %><%- include('cleveref.preamble.en.tex', this); %><% } -%>
 
 \usepackage{lipsum}
@@ -193,8 +199,7 @@
 <% } -%>
 
 \begin{document}
-<% switch (documentclass) {
-  case "lncs": -%>
+<% switch (documentclass) { case "lncs": -%>
 
 \title{Paper Title}
 % If Title is too long, use \titlerunning
@@ -227,73 +232,124 @@
 \maketitle
 
 \begin{abstract}
-<%  break;
-default:  -%>
+<% break; case "ieee": -%>
+% Enable following command if you need to typeset "IEEEpubid".
+% See https://bytefreaks.net/tag/ieeeoverridecommandlockouts for details.
+%\IEEEoverridecommandlockouts
+
+\title{Quick start for LaTeXing with IEEEtran.cls for\\ IEEE Computer Society Conferences}
+
+\author{%
+  \IEEEauthorblockN{First Author, Second Author}
+  \IEEEauthorblockA{University of Examples, Germany\\
+    \{lastname\}@example.org}
+  \and
+  \IEEEauthorblockN{Third Author}
+  \IEEEauthorblockA{School of Electrical and\\Computer Examples\\
+    Georgia Institute of Examples\\
+    Atlanta, Georgia 30332--0250\\
+    \url{http://www.example.org}}
+}
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+% make the title area
+\maketitle
+
+% In case you want to add a copyright statement.
+% Works only in the compsoc conference mode.
+%
+% Source: https://tex.stackexchange.com/a/325013/9075
+%
+% All possible solutions:
+%  - https://tex.stackexchange.com/a/325013/9075
+%  - https://tex.stackexchange.com/a/279134/9075
+%  - https://tex.stackexchange.com/q/279789/9075 (TikZ)
+%  - https://tex.stackexchange.com/a/200330/9075 - for non-compsocc papers
+\iffalse
+  \IEEEoverridecommandlockouts
+  \IEEEpubid{\begin{minipage}{\textwidth}\ \\[12pt] \centering
+      1551-3203 \copyright 2015 IEEE.
+      Personal use is permitted, but republication/redistribution requires IEEE permission.
+      \\
+      See \url{https://www.ieee.org/publications_standards/publications/rights/index.html} for more information.
+    \end{minipage}}
+\fi
+
+\begin{abstract}
+<% break; default: -%>
 \section*{Abstract}
-<%
-break;
-} -%>
+<% break; } -%>
 <% if (howtotext) { -%>
-\textsf{Write an abstract for your work. Replace each of the points below with one sentence (two if you must) and you have your abstract. Write it when you finished your entire report.\footnote{https://www.easterbrook.ca/steve/2010/01/how-to-write-a-scientific-abstract-in-six-easy-steps/}}
+\emph{Write an abstract for your work. Replace each of the points below with one sentence (two if you must) and you have your abstract. Write it when you finished your entire report.\footnote{https://www.easterbrook.ca/steve/2010/01/how-to-write-a-scientific-abstract-in-six-easy-steps/}}
 
-\textsf{Introduction.} In one sentence, what’s the topic? Phrase it in a way that your reader will understand. If you’re writing a PhD thesis, your readers are the examiners – assume they are familiar with the general field of research, so you need to tell them specifically what topic your thesis addresses. Same advice works for scientific papers – the readers are the peer reviewers, and eventually others in your field interested in your research, so again they know the background work, but want to know specifically what topic your paper covers.
+\emph{Introduction.} In one sentence, what’s the topic? Phrase it in a way that your reader will understand. If you’re writing a PhD thesis, your readers are the examiners – assume they are familiar with the general field of research, so you need to tell them specifically what topic your thesis addresses. Same advice works for scientific papers – the readers are the peer reviewers, and eventually others in your field interested in your research, so again they know the background work, but want to know specifically what topic your paper covers.
 
-\textsf{State the problem you tackle.} What’s the key research question? Again, in one sentence. (Note: For a more general essay, I’d adjust this slightly to state the central question that you want to address) Remember, your first sentence introduced the overall topic, so now you can build on that, and focus on one key question within that topic. If you can’t summarize your thesis/paper/essay in one key question, then you don’t yet understand what you’re trying to write about. Keep working at this step until you have a single, concise (and understandable) question.
+\emph{State the problem you tackle.} What’s the key research question? Again, in one sentence. (Note: For a more general essay, I’d adjust this slightly to state the central question that you want to address) Remember, your first sentence introduced the overall topic, so now you can build on that, and focus on one key question within that topic. If you can’t summarize your thesis/paper/essay in one key question, then you don’t yet understand what you’re trying to write about. Keep working at this step until you have a single, concise (and understandable) question.
 
-\textsf{Summarize (in one sentence) why nobody else has adequately answered the research question yet.} For a PhD thesis, you’ll have an entire chapter, covering what’s been done previously in the literature. Here you have to boil that down to one sentence. But remember, the trick is not to try and cover all the various ways in which people have tried and failed; the trick is to explain that there’s this one particular approach that nobody else tried yet (hint: it’s the thing that your research does). But here you’re phrasing it in such a way that it’s clear it’s a gap in the literature. So use a phrase such as “previous work has failed to address…”. (if you’re writing a more general essay, you still need to summarize the source material you’re drawing on, so you can pull the same trick – explain in a few words what the general message in the source material is, but expressed in terms of what’s missing)
+\emph{Summarize (in one sentence) why nobody else has adequately answered the research question yet.} For a PhD thesis, you’ll have an entire chapter, covering what’s been done previously in the literature. Here you have to boil that down to one sentence. But remember, the trick is not to try and cover all the various ways in which people have tried and failed; the trick is to explain that there’s this one particular approach that nobody else tried yet (hint: it’s the thing that your research does). But here you’re phrasing it in such a way that it’s clear it’s a gap in the literature. So use a phrase such as “previous work has failed to address…”. (if you’re writing a more general essay, you still need to summarize the source material you’re drawing on, so you can pull the same trick – explain in a few words what the general message in the source material is, but expressed in terms of what’s missing)
 
-\textsf{Explain, in one sentence, how you tackled the research question.} What’s your big new idea? (Again for a more general essay, you might want to adapt this slightly: what’s the new perspective you have adopted? or: What’s your overall view on the question you introduced in step 2?)
+\emph{Explain, in one sentence, how you tackled the research question.} What’s your big new idea? (Again for a more general essay, you might want to adapt this slightly: what’s the new perspective you have adopted? or: What’s your overall view on the question you introduced in step 2?)
 
-\textsf{In one sentence, how did you go about doing the research that follows from your big idea.} Did you run experiments? Build a piece of software? Carry out case studies? This is likely to be the longest sentence, especially if it’s a PhD thesis – after all you’re probably covering several years worth of research. But don’t overdo it – we’re still looking for a sentence that you could read aloud without having to stop for breath. Remember, the word ‘abstract’ means a summary of the main ideas with most of the detail left out. So feel free to omit detail! (For those of you who got this far and are still insisting on writing an essay rather than signing up for a PhD, this sentence is really an elaboration of sentence 4 – explore the consequences of your new perspective).
+\emph{In one sentence, how did you go about doing the research that follows from your big idea.} Did you run experiments? Build a piece of software? Carry out case studies? This is likely to be the longest sentence, especially if it’s a PhD thesis – after all you’re probably covering several years worth of research. But don’t overdo it – we’re still looking for a sentence that you could read aloud without having to stop for breath. Remember, the word ‘abstract’ means a summary of the main ideas with most of the detail left out. So feel free to omit detail! (For those of you who got this far and are still insisting on writing an essay rather than signing up for a PhD, this sentence is really an elaboration of sentence 4 – explore the consequences of your new perspective).
 
-\textsf{As a single sentence, what’s the key impact of your research? Here we’re not looking for the outcome of an experiment.} We’re looking for a summary of the implications. What’s it all mean? Why should other people care? What can they do with your research. (Essay folks: all the same questions apply: what conclusions did you draw, and why would anyone care about them?)
+\emph{As a single sentence, what’s the key impact of your research? Here we’re not looking for the outcome of an experiment.} We’re looking for a summary of the implications. What’s it all mean? Why should other people care? What can they do with your research. (Essay folks: all the same questions apply: what conclusions did you draw, and why would anyone care about them?)
 <% } else { -%>
 \lipsum[1]
 <% } -%>
-<% switch (documentclass) {
-  case "lncs": -%>
+<% switch (documentclass) { case "lncs": -%>
 \end{abstract}
 
 \begin{keywords}
   keyword1, keyword2
 \end{keywords}
-<%  break;
-default:  -%>
+<% break; case "ieee": -%>
+\end{abstract}
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+<% break; default: -%>
 
 \tableofcontents
-<%
-break;
-} -%>
+<% break; } -%>
 
 <% if (howtotext) { -%>
 %%% ===============================================================================
 <%= heading1 %>{Introduction}\label{sec:introduction}
 %%% ===============================================================================
 
-\textsf{Purpose and scope of your entire report}. The purpose of your entire report is to make a \textbf{scientific argument using the scientific method}. A scientific argument always has the following steps that all must come in this order.
+\emph{Purpose and scope of your entire report}. The purpose of your entire report is to make a \emph{scientific argument using the scientific method}. A scientific argument always has the following steps that all must come in this order.
 %
 \begin{itemize}
-    \item[SM1] \textbf{Explicate the assumptions and state of the art} on which you are going to conduct your research to investigate your research problem/test the hypothesis.
-    \item[SM2] Clearly and precisely  \textbf{formulate a research problem or hypothesis}.
-    \item[SM3] \textbf{Describe the (research) method} that you followed to investigate the problem / to test the hypothesis in a way that \textbf{allows someone else to reproduce your steps}. The method must includes steps and criteria for evaluating whether you answered your question successfully or not.
-    \item[SM4] \textbf{Provide execution details} on how you followed the method in the given, specific situation.
-    \item[SM5] \textbf{Report your results} by describing and summarizing your measurements. You must not interpret your results.
-    \item[SM6] \textbf{Now interpret your results} by contextualizing the measurements and drawing conclusion that lead to answering your research problem or defining further follow-up research problems.
+    \item[SM1] \emph{Explicate the assumptions and state of the art} on which you are going to conduct your research to investigate your research problem/test the hypothesis.
+    \item[SM2] Clearly and precisely  \emph{formulate a research problem or hypothesis}.
+    \item[SM3] \emph{Describe the (research) method} that you followed to investigate the problem / to test the hypothesis in a way that \emph{allows someone else to reproduce your steps}. The method must includes steps and criteria for evaluating whether you answered your question successfully or not.
+    \item[SM4] \emph{Provide execution details} on how you followed the method in the given, specific situation.
+    \item[SM5] \emph{Report your results} by describing and summarizing your measurements. You must not interpret your results.
+    \item[SM6] \emph{Now interpret your results} by contextualizing the measurements and drawing conclusion that lead to answering your research problem or defining further follow-up research problems.
 \end{itemize}
 %
 This template will mark various parts of the structure with SM1-SM6 to recall to you which step of a scientific argument is used and where.
 
-\textsf{Purpose and scope of <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:introduction}}. The introduction chapter is a summary of your work and your scientific argument that shall be understandable to anyone in your scientific field, e.g., anyone in Data Science. A reader must be able to comprehend the problem, method, relevant execution details, results, and their interpretation by reading the introduction and the introduction alone. Section~\ref{sec:introduction:topic} introduces the general topic of your research. Section~\ref{sec:introduction:state-of-art} discusses the state of the art and identifies a research. Section~\ref{sec:introduction:research-question} then states the research problem to investigate. Section~\ref{sec:problem-exposition:research-method} explains the research method that was followed, possibly with execution details. Section~\ref{sec:introduction:results} then presents the results and their interpretation. Only if a reader thinks they are not convinced or they need more details to reproduce your study, they shall have to read further. The individual chapters and sections provide the details for each of the steps in your scientific argument. 
+\emph{Purpose and scope of <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:introduction}}. The introduction chapter is a summary of your work and your scientific argument that shall be understandable to anyone in your scientific field, e.g., anyone in Data Science. A reader must be able to comprehend the problem, method, relevant execution details, results, and their interpretation by reading the introduction and the introduction alone. Section~\ref{sec:introduction:topic} introduces the general topic of your research. Section~\ref{sec:introduction:state-of-art} discusses the state of the art and identifies a research. Section~\ref{sec:introduction:research-question} then states the research problem to investigate. Section~\ref{sec:problem-exposition:research-method} explains the research method that was followed, possibly with execution details. Section~\ref{sec:introduction:results} then presents the results and their interpretation. Only if a reader thinks they are not convinced or they need more details to reproduce your study, they shall have to read further. The individual chapters and sections provide the details for each of the steps in your scientific argument. 
 
 You usually write the introduction chapter \emph{after} you wrote all other chapters, but you should keep on making notes for each of the sections as you write the later chapters..
 
-\textsf{Purpose and scope of the introduction paragraph to a chapter}. The paragraph you are reading above is a typical introductory paragraph to a chapter. It is a high-level summary of the chapters' topic (SM1 and SM2). It gives the reader some guidance by breaking down the chapter topic into subtopics that are clearly named (SM3) in the right order with forward references to the corresponding sections (SM4). It may close with announcing the result you obtain (SM6) but this is usually not done in the opening paragraph of the introduction.
+\emph{Purpose and scope of the introduction paragraph to a chapter}. The paragraph you are reading above is a typical introductory paragraph to a chapter. It is a high-level summary of the chapters' topic (SM1 and SM2). It gives the reader some guidance by breaking down the chapter topic into subtopics that are clearly named (SM3) in the right order with forward references to the corresponding sections (SM4). It may close with announcing the result you obtain (SM6) but this is usually not done in the opening paragraph of the introduction.
 
 % ---------------------------------------------------------------------------------
 <%= heading2 %>{Context and Topic (SM1)}\label{sec:introduction:topic}
 % ---------------------------------------------------------------------------------
 
-\textsf{Purpose and scope}. You begin with providing the general scientific audience an introduction into the specific topic of your work. The aim of this section is to first introduce the \emph{general subject of study} (``Giraffes are well-known animals and everyone's favorite''), the \emph{specific topic of societal or scientific interest} to investigate (``Giraffes have blue tongues'') and the \emph{objective of society/science towards} this topic (``it is unknown at the moment how the blue color tone evolved''). 
+\emph{Purpose and scope}. You begin with providing the general scientific audience an introduction into the specific topic of your work. The aim of this section is to first introduce the \emph{general subject of study} (``Giraffes are well-known animals and everyone's favorite''), the \emph{specific topic of societal or scientific interest} to investigate (``Giraffes have blue tongues'') and the \emph{objective of society/science towards} this topic (``it is unknown at the moment how the blue color tone evolved''). 
 It must be understandable by the general scientific public. Every \emph{term} with a specific meaning must be highlighted and introduced in precise language/concepts that only builds on a general scientific background. 
 
 At the end of this section, you have explained and established a general goal that society/science universally agrees to be worth achieving (``knowing how everyone's favorite animal evolved the colour of their tongue'').
@@ -302,7 +358,7 @@ At the end of this section, you have explained and established a general goal th
 <%= heading2 %>{State of the Art (SM1)}\label{sec:introduction:state-of-art}
 % ---------------------------------------------------------------------------------
 
-\textsf{Purpose and scope}. You provide a more in-depth introduction into the research topic by contrasting the current state of the art in society/science in relation to the research topic you introduced in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. This introduction has to 
+\emph{Purpose and scope}. You provide a more in-depth introduction into the research topic by contrasting the current state of the art in society/science in relation to the research topic you introduced in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. This introduction has to 
 
 \begin{itemize}
     \item present established facts, methods, and results that provide a deeper  understanding of the research topic (``prior work on giraffe genomes, relevance of giraffes for societal well-being, giraffes being a model-animal for various other studies, etc.'')
@@ -311,14 +367,14 @@ At the end of this section, you have explained and established a general goal th
 
 You have to provide citations/literature references for each of the statements and claims you are making. This section is usually a summary of the related work discussion in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:background}.
 
-At the end of this section, you have established a \emph{knowledge gap} between the state of the art and the general objective you developed in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. \textbf{Stating a (knowledge) gap between a status quo and a desired situation is the \emph{first step} of a writing scientific argument.} 
+At the end of this section, you have established a \emph{knowledge gap} between the state of the art and the general objective you developed in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. \emph{Stating a (knowledge) gap between a status quo and a desired situation is the \emph{first step} of a writing scientific argument.} 
 
 
 % ---------------------------------------------------------------------------------
 <%= heading2 %>{Research Question (SM2)}\label{sec:introduction:research-question}
 % ---------------------------------------------------------------------------------
 
-\textsf{Purpose and scope}. In this section you state in which way you will address the knowledge gap you identified at the end of <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:state-of-art}. You usually cannot address and resolve the entire knowledge gap in your work. The purpose of this section is to clearly detail the specific part of the knowledge that you will address. You thereby make all the assumptions explicit that underlie your work (``in this report we focus on genomes of female giraffes who lived in the years 1950-2000 in South Africa'').
+\emph{Purpose and scope}. In this section you state in which way you will address the knowledge gap you identified at the end of <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:state-of-art}. You usually cannot address and resolve the entire knowledge gap in your work. The purpose of this section is to clearly detail the specific part of the knowledge that you will address. You thereby make all the assumptions explicit that underlie your work (``in this report we focus on genomes of female giraffes who lived in the years 1950-2000 in South Africa'').
 
 Your general research question states
 \begin{itemize}
@@ -333,7 +389,7 @@ You will usually break your general research question down into sub-research que
 <%= heading2 %>{Method or Approach (SM3, SM4)}\label{sec:introduction:method}
 % ---------------------------------------------------------------------------------
  
-\textsf{Purpose and scope}. In this section you outline the method that you applied to answer the research questions, or the new technical approach that you developed to answer it. It is a summary of the steps that someone else has to take in order to reproduce your steps. Mention here the data sets you had to obtain/gather/analyze, interviews with stakeholders you had to make to further develop the research questions, technical artifacts (programs, algorithms, models) you could apply or that you had to develop (and how they work).
+\emph{Purpose and scope}. In this section you outline the method that you applied to answer the research questions, or the new technical approach that you developed to answer it. It is a summary of the steps that someone else has to take in order to reproduce your steps. Mention here the data sets you had to obtain/gather/analyze, interviews with stakeholders you had to make to further develop the research questions, technical artifacts (programs, algorithms, models) you could apply or that you had to develop (and how they work).
 
 The section is most readable if you give each of the steps in your method its own paragraph. In each paragraph you first briefly explain the concept of the step in your method (SM3, ``we explored the data through visual analytics'') and then provide details in execution (SM4, ``we used tool X, we developed dashboard Y'') include a forward reference to the respective chapter that provides more details.
 
@@ -341,7 +397,7 @@ The section is most readable if you give each of the steps in your method its ow
 <%= heading2 %>{Findings (SM5, SM6)}\label{sec:introduction:results}
 % ---------------------------------------------------------------------------------
 
-\textsf{Purpose and scope}. You close the introduction by clearly stating the evaluation setup you designed to evaluate the success of your study regarding the research objective, which comes in two steps. It is most likely a summary of your evaluation in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:evaluation}.
+\emph{Purpose and scope}. You close the introduction by clearly stating the evaluation setup you designed to evaluate the success of your study regarding the research objective, which comes in two steps. It is most likely a summary of your evaluation in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:evaluation}.
 
 \subsection*{Results (SM5)}
 
@@ -359,12 +415,12 @@ Finally state briefly how much closer society and science have come in answering
 <%= heading1 %>{Background (SM1)}\label{sec:background}
 %%% ===============================================================================
 
-\textsf{Purpose and scope}. The background chapter has multiple roles.
+\emph{Purpose and scope}. The background chapter has multiple roles.
 \begin{itemize}
 
-    \item \textsf{Preliminaries.} It has to provide all (and exactly the) information that is necessary to understand the methodological and technical parts of your work in the specific area of study. Assume as starting point another student in your degree who did not study the specific subject you are studying but has the task to understand your work. Which concepts, terms, definitions, etc. does the student have to know? Which formulas, symbols, etc. are standard in this topic? Only introduce definitions if you actually need them in any of the subsequent chapters.
+    \item \emph{Preliminaries.} It has to provide all (and exactly the) information that is necessary to understand the methodological and technical parts of your work in the specific area of study. Assume as starting point another student in your degree who did not study the specific subject you are studying but has the task to understand your work. Which concepts, terms, definitions, etc. does the student have to know? Which formulas, symbols, etc. are standard in this topic? Only introduce definitions if you actually need them in any of the subsequent chapters.
     
-    \item \textsf{Related Work.} It has to provide a comprehensive discussion of all prior work in the area on this subject. Your discussion has to summarize these prior works and has to explain in which way the research question you are solving (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question}) has not bee solved yet because prior work had more limiting assumptions, addressed a different angle, their results are not complete etc. Depending on the subject you are studying, the related work part can be larger and warrant an entire chapter on its own, or be fully concluded within <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:state-of-art}. 
+    \item \emph{Related Work.} It has to provide a comprehensive discussion of all prior work in the area on this subject. Your discussion has to summarize these prior works and has to explain in which way the research question you are solving (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question}) has not bee solved yet because prior work had more limiting assumptions, addressed a different angle, their results are not complete etc. Depending on the subject you are studying, the related work part can be larger and warrant an entire chapter on its own, or be fully concluded within <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:state-of-art}. 
     
     You can close the related work discussion by clarifying the positioning and formulation of your research question (SM2) in relation to all the prior work, making more explicit whether you address an existing research question under different premises or whether you work on a modified or completely new research question.
 \end{itemize}
@@ -373,7 +429,7 @@ Finally state briefly how much closer society and science have come in answering
 <%= heading1 %>{Problem Exposition (optional)}\label{sec:problem-exposition}
 %%% ===============================================================================
 
-\textsf{Purpose and scope}. Introduce the problem context in more detail if <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic} does not provide all necessary information about the problem to follow the rest of the report. This can include further details on the data you studied, context assumptions and requirements, etc. 
+\emph{Purpose and scope}. Introduce the problem context in more detail if <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic} does not provide all necessary information about the problem to follow the rest of the report. This can include further details on the data you studied, context assumptions and requirements, etc. 
 
 If you have to expose the problem in more detail here, then this chapter should also provide a more detailed explanation of research question and the method you are applying, i.e., you can now provide more concrete sub-problems compared to <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question} more details for the method <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:method} because you now have explained the problem much better. A typical structure can be.
 
@@ -407,7 +463,7 @@ provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass =
 <%= heading1 %>{First Real Chapter addressing first Research Problem}\label{sec:problem1}
 %%% ===============================================================================
 
-\textsf{Purpose and scope}. After you stated research context (SM1), research problem (SM2), and research method (SM3) in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:introduction} and possibly <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:problem-exposition}, the remainder of your entire report addresses execution (SM4), results (SM5), and interpretation (SM6). You usually do this by addressing various sub-problems again through scientific arguments following the 6 steps SM1-SM6.
+\emph{Purpose and scope}. After you stated research context (SM1), research problem (SM2), and research method (SM3) in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:introduction} and possibly <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:problem-exposition}, the remainder of your entire report addresses execution (SM4), results (SM5), and interpretation (SM6). You usually do this by addressing various sub-problems again through scientific arguments following the 6 steps SM1-SM6.
 
 Have a short chapter introduction that recalls and explains the first research problem of your thesis. The problem has to show up in the introduction in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question} or in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:research-problems} already. This provides the background (SM1) for this chapter while the first research problem of the thesis becomes the research question/hypothesis (SM2) for this chapter. 
 
@@ -417,11 +473,13 @@ Next, explain in the chapter intro how you solve the research problem in this ch
 <%= heading2 %>{First Sub-Problem}\label{sec:problem1:subproblem1}
 % ---------------------------------------------------------------------------------
 
-\textsf{The first paragraph describes the first sub-problem and develops the requirements a solution has to satisfy (SM2 for this section).} The requirements have to be based on the knowledge and reasoning developing in the preceding chapters and sections. Try to use an example to illustrate the problem and the desired properties of the solution. Check that every term/concept you use here has already been defined already in a previous section. If you cannot describe your problem without defining new terms, you may have to add another section before this one that develops the terms and concepts you need to explain the problem.
+\emph{The first paragraph describes the first sub-problem and develops the requirements a solution has to satisfy (SM2 for this section).} The requirements have to be based on the knowledge and reasoning developing in the preceding chapters and sections. Try to use an example to illustrate the problem and the desired properties of the solution. Check that every term/concept you use here has already been defined already in a previous section. If you cannot describe your problem without defining new terms, you may have to add another section before this one that develops the terms and concepts you need to explain the problem.
 
-\textsf{The second paragraph describes the method/approach how you address the problem (SM3 for this section).} Describe the method in a level of detail that allows another student to reproduce your steps. Make use of appendices (see <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:appendix1}) if certain details take too much space.
+\emph{The second paragraph describes the method/approach how you address the problem (SM3 for this section).} Describe the method in a level of detail that allows another student to reproduce your steps.
+Make use of appendices % (see <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:appendix1}) 
+if certain details take too much space.
 
-\textsf{The third, fourth, and following paragraph provides details on applying the method or developing a new approach, i.e., execution (SM4) and may explain results (SM5)}, i.e. details on the steps needed to reproduce the results. 
+\emph{The third, fourth, and following paragraph provides details on applying the method or developing a new approach, i.e., execution (SM4) and may explain results (SM5)}, i.e. details on the steps needed to reproduce the results. 
 
 Results (SM5) can come in many forms, e.g., conceptual diagrams, algorithms, tables, charts, a list of articles from a literature research etc. You must reference them (``<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Fig.~\ref<% } else { %>Figure~\ref<% } %>{fig:my_label} shows...'') and describe the results in text. If you use diagrams, tables, or charts, you cannot expect the reader to know what to you expect them to see in a diagram, table or chart. Describe to them how to read these, explain the meaning of particular elements, point out special observations. But you may only describe the results you must not interpret them. Make use of appendices if certain details take too much space.
 
@@ -432,7 +490,7 @@ Results (SM5) can come in many forms, e.g., conceptual diagrams, algorithms, tab
     \label{fig:my_label}
 \end{figure}
 
-\textsf{After describing the results, you may interpret them (SM6).} Here you can infer what a particular observation means (for you), how it can be applied, or what others can do with it. You must not write interpretations before completely describing your results. This is a common mistake done by most beginner writers. You want to quickly get to the point, which is the final finding or interpretation. But you forget that your reader does not understand yet what you are interpreting - they do not know yet what you do know. An interpretation can only be followed after all results have been described. The interpretation must be based on the written description only. Then you can be sure that your readers can follow your interpretation and reach the same conclusions as you have.
+\emph{After describing the results, you may interpret them (SM6).} Here you can infer what a particular observation means (for you), how it can be applied, or what others can do with it. You must not write interpretations before completely describing your results. This is a common mistake done by most beginner writers. You want to quickly get to the point, which is the final finding or interpretation. But you forget that your reader does not understand yet what you are interpreting - they do not know yet what you do know. An interpretation can only be followed after all results have been described. The interpretation must be based on the written description only. Then you can be sure that your readers can follow your interpretation and reach the same conclusions as you have.
 
 Ideally, your interpretation leads to the next sub-problem in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem1:subproblem2}.
 
@@ -463,7 +521,7 @@ Have a short chapter introduction that recalls what you already achieved in <% i
 <%= heading1 %>{Evaluation}\label{sec:evaluation}
 %%% ===============================================================================
 
-\textsf{Purpose and scope}. The evaluation chapter should be the most formal and rigorously structured chapter of your thesis as the validity of your evaluation argument depends on it.
+\emph{Purpose and scope}. The evaluation chapter should be the most formal and rigorously structured chapter of your thesis as the validity of your evaluation argument depends on it.
 
 % ---------------------------------------------------------------------------------
 <%= heading2 %>{Objective (SM2)}\label{sec:evaluation:objective}
@@ -509,6 +567,7 @@ An interpretation can only be followed after all results have been described. Th
 
 The remainder of the paper starts with a presentation of related work (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:relatedwork}).
 <% if (examples) { %>It is followed by a presentation of hints on \LaTeX{} (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:latexhints}).<% } -%>
+<% if (!examples && (documentclass == 'ieee')) { %>Afterwards, we present some Lorem Ipsum (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:loremipsum}).<% } -%>
 Finally, a conclusion is drawn and outlook on future work is made (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:outlook}).
 
 <%= heading2 %>{Related Work}
@@ -532,9 +591,8 @@ The whole idea of TOSCA is explained by <% if (available.citet) { %>\citet<% } e
 \newcount\LTGendlineexample
 \newenvironment{ltgexample}%
 {\LTGbeginlineexample=\numexpr\inputlineno+1\relax}%
-{%
-\LTGendlineexample=\numexpr\inputlineno-1\relax%
-
+{\LTGendlineexample=\numexpr\inputlineno-1\relax%
+%
 \tcbinputlisting{%
   listing only,
   listing file=\currfilepath,
@@ -588,6 +646,7 @@ It focuses on minimal examples, which can be directly adapted to the content
 <% if (enquotes == 'plainlatex') { %><%- include('plainlatex.enquotes.example.en.tex', this); %><% } -%>
 <% if (cleveref) { %><%- include('cleveref.example.en.tex', this); %><% } -%>
 <%- include('figure.example.en.tex', this); %>
+<%- include('subfloat.example.en.tex', this); %>
 <%- include('tables.example.en.tex', this); %>
 <% if (listings == 'listings') { -%>
 <%- include('listings.example.en.tex', this); %>
@@ -607,14 +666,27 @@ Your conclusions are not just a factual summary of your work, but they position,
 
 You should explicitly discuss limitations and shortcomings of your work and detail what kind of future studies are needed to overcome these limitations. Be specific in the sense that your arguments for future work should be based on concrete findings and insights you obtained in your report. 
 <% } else { -%>
+<% if (!examples && (documentclass == 'ieee')) { -%>
 
-<%= heading2 %>{Conclusion and Outlook}
+<%= heading1 %>{Lorem ipsum}
+\label{sec:loremipsum}
+\lipsum[1-4]
+<% } -%>
+
+<%= heading1 %>{Conclusion and Outlook}
 \label{sec:outlook}
 \lipsum[1-2]
 <% } -%>
-<% if (documentclass == 'lncs') { -%>
 
+<% switch (documentclass) { case "lncs": -%>
 \subsubsection*{Acknowledgments}
+<% break; case "ieee": -%>
+
+% regular IEEE prefers the singular form
+\section*{Acknowledgment}
+<% break; default: -%>
+<% break; } -%>
+<% if ((documentclass == 'lncs') || (documentclass = 'ieee')) { -%>
 <% if (howtotext) { -%>
 The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology}{LaTeX template for Bachelor and Master theses at Eindhoven University of Technology}.
 <% } else { -%>
@@ -630,9 +702,8 @@ In the bibliography, use \texttt{\textbackslash textsuperscript} for <%- bquote 
 E.g., <%- bquote %>The 2\textsuperscript{nd} conference on examples<%- equote %>.
 When you use \href{https://www.jabref.org}{JabRef}, you can use the clean up command to achieve that.
 See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the cleanup functionality.
+<% switch (documentclass) { case "lncs": -%>
 
-<% switch (documentclass) {
-  case "lncs": -%>
 \renewcommand{\bibsection}{\section*{References}} % requried for natbib to have "References" printed and as section*, not chapter*
 % Use natbib compatbile splncsnat style.
 % It does provide all features of splncs03, but is developed in a clean way.
@@ -643,13 +714,27 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
   \small % ensure correct font size for the bibliography
   \bibliography{<%= filenames.bib %>}
 \endgroup
-<%  break;
-default:  -%>
+<%  break; case "ieee": -%>
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% Enable to reduce spacing between bibitems (source: https://tex.stackexchange.com/a/25774)
+% \def\IEEEbibitemsep{0pt plus .5pt}
+
+\bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
+% argument is your BibTeX string definitions and bibliography database(s)
+\bibliography{<%= filenames.bib %>}
+<%  break; default: -%>
+
 \bibliographystyle{plain}
 \bibliography{<%= filenames.bib %>}
-<%
-break;
-} -%>
+<% break; } -%>
 
 % Enfore empty line after bibliography
 \ \\

@@ -1,0 +1,40 @@
+<%= heading2 %>{Sub Figures}
+
+An example of two sub figures is shown in <% if (cleveref) { %>\cref<% } else { %>Fig.~\ref<% } %>{fig:two_sub_figures}.
+
+<%- bexample %>
+\begin{figure<% if (documentclass == 'ieee') { %>*<% } %>}[!b]
+    \centering
+    \subfloat[Case I]{\includegraphics[width=.4\columnwidth]{example-image-a}%
+    \label{fig:first_case}}
+  \hfil
+    \subfloat[Case II]{\includegraphics[width=.4\columnwidth]{example-image-b}%
+    \label{fig:second_case}}
+  \caption{Example figure with two sub figures.}
+  \label{fig:two_sub_figures}
+\end{figure<% if (documentclass == 'ieee') { %>*<% } %>}
+<%- eexample %>
+<% if (documentclass == 'ieee') { -%>
+
+Note that often IEEE papers with subfigures do not employ subfigure
+captions (using the optional argument to \verb+\subfloat[]+), but instead will
+reference/describe all of them (a), (b), etc., within the main caption.
+Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
+labels, the optional argument to \verb+\subfloat+ must be present. If a
+subcaption is not desired, just leave its contents blank,
+e.g., \verb+\subfloat[]+.
+An example is shown in <% if (cleveref) { %>\cref<% } else { %>Fig.~\ref<% } %>{fig:two_sub_figures_ieee}.
+
+<%- bexample %>
+\begin{figure*}[!b]
+    \centering
+    \subfloat[]{\includegraphics[width=.4\columnwidth]{example-image-a}%
+    \label{fig:first_case_ieee}}
+  \hfil
+    \subfloat[]{\includegraphics[width=.4\columnwidth]{example-image-b}%
+    \label{fig:second_case_ieee}}
+  \caption{Example figure with two sub figures. IEEE style. (a) The first case. (b) The second case.}
+  \label{fig:two_sub_figures_ieee}
+\end{figure*}
+<%- eexample %>
+<% } -%>
