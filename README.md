@@ -29,9 +29,18 @@ and a generation into templates:
 
 ## Usage
 
+One has to install [Node.js](https://nodejs.org/en/) version 14 to get this generator running.
+On Windows, one can just run `choco install nodejs-lts` to get the right version of Node.js.
+
+On Linux, one can start using the generator directly using the node execution wrapper [npx](https://www.npmjs.com/package/npx):
+
+```bash
+npx -p yo -p generator-latex-template -c 'yo latex-template'
+```
+
 ### Installing `generator-latex-template`
 
-You can install `generator-latex-template` using following command:
+In case one wants to have the generator installed permanently or `npx` does work as exepcted, one can install `generator-latex-template` using following command:
 
 ```bash
 npm install -g generator-latex-template
@@ -39,7 +48,7 @@ npm install -g generator-latex-template
 
 ### Using the generator
 
-You can run the generator by invoking this command on a command prompt:
+One can run the generator by invoking this command on a command prompt:
 
 ```bash
 yo latex-template
