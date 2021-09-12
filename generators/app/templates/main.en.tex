@@ -1,12 +1,8 @@
-<% switch (documentclass) {
-  case "lncs": -%>
+<% switch (documentclass) { case "lncs": -%>
 % This template has been tested with LLNCS DOCUMENT CLASS -- version 2.20 (10-Mar-2018)
-<%  break;
-  case "ieee": -%>
+<% break; case "ieee": -%>
 % This template has been tested with IEEEtran of 2015.
-<%
-break;
-} -%>
+<% break; } -%>
 % !TeX spellcheck = en-US
 % !TeX encoding = utf8
 % !TeX program = <%= latexcompiler %>
@@ -58,8 +54,7 @@ break;
 % The pbalance package (see https://ctan.org/pkg/pbalance) "just works" (in contrast to balance.sty or other solutions)
 \usepackage{pbalance}
 
-<%  break;
-default:  -%>
+<% break; default: -%>
 \documentclass[
   % fontsize=11pt is the standard
   numbers=noenddot,
@@ -84,10 +79,14 @@ default:  -%>
 %   - https://tex.stackexchange.com/a/166791/9075
 \usepackage{upquote}
 
-<%- include('babel.preamble.en.tex', this); %>
-<%- include('url.preamble.en.tex', this); %>
-<%- include('font.preamble.en.tex', this); %>
-<%- include('microtype.preamble.en.tex', this); %>
+<%- include('babel.preamble.en.tex', this); -%>
+
+<%- include('url.preamble.en.tex', this); -%>
+
+<%- include('font.preamble.en.tex', this); -%>
+
+<%- include('microtype.preamble.en.tex', this); -%>
+
 \usepackage{graphicx}
 
 <%- include('diagbox.preamble.en.tex', this); -%>
@@ -96,16 +95,20 @@ default:  -%>
 \usepackage{xcolor}
 
 <% if (listings == 'listings') { -%>
-<%- include('listings.preamble.en.tex', this); %>
+<%- include('listings.preamble.en.tex', this); -%>
 <% } else { -%>
-<%- include('minted.preamble.en.tex', this); %>
+<%- include('minted.preamble.en.tex', this); -%>
 <% } -%>
+
 <% if (enquotes == 'csquotes') { %><%- include('csquotes.preamble.en.tex', this); %><% } -%>
 <% if (enquotes == 'textcmds') { %><%- include('textcmds.preamble.en.tex', this); %><% } -%>
-<%- include('booktabs.preamble.en.tex', this); %>
-<%- include('paralist.preamble.en.tex', this); %>
+
+<%- include('booktabs.preamble.en.tex', this); -%>
+
+<%- include('paralist.preamble.en.tex', this); -%>
 <% if (documentclass == 'acmart' || documentclass == 'ieee' || documentclass == 'lncs') { -%>
-<%- include('natbib.preamble.en.tex', this); %>
+
+<%- include('natbib.preamble.en.tex', this); -%>
 <% } -%>
 <% if (documentclass == 'acmart') { -%>
 
@@ -123,12 +126,12 @@ default:  -%>
 { encoding = {OT1,T1,TS1} }
 { }
 
-<%- include('floatflt.preamble.en.tex', this); %>
+<%- include('floatflt.preamble.en.tex', this); -%>
 <% } -%>
 <% if (todo == 'pdfcomment') { -%>
-<%- include('pdfcomment.preamble.en.tex', this); %>
+<%- include('pdfcomment.preamble.en.tex', this); -%>
 <% } else { -%>
-<%- include('plainlatextodo.preamble.en.tex', this); %>
+<%- include('plainlatextodo.preamble.en.tex', this); -%>
 <% } -%>
 
 % Put footnotes below floats
@@ -155,7 +158,7 @@ default:  -%>
 <% } -%>
 <% } -%>
 
-<%- include('powerset.preamble.en.tex', this); %>
+<%- include('powerset.preamble.en.tex', this); -%>
 
 \usepackage{xspace}
 %\newcommand{\eg}{e.\,g.\xspace}
@@ -172,7 +175,10 @@ default:  -%>
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) { case "acmart": -%>
+
+\acmConference[short-conference-name]{full-conference-name}{November 02--06, 2021}{City, Country}
+<% break; case "lncs": -%>
 
 % Add copyright
 % Do that for the final version or if you send it to colleagues
@@ -187,7 +193,7 @@ default:  -%>
   %example: llncs{Anonymous et al. (eds). \emph{Proceedings of the International Conference on \LaTeX-Hacks}, LNCS~42. Some Publisher, 2016.}{0042}
   \llncs{book editors and title}{0042} %% 0042 is the start page
 \fi
-<% } -%>
+<% break; } -%>
 <% if (latexcompiler == "pdflatex") { -%>
 
 % Enable copy and paste of text from the PDF
@@ -683,7 +689,7 @@ Your conclusions are not just a factual summary of your work, but they position,
 
 You should explicitly discuss limitations and shortcomings of your work and detail what kind of future studies are needed to overcome these limitations. Be specific in the sense that your arguments for future work should be based on concrete findings and insights you obtained in your report.
 <% } else { -%>
-<% if (!examples && (documentclass == 'ieee')) { -%>
+<% if (!examples && ((documentclass == 'acmart') || (documentclass == 'ieee'))) { -%>
 
 <%= heading1 %>{Lorem ipsum}
 \label{sec:loremipsum}
@@ -697,9 +703,9 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 
 <% switch (documentclass) { case "lncs": -%>
 \subsubsection*{Acknowledgments}
-<% break; case "acnart": -%>
+<% break; case "acmart": -%>
+\section*{Acknowledgments}
 <% break; case "ieee": -%>
-\begin{acknowledgements}
 % regular IEEE prefers the singular form
 \section*{Acknowledgment}
 <% break; default: -%>
@@ -712,7 +718,8 @@ The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://
 <% } -%>
 <% } -%>
 <% if (documentclass == 'acmart') { -%>
- \end{acknowledgements}
+
+For more \LaTeX{} hints for ACM read on at \url{https://www.acm.org/publications/taps/latex-best-practices}.
 <% } -%>
 
 %%% ===============================================================================
