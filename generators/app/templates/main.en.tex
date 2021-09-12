@@ -2,7 +2,7 @@
   case "lncs": -%>
 % This template has been tested with LLNCS DOCUMENT CLASS -- version 2.20 (10-Mar-2018)
 <%  break;
-  case "ieee":  -%>
+  case "ieee": -%>
 % This template has been tested with IEEEtran of 2015.
 <%
 break;
@@ -21,8 +21,7 @@ break;
 %     For more information see https://github.com/latextemplates/scientific-thesis-cover/issues/4
 \RequirePackage{kvoptions-patch}
 <% } -%>
-<% switch (documentclass) {
-  case "lncs": -%>
+<% switch (documentclass) { case "lncs": -%>
 
 % "a4paper" enables:
 %
@@ -44,9 +43,13 @@ break;
 %
 % To disable outputting page headers and footers, remove "runningheads"
 \documentclass[runningheads,a4paper,english]{llncs}[2018/03/10]
-<%  break;
-case "ieee": -%>
+<% break; case "acmart": -%>
+\documentclass[sigconf,review]{acmart}
 
+% Balance the last page
+% The pbalance package (see https://ctan.org/pkg/pbalance) "just works" (in contrast to balance.sty or other solutions)
+\usepackage{pbalance}
+<% break; case "ieee": -%>
 % DO NOT DOWNLOAD IEEEtran.cls - Use the one of your LaTeX distribution
 % For the final version, replace "draftcls" by "final"
 \documentclass[<%= ieee_variant %>,<%= papersize %>paper]{IEEEtran}[2015/08/26]
@@ -97,16 +100,18 @@ default:  -%>
 <% } else { -%>
 <%- include('minted.preamble.en.tex', this); %>
 <% } -%>
-
-<% if (enquotes == 'csquotes')  { %><%- include('csquotes.preamble.en.tex', this); %><% } -%>
-<% if (enquotes == 'textcmds')  { %><%- include('textcmds.preamble.en.tex', this); %><% } -%>
-
+<% if (enquotes == 'csquotes') { %><%- include('csquotes.preamble.en.tex', this); %><% } -%>
+<% if (enquotes == 'textcmds') { %><%- include('textcmds.preamble.en.tex', this); %><% } -%>
 <%- include('booktabs.preamble.en.tex', this); %>
 <%- include('paralist.preamble.en.tex', this); %>
-<% if (documentclass == 'lncs' || documentclass == 'ieee')  { -%>
+<% if (documentclass == 'acmart' || documentclass == 'ieee' || documentclass == 'lncs') { -%>
 <%- include('natbib.preamble.en.tex', this); %>
 <% } -%>
-<% if (documentclass == 'lncs')  { -%>
+<% if (documentclass == 'acmart') { -%>
+
+\citestyle{acmnumeric} % alternative: acmauthoryear
+<% } -%>
+<% if (documentclass == 'lncs') { -%>
 
 % Prepare more space-saving rendering of the bibliography
 % Source: https://tex.stackexchange.com/a/280936/9075
@@ -232,6 +237,18 @@ default:  -%>
 \maketitle
 
 \begin{abstract}
+<% break; case "acmart": -%>
+\title{Paper Title}
+\author{First Author}
+\affiliation{%
+    \department{Department}
+    \institution{Institution}
+    \city{City}
+    \country{Country}
+}
+\email{first.last@example.com}
+
+\begin{abstract}
 <% break; case "ieee": -%>
 % Enable following command if you need to typeset "IEEEpubid".
 % See https://bytefreaks.net/tag/ieeeoverridecommandlockouts for details.
@@ -304,6 +321,10 @@ default:  -%>
 \begin{keywords}
   keyword1, keyword2
 \end{keywords}
+<% break; case "acmart": -%>
+\end{abstract}
+
+\maketitle
 <% break; case "ieee": -%>
 \end{abstract}
 
@@ -330,7 +351,7 @@ default:  -%>
 %
 \begin{itemize}
     \item[SM1] \emph{Explicate the assumptions and state of the art} on which you are going to conduct your research to investigate your research problem/test the hypothesis.
-    \item[SM2] Clearly and precisely  \emph{formulate a research problem or hypothesis}.
+    \item[SM2] Clearly and precisely \emph{formulate a research problem or hypothesis}.
     \item[SM3] \emph{Describe the (research) method} that you followed to investigate the problem / to test the hypothesis in a way that \emph{allows someone else to reproduce your steps}. The method must includes steps and criteria for evaluating whether you answered your question successfully or not.
     \item[SM4] \emph{Provide execution details} on how you followed the method in the given, specific situation.
     \item[SM5] \emph{Report your results} by describing and summarizing your measurements. You must not interpret your results.
@@ -361,7 +382,7 @@ At the end of this section, you have explained and established a general goal th
 \emph{Purpose and scope}. You provide a more in-depth introduction into the research topic by contrasting the current state of the art in society/science in relation to the research topic you introduced in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. This introduction has to
 
 \begin{itemize}
-    \item present established facts, methods, and results that provide a deeper  understanding of the research topic (``prior work on giraffe genomes, relevance of giraffes for societal well-being, giraffes being a model-animal for various other studies, etc.'')
+    \item present established facts, methods, and results that provide a deeper understanding of the research topic (``prior work on giraffe genomes, relevance of giraffes for societal well-being, giraffes being a model-animal for various other studies, etc.'')
     \item discuss in which ways prior and recent ideas still fall short of reaching the general goal you explained in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic} (``prior work only sequenced the genome of one giraffe and did not consider genes of ancient ancestors'')
 \end{itemize}
 
@@ -409,8 +430,6 @@ You summarize your interpretation of the results and draw conclusions. State whe
 
 Finally state briefly how much closer society and science have come in answering the general objective you outlined in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}.
 
-
-
 %%% ===============================================================================
 <%= heading1 %>{Background (SM1)}\label{sec:background}
 %%% ===============================================================================
@@ -449,15 +468,13 @@ provide details
 <%= heading2 %>{Detailed Research Questions (SM2)}\label{sec:problem-exposition:research-problems}
 % ---------------------------------------------------------------------------------
 
-provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:context-understanding} and  \ref{sec:problem-exposition:data-understanding}
+provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:context-understanding} and \ref{sec:problem-exposition:data-understanding}
 
 % ---------------------------------------------------------------------------------
 <%= heading2 %>{Detailed Method (SM3)}\label{sec:problem-exposition:research-method}
 % ---------------------------------------------------------------------------------
 
-provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:context-understanding} and  \ref{sec:problem-exposition:data-understanding}
-
-
+provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:context-understanding} and \ref{sec:problem-exposition:data-understanding}
 
 %%% ===============================================================================
 <%= heading1 %>{First Real Chapter addressing first Research Problem}\label{sec:problem1}
@@ -680,18 +697,22 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 
 <% switch (documentclass) { case "lncs": -%>
 \subsubsection*{Acknowledgments}
+<% break; case "acnart": -%>
 <% break; case "ieee": -%>
-
+\begin{acknowledgements}
 % regular IEEE prefers the singular form
 \section*{Acknowledgment}
 <% break; default: -%>
 <% break; } -%>
-<% if ((documentclass == 'lncs') || (documentclass = 'ieee')) { -%>
+<% if ((documentclass == 'acmart') || (documentclass == 'lncs') || (documentclass = 'ieee')) { -%>
 <% if (howtotext) { -%>
 The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology}{LaTeX template for Bachelor and Master theses at Eindhoven University of Technology}.
 <% } else { -%>
 \ldots
 <% } -%>
+<% } -%>
+<% if (documentclass == 'acmart') { -%>
+ \end{acknowledgements}
 <% } -%>
 
 %%% ===============================================================================
@@ -714,6 +735,10 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
   \small % ensure correct font size for the bibliography
   \bibliography{<%= filenames.bib %>}
 \endgroup
+<%  break; case "acmart": -%>
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{<%= filenames.bib %>}
 <%  break; case "ieee": -%>
 
 % trigger a \newpage just before the given reference
@@ -730,7 +755,7 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
 % argument is your BibTeX string definitions and bibliography database(s)
 \bibliography{<%= filenames.bib %>}
-<%  break; default: -%>
+<% break; default: -%>
 
 \bibliographystyle{plain}
 \bibliography{<%= filenames.bib %>}

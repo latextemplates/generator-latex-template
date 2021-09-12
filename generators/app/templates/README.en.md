@@ -23,7 +23,13 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 # LaTeX Document
 <% } -%>
 
-Compile it using
+To build the whole document, execute following command.
+Note that this requires a working perl installation.
+
+    latexmk <%= filenames.main %>
+
+In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
+
 <% if (latexcompiler == "pdflatex")  { %>
     pdflatex <%= filenames.main %>
 <%
