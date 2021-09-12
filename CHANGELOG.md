@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Sections "Introduction" and "Related Work" are sections in IEEE when not using "howtotext". Fixes [#70](https://github.com/latextemplates/generator-latex-template/issues/70)
+
 ### Changed
 
 - Changed from `\columnwidth` to `\linewidth`, which is more readable for `.tex` authors.
