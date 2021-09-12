@@ -131,4 +131,11 @@ for documentclass in documentclasses:
                                 yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                               else:
                                 yml.write("          root_file: main.tex\n")
+        yml.write('''      - uses: actions/upload-artifact@v2
+        with:
+          name: pdfs
+          path: |
+            **/main.pdf
+            **/paper.pdf
+''')
         yml.close()
