@@ -1,4 +1,4 @@
-documentclasses = ['ieee', 'lncs', 'scientific-thesis']
+documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
 # bibtextools = ['bibtex', 'biblatex']
@@ -16,6 +16,8 @@ tweak_outerquotes = ['babel', 'outerquote']
 todos = ['pdfcomment', 'none']
 examples = ['true', 'false']
 howtotexts = ['true', 'false']
+
+# IEEE only
 papersizes = ['a4', 'letter']
 ieee_variants = ['conference', 'journal', 'peerreview']
 
@@ -23,9 +25,7 @@ for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
       for example in examples:
-        if (documentclass == 'lncs') and (bibtextool == 'biblatex'):
-          continue
-        if (documentclass == 'ieee') and (bibtextool == 'biblatex'):
+        if ((bibtextool == 'biblatex') and ((documentclass == 'acmart') or (documentclass == 'ieee') or (documentclass == 'lncs'))):
           continue
         for papersize in papersizes:
           for ieee_variant in ieee_variants:
