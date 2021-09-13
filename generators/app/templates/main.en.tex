@@ -1,12 +1,8 @@
-<% switch (documentclass) {
-  case "lncs": -%>
+<% switch (documentclass) { case "lncs": -%>
 % This template has been tested with LLNCS DOCUMENT CLASS -- version 2.20 (10-Mar-2018)
-<%  break;
-  case "ieee":  -%>
+<% break; case "ieee": -%>
 % This template has been tested with IEEEtran of 2015.
-<%
-break;
-} -%>
+<% break; } -%>
 % !TeX spellcheck = en-US
 % !TeX encoding = utf8
 % !TeX program = <%= latexcompiler %>
@@ -21,8 +17,7 @@ break;
 %     For more information see https://github.com/latextemplates/scientific-thesis-cover/issues/4
 \RequirePackage{kvoptions-patch}
 <% } -%>
-<% switch (documentclass) {
-  case "lncs": -%>
+<% switch (documentclass) { case "lncs": -%>
 
 % "a4paper" enables:
 %
@@ -44,9 +39,11 @@ break;
 %
 % To disable outputting page headers and footers, remove "runningheads"
 \documentclass[runningheads,a4paper,english]{llncs}[2018/03/10]
-<%  break;
-case "ieee": -%>
-
+<% break; case "acmart": -%>
+% We balance the last page using the package "pbalance" (see https://ctan.org/pkg/pbalance), because it "just works" (in contrast to balance.sty or other solutions)
+% In case you have an older texlive distribution, replace "pbalance" by "balance"
+\documentclass[sigconf,review,pbalance]{acmart}
+<% break; case "ieee": -%>
 % DO NOT DOWNLOAD IEEEtran.cls - Use the one of your LaTeX distribution
 % For the final version, replace "draftcls" by "final"
 \documentclass[<%= ieee_variant %>,<%= papersize %>paper]{IEEEtran}[2015/08/26]
@@ -55,8 +52,7 @@ case "ieee": -%>
 % The pbalance package (see https://ctan.org/pkg/pbalance) "just works" (in contrast to balance.sty or other solutions)
 \usepackage{pbalance}
 
-<%  break;
-default:  -%>
+<% break; default: -%>
 \documentclass[
   % fontsize=11pt is the standard
   numbers=noenddot,
@@ -81,10 +77,16 @@ default:  -%>
 %   - https://tex.stackexchange.com/a/166791/9075
 \usepackage{upquote}
 
-<%- include('babel.preamble.en.tex', this); %>
-<%- include('url.preamble.en.tex', this); %>
-<%- include('font.preamble.en.tex', this); %>
-<%- include('microtype.preamble.en.tex', this); %>
+<%- include('babel.preamble.en.tex', this); -%>
+
+<%- include('url.preamble.en.tex', this); -%>
+<%# ACM already provides a very good font configuration; thus we do not need to override it -%>
+<% if (documentclass != 'acmart') { %>
+<%- include('font.preamble.en.tex', this); -%>
+<% } -%>
+
+<%- include('microtype.preamble.en.tex', this); -%>
+
 \usepackage{graphicx}
 
 <%- include('diagbox.preamble.en.tex', this); -%>
@@ -93,20 +95,26 @@ default:  -%>
 \usepackage{xcolor}
 
 <% if (listings == 'listings') { -%>
-<%- include('listings.preamble.en.tex', this); %>
+<%- include('listings.preamble.en.tex', this); -%>
 <% } else { -%>
-<%- include('minted.preamble.en.tex', this); %>
+<%- include('minted.preamble.en.tex', this); -%>
 <% } -%>
 
-<% if (enquotes == 'csquotes')  { %><%- include('csquotes.preamble.en.tex', this); %><% } -%>
-<% if (enquotes == 'textcmds')  { %><%- include('textcmds.preamble.en.tex', this); %><% } -%>
+<% if (enquotes == 'csquotes') { %><%- include('csquotes.preamble.en.tex', this); %><% } -%>
+<% if (enquotes == 'textcmds') { %><%- include('textcmds.preamble.en.tex', this); %><% } -%>
 
-<%- include('booktabs.preamble.en.tex', this); %>
-<%- include('paralist.preamble.en.tex', this); %>
-<% if (documentclass == 'lncs' || documentclass == 'ieee')  { -%>
-<%- include('natbib.preamble.en.tex', this); %>
+<%- include('booktabs.preamble.en.tex', this); -%>
+
+<%- include('paralist.preamble.en.tex', this); -%>
+<% if (documentclass == 'acmart' || documentclass == 'ieee' || documentclass == 'lncs') { -%>
+
+<%- include('natbib.preamble.en.tex', this); -%>
 <% } -%>
-<% if (documentclass == 'lncs')  { -%>
+<% if (documentclass == 'acmart') { -%>
+
+\citestyle{acmnumeric} % alternative: acmauthoryear
+<% } -%>
+<% if (documentclass == 'lncs') { -%>
 
 % Prepare more space-saving rendering of the bibliography
 % Source: https://tex.stackexchange.com/a/280936/9075
@@ -118,12 +126,12 @@ default:  -%>
 { encoding = {OT1,T1,TS1} }
 { }
 
-<%- include('floatflt.preamble.en.tex', this); %>
+<%- include('floatflt.preamble.en.tex', this); -%>
 <% } -%>
 <% if (todo == 'pdfcomment') { -%>
-<%- include('pdfcomment.preamble.en.tex', this); %>
+<%- include('pdfcomment.preamble.en.tex', this); -%>
 <% } else { -%>
-<%- include('plainlatextodo.preamble.en.tex', this); %>
+<%- include('plainlatextodo.preamble.en.tex', this); -%>
 <% } -%>
 
 % Put footnotes below floats
@@ -150,7 +158,7 @@ default:  -%>
 <% } -%>
 <% } -%>
 
-<%- include('powerset.preamble.en.tex', this); %>
+<%- include('powerset.preamble.en.tex', this); -%>
 
 \usepackage{xspace}
 %\newcommand{\eg}{e.\,g.\xspace}
@@ -167,7 +175,12 @@ default:  -%>
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) { case "acmart": -%>
+
+\acmConference[short-conference-name]{full-conference-name}{November 02--06, 2021}{City, Country}
+\acmDOI{10.1145/9999997.9999999}
+%\startPage{457}
+<% break; case "lncs": -%>
 
 % Add copyright
 % Do that for the final version or if you send it to colleagues
@@ -182,7 +195,7 @@ default:  -%>
   %example: llncs{Anonymous et al. (eds). \emph{Proceedings of the International Conference on \LaTeX-Hacks}, LNCS~42. Some Publisher, 2016.}{0042}
   \llncs{book editors and title}{0042} %% 0042 is the start page
 \fi
-<% } -%>
+<% break; } -%>
 <% if (latexcompiler == "pdflatex") { -%>
 
 % Enable copy and paste of text from the PDF
@@ -230,6 +243,19 @@ default:  -%>
 %}
 
 \maketitle
+
+\begin{abstract}
+<% break; case "acmart": -%>
+\title{Paper Title}
+\author{First Author}
+\orcid{ORCID}
+\affiliation{%
+    \department{Department}
+    \institution{Institution}
+    \city{City}
+    \country{Country}
+}
+\email{first.last@example.com}
 
 \begin{abstract}
 <% break; case "ieee": -%>
@@ -304,6 +330,10 @@ default:  -%>
 \begin{keywords}
   keyword1, keyword2
 \end{keywords}
+<% break; case "acmart": -%>
+\end{abstract}
+
+\maketitle
 <% break; case "ieee": -%>
 \end{abstract}
 
@@ -330,7 +360,7 @@ default:  -%>
 %
 \begin{itemize}
     \item[SM1] \emph{Explicate the assumptions and state of the art} on which you are going to conduct your research to investigate your research problem/test the hypothesis.
-    \item[SM2] Clearly and precisely  \emph{formulate a research problem or hypothesis}.
+    \item[SM2] Clearly and precisely \emph{formulate a research problem or hypothesis}.
     \item[SM3] \emph{Describe the (research) method} that you followed to investigate the problem / to test the hypothesis in a way that \emph{allows someone else to reproduce your steps}. The method must includes steps and criteria for evaluating whether you answered your question successfully or not.
     \item[SM4] \emph{Provide execution details} on how you followed the method in the given, specific situation.
     \item[SM5] \emph{Report your results} by describing and summarizing your measurements. You must not interpret your results.
@@ -339,7 +369,7 @@ default:  -%>
 %
 This template will mark various parts of the structure with SM1-SM6 to recall to you which step of a scientific argument is used and where.
 
-\emph{Purpose and scope of <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:introduction}}. The introduction chapter is a summary of your work and your scientific argument that shall be understandable to anyone in your scientific field, e.g., anyone in Data Science. A reader must be able to comprehend the problem, method, relevant execution details, results, and their interpretation by reading the introduction and the introduction alone. Section~\ref{sec:introduction:topic} introduces the general topic of your research. Section~\ref{sec:introduction:state-of-art} discusses the state of the art and identifies a research. Section~\ref{sec:introduction:research-question} then states the research problem to investigate. Section~\ref{sec:problem-exposition:research-method} explains the research method that was followed, possibly with execution details. Section~\ref{sec:introduction:results} then presents the results and their interpretation. Only if a reader thinks they are not convinced or they need more details to reproduce your study, they shall have to read further. The individual chapters and sections provide the details for each of the steps in your scientific argument. 
+\emph{Purpose and scope of <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:introduction}}. The introduction chapter is a summary of your work and your scientific argument that shall be understandable to anyone in your scientific field, e.g., anyone in Data Science. A reader must be able to comprehend the problem, method, relevant execution details, results, and their interpretation by reading the introduction and the introduction alone. Section~\ref{sec:introduction:topic} introduces the general topic of your research. Section~\ref{sec:introduction:state-of-art} discusses the state of the art and identifies a research. Section~\ref{sec:introduction:research-question} then states the research problem to investigate. Section~\ref{sec:problem-exposition:research-method} explains the research method that was followed, possibly with execution details. Section~\ref{sec:introduction:results} then presents the results and their interpretation. Only if a reader thinks they are not convinced or they need more details to reproduce your study, they shall have to read further. The individual chapters and sections provide the details for each of the steps in your scientific argument.
 
 You usually write the introduction chapter \emph{after} you wrote all other chapters, but you should keep on making notes for each of the sections as you write the later chapters..
 
@@ -349,8 +379,8 @@ You usually write the introduction chapter \emph{after} you wrote all other chap
 <%= heading2 %>{Context and Topic (SM1)}\label{sec:introduction:topic}
 % ---------------------------------------------------------------------------------
 
-\emph{Purpose and scope}. You begin with providing the general scientific audience an introduction into the specific topic of your work. The aim of this section is to first introduce the \emph{general subject of study} (``Giraffes are well-known animals and everyone's favorite''), the \emph{specific topic of societal or scientific interest} to investigate (``Giraffes have blue tongues'') and the \emph{objective of society/science towards} this topic (``it is unknown at the moment how the blue color tone evolved''). 
-It must be understandable by the general scientific public. Every \emph{term} with a specific meaning must be highlighted and introduced in precise language/concepts that only builds on a general scientific background. 
+\emph{Purpose and scope}. You begin with providing the general scientific audience an introduction into the specific topic of your work. The aim of this section is to first introduce the \emph{general subject of study} (``Giraffes are well-known animals and everyone's favorite''), the \emph{specific topic of societal or scientific interest} to investigate (``Giraffes have blue tongues'') and the \emph{objective of society/science towards} this topic (``it is unknown at the moment how the blue color tone evolved'').
+It must be understandable by the general scientific public. Every \emph{term} with a specific meaning must be highlighted and introduced in precise language/concepts that only builds on a general scientific background.
 
 At the end of this section, you have explained and established a general goal that society/science universally agrees to be worth achieving (``knowing how everyone's favorite animal evolved the colour of their tongue'').
 
@@ -358,16 +388,16 @@ At the end of this section, you have explained and established a general goal th
 <%= heading2 %>{State of the Art (SM1)}\label{sec:introduction:state-of-art}
 % ---------------------------------------------------------------------------------
 
-\emph{Purpose and scope}. You provide a more in-depth introduction into the research topic by contrasting the current state of the art in society/science in relation to the research topic you introduced in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. This introduction has to 
+\emph{Purpose and scope}. You provide a more in-depth introduction into the research topic by contrasting the current state of the art in society/science in relation to the research topic you introduced in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. This introduction has to
 
 \begin{itemize}
-    \item present established facts, methods, and results that provide a deeper  understanding of the research topic (``prior work on giraffe genomes, relevance of giraffes for societal well-being, giraffes being a model-animal for various other studies, etc.'')
+    \item present established facts, methods, and results that provide a deeper understanding of the research topic (``prior work on giraffe genomes, relevance of giraffes for societal well-being, giraffes being a model-animal for various other studies, etc.'')
     \item discuss in which ways prior and recent ideas still fall short of reaching the general goal you explained in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic} (``prior work only sequenced the genome of one giraffe and did not consider genes of ancient ancestors'')
 \end{itemize}
 
 You have to provide citations/literature references for each of the statements and claims you are making. This section is usually a summary of the related work discussion in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:background}.
 
-At the end of this section, you have established a \emph{knowledge gap} between the state of the art and the general objective you developed in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. \emph{Stating a (knowledge) gap between a status quo and a desired situation is the \emph{first step} of a writing scientific argument.} 
+At the end of this section, you have established a \emph{knowledge gap} between the state of the art and the general objective you developed in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. \emph{Stating a (knowledge) gap between a status quo and a desired situation is the \emph{first step} of a writing scientific argument.}
 
 
 % ---------------------------------------------------------------------------------
@@ -388,7 +418,7 @@ You will usually break your general research question down into sub-research que
 % ---------------------------------------------------------------------------------
 <%= heading2 %>{Method or Approach (SM3, SM4)}\label{sec:introduction:method}
 % ---------------------------------------------------------------------------------
- 
+
 \emph{Purpose and scope}. In this section you outline the method that you applied to answer the research questions, or the new technical approach that you developed to answer it. It is a summary of the steps that someone else has to take in order to reproduce your steps. Mention here the data sets you had to obtain/gather/analyze, interviews with stakeholders you had to make to further develop the research questions, technical artifacts (programs, algorithms, models) you could apply or that you had to develop (and how they work).
 
 The section is most readable if you give each of the steps in your method its own paragraph. In each paragraph you first briefly explain the concept of the step in your method (SM3, ``we explored the data through visual analytics'') and then provide details in execution (SM4, ``we used tool X, we developed dashboard Y'') include a forward reference to the respective chapter that provides more details.
@@ -405,11 +435,9 @@ You state the evaluation method that is in line with your research question from
 
 \subsection*{Interpretation (SM6)}
 
-You summarize your interpretation of the results and draw conclusions. State whether and to which degree the research question from <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question} has been answered successfully or not. 
+You summarize your interpretation of the results and draw conclusions. State whether and to which degree the research question from <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question} has been answered successfully or not.
 
-Finally state briefly how much closer society and science have come in answering the general objective you outlined in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. 
-
-
+Finally state briefly how much closer society and science have come in answering the general objective you outlined in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}.
 
 %%% ===============================================================================
 <%= heading1 %>{Background (SM1)}\label{sec:background}
@@ -419,9 +447,9 @@ Finally state briefly how much closer society and science have come in answering
 \begin{itemize}
 
     \item \emph{Preliminaries.} It has to provide all (and exactly the) information that is necessary to understand the methodological and technical parts of your work in the specific area of study. Assume as starting point another student in your degree who did not study the specific subject you are studying but has the task to understand your work. Which concepts, terms, definitions, etc. does the student have to know? Which formulas, symbols, etc. are standard in this topic? Only introduce definitions if you actually need them in any of the subsequent chapters.
-    
-    \item \emph{Related Work.} It has to provide a comprehensive discussion of all prior work in the area on this subject. Your discussion has to summarize these prior works and has to explain in which way the research question you are solving (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question}) has not bee solved yet because prior work had more limiting assumptions, addressed a different angle, their results are not complete etc. Depending on the subject you are studying, the related work part can be larger and warrant an entire chapter on its own, or be fully concluded within <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:state-of-art}. 
-    
+
+    \item \emph{Related Work.} It has to provide a comprehensive discussion of all prior work in the area on this subject. Your discussion has to summarize these prior works and has to explain in which way the research question you are solving (<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question}) has not bee solved yet because prior work had more limiting assumptions, addressed a different angle, their results are not complete etc. Depending on the subject you are studying, the related work part can be larger and warrant an entire chapter on its own, or be fully concluded within <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:state-of-art}.
+
     You can close the related work discussion by clarifying the positioning and formulation of your research question (SM2) in relation to all the prior work, making more explicit whether you address an existing research question under different premises or whether you work on a modified or completely new research question.
 \end{itemize}
 
@@ -429,7 +457,7 @@ Finally state briefly how much closer society and science have come in answering
 <%= heading1 %>{Problem Exposition (optional)}\label{sec:problem-exposition}
 %%% ===============================================================================
 
-\emph{Purpose and scope}. Introduce the problem context in more detail if <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic} does not provide all necessary information about the problem to follow the rest of the report. This can include further details on the data you studied, context assumptions and requirements, etc. 
+\emph{Purpose and scope}. Introduce the problem context in more detail if <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic} does not provide all necessary information about the problem to follow the rest of the report. This can include further details on the data you studied, context assumptions and requirements, etc.
 
 If you have to expose the problem in more detail here, then this chapter should also provide a more detailed explanation of research question and the method you are applying, i.e., you can now provide more concrete sub-problems compared to <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question} more details for the method <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:method} because you now have explained the problem much better. A typical structure can be.
 
@@ -449,15 +477,13 @@ provide details
 <%= heading2 %>{Detailed Research Questions (SM2)}\label{sec:problem-exposition:research-problems}
 % ---------------------------------------------------------------------------------
 
-provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:context-understanding} and  \ref{sec:problem-exposition:data-understanding} 
+provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:context-understanding} and \ref{sec:problem-exposition:data-understanding}
 
 % ---------------------------------------------------------------------------------
 <%= heading2 %>{Detailed Method (SM3)}\label{sec:problem-exposition:research-method}
 % ---------------------------------------------------------------------------------
 
-provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:context-understanding} and  \ref{sec:problem-exposition:data-understanding}
-
-
+provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:context-understanding} and \ref{sec:problem-exposition:data-understanding}
 
 %%% ===============================================================================
 <%= heading1 %>{First Real Chapter addressing first Research Problem}\label{sec:problem1}
@@ -465,7 +491,7 @@ provide details based on <% if (cleveref) { %>\cref<% } else if (documentclass =
 
 \emph{Purpose and scope}. After you stated research context (SM1), research problem (SM2), and research method (SM3) in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:introduction} and possibly <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Chapter~\ref<% } %>{sec:problem-exposition}, the remainder of your entire report addresses execution (SM4), results (SM5), and interpretation (SM6). You usually do this by addressing various sub-problems again through scientific arguments following the 6 steps SM1-SM6.
 
-Have a short chapter introduction that recalls and explains the first research problem of your thesis. The problem has to show up in the introduction in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question} or in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:research-problems} already. This provides the background (SM1) for this chapter while the first research problem of the thesis becomes the research question/hypothesis (SM2) for this chapter. 
+Have a short chapter introduction that recalls and explains the first research problem of your thesis. The problem has to show up in the introduction in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:research-question} or in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem-exposition:research-problems} already. This provides the background (SM1) for this chapter while the first research problem of the thesis becomes the research question/hypothesis (SM2) for this chapter.
 
 Next, explain in the chapter intro how you solve the research problem in this chapter by breaking it down in further sub-problems. By this, you outline the method (SM3) through which you are going to solve the problem of this chapter. This is necessary to give the reader guidance of what's to come in this chapter and how it fits into the thesis as a whole. Explain that you will address the first sub-problem in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem1:subproblem1} and the second sub-problem in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem1:subproblem2}, etc. The sections then provide the details for execution and results.
 
@@ -476,10 +502,10 @@ Next, explain in the chapter intro how you solve the research problem in this ch
 \emph{The first paragraph describes the first sub-problem and develops the requirements a solution has to satisfy (SM2 for this section).} The requirements have to be based on the knowledge and reasoning developing in the preceding chapters and sections. Try to use an example to illustrate the problem and the desired properties of the solution. Check that every term/concept you use here has already been defined already in a previous section. If you cannot describe your problem without defining new terms, you may have to add another section before this one that develops the terms and concepts you need to explain the problem.
 
 \emph{The second paragraph describes the method/approach how you address the problem (SM3 for this section).} Describe the method in a level of detail that allows another student to reproduce your steps.
-Make use of appendices % (see <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:appendix1}) 
+Make use of appendices % (see <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:appendix1})
 if certain details take too much space.
 
-\emph{The third, fourth, and following paragraph provides details on applying the method or developing a new approach, i.e., execution (SM4) and may explain results (SM5)}, i.e. details on the steps needed to reproduce the results. 
+\emph{The third, fourth, and following paragraph provides details on applying the method or developing a new approach, i.e., execution (SM4) and may explain results (SM5)}, i.e. details on the steps needed to reproduce the results.
 
 Results (SM5) can come in many forms, e.g., conceptual diagrams, algorithms, tables, charts, a list of articles from a literature research etc. You must reference them (``<% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Fig.~\ref<% } else { %>Figure~\ref<% } %>{fig:my_label} shows...'') and describe the results in text. If you use diagrams, tables, or charts, you cannot expect the reader to know what to you expect them to see in a diagram, table or chart. Describe to them how to read these, explain the meaning of particular elements, point out special observations. But you may only describe the results you must not interpret them. Make use of appendices if certain details take too much space.
 
@@ -498,9 +524,9 @@ Ideally, your interpretation leads to the next sub-problem in <% if (cleveref) {
 <%= heading2 %>{Second Sub-Problem}\label{sec:problem1:subproblem2}
 % ---------------------------------------------------------------------------------
 
-You now build on the solution to the first sub-problem of <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem1:subproblem1} (SM1) and recall second sub-problem (SM2, you detailed in the introduction of this chapter) and follow the same pattern as before (SM3-SM6). 
+You now build on the solution to the first sub-problem of <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:problem1:subproblem1} (SM1) and recall second sub-problem (SM2, you detailed in the introduction of this chapter) and follow the same pattern as before (SM3-SM6).
 
-Note that not all sections may not include all parts SM1-SM6 in all detail. Some sections do not require to repeatedly state the background (SM1) or the research problem (SM2) if they were already clearly defined in a previous section. Sometimes, a section is only dedicated to describing the method (SM3) and execution (SM4) and does not contain any results or interpretations. Sometimes results (SM5) and interpretations (SM6) only come in the evaluation chapter. 
+Note that not all sections may not include all parts SM1-SM6 in all detail. Some sections do not require to repeatedly state the background (SM1) or the research problem (SM2) if they were already clearly defined in a previous section. Sometimes, a section is only dedicated to describing the method (SM3) and execution (SM4) and does not contain any results or interpretations. Sometimes results (SM5) and interpretations (SM6) only come in the evaluation chapter.
 
 What is important for you when you are writing a scientific argument is not to slavishly have SM1-SM6 in each section explicitly, but that you are always fully aware of the following:
 %
@@ -664,9 +690,9 @@ It focuses on minimal examples, which can be directly adapted to the content
 
 Your conclusions are not just a factual summary of your work, but they position, interpret, and defend your findings against the state of the art that you discussed in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:state-of-art}. You specifically outline which concrete findings or methodological contributions advance our knowledge towards the general objective you introduced in <% if (cleveref) { %>\cref<% } else if (documentclass == 'lncs') { %>Sect.~\ref<% } else { %>Section~\ref<% } %>{sec:introduction:topic}. Objectively discuss which parts you solved and in which parts you failed.
 
-You should explicitly discuss limitations and shortcomings of your work and detail what kind of future studies are needed to overcome these limitations. Be specific in the sense that your arguments for future work should be based on concrete findings and insights you obtained in your report. 
+You should explicitly discuss limitations and shortcomings of your work and detail what kind of future studies are needed to overcome these limitations. Be specific in the sense that your arguments for future work should be based on concrete findings and insights you obtained in your report.
 <% } else { -%>
-<% if (!examples && (documentclass == 'ieee')) { -%>
+<% if (!examples && ((documentclass == 'acmart') || (documentclass == 'ieee'))) { -%>
 
 <%= heading1 %>{Lorem ipsum}
 \label{sec:loremipsum}
@@ -680,18 +706,23 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 
 <% switch (documentclass) { case "lncs": -%>
 \subsubsection*{Acknowledgments}
+<% break; case "acmart": -%>
+\section*{Acknowledgments}
 <% break; case "ieee": -%>
-
 % regular IEEE prefers the singular form
 \section*{Acknowledgment}
 <% break; default: -%>
 <% break; } -%>
-<% if ((documentclass == 'lncs') || (documentclass = 'ieee')) { -%>
+<% if ((documentclass == 'acmart') || (documentclass == 'lncs') || (documentclass = 'ieee')) { -%>
 <% if (howtotext) { -%>
 The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology}{LaTeX template for Bachelor and Master theses at Eindhoven University of Technology}.
 <% } else { -%>
 \ldots
 <% } -%>
+<% } -%>
+<% if (documentclass == 'acmart') { -%>
+
+For more \LaTeX{} hints for ACM read on at \url{https://www.acm.org/publications/taps/latex-best-practices}.
 <% } -%>
 
 %%% ===============================================================================
@@ -714,6 +745,10 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
   \small % ensure correct font size for the bibliography
   \bibliography{<%= filenames.bib %>}
 \endgroup
+<%  break; case "acmart": -%>
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{<%= filenames.bib %>}
 <%  break; case "ieee": -%>
 
 % trigger a \newpage just before the given reference
@@ -730,7 +765,7 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
 % argument is your BibTeX string definitions and bibliography database(s)
 \bibliography{<%= filenames.bib %>}
-<%  break; default: -%>
+<% break; default: -%>
 
 \bibliographystyle{plain}
 \bibliography{<%= filenames.bib %>}
@@ -743,7 +778,7 @@ All links were last followed on October 5, 2020.
 <% if (documentclass != 'lncs') { -%>
 
 %%% ===============================================================================
-%\appendix 
+%\appendix
 %\addcontentsline{toc}{chapter}{APPENDICES}
 
 %\listoffigures

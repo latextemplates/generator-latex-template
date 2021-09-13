@@ -46,12 +46,16 @@ module.exports = class extends Generator {
             value: "scientific-thesis"
           },
           {
-            name: "Springer's Lecture Notes in Computer Science (LNCS)",
-            value: "lncs"
+            name: "Association for Computing Machinery (ACM)",
+            value: "acmart"
           },
           {
             name: "Institute of Electrical and Electronics Engineers (IEEE)",
             value: "ieee"
+          },
+          {
+            name: "Springer's Lecture Notes in Computer Science (LNCS)",
+            value: "lncs"
           }
         ],
         default: "scientific-thesis"
@@ -123,7 +127,7 @@ module.exports = class extends Generator {
       },
       {
         when: function(response) {
-          return response.documentclass !== 'ieee';
+          return ((response.documentclass !== 'acmart') && (response.documentclass !== 'ieee'));
         },
         type: 'list',
         name: 'bibtextool',
@@ -140,6 +144,7 @@ module.exports = class extends Generator {
         ],
         default: function(response) {
           switch (response.documentclass) {
+            case 'acmart':
             case 'ieee':
             case 'lncs':
               return 'bibtex'
@@ -152,7 +157,7 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'language',
         when: function(response) {
-          return response.documentclass !== 'ieee';
+          return ((response.documentclass !== 'acmart') && (response.documentclass !== 'ieee'));
         },
         message: 'Which language should the document be?',
         choices: [
@@ -173,7 +178,12 @@ module.exports = class extends Generator {
         message: 'Which font should be used?',
         choices: function(state) {
           var res = [];
-          if (state.documentclass === "ieee") {
+          if (state.documentclass === "acmart") {
+            res.push({
+              name: "ACM Default",
+              value: "default"
+            })
+          } else if (state.documentclass === "ieee") {
             res.push({
               name: "IEEE Default",
               value: "default"
@@ -325,7 +335,7 @@ module.exports = class extends Generator {
       this.props.githubpublish = this.params.options.githubpublish;
 
       // Ensure all values are set - even if the user was not asked
-      if (this.props.documentclass === 'ieee') {
+      if ((this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee')) {
         this.props.bibtextool = 'bibtex';
         this.props.font = 'default';
         this.props.language = 'en';
@@ -389,7 +399,9 @@ module.exports = class extends Generator {
 
       this.props.available = {};
 
-      if (props.bibtextool == 'bibtex' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
+      if (props.bibtextool == 'bibtex' && props.documentclass !== 'acmart' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
+        // acmart uses natbib
+        // in lncs, we patched-in natbib
         this.props.available.citet = false;
       } else {
         this.props.available.citet = true;
