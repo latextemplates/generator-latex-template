@@ -331,8 +331,11 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
+      this.props.texlive = parseInt(this.props.texlive);
+
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
       this.props.githubpublish = this.params.options.githubpublish;
+      this.props.githubpublish = (this.props.githubpublish === true) || (this.props.githubpublish === 'true')
 
       // Ensure all values are set - even if the user was not asked
       if ((this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee')) {
@@ -454,6 +457,7 @@ module.exports = class extends Generator {
       });
     }
     let global = this;
+    global.props.config = global.props;
     promise.then(function() {
       global.fs.copy(
         // .gitignore is not uploaded by npm publish
