@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added initial support for [ACM](https://ctan.org/pkg/acmart)
+- Added initial support for [mindflow](https://www.ctan.org/pkg/mindflow) (when TeXLive >= 2021 is used)
 
 ### Fixed
 
