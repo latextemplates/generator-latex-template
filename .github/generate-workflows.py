@@ -123,8 +123,11 @@ for documentclass in documentclasses:
                                   yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                                 yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                                 yml.write("      - name: latexmk {}\n".format(variantName))
-                                yml.write('''        uses: dante-ev/latex-action@edge
-        with:
+                                if (texlive == 2019):
+                                  yml.write("        uses: dante-ev/latex-action@2019-A\n")
+                                else:
+                                  yml.write("        uses: dante-ev/latex-action@edge\n")
+                                yml.write('''        with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
 ''')
