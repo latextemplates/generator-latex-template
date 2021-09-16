@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.3.0] – 2021-09-13
+## [0.3.0] – 2021-09-16
 
 ### Added
 
@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Sections "Introduction" and "Related Work" are sections in IEEE when not using "howtotext". Fixes [#70](https://github.com/latextemplates/generator-latex-template/issues/70)
+- Fixed support for TeXLive 2019
 
 ### Changed
 
