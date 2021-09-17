@@ -38,8 +38,8 @@ for documentclass in documentclasses:
             for acm_review in acm_reviews:
               for papersize in papersizes:
                 for ieee_variant in ieee_variants:
-                  if (((documentclass == 'ieee') and ((papersize != 'a4') or (ieee_variant != 'conference'))) or
-                      ((documentclass == 'acmart') and ((acm_format != 'manuscript') or (acm_reviews == 'false')))):
+                  if (((documentclass != 'ieee') and ((papersize != 'a4') or (ieee_variant != 'conference'))) and
+                      ((documentclass != 'acmart') and ((acm_format != 'manuscript') or (acm_reviews == 'false')))):
                     # we just go on for one IEEE/ACM specific element to enable this part being executed exactly ones for the "example" outer loop for non-IEEE/ACM
                     continue
                   if (documentclass == 'acmart'):
