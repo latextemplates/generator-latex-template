@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Refined support for ACM by adding `acm_format` and `acm_review`
+
 ## [0.3.0] – 2021-09-16
 
 ### Added
