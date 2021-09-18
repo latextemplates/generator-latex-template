@@ -92,7 +92,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pygments
-      - id: lncsclspresent
+''')
+    if (documentclass == 'lncs'):
+      yml.write('''      - id: lncsclspresent
         shell: bash
         run: |
            if [ "$LLNCS_CLS" == "" ]; then
@@ -117,10 +119,10 @@ jobs:
                     variantName = "{}_{{{{ $matrix.latexcompiler }}}}_{{{{ $matrix.bibtextool }}}}_{}_{}_{}_{}_{}_{}_{}_{}_{{{{ $matrix.examples }}}}_{}_{{{{ $matrix.acm_format }}}}_{{{{ $matrix.acm_review }}}}_{{{{ $matrix.papersize }}}}_{{{{ $matrix.ieee_variant }}}}".format(documentclass, texlive, language, font, listing, cleveref, enquote, tweak_outerquote, todo, howtotext)
                     yml.write("      - run: mkdir {}\n".format(variantName))
                     yml.write("      - name: Create {}\n".format(variantName))
-                    yml.write('''        run: |
-          echo "$LLNCS_CLS" > llncs.cls
-          npx yo $GITHUB_WORKSPACE\\
-''')
+                    yml.write("        run: |\n")
+                    if (documentclass == 'lncs'):
+                      yml.write("          echo \"$LLNCS_CLS\" > llncs.cls\n")
+                    yml.write("          npx yo $GITHUB_WORKSPACE\\\n")
                     yml.write("           --documentclass=%s\\\n" % documentclass)
                     yml.write("           --latexcompiler={{ $matrix.latexcompiler }}\\\n")
                     yml.write("           --bibtextool={{ $matrix.bibtextool }}\\\n")
@@ -142,9 +144,9 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-          LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
                     if (documentclass == 'lncs'):
+                      yml.write("          LLNCS_CLS: ${{secrets.LLNCS_CLS}}\n")
                       yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                     yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                     yml.write("      - name: latexmk {}\n".format(variantName))
@@ -159,7 +161,8 @@ jobs:
                     yml.write("          working_directory: '/github/workspace/{}'\n".format(variantName))
                     if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')):
                       yml.write("          root_file: paper.tex\n")
-                      yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
+                      if (documentclass == 'lncs'):
+                        yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                     else:
                       yml.write("          root_file: main.tex\n")
     yml.write('''      - uses: actions/upload-artifact@v2
