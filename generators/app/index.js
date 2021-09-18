@@ -160,7 +160,7 @@ module.exports = class extends Generator {
             value: 2019
           }
         ],
-        default:  2021
+        default: 2021
       },
       {
         type: 'list',
@@ -375,7 +375,11 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
-      this.props.texlive = parseInt(this.props.texlive);
+      // somehow texlive is not routed through
+      // special handling
+      if (this.params.options.texlive) {
+        this.props.texlive = parseInt(this.params.options.texlive)
+      }
 
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
       this.props.githubpublish = this.params.options.githubpublish;
