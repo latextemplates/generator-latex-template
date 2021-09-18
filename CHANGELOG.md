@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Refined support for ACM by adding `acm_format` and `acm_review`
+- Added explicit support for TeXLive 2020
 
 ### Fixed
 

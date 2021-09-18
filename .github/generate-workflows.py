@@ -4,7 +4,7 @@ latexcompilers = ['pdflatex', 'lualatex']
 # bibtextools = ['bibtex', 'biblatex']
 bibtextools = ['bibtex']
 
-texlives = [2019, 2021]
+texlives = [2019, 2020, 2021]
 
 languages = ['en', 'de']
 
@@ -152,6 +152,8 @@ jobs:
                     yml.write("      - name: latexmk {}\n".format(variantName))
                     if (texlive == 2019):
                       yml.write("        uses: dante-ev/latex-action@2019-A\n")
+                    elif (texlive == 2020):
+                      yml.write("        uses: dante-ev/latex-action@2020-A\n")
                     else:
                       yml.write("        uses: dante-ev/latex-action@edge\n")
                     yml.write('''        with:

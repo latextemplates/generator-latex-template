@@ -156,6 +156,10 @@ module.exports = class extends Generator {
             value: 2021
           },
           {
+            name: "TeXLive 2020 (latest version available on Overleaf)",
+            value: 2020
+          },
+          {
             name: "TeXLive 2019",
             value: 2019
           }
