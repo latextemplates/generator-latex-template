@@ -34,7 +34,7 @@ for documentclass in documentclasses:
     yml.write('''on: [push]
 jobs:
   check:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
