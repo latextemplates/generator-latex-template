@@ -37,6 +37,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        latexcompiler: [pdflatex]
+        bibtextool: [bibtex]
+        examples: [true]
+        acm_format: [manuscript]
+        acm_review: [true]
+        papersize: [a4]
+        ieee_variant: [conference]
         include:
 ''')
     for latexcompiler in latexcompilers:
@@ -49,7 +56,7 @@ jobs:
               for papersize in papersizes:
                 for ieee_variant in ieee_variants:
                   if (((documentclass != 'ieee') and ((papersize != 'a4') or (ieee_variant != 'conference'))) and
-                      ((documentclass != 'acmart') and ((acm_format != 'manuscript') or (acm_reviews == 'false')))):
+                      ((documentclass != 'acmart') and ((acm_format != 'manuscript') or (acm_reviews != 'true')))):
                     # we just go on for one IEEE/ACM specific element to enable this part being executed exactly ones for the "example" outer loop for non-IEEE/ACM
                     continue
                   yml.write("          - latexcompiler: %s\n" % latexcompiler)
