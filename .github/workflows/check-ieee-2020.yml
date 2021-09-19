@@ -1,5 +1,8 @@
 name: Check ieee on TeXLive 2020
 on: [push]
+concurrency:
+  group: check
+  cancel-in-progress: true
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -4623,10 +4626,6 @@ jobs:
             papersize: letter
             ieee_variant: peerreview
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.8.0
-        with:
-          access_token: ${{ github.token }}
       - name: Set up Git repository
         uses: actions/checkout@v2
       - uses: actions/setup-node@v1

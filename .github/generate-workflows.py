@@ -32,6 +32,9 @@ for documentclass in documentclasses:
     yml = open("workflows/check-{}-{}.yml".format(documentclass, texlive), "w+")
     yml.write("name: Check {} on TeXLive {}\n".format(documentclass, texlive))
     yml.write('''on: [push]
+concurrency:
+  group: check
+  cancel-in-progress: true
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -71,10 +74,6 @@ jobs:
                     yml.write("            ieee_variant: %s\n" % ieee_variant)
 #    yml.write("        - name: Check ${{ matrix.latexcompiler }} ${{ matrix.bibtextool }} ${{ matrix.examples }} ${{ matrix.acm_format }} ${{ matrix.acm_review }} ${{ matrix.papersize }} ${{ matrix.ieee_variant }}\n")
     yml.write('''    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.8.0
-        with:
-          access_token: ${{ github.token }}
       - name: Set up Git repository
         uses: actions/checkout@v2
       - uses: actions/setup-node@v1
