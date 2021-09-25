@@ -117,6 +117,9 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
 - When one encounters `Cannot find module 'yeoman-generator'`, please update the npm dependencies.
   That error ocurred when using version `4.13.0` and `5.4.2` was available.
+- Check GitHub actions
+  - Use [actionlint](https://github.com/rhysd/actionlint#readme)
+  - Use [vs.code GitHub actions plugin](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
 
 ### Useful snippets
 

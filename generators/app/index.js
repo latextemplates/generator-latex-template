@@ -62,6 +62,50 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
+        name: 'acm_format',
+        when: function(response) {
+          return response.documentclass === 'acm';
+        },
+        message: 'Which format of ACM?',
+        choices: [
+          {
+            value: "manuscript",
+            name: "A manuscript. This is the default.",
+          },
+          {
+            value: "acmsmall",
+            name: "Small single-column format. Used for CIE, CSUR, JACM, JDIQ, JEA, JERIC, JETC, PACMCGIT, PACMHCI, PACMPL, TAAS, TACCESS, TACO, TALG, TALLIP (formerly TALIP), TCPS, TDS, TEAC, TECS, TELO, THRI, TIIS, TIOT, TISSEC, TIST, TKDD, TMIS, TOCE, TOCHI, TOCL, TOCS, TOCT, TODAES, TODS, TOIS, TOIT, TOMACS, TOMM (formerly TOMCCAP), TOMPECS, TOMS, TOPC, TOPLAS, TOPS, TOS, TOSEM, TOSN, TQC, TRETS, TSAS, TSC, TSLP and TWEB, including special issues.",
+          },
+          {
+            value: "acmlarge",
+            name: "Large single-column format. Used for DTRAP, HEALTH, IMWUT, JOCCH, POMACS and TAP, including special issues.",
+          },
+          {
+            value: "acmtog",
+            name: "Large double-column format. Used for TOG, including annual conference Technical Papers.",
+          },
+          {
+            value: "sigconf",
+            name: "Proceedings format for most ACM conferences (with the exceptionslisted below) and all ICPS volumes.",
+          },
+          {
+            value: "sigplan",
+            name: "Proceedings format for SIGPLAN conferences",
+          }
+        ],
+        default: "sigconf"
+      },
+      {
+        type: 'confirm',
+        name: 'acm_review',
+        when: function(response) {
+          return response.documentclass === 'acm';
+        },
+        message: 'Format as document to review?',
+        default: true
+      },
+      {
+        type: 'list',
         name: 'ieee_variant',
         when: function(response) {
           return response.documentclass === 'ieee';
@@ -112,11 +156,15 @@ module.exports = class extends Generator {
             value: 2021
           },
           {
+            name: "TeXLive 2020 (latest version available on Overleaf)",
+            value: 2020
+          },
+          {
             name: "TeXLive 2019",
             value: 2019
           }
         ],
-        default:  2021
+        default: 2021
       },
       {
         type: 'list',
@@ -331,7 +379,11 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
-      this.props.texlive = parseInt(this.props.texlive);
+      // somehow texlive is not routed through
+      // special handling
+      if (this.params.options.texlive) {
+        this.props.texlive = parseInt(this.params.options.texlive)
+      }
 
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
       this.props.githubpublish = this.params.options.githubpublish;
