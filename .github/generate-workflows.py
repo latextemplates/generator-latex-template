@@ -4,7 +4,7 @@ latexcompilers = ['pdflatex', 'lualatex']
 # bibtextools = ['bibtex', 'biblatex']
 bibtextools = ['bibtex']
 
-texlives = [2019, 2021]
+texlives = [2019, 2020, 2021]
 
 languages = ['en', 'de']
 
@@ -18,6 +18,10 @@ tweak_outerquotes = ['babel', 'outerquote']
 todos = ['pdfcomment', 'none']
 examples = ['true', 'false']
 howtotexts = ['true', 'false']
+
+# ACM only
+acm_formats = ['manuscript', 'acmsmall', 'acmlarge', 'acmtog', 'sigconf', 'sigplan']
+acm_reviews = ['true', 'false']
 
 # IEEE only
 papersizes = ['a4', 'letter']
@@ -42,14 +46,13 @@ for documentclass in documentclasses:
               yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
               yml.write("name: Check {}\n".format(dashedPart))
               yml.write("on: [push]\n")
+              yml.write("concurrency:\n")
+              yml.write("  group: {}\n".format(dashedPart))
+              yml.write("  cancel-in-progress: true\n")
               yml.write("jobs:\n")
               yml.write("  check:\n")
               yml.write('''    runs-on: ubuntu-latest
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.8.0
-        with:
-          access_token: ${{ github.token }}
       - name: Set up Git repository
         uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -101,6 +104,9 @@ for documentclass in documentclasses:
                                 if (documentclass == 'ieee'):
                                   yml.write("           --papersize=%s\\\n" % papersize)
                                   yml.write("           --ieee_variant=%s\\\n" % ieee_variant)
+                                if (documentclass == 'acmart'):
+                                  yml.write("           --acm_format=%s\\\n" % acm_formats[0])
+                                  yml.write("           --acm_review=%s\\\n" % acm_reviews[0])
                                 yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
                                 yml.write("           --bibtextool=%s\\\n" % bibtextool)
                                 yml.write("           --texlive=%s\\\n" % texlive)
