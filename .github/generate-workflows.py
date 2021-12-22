@@ -131,6 +131,8 @@ for documentclass in documentclasses:
                                 yml.write("      - name: latexmk {}\n".format(variantName))
                                 if (texlive == 2019):
                                   yml.write("        uses: dante-ev/latex-action@2019-A\n")
+                                elif (texlive == 2020):
+                                  yml.write("        uses: dante-ev/latex-action@2020-A\n")
                                 else:
                                   yml.write("        uses: dante-ev/latex-action@edge\n")
                                 yml.write('''        with:
