@@ -149,14 +149,14 @@ module.exports = class extends Generator {
       {
         type: 'list',
         name: 'texlive',
-        message: 'Which texlive compatiblity?',
+        message: 'Which TeXLive compatiblity?',
         choices: [
           {
             name: "TeXLive 2021",
             value: 2021
           },
           {
-            name: "TeXLive 2020 (latest version available on Overleaf)",
+            name: "TeXLive 2020",
             value: 2020
           },
           {
@@ -171,7 +171,10 @@ module.exports = class extends Generator {
         name: 'latexcompiler',
         message: 'Which latex compiler should be used?',
         choices: ["pdflatex", "lualatex"],
-        default: "pdflatex"
+        default: "pdflatex",
+        when: function(response) {
+          return !((response.documentclass === 'ieee') && (response.texlive == 2021));
+        }
       },
       {
         when: function(response) {
@@ -399,6 +402,11 @@ module.exports = class extends Generator {
       // IEEE class offers "compsoc"
       // In 2021 this is not used any more, all papers are the "normal" IEEE format
       this.props.ieee_compsoc = false;
+
+      // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex (TeXLive 2019 and 2020 work)
+      if ((this.props.documentclass === 'ieee') && (this.props.texlive == 2021)) {
+        this.props.latexcompiler = 'pdflatex';
+      }
 
       // convert "String" Boolean command line options
       this.props.cleveref = (this.props.cleveref === true) || (this.props.cleveref === 'true')
