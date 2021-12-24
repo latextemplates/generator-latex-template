@@ -30,12 +30,14 @@ ieee_variants = ['conference', 'journal', 'peerreview']
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
+      if ((bibtextool == 'biblatex') and ((documentclass == 'acmart') or (documentclass == 'ieee') or (documentclass == 'lncs'))):
+        continue
       for texlive in texlives:
         for example in examples:
-          if ((bibtextool == 'biblatex') and ((documentclass == 'acmart') or (documentclass == 'ieee') or (documentclass == 'lncs'))):
-            continue
           for papersize in papersizes:
             for ieee_variant in ieee_variants:
+              if ((documentclass == 'ieee') and (latexcompiler == 'lualatex') and (texlive == 2021) and (example == 'true') and (ieee_variant != 'peerreview')):
+                continue
               if ((documentclass != 'ieee') and ((papersize != 'a4') or (ieee_variant != 'conference'))):
                 # we just go on for one IEEE specific element to enable this part being executed exactly ones for the "example" outer loop for non-IEEE
                 continue
@@ -131,6 +133,8 @@ for documentclass in documentclasses:
                                 yml.write("      - name: latexmk {}\n".format(variantName))
                                 if (texlive == 2019):
                                   yml.write("        uses: dante-ev/latex-action@2019-A\n")
+                                elif (texlive == 2020):
+                                  yml.write("        uses: dante-ev/latex-action@2020-A\n")
                                 else:
                                   yml.write("        uses: dante-ev/latex-action@edge\n")
                                 yml.write('''        with:
