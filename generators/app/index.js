@@ -206,6 +206,29 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
+        name: 'docker',
+        message: 'Should a Dockerfile be generated?',
+        choices: [
+          {
+            name: "no",
+            value: false
+          },
+          {
+            name: "yes (Reiztig)",
+            value: "reitzig"
+          },
+          {
+            name: "yes (DANTE e.V.)",
+            value: "dante"
+          }
+        ],
+        default: "pdflatex",
+        when: function(response) {
+          return !((response.documentclass === 'ieee') && (response.texlive == 2021));
+        }
+      },
+      {
+        type: 'list',
         name: 'language',
         when: function(response) {
           return ((response.documentclass !== 'acmart') && (response.documentclass !== 'ieee'));
@@ -391,6 +414,10 @@ module.exports = class extends Generator {
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
       this.props.githubpublish = this.params.options.githubpublish;
       this.props.githubpublish = (this.props.githubpublish === true) || (this.props.githubpublish === 'true')
+
+      // Command line argument "--preparereitzig" switches the generator to generate a template to be used to generate Texlivefile required by https://github.com/reitzig/texlive-docker
+      this.props.preparereitzig = this.params.options.preparereitzig;
+      this.props.preparereitzig = (this.props.preparereitzig === true) || (this.props.preparereitzig === 'true')
 
       // Ensure all values are set - even if the user was not asked
       if ((this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee')) {
@@ -586,6 +613,34 @@ module.exports = class extends Generator {
           global.destinationPath('README.md'),
           global.props
         );
+      }
+      switch (global.props.docker) {
+        case "reitzig":
+          global.fs.copy(
+            global.templatePath('dot.gitignore'),
+            global.destinationPath('.dockerignore')
+          );
+          global.fs.copyTpl(
+            global.templatePath('Dockerfile.reitzig'),
+            global.destinationPath('Dockerfile'),
+            global.props
+          );
+          global.fs.copy(
+            global.templatePath('Texlivefile'),
+            global.destinationPath('Texlivefile')
+          );
+          break;
+        case "dante":
+          global.fs.copy(
+            global.templatePath('dot.gitignore'),
+            global.destinationPath('.dockerignore')
+          );
+          global.fs.copyTpl(
+            global.templatePath('Dockerfile.dante'),
+            global.destinationPath('Dockerfile'),
+            global.props
+          );
+          break;
       }
     });
   }

@@ -1,0 +1,15 @@
+FROM reitzig/texlive-<% switch (latexcompiler) {
+  case "pdflatex": %>base<% break;
+  case "lualatex": %>base-lualatex<% break;
+  default: %>full<% break;
+} -%>:<% switch (texlive) {
+  case 2020: %>2020.10<% break;
+  case 2021: %>2021.5<% break;
+} -%>
+
+COPY . "${SRC_DIR}/"
+
+# compile once to ensure caching of all required packages
+RUN entrypoint work '<%= latexcompiler %> <%= filenames.main %>'
+
+ENTRYPOINT entrypoint work '<%= latexcompiler %> <%= filenames.main %>'
