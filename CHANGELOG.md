@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Refined support for ACM by adding `acm_format` and `acm_review`
 - Added explicit support for TeXLive 2020
+- Added support for generating a `Dockerfile` (`--docker=reitzig` or `--docker=dante`)
 
 ### Fixed
 
