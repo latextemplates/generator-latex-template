@@ -222,10 +222,7 @@ module.exports = class extends Generator {
             value: "dante"
           }
         ],
-        default: "pdflatex",
-        when: function(response) {
-          return !((response.documentclass === 'ieee') && (response.texlive == 2021));
-        }
+        default: false,
       },
       {
         type: 'list',

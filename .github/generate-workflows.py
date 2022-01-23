@@ -112,6 +112,7 @@ for documentclass in documentclasses:
                                 yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
                                 yml.write("           --bibtextool=%s\\\n" % bibtextool)
                                 yml.write("           --texlive=%s\\\n" % texlive)
+                                yml.write("           --docker=false\\\n")
                                 yml.write("           --language=%s\\\n" % language)
                                 yml.write("           --font=%s\\\n" % font)
                                 yml.write("           --listings=%s\\\n" % listing)
