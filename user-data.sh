@@ -23,4 +23,8 @@ mkdir /tmp/repo
 cd /tmp/repo
 git init
 
-apt install -y nodejs npm
+# install nodejs 14
+cd /tmp
+curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
+bash ./nodesource_setup.sh
+sudo apt install -y nodejs gcc g++ make
