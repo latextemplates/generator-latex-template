@@ -28,3 +28,4 @@ cd /tmp
 curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 bash ./nodesource_setup.sh
 sudo apt install -y nodejs gcc g++ make
+npm install -g npm
