@@ -109,7 +109,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
   - Parameters can be set using command line
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment  --howtotext=true --examples=true`
-    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
+    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
   - Run `latexmk` to build the PDF
 - Update npm dependencies
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
