@@ -18,14 +18,17 @@ echo \
 apt-get -y update
 apt-get -y install docker-ce docker-ce-cli containerd.io
 
-# prepare git repository
-mkdir /tmp/repo
-cd /tmp/repo
-git init
-
 # install nodejs 14
 cd /tmp
 curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 bash ./nodesource_setup.sh
 sudo apt install -y nodejs gcc g++ make
 npm install -g npm
+
+# prepare git repository
+mkdir /tmp/repo
+cd /tmp/repo
+git init
+
+# prepare /tmp/x
+mkdir /tmp/x
