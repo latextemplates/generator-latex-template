@@ -614,7 +614,7 @@ module.exports = class extends Generator {
       switch (global.props.docker) {
         case "reitzig":
           global.fs.copy(
-            global.templatePath('dot.gitignore'),
+            global.templatePath('dot.dockerignore'),
             global.destinationPath('.dockerignore')
           );
           global.fs.copyTpl(
@@ -629,7 +629,7 @@ module.exports = class extends Generator {
           break;
         case "dante":
           global.fs.copy(
-            global.templatePath('dot.gitignore'),
+            global.templatePath('dot.dockerignore'),
             global.destinationPath('.dockerignore')
           );
           global.fs.copyTpl(
