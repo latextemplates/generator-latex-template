@@ -7,9 +7,14 @@ FROM reitzig/texlive-<% switch (latexcompiler) {
   case 2021: %>2021.5<% break;
 } -%>
 
-COPY . "${SRC_DIR}/"
+RUN apk update && apk --no-cache add bash perl
 
-# compile once to ensure caching of all required packages
-RUN entrypoint work '<%= latexcompiler %> <%= filenames.main %>'
+COPY Texlivefile /tmp
 
-ENTRYPOINT entrypoint work '<%= latexcompiler %> <%= filenames.main %>'
+# Emulate "Install dependencies" of "entrypoint work ..."
+RUN tlmgr update --self && \
+    xargs tlmgr install < "/tmp/Texlivefile" && \
+    sha256sum "/tmp/Texlivefile" > "/work/tmp/Texlivefile.sha"
+
+# make latexmk available
+RUN cp /usr/local/texlive/2021/bin/x86_64-linuxmusl/latexmk /usr/local/bin
