@@ -240,7 +240,7 @@ Statement from IEEE:
 
 <% switch (documentclass) { case "lncs": -%>
 There is currently no official biblatex support.
-A first step towards that is done at [biblatex-lncs](https://github.com/mgttlinger/biblatex-lncs).
+A first step towards that is done at [biblatex-lncs](https://ctan.org/pkg/biblatex-lncs).
 <% break; case "ieee": -%>
 There is currently no official biblatex support.
 A first step towards that is done at the [biblatex-ieee package](https://ctan.org/pkg/biblatex-ieee).
