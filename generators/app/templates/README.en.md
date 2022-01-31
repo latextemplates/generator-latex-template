@@ -263,7 +263,22 @@ To have minted running properly, you have to do following steps on Windows:
 3. When latexing, use `-shell-escape`: `pdflatex -shell-escape paper`.
    You can also just execute `latexmk paper`.
 <% } -%>
+<% switch (docker) {
+    case "reitzig": -%>
 
+## Usage with docker
+
+The generated `Dockerfile` is based on the [Dockerfile by reitzig](https://github.com/reitzig/texlive-docker).
+The idea of that system is to host the document sources in a directory separated from the output directory.
+
+    docker run --rm -v "c:\users\example\latex-document:/work/src" -v "c:\users\example\latex-document\out:/work/out" ltg work latexmk
+
+Following one-time setup is requried:
+
+    docker build -t ltg .
+
+<% break; default: -%>
+<% break; } -%>
 ## FAQs
 <% switch (documentclass) { case "lncs": -%>
 
