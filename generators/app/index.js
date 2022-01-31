@@ -555,13 +555,13 @@ module.exports = class extends Generator {
         global.props
       );
       global.fs.copyTpl(
-        global.templatePath('dot.latexmkrc'),
-        global.destinationPath('.latexmkrc'),
+        global.templatePath('bibliography.bib'),
+        global.destinationPath(global.props.filenames.bib + ".bib"),
         global.props
       );
       global.fs.copyTpl(
-        global.templatePath('bibliography.bib'),
-        global.destinationPath(global.props.filenames.bib + ".bib"),
+        global.templatePath('latexmkrc'),
+        global.destinationPath('latexmkrc'),
         global.props
       );
       global.fs.copyTpl(
