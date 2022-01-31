@@ -6,24 +6,30 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx
       - uses: actions/setup-node@v1
         with:
           node-version: '14'
       - run: npm install
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v2
-        with:
-          # Semantic version range syntax or exact version of a Python version
-          python-version: '3.x'
-          # Optional - x64 or x86 architecture, defaults to x64
-          architecture: 'x64'
-      - name: Install pygments
-        run: |
-          python -m pip install --upgrade pip
-          pip install pygments
+      - run: mkdir /tmp/out
       - id: lncsclspresent
         shell: bash
         run: |
@@ -45,7 +51,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -61,14 +67,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true
         run: |
@@ -80,7 +91,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -96,14 +107,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true
         run: |
@@ -115,7 +131,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -131,14 +147,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true
         run: |
@@ -150,7 +171,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -166,14 +187,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true
         run: |
@@ -185,7 +211,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -201,14 +227,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true
         run: |
@@ -220,7 +251,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -236,14 +267,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true
         run: |
@@ -255,7 +291,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -271,14 +307,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true
         run: |
@@ -290,7 +331,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -306,14 +347,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true
         run: |
@@ -325,7 +371,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -341,14 +387,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true
         run: |
@@ -360,7 +411,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -376,14 +427,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true
         run: |
@@ -395,7 +451,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -411,14 +467,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true
         run: |
@@ -430,7 +491,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -446,14 +507,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true
         run: |
@@ -465,7 +531,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -481,14 +547,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true
         run: |
@@ -500,7 +571,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -516,14 +587,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true
         run: |
@@ -535,7 +611,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -551,14 +627,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true
         run: |
@@ -570,7 +651,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -586,14 +667,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true
         run: |
@@ -605,7 +691,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -621,14 +707,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true
         run: |
@@ -640,7 +731,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -656,14 +747,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true
         run: |
@@ -675,7 +771,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -691,14 +787,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true
         run: |
@@ -710,7 +811,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -726,14 +827,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true
         run: |
@@ -745,7 +851,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -761,14 +867,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true
         run: |
@@ -780,7 +891,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -796,14 +907,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true
         run: |
@@ -815,7 +931,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -831,14 +947,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true
         run: |
@@ -850,7 +971,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -866,14 +987,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true
         run: |
@@ -885,7 +1011,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -901,14 +1027,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true
         run: |
@@ -920,7 +1051,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -936,14 +1067,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true
         run: |
@@ -955,7 +1091,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -971,14 +1107,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true
         run: |
@@ -990,7 +1131,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1006,14 +1147,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true
         run: |
@@ -1025,7 +1171,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1041,14 +1187,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true
         run: |
@@ -1060,7 +1211,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1076,14 +1227,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true
         run: |
@@ -1095,7 +1251,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1111,14 +1267,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true
         run: |
@@ -1130,7 +1291,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1146,14 +1307,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false
         run: |
@@ -1165,7 +1331,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1181,14 +1347,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false
         run: |
@@ -1200,7 +1371,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1216,14 +1387,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false
         run: |
@@ -1235,7 +1411,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1251,14 +1427,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false
         run: |
@@ -1270,7 +1451,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1286,14 +1467,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false
         run: |
@@ -1305,7 +1491,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1321,14 +1507,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false
         run: |
@@ -1340,7 +1531,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1356,14 +1547,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false
         run: |
@@ -1375,7 +1571,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1391,14 +1587,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false
         run: |
@@ -1410,7 +1611,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1426,14 +1627,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false
         run: |
@@ -1445,7 +1651,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1461,14 +1667,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false
         run: |
@@ -1480,7 +1691,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1496,14 +1707,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false
         run: |
@@ -1515,7 +1731,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1531,14 +1747,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false
         run: |
@@ -1550,7 +1771,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1566,14 +1787,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false
         run: |
@@ -1585,7 +1811,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1601,14 +1827,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false
         run: |
@@ -1620,7 +1851,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1636,14 +1867,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false
         run: |
@@ -1655,7 +1891,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1671,14 +1907,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false
         run: |
@@ -1690,7 +1931,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=listings\
@@ -1706,14 +1947,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false
         run: |
@@ -1725,7 +1971,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1741,14 +1987,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false
         run: |
@@ -1760,7 +2011,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1776,14 +2027,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false
         run: |
@@ -1795,7 +2051,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1811,14 +2067,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false
         run: |
@@ -1830,7 +2091,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1846,14 +2107,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false
         run: |
@@ -1865,7 +2131,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1881,14 +2147,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false
         run: |
@@ -1900,7 +2171,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1916,14 +2187,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false
         run: |
@@ -1935,7 +2211,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1951,14 +2227,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false
         run: |
@@ -1970,7 +2251,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -1986,14 +2267,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false
         run: |
@@ -2005,7 +2291,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -2021,14 +2307,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false
         run: |
@@ -2040,7 +2331,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -2056,14 +2347,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false
         run: |
@@ -2075,7 +2371,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -2091,14 +2387,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false
         run: |
@@ -2110,7 +2411,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -2126,14 +2427,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false
         run: |
@@ -2145,7 +2451,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -2161,14 +2467,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false
         run: |
@@ -2180,7 +2491,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -2196,14 +2507,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false
         run: |
@@ -2215,7 +2531,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -2231,14 +2547,19 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - run: mkdir ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false
       - name: Create ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false
         run: |
@@ -2250,7 +2571,7 @@ jobs:
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --texlive=2021\
-           --docker=false\
+           --docker=reitzig\
            --language=en\
            --font=default\
            --listings=minted\
@@ -2266,17 +2587,20 @@ jobs:
           yeoman_test: true
           LLNCS_CLS: ${{secrets.LLNCS_CLS}}
         working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false'
+      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
       - name: latexmk ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false
-        uses: dante-ev/latex-action@edge
+        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk paper.tex
+        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
         with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
           working_directory: '/github/workspace/ieee_lualatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false'
-          root_file: paper.tex
-        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}
       - uses: actions/upload-artifact@v2
         with:
           name: pdfs
-          path: |
-            **/main.pdf
-            **/paper.pdf
+          path: /tmp/out

@@ -54,24 +54,30 @@ for documentclass in documentclasses:
               yml.write("jobs:\n")
               yml.write("  check:\n")
               yml.write('''    runs-on: ubuntu-latest
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          driver-opts: network=host
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx
       - uses: actions/setup-node@v1
         with:
           node-version: '14'
       - run: npm install
-      - name: Set up Python 3.x
-        uses: actions/setup-python@v2
-        with:
-          # Semantic version range syntax or exact version of a Python version
-          python-version: '3.x'
-          # Optional - x64 or x86 architecture, defaults to x64
-          architecture: 'x64'
-      - name: Install pygments
-        run: |
-          python -m pip install --upgrade pip
-          pip install pygments
+      - run: mkdir /tmp/out
       - id: lncsclspresent
         shell: bash
         run: |
@@ -112,7 +118,7 @@ for documentclass in documentclasses:
                                 yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
                                 yml.write("           --bibtextool=%s\\\n" % bibtextool)
                                 yml.write("           --texlive=%s\\\n" % texlive)
-                                yml.write("           --docker=false\\\n")
+                                yml.write("           --docker=reitzig\\\n")
                                 yml.write("           --language=%s\\\n" % language)
                                 yml.write("           --font=%s\\\n" % font)
                                 yml.write("           --listings=%s\\\n" % listing)
@@ -131,28 +137,28 @@ for documentclass in documentclasses:
                                 if (documentclass == 'lncs'):
                                   yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                                 yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
+                                yml.write('''      - name: Build docker image
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
+''')
                                 yml.write("      - name: latexmk {}\n".format(variantName))
-                                if (texlive == 2019):
-                                  yml.write("        uses: dante-ev/latex-action@2019-A\n")
-                                elif (texlive == 2020):
-                                  yml.write("        uses: dante-ev/latex-action@2020-A\n")
+                                yml.write("        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk ")
+                                if ((documentclass == 'lncs') or (documentclass == 'ieee')):
+                                  yml.write("paper.tex\n")
+                                  yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                                 else:
-                                  yml.write("        uses: dante-ev/latex-action@edge\n")
+                                  yml.write("main.tex\n")
                                 yml.write('''        with:
           # ${{ github.workspace }} holds wrong directory (only valid for "run" tasks, not for container-based tasks)
           # See https://github.community/t/how-can-i-access-the-current-repo-context-and-files-from-a-docker-container-action/17711/2?u=koppor for details
 ''')
                                 yml.write("          working_directory: '/github/workspace/{}'\n".format(variantName))
-                                if ((documentclass == 'lncs') or (documentclass == 'ieee')):
-                                  yml.write("          root_file: paper.tex\n")
-                                  yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
-                                else:
-                                  yml.write("          root_file: main.tex\n")
               yml.write('''      - uses: actions/upload-artifact@v2
         with:
           name: pdfs
-          path: |
-            **/main.pdf
-            **/paper.pdf
+          path: /tmp/out
 ''')
               yml.close()
