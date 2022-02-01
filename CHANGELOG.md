@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Filename of ACM articles is `paper.tex` (and not `main.tex`)
 
+### Changed
+
+- LNCS is now based on the offical CTAN package [llncs](https://ctan.org/pkg/llncs)
+
 ### Removed
 
 - Drop support for TeXLive 2019 and 2020, because TeXLive 2021 is supported by Overleaf

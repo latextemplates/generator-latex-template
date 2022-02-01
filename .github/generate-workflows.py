@@ -81,16 +81,6 @@ for documentclass in documentclasses:
       - run: npm i npm@latest
       - run: npm install
       - run: mkdir /tmp/out
-      - id: lncsclspresent
-        shell: bash
-        run: |
-           if [ "$LLNCS_CLS" == "" ]; then
-             echo ::set-output name=lncsclspresent::false
-           else
-             echo ::set-output name=lncsclspresent::true
-           fi
-        env:
-          LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
               for howtotext in howtotexts:
                 for language in languages:
@@ -108,7 +98,6 @@ for documentclass in documentclasses:
                                 yml.write("      - run: mkdir {}\n".format(variantName))
                                 yml.write("      - name: Create {}\n".format(variantName))
                                 yml.write('''        run: |
-          echo "$LLNCS_CLS" > llncs.cls
           npx yo $GITHUB_WORKSPACE\\
 ''')
                                 yml.write("           --documentclass=%s\\\n" % documentclass)
@@ -135,10 +124,7 @@ for documentclass in documentclasses:
           ls -la
         env:
           yeoman_test: true
-          LLNCS_CLS: ${{secrets.LLNCS_CLS}}
 ''')
-                                if (documentclass == 'lncs'):
-                                  yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                                 yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                                 yml.write('''      - name: Build docker image
         uses: docker/build-push-action@v2
@@ -151,8 +137,6 @@ for documentclass in documentclasses:
                                 yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work \"latexmk ")
                                 if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')):
                                   yml.write("paper.tex\"\n")
-                                  if (documentclass == 'lncs'):
-                                    yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                                 else:
                                   yml.write("main.tex\"\n")
                                 yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
