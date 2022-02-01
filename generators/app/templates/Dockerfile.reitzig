@@ -3,8 +3,6 @@ FROM reitzig/texlive-<% switch (latexcompiler) {
   case "lualatex": %>base-luatex<% break;
   default: %>full<% break;
 } -%>:<% switch (texlive) {
-  case 2019: %>2019.6<% break;
-  case 2020: %>2020.10<% break;
   case 2021: %>2021.5<% break;
 } -%>
 
@@ -14,9 +12,13 @@ RUN pip3 install pygments
 COPY Texlivefile /work/src
 
 # Emulate "Install dependencies" of "entrypoint work ..."
+<% if (texlive < 2021) { -%>
+RUN xargs tlmgr install --repository ftp://ftp.math.utah.edu/pub/tex/historic/systems/texlive/<%= texlive %>/tlnet-final < "/work/src/Texlivefile" && \
+<% } else { -%>
 RUN tlmgr update --self --repository https://mirror.mwt.me/ctan/systems/texlive/tlnet && \
-    xargs tlmgr install < "/work/src/Texlivefile" && \
+    xargs tlmgr install --repository https://mirror.mwt.me/ctan/systems/texlive/tlnet < "/work/src/Texlivefile" && \
+<% } -%>
     sha256sum "/work/src/Texlivefile" > "/work/tmp/Texlivefile.sha"
 
 # make latexmk available
-RUN cp /usr/local/texlive/2021/bin/x86_64-linuxmusl/latexmk /usr/local/bin
+RUN cp /usr/local/texlive/<%= texlive %>/bin/x86_64-linuxmusl/latexmk /usr/local/bin

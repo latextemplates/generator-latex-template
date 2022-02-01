@@ -154,14 +154,6 @@ module.exports = class extends Generator {
           {
             name: "TeXLive 2021",
             value: 2021
-          },
-          {
-            name: "TeXLive 2020",
-            value: 2020
-          },
-          {
-            name: "TeXLive 2019",
-            value: 2019
           }
         ],
         default: 2021
@@ -463,8 +455,9 @@ module.exports = class extends Generator {
 
       this.props.requiresShellEscape = (this.props.listings === 'minted');
 
-      this.props.isPaper = (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
+      this.props.isPaper = (this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
       if (this.props.isPaper) {
+        // this sets filenames.main and filenames.bib
         this.props.filenames = {
           "main": "paper",
           "bib": "paper"
@@ -622,9 +615,10 @@ module.exports = class extends Generator {
             global.destinationPath('Dockerfile'),
             global.props
           );
-          global.fs.copy(
+          global.fs.copyTpl(
             global.templatePath('Texlivefile'),
-            global.destinationPath('Texlivefile')
+            global.destinationPath('Texlivefile'),
+            global.props
           );
           break;
         case "dante":

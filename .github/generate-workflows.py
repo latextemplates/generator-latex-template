@@ -4,7 +4,7 @@ latexcompilers = ['pdflatex', 'lualatex']
 # bibtextools = ['bibtex', 'biblatex']
 bibtextools = ['bibtex']
 
-texlives = [2019, 2020, 2021]
+texlives = [2021]
 
 languages = ['en', 'de']
 
