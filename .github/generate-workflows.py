@@ -138,7 +138,6 @@ for documentclass in documentclasses:
                                   yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                                 yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                                 yml.write('''      - name: Build docker image
-        id: docker_build
         uses: docker/build-push-action@v2
         with:
           push: true
