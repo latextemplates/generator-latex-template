@@ -148,12 +148,12 @@ for documentclass in documentclasses:
           context: ''')
                                 yml.write("'${{{{ github.workspace }}}}/{}'\n".format(variantName))
                                 yml.write("      - name: latexmk {}\n".format(variantName))
-                                yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk ")
+                                yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work \"latexmk ")
                                 if ((documentclass == 'lncs') or (documentclass == 'ieee')):
-                                  yml.write("paper.tex\n")
+                                  yml.write("paper.tex\"\n")
                                   yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                                 else:
-                                  yml.write("main.tex\n")
+                                  yml.write("main.tex\"\n")
                                 yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
               yml.write('''      - uses: actions/upload-artifact@v2
         with:
