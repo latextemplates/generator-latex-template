@@ -145,7 +145,8 @@ for documentclass in documentclasses:
         with:
           push: true
           tags: localhost:5000/name/app:latest
-''')
+          dockerfile: ''')
+                                yml.write("'${{{{ github.workspace }}}}/{}/Dockerfile'\n".format(variantName))
                                 yml.write("      - name: latexmk {}\n".format(variantName))
                                 yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk ")
                                 if ((documentclass == 'lncs') or (documentclass == 'ieee')):
