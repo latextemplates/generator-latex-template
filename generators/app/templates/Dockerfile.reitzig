@@ -14,7 +14,7 @@ RUN pip3 install pygments
 COPY Texlivefile /work/src
 
 # Emulate "Install dependencies" of "entrypoint work ..."
-RUN tlmgr update --self && \
+RUN tlmgr update --self --repository https://mirror.mwt.me/ctan/systems/texlive/tlnet && \
     xargs tlmgr install < "/work/src/Texlivefile" && \
     sha256sum "/work/src/Texlivefile" > "/work/tmp/Texlivefile.sha"
 
