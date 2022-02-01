@@ -145,7 +145,7 @@ for documentclass in documentclasses:
           tags: localhost:5000/name/app:latest
 ''')
                                 yml.write("      - name: latexmk {}\n".format(variantName))
-                                yml.write("        docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk ")
+                                yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest latexkmk ")
                                 if ((documentclass == 'lncs') or (documentclass == 'ieee')):
                                   yml.write("paper.tex\n")
                                   yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
