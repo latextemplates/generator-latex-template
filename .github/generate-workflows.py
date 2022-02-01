@@ -76,6 +76,9 @@ for documentclass in documentclasses:
       - uses: actions/setup-node@v1
         with:
           node-version: '14'
+      - name: Update npm
+        run: npm i -g npm@latest
+      - run: npm i npm@latest
       - run: npm install
       - run: mkdir /tmp/out
       - id: lncsclspresent
