@@ -149,9 +149,10 @@ for documentclass in documentclasses:
                                 yml.write("'${{{{ github.workspace }}}}/{}'\n".format(variantName))
                                 yml.write("      - name: latexmk {}\n".format(variantName))
                                 yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work \"latexmk ")
-                                if ((documentclass == 'lncs') or (documentclass == 'ieee')):
+                                if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')):
                                   yml.write("paper.tex\"\n")
-                                  yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
+                                  if (documentclass == 'lncs'):
+                                    yml.write("        if: ${{ steps.lncsclspresent.outputs.lncsclspresent }}\n")
                                 else:
                                   yml.write("main.tex\"\n")
                                 yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
