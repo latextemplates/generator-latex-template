@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Refined support for ACM by adding `acm_format` and `acm_review`
 - Added support for generating a `Dockerfile` (`--docker=reitzig` or `--docker=dante`)
+- Added support for log filtering using [texlogsieve](https://ctan.org/pkg/texlogsieve) [#87](https://github.com/latextemplates/generator-latex-template/issues/87)
 
 ### Fixed
 
