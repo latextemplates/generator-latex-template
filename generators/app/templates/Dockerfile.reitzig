@@ -7,14 +7,15 @@ FROM reitzig/texlive-<% switch (latexcompiler) {
   case 2021: %>2021.5<% break;
 } -%>
 
-RUN apk update && apk --no-cache add bash perl
+RUN apk update && apk add --no-cache bash perl python3 py3-pip
+RUN pip3 install pygments
 
-COPY Texlivefile /tmp
+COPY Texlivefile /work/src
 
 # Emulate "Install dependencies" of "entrypoint work ..."
 RUN tlmgr update --self && \
-    xargs tlmgr install < "/tmp/Texlivefile" && \
-    sha256sum "/tmp/Texlivefile" > "/work/tmp/Texlivefile.sha"
+    xargs tlmgr install < "/work/src/Texlivefile" && \
+    sha256sum "/work/src/Texlivefile" > "/work/tmp/Texlivefile.sha"
 
 # make latexmk available
 RUN cp /usr/local/texlive/2021/bin/x86_64-linuxmusl/latexmk /usr/local/bin
