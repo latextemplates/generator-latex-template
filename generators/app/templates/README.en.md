@@ -42,7 +42,7 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 
 <% if (latexcompiler == "pdflatex") { -%>
     pdflatex <%= filenames.main %>
-<% } else { %->
+<% } else { -%>
     lualatex <%= filenames.main %>
 <% } -%>
 
