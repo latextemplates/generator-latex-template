@@ -6,7 +6,8 @@ FROM reitzig/texlive-<% switch (latexcompiler) {
   case 2021: %>2021.5<% break;
 } -%>
 
-RUN apk update && apk add --no-cache bash perl python3 py3-pip
+# font-bakoma-otf (required for Computer Modern - solves "! Package fontspec Error: The font "NewCM10-Regular" cannot be found.")
+RUN apk update && apk add --no-cache bash perl python3 py3-pip font-bakoma-otf
 RUN pip3 install pygments
 
 COPY Texlivefile /work/src
