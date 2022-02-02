@@ -40,15 +40,12 @@ Note that this requires a working perl installation.
 
 In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
 
-<% if (latexcompiler == "pdflatex")  { %>
+<% if (latexcompiler == "pdflatex") { -%>
     pdflatex <%= filenames.main %>
-<%
-} else {
-%>
+<% } else { %->
     lualatex <%= filenames.main %>
-<%
-}
-%>
+<% } -%>
+
 ## Benefits
 
 Following features are enabled in this template:
