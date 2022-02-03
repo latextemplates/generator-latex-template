@@ -171,10 +171,7 @@
 <% } -%>
 <% if (documentclass == 'scientific-thesis') { -%>
 
-\input{acronyms}
-
-\makeindex
-
+<% if (feature.acronyms) { -%><%- include('acronyms.preamble.en.tex', this); %><% } -%>
 <%- include('scientific-thesis-cover.preamble.de.tex', this); %>
 <% } -%>
 <% if (latexcompiler == "pdflatex") { -%>
@@ -421,6 +418,8 @@ Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiel
 <%- include('minted.example.en.tex', this); %>
 <% } -%>
 <%- include('paralist.example.en.tex', this); %>
+<% if (feature.acronyms) { %><%- include('acronyms.example.de.tex', this); %>
+<% } -%>
 <%- include('otherfeatures.example.en.tex', this); %>
 <% } -%>
 
@@ -456,7 +455,7 @@ Alle Links wurden zuletzt am 29.03.2021 geprüft.
 <% if (documentclass == 'scientific-thesis') { -%>
 
 %%% ===============================================================================
-\appendix 
+\appendix
 \addcontentsline{toc}{chapter}{Anhang}
 
 %\listoffigures

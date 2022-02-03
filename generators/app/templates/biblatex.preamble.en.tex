@@ -1,0 +1,61 @@
+\usepackage[
+  backend       = biber, %biber does not work with 64x versions alternative: bibtex8
+%minalphanames only works with biber backend
+  sortcites     = true,
+  bibstyle      = alphabetic,
+  citestyle     = alphabetic,
+  giveninits    = true,
+  useprefix     = false, %"von, van, etc." will be printed, too. See below.
+  minnames      = 1,
+  minalphanames = 3,
+  maxalphanames = 4,
+  maxbibnames   = 99,
+  maxcitenames  = 2,
+  natbib        = true,
+  eprint        = true,
+  url           = true,
+  doi           = true,
+  isbn          = true,
+  backref       = true]{biblatex}
+
+% enable more breaks at URLs. See https://tex.stackexchange.com/a/134281.
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+
+%\bibliography{bibliography}
+%\addbibresource[datatype=bibtex]{bibliography.bib}
+
+% Do not put "vd" in the label, but put it at "\citeauthor"
+% Source: http://tex.stackexchange.com/a/30277/9075
+\makeatletter
+\AtBeginDocument{\toggletrue{blx@useprefix}}
+\AtBeginBibliography{\togglefalse{blx@useprefix}}
+\makeatother
+
+% Thin spaces between initials
+% http://tex.stackexchange.com/a/11083/9075
+\renewrobustcmd*{\bibinitdelim}{\,}
+
+% Keep first and last name together in the bibliography
+% http://tex.stackexchange.com/a/196192/9075
+\renewcommand*\bibnamedelimc{\addnbspace}
+\renewcommand*\bibnamedelimd{\addnbspace}
+
+% Replace last "and" by comma in bibliography
+% See http://tex.stackexchange.com/a/41532/9075
+\AtBeginBibliography{%
+  \renewcommand*{\finalnamedelim}{\addcomma\space}%
+}
+
+% enable hyperlinked author names when using \citeauthor
+% source: http://tex.stackexchange.com/a/75916/9075
+\DeclareCiteCommand{\citeauthor}
+{\boolfalse{citetracker}%
+\boolfalse{pagetracker}%
+\usebibmacro{prenote}}
+{\ifciteindex
+{\indexnames{labelname}}
+{}%
+\printtext[bibhyperref]{\printnames{labelname}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}

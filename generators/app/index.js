@@ -455,6 +455,9 @@ module.exports = class extends Generator {
 
       this.props.requiresShellEscape = (this.props.listings === 'minted');
 
+      this.props.feature = {};
+      this.props.feature.acronyms = (this.props.documentclass === 'scientific-thesis');
+
       this.props.isPaper = (this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
       if (this.props.isPaper) {
         // this sets filenames.main and filenames.bib

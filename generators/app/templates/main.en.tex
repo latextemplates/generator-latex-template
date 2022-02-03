@@ -79,6 +79,13 @@
   %               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
   draft=false
 ]{scrbook}
+\usepackage{scrlayer-scrpage}
+\ihead[]{}
+\chead[]{}
+\ohead[]{\headmark}
+\cfoot[]{}
+\ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
+\ifoot[]{}
 <% break; default: -%>
 
 % not yet supported template. Please report to the author of generator-latex-template
@@ -121,15 +128,19 @@
 <%- include('booktabs.preamble.en.tex', this); -%>
 
 <%- include('paralist.preamble.en.tex', this); -%>
-<% if (documentclass == 'acmart' || documentclass == 'ieee' || documentclass == 'lncs') { -%>
+<% switch (documentclass) {
+  case "acmart":
+  case "ieee":
+  case "lncs": -%>
 
 <%- include('natbib.preamble.en.tex', this); -%>
-<% } -%>
-<% if (documentclass == 'acmart') { -%>
+<% break; case "scientific-thesis": -%>
+<%- include('biblatex.preamble.en.tex', this); -%>
+<% break; } -%>
+<% switch (documentclass) { case "acmart": -%>
 
 \citestyle{acmnumeric} % alternative: acmauthoryear
-<% } -%>
-<% if (documentclass == 'lncs') { -%>
+<% break; case "lncs": -%>
 
 % Prepare more space-saving rendering of the bibliography
 % Source: https://tex.stackexchange.com/a/280936/9075
@@ -142,7 +153,7 @@
 { }
 
 <%- include('floatflt.preamble.en.tex', this); -%>
-<% } -%>
+<% break; } -%>
 <% if (todo == 'pdfcomment') { -%>
 
 <%- include('pdfcomment.preamble.en.tex', this); -%>
@@ -216,10 +227,7 @@
 \fi
 <% break; case "scientific-thesis": -%>
 
-\input{acronyms}
-
-\makeindex
-
+<% if (feature.acronyms) { -%><%- include('acronyms.preamble.en.tex', this); %><% } -%>
 <%- include('scientific-thesis-cover.preamble.en.tex', this); %>
 <% break; } -%>
 <% if (latexcompiler == "pdflatex") { -%>
@@ -334,11 +342,8 @@
 \pagenumbering{arabic}
 \Titelblatt
 
-%Eigener Seitenstil fuer die Kurzfassung und das Inhaltsverzeichnis
-\deftriplepagestyle{preamble}{}{}{}{}{}{\pagemark}
-%Doku zu deftriplepagestyle: scrguide.pdf
-\pagestyle{preamble}
-\renewcommand*{\chapterpagestyle}{preamble}
+\pagestyle{plain.scrheadings}
+\renewcommand*{\chapterpagestyle}{plain.scrheadings}
 
 % Kurzfassung / abstract
 % auch im Stil vom Inhaltsverzeichnis
@@ -419,20 +424,13 @@
 %\listofalgorithms %Ist nur für Algorithmen, die mittels \begin{algorithm} umschlossen werden, nötig
 
 % Abbreviations
-\printnoidxglossaries
+\printunsrtglossaries
 
 \microtypesetup{protrusion=true}
 
 % Headline and footline
 \renewcommand*{\chapterpagestyle}{scrplain}
 \pagestyle{scrheadings}
-\pagestyle{scrheadings}
-\ihead[]{}
-\chead[]{}
-\ohead[]{\headmark}
-\cfoot[]{}
-\ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
-\ifoot[]{}
 <% break; default: -%>
 
 \tableofcontents
@@ -773,6 +771,8 @@ It focuses on minimal examples, which can be directly adapted to the content
 <%- include('minted.example.en.tex', this); %>
 <% } -%>
 <%- include('paralist.example.en.tex', this); %>
+<% if (feature.acronyms) { %><%- include('acronyms.example.en.tex', this); %>
+<% } -%>
 <%- include('otherfeatures.example.en.tex', this); %>
 <% } -%>
 <% if (howtotext) { -%>
