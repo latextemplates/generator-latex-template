@@ -46,15 +46,63 @@ module.exports = class extends Generator {
             value: "scientific-thesis"
           },
           {
-            name: "Springer's Lecture Notes in Computer Science (LNCS)",
-            value: "lncs"
+            name: "Association for Computing Machinery (ACM)",
+            value: "acmart"
           },
           {
             name: "Institute of Electrical and Electronics Engineers (IEEE)",
             value: "ieee"
+          },
+          {
+            name: "Springer's Lecture Notes in Computer Science (LNCS)",
+            value: "lncs"
           }
         ],
         default: "scientific-thesis"
+      },
+      {
+        type: 'list',
+        name: 'acm_format',
+        when: function(response) {
+          return response.documentclass === 'acm';
+        },
+        message: 'Which format of ACM?',
+        choices: [
+          {
+            value: "manuscript",
+            name: "A manuscript. This is the default.",
+          },
+          {
+            value: "acmsmall",
+            name: "Small single-column format. Used for CIE, CSUR, JACM, JDIQ, JEA, JERIC, JETC, PACMCGIT, PACMHCI, PACMPL, TAAS, TACCESS, TACO, TALG, TALLIP (formerly TALIP), TCPS, TDS, TEAC, TECS, TELO, THRI, TIIS, TIOT, TISSEC, TIST, TKDD, TMIS, TOCE, TOCHI, TOCL, TOCS, TOCT, TODAES, TODS, TOIS, TOIT, TOMACS, TOMM (formerly TOMCCAP), TOMPECS, TOMS, TOPC, TOPLAS, TOPS, TOS, TOSEM, TOSN, TQC, TRETS, TSAS, TSC, TSLP and TWEB, including special issues.",
+          },
+          {
+            value: "acmlarge",
+            name: "Large single-column format. Used for DTRAP, HEALTH, IMWUT, JOCCH, POMACS and TAP, including special issues.",
+          },
+          {
+            value: "acmtog",
+            name: "Large double-column format. Used for TOG, including annual conference Technical Papers.",
+          },
+          {
+            value: "sigconf",
+            name: "Proceedings format for most ACM conferences (with the exceptionslisted below) and all ICPS volumes.",
+          },
+          {
+            value: "sigplan",
+            name: "Proceedings format for SIGPLAN conferences",
+          }
+        ],
+        default: "sigconf"
+      },
+      {
+        type: 'confirm',
+        name: 'acm_review',
+        when: function(response) {
+          return response.documentclass === 'acm';
+        },
+        message: 'Format as document to review?',
+        default: true
       },
       {
         type: 'list',
@@ -101,29 +149,28 @@ module.exports = class extends Generator {
       {
         type: 'list',
         name: 'texlive',
-        message: 'Which texlive compatiblity?',
+        message: 'Which TeXLive compatiblity?',
         choices: [
           {
             name: "TeXLive 2021",
             value: 2021
-          },
-          {
-            name: "TeXLive 2019",
-            value: 2019
           }
         ],
-        default:  2021
+        default: 2021
       },
       {
         type: 'list',
         name: 'latexcompiler',
         message: 'Which latex compiler should be used?',
         choices: ["pdflatex", "lualatex"],
-        default: "pdflatex"
+        default: "pdflatex",
+        when: function(response) {
+          return !((response.documentclass === 'ieee') && (response.texlive == 2021));
+        }
       },
       {
         when: function(response) {
-          return response.documentclass !== 'ieee';
+          return ((response.documentclass !== 'acmart') && (response.documentclass !== 'ieee'));
         },
         type: 'list',
         name: 'bibtextool',
@@ -140,6 +187,7 @@ module.exports = class extends Generator {
         ],
         default: function(response) {
           switch (response.documentclass) {
+            case 'acmart':
             case 'ieee':
             case 'lncs':
               return 'bibtex'
@@ -150,9 +198,29 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
+        name: 'docker',
+        message: 'Should a Dockerfile be generated?',
+        choices: [
+          {
+            name: "no",
+            value: false
+          },
+          {
+            name: "yes (Reiztig)",
+            value: "reitzig"
+          },
+          {
+            name: "yes (DANTE e.V.)",
+            value: "dante"
+          }
+        ],
+        default: false,
+      },
+      {
+        type: 'list',
         name: 'language',
         when: function(response) {
-          return response.documentclass !== 'ieee';
+          return ((response.documentclass !== 'acmart') && (response.documentclass !== 'ieee'));
         },
         message: 'Which language should the document be?',
         choices: [
@@ -173,7 +241,12 @@ module.exports = class extends Generator {
         message: 'Which font should be used?',
         choices: function(state) {
           var res = [];
-          if (state.documentclass === "ieee") {
+          if (state.documentclass === "acmart") {
+            res.push({
+              name: "ACM Default",
+              value: "default"
+            })
+          } else if (state.documentclass === "ieee") {
             res.push({
               name: "IEEE Default",
               value: "default"
@@ -321,11 +394,22 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
+      // somehow texlive is not routed through
+      // special handling
+      if (this.params.options.texlive) {
+        this.props.texlive = parseInt(this.params.options.texlive)
+      }
+
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
       this.props.githubpublish = this.params.options.githubpublish;
+      this.props.githubpublish = (this.props.githubpublish === true) || (this.props.githubpublish === 'true')
+
+      // Command line argument "--preparereitzig" switches the generator to generate a template to be used to generate Texlivefile required by https://github.com/reitzig/texlive-docker
+      this.props.preparereitzig = this.params.options.preparereitzig;
+      this.props.preparereitzig = (this.props.preparereitzig === true) || (this.props.preparereitzig === 'true')
 
       // Ensure all values are set - even if the user was not asked
-      if (this.props.documentclass === 'ieee') {
+      if ((this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee')) {
         this.props.bibtextool = 'bibtex';
         this.props.font = 'default';
         this.props.language = 'en';
@@ -334,6 +418,11 @@ module.exports = class extends Generator {
       // IEEE class offers "compsoc"
       // In 2021 this is not used any more, all papers are the "normal" IEEE format
       this.props.ieee_compsoc = false;
+
+      // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex (TeXLive 2019 and 2020 work)
+      if ((this.props.documentclass === 'ieee') && (this.props.texlive == 2021)) {
+        this.props.latexcompiler = 'pdflatex';
+      }
 
       // convert "String" Boolean command line options
       this.props.cleveref = (this.props.cleveref === true) || (this.props.cleveref === 'true')
@@ -366,8 +455,9 @@ module.exports = class extends Generator {
 
       this.props.requiresShellEscape = (this.props.listings === 'minted');
 
-      this.props.isPaper = (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
+      this.props.isPaper = (this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
       if (this.props.isPaper) {
+        // this sets filenames.main and filenames.bib
         this.props.filenames = {
           "main": "paper",
           "bib": "paper"
@@ -389,7 +479,9 @@ module.exports = class extends Generator {
 
       this.props.available = {};
 
-      if (props.bibtextool == 'bibtex' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
+      if (props.bibtextool == 'bibtex' && props.documentclass !== 'acmart' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
+        // acmart uses natbib
+        // in lncs, we patched-in natbib
         this.props.available.citet = false;
       } else {
         this.props.available.citet = true;
@@ -398,125 +490,105 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    var promise = new Promise(function(resolve, reject) {resolve();});
-    if ((this.props.documentclass === "lncs") && !fs.existsSync('llncs.cls')) {
-      if (!fs.existsSync('llncs2e.zip')) {
-        console.log("Need to llncs2e.zip from Springer");
-        const ftp = require("basic-ftp");
-        const client = new ftp.Client()
-        client.ftp.verbose = true
-        promise = client.access({
-            host: "ftp.springernature.com",
-            user: "anonymous",
-            password: "anonymous",
-            secure: false
-        }).then(function() {
-          return client.ensureDir("cs-proceeding/llncs")
-        }).then(function() {
-          return client.downloadTo("llncs2e.zip", "llncs2e.zip")
-        }).then(function() {
-          return new Promise(function(resolve, reject) {
-            console.log("Downloaded");
-            client.close();
-            resolve();
-          });
-        });
-      } else {
-        console.log("llncs2e.zip already exists. Needs to be extracted.");
-        promise = new Promise(function(resolve, reject) {resolve();});
-      }
-      var oldPromise = promise;
-      promise = oldPromise.then(function() {
-        return fs.createReadStream('llncs2e.zip')
-        .pipe(unzipper.Parse())
-        .on('entry', function (entry) {
-          const fileName = entry.path;
-          const type = entry.type; // 'Directory' or 'File'
-          const size = entry.vars.uncompressedSize; // There is also compressedSize;
-          if ((fileName === "llncs.cls") || (fileName === "splncs04.bst")) {
-            entry.pipe(fs.createWriteStream(fileName));
-          } else {
-            entry.autodrain();
-          }
-        })
-      });
-    }
     let global = this;
-    promise.then(function() {
+    global.props.config = global.props;
+    global.fs.copy(
+      // .gitignore is not uploaded by npm publish
+      // Thus, we prefix it with `dot`.
+      global.templatePath('dot.gitignore'),
+      global.destinationPath('.gitignore')
+    );
+    global.fs.copyTpl(
+      global.templatePath('dot.editorconfig'),
+      global.destinationPath('.editorconfig'),
+      global.props
+    );
+    global.fs.copyTpl(
+      global.templatePath('bibliography.bib'),
+      global.destinationPath(global.props.filenames.bib + ".bib"),
+      global.props
+    );
+    global.fs.copyTpl(
+      global.templatePath('latexmkrc'),
+      global.destinationPath('latexmkrc'),
+      global.props
+    );
+    global.fs.copyTpl(
+      global.templatePath('localSettings.yaml'),
+      global.destinationPath('localSettings.yaml'),
+      global.props
+    );
+    global.fs.copyTpl(
+      global.templatePath('LICENSE'),
+      global.destinationPath('LICENSE'),
+      global.props
+    );
+    global.fs.copyTpl(
+      global.templatePath('Makefile'),
+      global.destinationPath('Makefile'),
+      global.props
+    );
+    if (global.props.documentclass === 'lncs') {
       global.fs.copy(
-        // .gitignore is not uploaded by npm publish
-        // Thus, we prefix it with `dot`.
-        global.templatePath('dot.gitignore'),
-        global.destinationPath('.gitignore')
+        global.templatePath('splncsnat.bst'),
+        global.destinationPath('splncsnat.bst')
       );
+    }
+    if (global.props.language === 'de') {
       global.fs.copyTpl(
-        global.templatePath('dot.editorconfig'),
-        global.destinationPath('.editorconfig'),
+        global.templatePath('main.de.tex'),
+        global.destinationPath(global.props.filenames.main + ".tex"),
         global.props
       );
-      global.fs.copyTpl(
-        global.templatePath('dot.latexmkrc'),
-        global.destinationPath('.latexmkrc'),
-        global.props
-      );
-      global.fs.copyTpl(
-        global.templatePath('bibliography.bib'),
-        global.destinationPath(global.props.filenames.bib + ".bib"),
-        global.props
-      );
-      global.fs.copyTpl(
-        global.templatePath('localSettings.yaml'),
-        global.destinationPath('localSettings.yaml'),
-        global.props
-      );
-      global.fs.copyTpl(
-        global.templatePath('LICENSE'),
-        global.destinationPath('LICENSE'),
-        global.props
-      );
-      global.fs.copyTpl(
-        global.templatePath('Makefile'),
-        global.destinationPath('Makefile'),
-        global.props
-      );
-      if (global.props.documentclass === 'lncs') {
-        global.fs.copy(
-          global.templatePath('splncsnat.bst'),
-          global.destinationPath('splncsnat.bst')
-        );
-      } else if (global.props.documentclass === 'ieee') {
-        global.fs.copy(
-          global.templatePath('acronyms.' + global.props.language + '.tex'),
-          global.destinationPath('acronyms.tex')
-        );
-      }
-      if (global.props.language === 'de') {
+      if (!global.props.githubpublish) {
+        // we keep the English README.md in case of GitHub publish
         global.fs.copyTpl(
-          global.templatePath('main.de.tex'),
-          global.destinationPath(global.props.filenames.main + ".tex"),
-          global.props
-        );
-        if (!global.props.githubpublish) {
-          // we keep the English README.md in case of GitHub publish
-          global.fs.copyTpl(
-            global.templatePath('README.de.md'),
-            global.destinationPath('README.md'),
-            global.props
-          );
-        }
-      } else {
-        global.fs.copyTpl(
-          global.templatePath('main.en.tex'),
-          global.destinationPath(global.props.filenames.main + ".tex"),
-          global.props
-        );
-        global.fs.copyTpl(
-          global.templatePath('README.en.md'),
+          global.templatePath('README.de.md'),
           global.destinationPath('README.md'),
           global.props
         );
       }
-    });
+    } else {
+      global.fs.copyTpl(
+        global.templatePath('main.en.tex'),
+        global.destinationPath(global.props.filenames.main + ".tex"),
+        global.props
+      );
+      global.fs.copyTpl(
+        global.templatePath('README.en.md'),
+        global.destinationPath('README.md'),
+        global.props
+      );
+    }
+    switch (global.props.docker) {
+      case "reitzig":
+        global.fs.copy(
+          global.templatePath('dot.dockerignore'),
+          global.destinationPath('.dockerignore')
+        );
+        global.fs.copyTpl(
+          global.templatePath('Dockerfile.reitzig'),
+          global.destinationPath('Dockerfile'),
+          global.props
+        );
+        global.fs.copyTpl(
+          global.templatePath('Texlivefile'),
+          global.destinationPath('Texlivefile'),
+          global.props
+        );
+        break;
+      case "dante":
+        global.fs.copy(
+          global.templatePath('dot.dockerignore'),
+          global.destinationPath('.dockerignore')
+        );
+        global.fs.copyTpl(
+          global.templatePath('Dockerfile.dante'),
+          global.destinationPath('Dockerfile'),
+          global.props
+        );
+        break;
+    }
   }
 
   install() {

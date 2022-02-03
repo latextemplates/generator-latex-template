@@ -7,9 +7,46 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Examples now also work on overleaf. `\currfile` now correctly returns `main.tex`/`paper.tex` instead of `output.tex`.
+  Implementation: Added parameter `realmainfile` to package [currfile](https://ctan.org/pkg/currfile)
+
 ### Added
 
 - Included more elements from the "original" scientific-thesis template.
+
+## [0.4.0] – 2022-02-03
+
+### Added
+
+- Refined support for ACM by adding `acm_format` and `acm_review`
+- Added support for generating a `Dockerfile` (`--docker=reitzig` or `--docker=dante`)
+- Added support for log filtering using [texlogsieve](https://ctan.org/pkg/texlogsieve) [#87](https://github.com/latextemplates/generator-latex-template/issues/87)
+
+### Fixed
+
+- Filename of ACM articles is `paper.tex` (and not `main.tex`)
+
+### Changed
+
+- LNCS is now based on the offical CTAN package [llncs](https://ctan.org/pkg/llncs)
+
+### Removed
+
+- Drop support for TeXLive 2019 and 2020, because TeXLive 2021 is supported by Overleaf
+
+## [0.3.0] – 2021-09-16
+
+### Added
+
+- Added initial support for [ACM](https://ctan.org/pkg/acmart)
+- Added initial support for [mindflow](https://www.ctan.org/pkg/mindflow) (when TeXLive >= 2021 is used)
+
+### Fixed
+
+- Sections "Introduction" and "Related Work" are sections in IEEE when not using "howtotext". Fixes [#70](https://github.com/latextemplates/generator-latex-template/issues/70)
+- Fixed support for TeXLive 2019
 
 ### Changed
 
@@ -60,7 +97,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 First release of Markdown Architectural Decision Records.
 
-[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/0.2.0...main
+[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/0.4.0...main
+[0.4.0]: https://github.com/latextemplates/generator-latex-template/compare/0.3.0...0.4.0
+[0.3.0]: https://github.com/latextemplates/generator-latex-template/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/latextemplates/generator-latex-template/compare/0.1.2...0.2.0
 [0.1.2]: https://github.com/latextemplates/generator-latex-template/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/latextemplates/generator-latex-template/compare/0.1.0...0.1.1
