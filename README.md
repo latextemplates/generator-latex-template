@@ -1,4 +1,4 @@
-# generator-latex-template ![Tests](https://github.com/latextemplates/generator-latex-template/workflows/Tests/badge.svg) [![npm version](http://img.shields.io/npm/v/generator-latex-template.svg?style=flat)](https://npmjs.org/package/generator-latex-template "View this project on npm")
+# generator-latex-template [![npm version](http://img.shields.io/npm/v/generator-latex-template.svg?style=flat)](https://npmjs.org/package/generator-latex-template "View this project on npm")
 
 > Generates latextemplates (e.g., for thesis, workshops, conferences, IEEEtran, LNCS, ...) out of "micro-templates"
 
