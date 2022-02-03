@@ -108,8 +108,9 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Run `npx yo <path-to-git-repository>`
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
   - Parameters can be set using command line
-    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --texlive=tl2021 --documentclass=scientific-thesis --latexcompiler=lualatex --bibtextool=biblatex --language=en --font=arial --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs --latexcompiler=pdflatex --bibtextool=bibtex --texlive=tl2021 --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+    - Linux: `npx yo /tmp/repo --documentclass=lncs --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
+    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment  --howtotext=true --examples=true`
+    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
   - Run `latexmk` to build the PDF
 - Update npm dependencies
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
@@ -117,9 +118,16 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
 - When one encounters `Cannot find module 'yeoman-generator'`, please update the npm dependencies.
   That error ocurred when using version `4.13.0` and `5.4.2` was available.
+- In case of the error "Error: EACCES, permission denied '/root/.config/configstore/insight-yo.json'", one needs to execute `chmod g+rwx /root /root/.config /root/.config/configstore`
 - Check GitHub actions
   - Use [actionlint](https://github.com/rhysd/actionlint#readme)
   - Use [vs.code GitHub actions plugin](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
+- When adding a new package:
+  1. execute `npx` with `--generatereitzig`
+  2. run `pdflatex`
+  3. run `.../generate-texlivefile.sh`
+  4. copy `Texlivefile` to the root of the source repository
+  5. adapt `Texlivefile` as required
 
 ### Useful snippets
 

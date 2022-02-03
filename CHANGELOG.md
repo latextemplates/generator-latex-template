@@ -10,11 +10,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Refined support for ACM by adding `acm_format` and `acm_review`
-- Added explicit support for TeXLive 2020
+- Added support for generating a `Dockerfile` (`--docker=reitzig` or `--docker=dante`)
+- Added support for log filtering using [texlogsieve](https://ctan.org/pkg/texlogsieve) [#87](https://github.com/latextemplates/generator-latex-template/issues/87)
 
 ### Fixed
 
-- Fixed support for TeXLive 2019 in the case the distribution provided at the command line
+- Filename of ACM articles is `paper.tex` (and not `main.tex`)
+
+### Changed
+
+- LNCS is now based on the offical CTAN package [llncs](https://ctan.org/pkg/llncs)
+
+### Removed
+
+- Drop support for TeXLive 2019 and 2020, because TeXLive 2021 is supported by Overleaf
 
 ## [0.3.0] – 2021-09-16
 
