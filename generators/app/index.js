@@ -540,6 +540,12 @@ module.exports = class extends Generator {
         global.destinationPath(global.props.filenames.main + ".tex"),
         global.props
       );
+      if (global.props.documentclass === 'scientific-thesis') {
+        global.fs.copy(
+          global.templatePath('acronyms.de.tex'),
+          global.destinationPath('acronyms.tex')
+        );
+      }
       if (!global.props.githubpublish) {
         // we keep the English README.md in case of GitHub publish
         global.fs.copyTpl(
@@ -554,6 +560,12 @@ module.exports = class extends Generator {
         global.destinationPath(global.props.filenames.main + ".tex"),
         global.props
       );
+      if (global.props.documentclass === 'scientific-thesis') {
+        global.fs.copy(
+          global.templatePath('acronyms.en.tex'),
+          global.destinationPath('acronyms.tex')
+        );
+      }
       global.fs.copyTpl(
         global.templatePath('README.en.md'),
         global.destinationPath('README.md'),
