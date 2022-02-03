@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- Examples now also work on overleaf. `\currfile` now correctly returns `main.tex`/`paper.tex` instead of `output.tex`.
+  Implementation: Added parameter `realmainfile` to package [currfile](https://ctan.org/pkg/currfile)
+
 ## [0.4.0] – 2022-02-03
 
 ### Added
