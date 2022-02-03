@@ -23,3 +23,8 @@ RUN tlmgr update --self --repository https://mirror.mwt.me/ctan/systems/texlive/
 # make latexmk and texlogsieve available
 RUN cp /usr/local/texlive/<%= texlive %>/bin/x86_64-linuxmusl/latexmk /usr/local/bin && \
     cp /usr/local/texlive/<%= texlive %>/bin/x86_64-linuxmusl/texlogsieve /usr/local/bin
+<% if (latexcompiler === "lualatex") { -%>
+
+# update font index
+RUN luaotfload-tool --update
+<% } -%>
