@@ -26,6 +26,8 @@ This template does it.
 This template is for the conferences.
 It is based on the `bare_conf_compsoc.tex` distributed by IEEE.
 In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
+<% break; case "scientific-thesis": -%>
+# # LaTeX Template for a Scientific Thesis
 <%  break; default: -%>
 # LaTeX Document
 <% break; }
