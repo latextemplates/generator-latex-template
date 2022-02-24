@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Included more elements from the "original" scientific-thesis template.
+- Added LaTeX package [hyphenex](https://ctan.org/pkg/hyphenex) to ensure that English words are correclty hyphenated.
 
 ## [0.4.0] – 2022-02-03
 
