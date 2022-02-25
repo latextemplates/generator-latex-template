@@ -26,6 +26,26 @@ This template does it.
 This template is for the conferences.
 It is based on the `bare_conf_compsoc.tex` distributed by IEEE.
 In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
+<% break; case "scientific-thesis": -%>
+# LaTeX Template for a Scientific Thesis
+
+This template is a general template for scientific theses.
+Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, and Student Theses at following institutions:
+
+- University of Stuttgart, Computer Science
+  - [English example](https://latextemplates.github.io/scientific-thesis-template/main-english.pdf)
+  - [German example](https://latextemplates.github.io/scientific-thesis-template/main-german.pdf)
+  - [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german.pdf)
+<!--
+- Paderborn University, Computer Science - to be confirmed.
+  - [English example](https://latextemplates.github.io/scientific-thesis-template/main-paderborn-english.pdf)
+  - [German example](https://latextemplates.github.io/scientific-thesis-template/main-paderborn-german.pdf)
+-->
+
+The template will be extended to support theses from different institutions.
+
+For [architectural decision records](https://adr.github.io) see [docs/adr](https://latextemplates.github.io/scientific-thesis-template/adr/).
+
 <%  break; default: -%>
 # LaTeX Document
 <% break; }

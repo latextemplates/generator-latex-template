@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Examples now also work on overleaf. `\currfile` now correctly returns `main.tex`/`paper.tex` instead of `output.tex`.
   Implementation: Added parameter `realmainfile` to package [currfile](https://ctan.org/pkg/currfile)
 
+### Added
+
+- Included more elements from the "original" scientific-thesis template.
+- Added LaTeX package [hyphenex](https://ctan.org/pkg/hyphenex) to ensure that English words are correclty hyphenated.
+
 ## [0.4.0] – 2022-02-03
 
 ### Added

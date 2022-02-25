@@ -79,6 +79,13 @@
   %               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
   draft=false
 ]{scrbook}
+\usepackage{scrlayer-scrpage}
+\ihead[]{}
+\chead[]{}
+\ohead[]{\headmark}
+\cfoot[]{}
+\ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
+\ifoot[]{}
 <% break; default: -%>
 
 % not yet supported template. Please report to the author of generator-latex-template
@@ -121,15 +128,19 @@
 <%- include('booktabs.preamble.en.tex', this); -%>
 
 <%- include('paralist.preamble.en.tex', this); -%>
-<% if (documentclass == 'acmart' || documentclass == 'ieee' || documentclass == 'lncs') { -%>
+<% switch (documentclass) {
+  case "acmart":
+  case "ieee":
+  case "lncs": -%>
 
 <%- include('natbib.preamble.en.tex', this); -%>
-<% } -%>
-<% if (documentclass == 'acmart') { -%>
+<% break; case "scientific-thesis": -%>
+<%- include('biblatex.preamble.en.tex', this); -%>
+<% break; } -%>
+<% switch (documentclass) { case "acmart": -%>
 
 \citestyle{acmnumeric} % alternative: acmauthoryear
-<% } -%>
-<% if (documentclass == 'lncs') { -%>
+<% break; case "lncs": -%>
 
 % Prepare more space-saving rendering of the bibliography
 % Source: https://tex.stackexchange.com/a/280936/9075
@@ -142,7 +153,7 @@
 { }
 
 <%- include('floatflt.preamble.en.tex', this); -%>
-<% } -%>
+<% break; } -%>
 <% if (todo == 'pdfcomment') { -%>
 
 <%- include('pdfcomment.preamble.en.tex', this); -%>
@@ -192,6 +203,11 @@
 % Definition of "= taken from http://mirror.ctan.org/macros/latex/contrib/babel-contrib/german/ngermanb.dtx
 \makeatother
 
+% Add manual adapted hyphenation of English words
+% See https://ctan.org/pkg/hyphenex and https://tex.stackexchange.com/a/22892/9075 for details
+% Could not work on MiKTeX
+\input{ushyphex}
+
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 <% switch (documentclass) { case "acmart": -%>
@@ -214,6 +230,10 @@
   %example: llncs{Anonymous et al. (eds). \emph{Proceedings of the International Conference on \LaTeX-Hacks}, LNCS~42. Some Publisher, 2016.}{0042}
   \llncs{book editors and title}{0042} %% 0042 is the start page
 \fi
+<% break; case "scientific-thesis": -%>
+
+<% if (feature.acronyms) { -%><%- include('acronyms.preamble.en.tex', this); %><% } -%>
+<%- include('scientific-thesis-cover.preamble.en.tex', this); %>
 <% break; } -%>
 <% if (latexcompiler == "pdflatex") { -%>
 
@@ -323,6 +343,15 @@
 \fi
 
 \begin{abstract}
+<% break; case "scientific-thesis": -%>
+\pagenumbering{arabic}
+\Titelblatt
+
+\pagestyle{plain.scrheadings}
+\renewcommand*{\chapterpagestyle}{plain.scrheadings}
+
+% Kurzfassung / abstract
+% auch im Stil vom Inhaltsverzeichnis
 <% break; default: -%>
 \section*{Abstract}
 <% break; } -%>
@@ -365,6 +394,49 @@
 % For peerreview papers, this IEEEtran command inserts a page break and
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
+<% break; case "scientific-thesis": -%>
+
+\microtypesetup{protrusion=false}
+
+% In case you have trouble with headings reaching into the page numbers, enable the following three lines.
+% Hint by http://golatex.de/inhaltsverzeichnis-schreibt-ueber-rand-t3106.html
+%
+%\makeatletter
+%\renewcommand{\@pnumwidth}{2em}
+%\makeatother
+%
+% In case of a strange break in the table of contents,
+% a page break can be inserted by issuing the following command at the "right" place in the main text:
+%   \addtocontents{toc}{\protect\newpage}
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+<% if (listings == 'listings') { -%>
+
+% We use lstlisting environments with caption paramters.
+% Thus, we need that command.
+% Alternative: \listof{Listing}{List of Listings}
+\lstlistoflistings
+<% } else { -%>
+\listof{Listing}{List of Listings}
+<% } -%>
+
+%mittels \newfloat wurde die Algorithmus-Gleitumgebung definiert.
+%Mit folgendem Befehl werden alle floats dieses Typs ausgegeben
+%\listof{Algorithmus}{List of Algorithms}
+%\listofalgorithms %Ist nur für Algorithmen, die mittels \begin{algorithm} umschlossen werden, nötig
+
+% Abbreviations
+\printglossaries
+% \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075
+
+\microtypesetup{protrusion=true}
+
+% Headline and footline
+\renewcommand*{\chapterpagestyle}{scrplain}
+\pagestyle{scrheadings}
 <% break; default: -%>
 
 \tableofcontents
@@ -705,6 +777,8 @@ It focuses on minimal examples, which can be directly adapted to the content
 <%- include('minted.example.en.tex', this); %>
 <% } -%>
 <%- include('paralist.example.en.tex', this); %>
+<% if (feature.acronyms) { %><%- include('acronyms.example.en.tex', this); %>
+<% } -%>
 <%- include('otherfeatures.example.en.tex', this); %>
 <% } -%>
 <% if (howtotext) { -%>
@@ -793,6 +867,9 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
 % argument is your BibTeX string definitions and bibliography database(s)
 \bibliography{<%= filenames.bib %>}
+<% break; case "scientific-thesis": -%>
+
+\printbibliography
 <% break; default: -%>
 
 \bibliographystyle{plain}
@@ -803,7 +880,8 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \ \\
 %
 All links were last followed on October 5, 2020.
-<% if (documentclass != 'lncs') { -%>
+
+<% switch (documentclass) { case "lncs": -%>
 
 %%% ===============================================================================
 %\appendix
@@ -816,6 +894,22 @@ All links were last followed on October 5, 2020.
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
 %%% ===============================================================================
-<% } -%>
+<% break; case "scientific-thesis": -%>
 
+%%% ===============================================================================
+\appendix
+\addcontentsline{toc}{chapter}{Appendices}
+
+%\listoffigures
+%\listoftables
+%%% ===============================================================================
+
+%%% ===============================================================================
+%<%= heading1 %>{My first appendix}\label{sec:appendix1}
+%%% ===============================================================================
+
+\pagestyle{empty}
+\renewcommand*{\chapterpagestyle}{empty}
+\Versicherung
+<% break; } -%>
 \end{document}

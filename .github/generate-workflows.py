@@ -1,8 +1,7 @@
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
-# bibtextools = ['bibtex', 'biblatex']
-bibtextools = ['bibtex']
+bibtextools = ['bibtex', 'biblatex']
 
 texlives = [2021]
 
@@ -31,6 +30,8 @@ for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
       if ((bibtextool == 'biblatex') and ((documentclass == 'acmart') or (documentclass == 'ieee') or (documentclass == 'lncs'))):
+        continue
+      if ((bibtextool == 'bibtex') and (documentclass == 'scientific-thesis')):
         continue
       for texlive in texlives:
         for example in examples:

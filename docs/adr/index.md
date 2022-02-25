@@ -10,6 +10,6 @@ This log lists the architectural decisions for [project name].
 - [ADR-0005](0005-custom-example-environment.md) - Use custom LaTeX environment for example presentation
 - [ADR-0006](0006-use-single-quote-to-enquote.md) - Use single quote (") to enquote text
 
-For new ADRs, please use [template.md](template.md) as basis.
+For new ADRs, please use [template.md](adr-template.md) as basis.
 More information on MADR is available at <https://adr.github.io/madr/>.
 General information about architectural decision records is available at <https://adr.github.io/>.
