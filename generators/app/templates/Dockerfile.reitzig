@@ -20,8 +20,10 @@ RUN xargs tlmgr install --repository https://mirror.mwt.me/ctan/systems/texlive/
 <% } -%>
     sha256sum "/work/src/Texlivefile" > "/work/tmp/Texlivefile.sha" && \
 #
-# make biber, latexmk and texlogsieve available
+# make <% if (bibtextool == "biblatex") { %>biber, <% } %>latexmk and texlogsieve available
+<% if (bibtextool == "biblatex") { -%>
     cp /usr/local/texlive/<%= texlive %>/bin/x86_64-linuxmusl/biber /usr/local/bin && \
+<% } -%>
     cp /usr/local/texlive/<%= texlive %>/bin/x86_64-linuxmusl/latexmk /usr/local/bin && \
     cp /usr/local/texlive/<%= texlive %>/bin/x86_64-linuxmusl/texlogsieve /usr/local/bin && \
 <% if (latexcompiler === "lualatex") { -%>
