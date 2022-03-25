@@ -604,6 +604,13 @@ module.exports = class extends Generator {
         );
         break;
     }
+    if (global.props.docker) {
+      global.fs.copyTpl(
+        global.templatePath('.github/workflows/check.yml'),
+        global.destinationPath('.github/workflows/check.yml'),
+        global.props
+      );
+    }
   }
 
   install() {
