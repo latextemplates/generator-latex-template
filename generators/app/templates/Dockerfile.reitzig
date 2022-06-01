@@ -10,7 +10,7 @@ RUN apk update && apk add --no-cache bash perl python3 py3-pip
 RUN pip3 install pygments
 
 # Emulate "Install dependencies" of "entrypoint work ..."
-<% if (texlive < 2021) { -%>
+<% if (texlive < 2022) { -%>
 COPY Texlivefile /work/src
 RUN xargs tlmgr install --repository ftp://ftp.math.utah.edu/pub/tex/historic/systems/texlive/<%= texlive %>/tlnet-final < "/work/src/Texlivefile" && \
 <% } else { -%>
