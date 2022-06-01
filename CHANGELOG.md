@@ -13,9 +13,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Switch for `overleaf`. If set, `_latexmkrc` is generated instead of `latexmkrc`. [lncs#40](https://github.com/latextemplates/LNCS/issues/40)
 - Correct `\keywords{}` syntax for LCNS. [lncs#39](https://github.com/latextemplates/LNCS/issues/39)
 
-### Change
+### Changed
 
 - Update `splncsnat` to [splncs04nat](https://github.com/tpavlic/splncs04nat). [lncs#35](https://github.com/latextemplates/LNCS/issues/35)
+
+### Fixed
+
+- Fixed reference to examples in IEEE template
 
 ## [0.5.0] – 2022-02-28
 
