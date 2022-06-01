@@ -148,7 +148,26 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
+        name: 'overleaf',
+        message: 'Overleaf compatiblity?',
+        choices: [
+          {
+            name: "yes",
+            value: true
+          },
+          {
+            name: "no",
+            value: true
+          }
+        ],
+        default: true
+      },
+      {
+        type: 'list',
         name: 'texlive',
+        when: function(response) {
+          return !response.overleaf;
+        },
         message: 'Which TeXLive compatiblity?',
         choices: [
           {
@@ -165,7 +184,7 @@ module.exports = class extends Generator {
         choices: ["pdflatex", "lualatex"],
         default: "pdflatex",
         when: function(response) {
-          return !((response.documentclass === 'ieee') && (response.texlive == 2021));
+          return !(response.documentclass === 'ieee');
         }
       },
       {
@@ -394,6 +413,11 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
+      if (this.props.overleaf) {
+        // we do not prompt for texlive version in case of overleaf
+        this.props.texlive = 2021;
+      }
+
       // somehow texlive is not routed through
       // special handling
       if (this.params.options.texlive) {
@@ -428,6 +452,7 @@ module.exports = class extends Generator {
       this.props.cleveref = (this.props.cleveref === true) || (this.props.cleveref === 'true')
       this.props.examples = (this.props.examples === true) || (this.props.examples === 'true')
       this.props.howtotext = (this.props.howtotext === true) || (this.props.howtotext === 'true')
+      this.props.overleaf = (this.props.overleaf === true) || (this.props.overleaf === 'true')
 
       if (this.props.examples) {
         this.props.useExampleEnvironment = true;
@@ -513,7 +538,7 @@ module.exports = class extends Generator {
     );
     global.fs.copyTpl(
       global.templatePath('latexmkrc'),
-      global.destinationPath('latexmkrc'),
+      global.destinationPath(global.props.overleaf ? '_latexmkrc' : 'latexmkrc'),
       global.props
     );
     global.fs.copyTpl(

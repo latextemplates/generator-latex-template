@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added generations of GitHub actions
+- Switch for `overleaf`. If set, `_latexmkrc` is generated instead of `latexmkrc`. [lncs#40](https://github.com/latextemplates/LNCS/issues/40)
 
 ## [0.5.0] – 2022-02-28
 
