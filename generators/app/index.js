@@ -558,8 +558,8 @@ module.exports = class extends Generator {
     );
     if (global.props.documentclass === 'lncs') {
       global.fs.copy(
-        global.templatePath('splncsnat.bst'),
-        global.destinationPath('splncsnat.bst')
+        global.templatePath('splncs04nat.bst'),
+        global.destinationPath('splncs04nat.bst')
       );
     }
     if (global.props.language === 'de') {

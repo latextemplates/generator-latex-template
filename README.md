@@ -171,6 +171,8 @@ ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generato
 The code is licensed [0BSD](https://choosealicense.com/licenses/0bsd/#), the snippets (both LaTeX and text) 0BSD, too.
 See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomment-599704662), for a reasoning, why [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/) cannot be used.
 
+`generators/app/templates/splncs04nat.bst` is taken from [tpavlic/splncs04nat](https://github.com/tpavlic/splncs04nat) and is MIT-licensed.
+
 [hyperref]: https://ctan.org/pkg/hyperref
 [listings]: https://ctan.org/pkg/listings
 [minted]: https://ctan.org/pkg/minted
