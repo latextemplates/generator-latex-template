@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added generations of GitHub actions
 - Switch for `overleaf`. If set, `_latexmkrc` is generated instead of `latexmkrc`. [lncs#40](https://github.com/latextemplates/LNCS/issues/40)
+- Correct `\keywords{}` syntax for LCNS. [lncs#39](https://github.com/latextemplates/LNCS/issues/39)
 
 ## [0.5.0] – 2022-02-28
 
