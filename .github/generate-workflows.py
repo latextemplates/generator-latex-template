@@ -3,7 +3,7 @@ latexcompilers = ['pdflatex', 'lualatex']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2021]
+texlives = [2021, 2022]
 
 languages = ['en', 'de']
 
