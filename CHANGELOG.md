@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added generations of GitHub actions
+- Switch for `overleaf`. If set, `_latexmkrc` is generated instead of `latexmkrc`. [lncs#40](https://github.com/latextemplates/LNCS/issues/40)
+
+### Changed
+
+- Update `splncsnat` to [splncs04nat](https://github.com/tpavlic/splncs04nat). [lncs#35](https://github.com/latextemplates/LNCS/issues/35)
+
+### Fixed
+
+- Fixed reference to examples in IEEE template
+- Fixed run for TeXLive 2021
+- Correct `\keywords{}` syntax for LCNS. [lncs#39](https://github.com/latextemplates/LNCS/issues/39)
 
 ## [0.5.0] – 2022-02-28
 

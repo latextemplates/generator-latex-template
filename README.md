@@ -108,9 +108,9 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Run `npx yo <path-to-git-repository>`
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
   - Parameters can be set using command line
-    - Linux: `npx yo /tmp/repo --documentclass=lncs --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
-    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment  --howtotext=true --examples=true`
-    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
+    - Linux: `npx yo /tmp/repo --documentclass=lncs --overleaf=false --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
+    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --overleaf=false --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment  --howtotext=true --examples=true`
+    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs --overleaf=false --texlive=2021 --latexcompiler=pdflatex --bibtextool=bibtex --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
   - Run `latexmk` to build the PDF
 - Update npm dependencies
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
@@ -170,6 +170,8 @@ ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generato
 
 The code is licensed [0BSD](https://choosealicense.com/licenses/0bsd/#), the snippets (both LaTeX and text) 0BSD, too.
 See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomment-599704662), for a reasoning, why [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/) cannot be used.
+
+`generators/app/templates/splncs04nat.bst` is taken from [tpavlic/splncs04nat](https://github.com/tpavlic/splncs04nat) and is MIT-licensed.
 
 [hyperref]: https://ctan.org/pkg/hyperref
 [listings]: https://ctan.org/pkg/listings

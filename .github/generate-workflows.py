@@ -3,7 +3,7 @@ latexcompilers = ['pdflatex', 'lualatex']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2021]
+texlives = [2021, 2022]
 
 languages = ['en', 'de']
 
@@ -110,6 +110,7 @@ for documentclass in documentclasses:
                                   yml.write("           --acm_review=%s\\\n" % acm_reviews[0])
                                 yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
                                 yml.write("           --bibtextool=%s\\\n" % bibtextool)
+                                yml.write("           --overleaf=false\\\n")
                                 yml.write("           --texlive=%s\\\n" % texlive)
                                 yml.write("           --docker=reitzig\\\n")
                                 yml.write("           --language=%s\\\n" % language)
