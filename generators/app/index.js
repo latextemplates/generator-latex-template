@@ -149,7 +149,7 @@ module.exports = class extends Generator {
       {
         type: 'list',
         name: 'overleaf',
-        message: 'Overleaf compatiblity?',
+        message: 'Overleaf compatibility?',
         choices: [
           {
             name: "yes",
@@ -157,7 +157,7 @@ module.exports = class extends Generator {
           },
           {
             name: "no",
-            value: true
+            value: false
           }
         ],
         default: true
@@ -166,16 +166,20 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'texlive',
         when: function(response) {
-          return !response.overleaf;
+          return (!response.overleaf || (response.overleaf == "false"));
         },
-        message: 'Which TeXLive compatiblity?',
+        message: 'Which TeXLive compatibility?',
         choices: [
           {
             name: "TeXLive 2021",
             value: 2021
+          },
+          {
+            name: "TeXLive 2022",
+            value: 2022
           }
         ],
-        default: 2021
+        default: 2022
       },
       {
         type: 'list',
