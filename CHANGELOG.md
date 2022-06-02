@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Fixed reference to examples in IEEE template
+- Fixed run for TeXLive 2021
 
 ## [0.5.0] – 2022-02-28
 
