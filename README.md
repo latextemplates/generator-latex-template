@@ -40,7 +40,7 @@ npx -p yo -p generator-latex-template -c 'yo latex-template'
 
 ### Installing `generator-latex-template`
 
-In case one wants to have the generator installed permanently or `npx` does work as exepcted, one can install `generator-latex-template` using following command:
+In case one wants to have the generator installed permanently or `npx` does work as expected, one can install `generator-latex-template` using following command:
 
 ```bash
 npm install -g generator-latex-template
