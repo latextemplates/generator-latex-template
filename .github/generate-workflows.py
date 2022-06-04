@@ -62,19 +62,19 @@ for documentclass in documentclasses:
           - 5000:5000
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           driver-opts: network=host
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
           node-version: '14'
       - name: Update npm
@@ -142,7 +142,7 @@ for documentclass in documentclasses:
                                 else:
                                   yml.write("main.tex\"\n")
                                 yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-              yml.write('''      - uses: actions/upload-artifact@v2
+              yml.write('''      - uses: actions/upload-artifact@v3
         with:
           name: pdfs
           path: /tmp/out
