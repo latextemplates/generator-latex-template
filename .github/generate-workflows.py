@@ -129,7 +129,7 @@ for documentclass in documentclasses:
 ''')
                                 yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                                 yml.write('''      - name: Build docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
