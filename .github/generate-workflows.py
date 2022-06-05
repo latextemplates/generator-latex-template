@@ -41,11 +41,12 @@ for documentclass in documentclasses:
                 continue
               if ((documentclass != 'ieee') and ((papersize != 'a4') or (ieee_variant != 'conference'))):
                 # we just go on for one IEEE specific element to enable this part being executed exactly ones for the "example" outer loop for non-IEEE
+                # we check for a4 only, not for letter
                 continue
               if (documentclass == 'ieee'):
                 dashedPart = "{}-{}-{}-{}-{}-{}-{}".format(documentclass, ieee_variant, papersize, latexcompiler, bibtextool, texlive, example);
               else:
-                dashedPart = "{}-{}-{}-{}-{}".format(documentclass, latexcompiler, bibtextool, texlive, example);
+                dashedPart = "{}-{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, texlive, example);
               yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
               yml.write("name: Check {}\n".format(dashedPart))
               yml.write("on: [push]\n")
@@ -103,11 +104,11 @@ for documentclass in documentclasses:
 ''')
                                 yml.write("           --documentclass=%s\\\n" % documentclass)
                                 if (documentclass == 'ieee'):
-                                  yml.write("           --papersize=%s\\\n" % papersize)
                                   yml.write("           --ieee_variant=%s\\\n" % ieee_variant)
                                 if (documentclass == 'acmart'):
                                   yml.write("           --acm_format=%s\\\n" % acm_formats[0])
                                   yml.write("           --acm_review=%s\\\n" % acm_reviews[0])
+                                yml.write("           --papersize=%s\\\n" % papersize)
                                 yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
                                 yml.write("           --bibtextool=%s\\\n" % bibtextool)
                                 yml.write("           --overleaf=false\\\n")
