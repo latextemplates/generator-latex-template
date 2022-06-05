@@ -108,16 +108,16 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Run `npx yo <path-to-git-repository>`
     - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
   - Parameters can be set using command line
-    - Linux: `npx yo /tmp/repo --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
-    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment  --howtotext=true --examples=true`
-    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --howtotext=true --examples=true`
+    - Linux: `npx yo /tmp/repo --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --docker=false --language=en --font=default --listings=listings --cleveref=true --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --examples=true --howtotext=true`
   - Run `latexmk` to build the PDF
 - Update npm dependencies
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - `npx npm-check-updates -u`. [[Source](https://www.carlrippon.com/upgrading-npm-dependencies/)]
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
 - When one encounters `Cannot find module 'yeoman-generator'`, please update the npm dependencies.
-  That error ocurred when using version `4.13.0` and `5.4.2` was available.
+  That error occurred when using version `4.13.0` and `5.4.2` was available.
 - In case of the error "Error: EACCES, permission denied '/root/.config/configstore/insight-yo.json'", one needs to execute `chmod g+rwx /root /root/.config /root/.config/configstore`
 - Check GitHub actions
   - Use [actionlint](https://github.com/rhysd/actionlint#readme)
