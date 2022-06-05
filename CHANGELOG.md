@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Support for setting paper size for all outputs
 
+### Changed
+
+- Refined description of usage of [llncsconf](https://ctan.org/pkg/llncsconf) package.
+
 ## [0.6.0] – 2022-06-03
 
 ### Added
