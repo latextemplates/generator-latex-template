@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Fixed linebreak in introduction
+- Fixed line break in introduction
 
 ## [0.6.0] – 2022-06-03
 
