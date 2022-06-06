@@ -167,9 +167,11 @@
 
 <% } -%>
 <% if (todo == 'pdfcomment') { -%>
-<%- include('pdfcomment.preamble.en.tex', this); %>
+
+<%- include('pdfcomment.preamble.en.tex', this); -%>
 <% } else { -%>
-<%- include('plainlatextodo.preamble.en.tex', this); %>
+
+<%- include('plainlatextodo.preamble.en.tex', this); -%>
 <% } -%>
 
 % Fußnoten unter Gleitumgebungen ("floats") platzieren
@@ -195,7 +197,13 @@
 <% } -%>
 <% } -%>
 
-<%- include('powerset.preamble.en.tex', this); %>
+<%- include('powerset.preamble.en.tex', this); -%>
+
+\usepackage{xspace}
+%\newcommand{\eg}{e.\,g.\xspace}
+%\newcommand{\ie}{i.\,e.\xspace}
+\newcommand{\eg}{e.\,g.,\ }
+\newcommand{\ie}{i.\,e.,\ }
 
 % Enable hyphenation at other places as the dash.
 % Example: applicaiton\hydash specific
@@ -206,27 +214,34 @@
 
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) { case "acmart": -%>
+
+\acmConference[short-conference-name]{full-conference-name}{November 02--06, 2021}{City, Country}
+\acmDOI{10.1145/9999997.9999999}
+%\startPage{457}
+<% break; case "lncs": -%>
 
 % Add copyright
-% Do that for the final version or if you send it to colleagues
+%
+% This is recommended if you intend to send the version to colleagues
+% See https://ctan.org/pkg/llncsconf for details
 \iffalse
-  %state: intended|submitted|llncs
-  %you can add "crop" if the paper should be cropped to the format Springer is publishing
+  % state: intended | submitted | llncs
+  % you can add "crop" if the paper should be cropped to the format Springer is publishing
   \usepackage[intended]{llncsconf}
 
   \conference{name of the conference}
 
-  %in case of "llncs" (final version!)
-  %example: llncs{Anonymous et al. (eds). \emph{Proceedings of the International Conference on \LaTeX-Hacks}, LNCS~42. Some Publisher, 2016.}{0042}
-  \llncs{book editors and title}{0042} %% 0042 is the start page
+  % in case of "proceedings" (final version!)
+  % example: \llncs{Anonymous et al. (eds). \emph{Proceedings of the International Conference on \LaTeX-Hacks}, LNCS~42. Some Publisher, 2016.}{0042}
+  % 0042 denotes an example start page
+  \llncs{book editors and title}{0042}
 \fi
-<% } -%>
-<% if (documentclass == 'scientific-thesis') { -%>
+<% break; case "scientific-thesis": -%>
 
 <% if (feature.acronyms) { -%><%- include('acronyms.preamble.en.tex', this); %><% } -%>
-<%- include('scientific-thesis-cover.preamble.de.tex', this); %>
-<% } -%>
+<%- include('scientific-thesis-cover.preamble.en.tex', this); %>
+<% break; } -%>
 <% if (latexcompiler == "pdflatex") { -%>
 
 % Enable copy and paste of text from the PDF
