@@ -115,9 +115,15 @@
 \usepackage{upquote}
 
 <%- include('babel.preamble.de.tex', this); %>
-<%- include('url.preamble.de.tex', this); %>
-<%- include('font.preamble.en.tex', this); %>
-<%- include('microtype.preamble.de.tex', this); %>
+
+<%- include('url.preamble.de.tex', this); -%>
+<%# ACM already provides a very good font configuration; thus we do not need to override it -%>
+<% if (documentclass != 'acmart') { %>
+<%- include('font.preamble.en.tex', this); -%>
+<% } -%>
+
+<%- include('microtype.preamble.de.tex', this); -%>
+
 \usepackage{graphicx}
 
 <%- include('diagbox.preamble.en.tex', this); -%>
@@ -126,7 +132,7 @@
 \usepackage{xcolor}
 
 <% if (listings == 'listings') { -%>
-<%- include('listings.preamble.de.tex', this); %>
+<%- include('listings.preamble.de.tex', this); -%>
 <% } else { -%>
 <%- include('minted.preamble.en.tex', this); %>
 <% } -%>
