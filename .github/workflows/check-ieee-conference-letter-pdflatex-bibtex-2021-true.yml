@@ -21,7 +21,7 @@ jobs:
         with:
           driver-opts: network=host
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx
@@ -33,8 +33,8 @@ jobs:
       - run: npm i npm@latest
       - run: npm install
       - run: mkdir /tmp/out
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_true
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -48,7 +48,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -58,18 +57,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_true
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -83,7 +82,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=none\
@@ -93,18 +91,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_true
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -118,7 +116,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -128,18 +125,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_true
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -153,7 +150,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -163,18 +159,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_true
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -188,7 +184,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -198,18 +193,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_true
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -223,7 +218,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=none\
@@ -233,18 +227,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_true
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -258,7 +252,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -268,18 +261,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -293,7 +286,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -303,18 +295,290 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_true
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_true
+        run: |
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=ieee\
+           --ieee_variant=conference\
+           --papersize=letter\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2021\
+           --docker=reitzig\
+           --language=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweak_outerquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_true'
+      - name: Build docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_true
+        run: |
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=ieee\
+           --ieee_variant=conference\
+           --papersize=letter\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2021\
+           --docker=reitzig\
+           --language=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweak_outerquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_true'
+      - name: Build docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_true
+        run: |
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=ieee\
+           --ieee_variant=conference\
+           --papersize=letter\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2021\
+           --docker=reitzig\
+           --language=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweak_outerquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_true
+        run: |
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=ieee\
+           --ieee_variant=conference\
+           --papersize=letter\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2021\
+           --docker=reitzig\
+           --language=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweak_outerquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_true'
+      - name: Build docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_true
+        run: |
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=ieee\
+           --ieee_variant=conference\
+           --papersize=letter\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2021\
+           --docker=reitzig\
+           --language=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweak_outerquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_true'
+      - name: Build docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_true
+        run: |
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=ieee\
+           --ieee_variant=conference\
+           --papersize=letter\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2021\
+           --docker=reitzig\
+           --language=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweak_outerquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_true'
+      - name: Build docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
+        run: |
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=ieee\
+           --ieee_variant=conference\
+           --papersize=letter\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2021\
+           --docker=reitzig\
+           --language=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweak_outerquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_true'
+      - name: Build docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_true
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_true
+        run: |
+          npx yo $GITHUB_WORKSPACE\
+           --documentclass=ieee\
+           --ieee_variant=conference\
+           --papersize=letter\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2021\
+           --docker=reitzig\
+           --language=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweak_outerquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+          pwd
+          ls -la
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_true'
+      - name: Build docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: localhost:5000/name/app:latest
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_true'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_true'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -328,28 +592,27 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=false\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
            --examples=true\
-           --howtotext=true
+           --howtotext=false
           pwd
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_pdfcomment_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -363,28 +626,27 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=false\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=none\
            --examples=true\
-           --howtotext=true
+           --howtotext=false
           pwd
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_babel_none_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -398,28 +660,27 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=false\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
            --examples=true\
-           --howtotext=true
+           --howtotext=false
           pwd
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_pdfcomment_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -433,28 +694,27 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=false\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=none\
            --examples=true\
-           --howtotext=true
+           --howtotext=false
           pwd
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_csquotes_outerquote_none_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -468,28 +728,27 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=false\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
            --examples=true\
-           --howtotext=true
+           --howtotext=false
           pwd
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_pdfcomment_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -503,28 +762,27 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=false\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=none\
            --examples=true\
-           --howtotext=true
+           --howtotext=false
           pwd
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_babel_none_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -538,28 +796,27 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=false\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
            --examples=true\
-           --howtotext=true
+           --howtotext=false
           pwd
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_pdfcomment_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -573,28 +830,27 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=false\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=none\
            --examples=true\
-           --howtotext=true
+           --howtotext=false
           pwd
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_plainlatex_outerquote_none_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -608,567 +864,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_true'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -1178,18 +873,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_pdfcomment_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -1202,8 +897,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=true\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=none\
@@ -1213,18 +907,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_babel_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_babel_none_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -1237,8 +931,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=true\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -1248,18 +941,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_pdfcomment_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -1272,8 +965,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=true\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -1283,18 +975,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_csquotes_outerquote_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_csquotes_outerquote_none_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -1307,8 +999,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=true\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -1318,18 +1009,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_pdfcomment_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -1342,8 +1033,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=true\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=none\
@@ -1353,18 +1043,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_babel_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_babel_none_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -1377,8 +1067,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=true\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -1388,18 +1077,18 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_pdfcomment_true_false'
+      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_false
+      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
@@ -1412,8 +1101,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=true\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -1423,857 +1111,17 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false
+          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_false'
+      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_false
         run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_true_plainlatex_outerquote_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=listings\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=listings\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_babel_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=listings\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=listings\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_csquotes_outerquote_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=listings\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=listings\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_babel_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=listings\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=listings\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_listings_false_plainlatex_outerquote_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_babel_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_csquotes_outerquote_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_babel_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_true_plainlatex_outerquote_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_babel_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_csquotes_outerquote_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_babel_none_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false
-      - name: Create ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --ieee_variant=conference\
-           --papersize=letter\
-           --latexcompiler=pdflatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2021\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false'
-      - name: latexmk ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_false_plainlatex_outerquote_none_true_false'
-      - uses: actions/upload-artifact@v3
+        working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2021_en_default_minted_plainlatex_outerquote_none_true_false'
+      - uses: actions/upload-artifact@v2
         with:
           name: pdfs
           path: /tmp/out

@@ -12,8 +12,7 @@ describe("general tests", () => {
         latexcompiler: "pdflatex",
         bibtextool: "bibtex",
         language: "english",
-        font: "arial",
-        cleveref: true
+        font: "arial"
       })
       .then(function(dir) {
         assert.file([
@@ -30,8 +29,7 @@ describe("general tests", () => {
         latexcompiler: "pdflatex",
         bibtextool: "bibtex",
         language: "german",
-        font: "arial",
-        cleveref: true
+        font: "arial"
       })
       .then(function(dir) {
         assert.file([

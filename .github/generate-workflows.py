@@ -11,7 +11,6 @@ languages = ['en', 'de']
 fonts = ['default', 'times']
 
 listings = ['listings', 'minted']
-cleverefs = ['true', 'false']
 enquotes = ['csquotes', 'plainlatex']
 tweak_outerquotes = ['babel', 'outerquote']
 todos = ['pdfcomment', 'none']
@@ -71,7 +70,7 @@ for documentclass in documentclasses:
         with:
           driver-opts: network=host
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx
@@ -92,58 +91,56 @@ for documentclass in documentclasses:
                     if (documentclass == 'ieee') and (font != 'default'):
                       continue
                     for listing in listings:
-                      for cleveref in cleverefs:
-                        for enquote in enquotes:
-                          for tweak_outerquote in tweak_outerquotes:
-                            for todo in todos:
-                                variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, cleveref, enquote, tweak_outerquote, todo, example, howtotext)
-                                yml.write("      - run: mkdir {}\n".format(variantName))
-                                yml.write("      - name: Create {}\n".format(variantName))
-                                yml.write('''        run: |
+                      for enquote in enquotes:
+                        for tweak_outerquote in tweak_outerquotes:
+                          for todo in todos:
+                              variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweak_outerquote, todo, example, howtotext)
+                              yml.write("      - run: mkdir {}\n".format(variantName))
+                              yml.write("      - name: Create {}\n".format(variantName))
+                              yml.write('''        run: |
           npx yo $GITHUB_WORKSPACE\\
 ''')
-                                yml.write("           --documentclass=%s\\\n" % documentclass)
-                                if (documentclass == 'ieee'):
-                                  yml.write("           --ieee_variant=%s\\\n" % ieee_variant)
-                                if (documentclass == 'acmart'):
-                                  yml.write("           --acm_format=%s\\\n" % acm_formats[0])
-                                  yml.write("           --acm_review=%s\\\n" % acm_reviews[0])
-                                yml.write("           --papersize=%s\\\n" % papersize)
-                                yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
-                                yml.write("           --bibtextool=%s\\\n" % bibtextool)
-                                yml.write("           --overleaf=false\\\n")
-                                yml.write("           --texlive=%s\\\n" % texlive)
-                                yml.write("           --docker=reitzig\\\n")
-                                yml.write("           --language=%s\\\n" % language)
-                                yml.write("           --font=%s\\\n" % font)
-                                yml.write("           --listings=%s\\\n" % listing)
-                                yml.write("           --cleveref=%s\\\n" % cleveref)
-                                yml.write("           --enquotes=%s\\\n" % enquote)
-                                yml.write("           --tweak_outerquote=%s\\\n" % tweak_outerquote)
-                                yml.write("           --todo=%s\\\n" % todo)
-                                yml.write("           --examples=%s\\\n" % example)
-                                yml.write("           --howtotext=%s\n" % howtotext)
-                                yml.write('''          pwd
+                              yml.write("           --documentclass=%s\\\n" % documentclass)
+                              if (documentclass == 'ieee'):
+                                yml.write("           --ieee_variant=%s\\\n" % ieee_variant)
+                              if (documentclass == 'acmart'):
+                                yml.write("           --acm_format=%s\\\n" % acm_formats[0])
+                                yml.write("           --acm_review=%s\\\n" % acm_reviews[0])
+                              yml.write("           --papersize=%s\\\n" % papersize)
+                              yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
+                              yml.write("           --bibtextool=%s\\\n" % bibtextool)
+                              yml.write("           --overleaf=false\\\n")
+                              yml.write("           --texlive=%s\\\n" % texlive)
+                              yml.write("           --docker=reitzig\\\n")
+                              yml.write("           --language=%s\\\n" % language)
+                              yml.write("           --font=%s\\\n" % font)
+                              yml.write("           --listings=%s\\\n" % listing)
+                              yml.write("           --enquotes=%s\\\n" % enquote)
+                              yml.write("           --tweak_outerquote=%s\\\n" % tweak_outerquote)
+                              yml.write("           --todo=%s\\\n" % todo)
+                              yml.write("           --examples=%s\\\n" % example)
+                              yml.write("           --howtotext=%s\n" % howtotext)
+                              yml.write('''          pwd
           ls -la
         env:
           yeoman_test: true
 ''')
-                                yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-                                yml.write('''      - name: Build docker image
+                              yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
+                              yml.write('''      - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
           tags: localhost:5000/name/app:latest
           context: ''')
-                                yml.write("'${{{{ github.workspace }}}}/{}'\n".format(variantName))
-                                yml.write("      - name: latexmk {}\n".format(variantName))
-                                yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work \"latexmk ")
-                                if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')):
-                                  yml.write("paper.tex\"\n")
-                                else:
-                                  yml.write("main.tex\"\n")
-                                yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-              yml.write('''      - uses: actions/upload-artifact@v3
+                              yml.write("'${{{{ github.workspace }}}}/{}'\n".format(variantName))
+                              yml.write("      - name: latexmk {}\n".format(variantName))
+                              yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work \"latexmk ")
+                              if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')):
+                                yml.write("paper.tex\"\n")
+                              else:
+                                yml.write("main.tex\"\n")
+                              yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
+              yml.write('''      - uses: actions/upload-artifact@v2
         with:
           name: pdfs
           path: /tmp/out

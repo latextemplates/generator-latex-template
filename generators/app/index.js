@@ -311,12 +311,6 @@ module.exports = class extends Generator {
         default: "listings"
       },
       {
-        type: 'confirm',
-        name: 'cleveref',
-        message: 'Use cleveref?',
-        default: true
-      },
-      {
         type: 'list',
         name: 'enquotes',
         message: 'Which package to use to "enquote" text?',

@@ -85,11 +85,9 @@ Following features are enabled in this template:
 <% if (howtotext) { -%>
 - Hints on writing an abstract and thesis by Dirk Fahland.
 <% } -%>
-<% if (cleveref || githubpublish) { -%>
-- <% if (githubpublish) { -%>(Optional) <% } %>Automatic setting of "Fig." and "Section"/"Sect." according to the LNCS style.
+- Automatic setting of "Fig." and "Section"/"Sect." according to the LNCS style.
   Just use `\Cref{sec:xy}` at the beginning of a sentence and `\cref{sec:xy}` in the middle of a sentence.
   Thanx to [cleveref].
-<% } -%>
 <% if (font == "default" || githubpublish) { -%>
 - Sharper font (still compatible with Springer's requirements).
 <% } -%>
@@ -108,7 +106,7 @@ Following features are enabled in this template:
 - <% if (githubpublish) { -%>(Optional) <% } %>Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
 <% } -%>
 - [microtypographic extensions](https://www.ctan.org/pkg/microtype) for a better look of the paper.
-- Modern packages such as [microtype]<% if (cleveref || githubpublish) { %>, [cleveref]<% } %><% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
+- Modern packages such as [microtype], [cleveref]<% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
 <% if (latexcompiler == "lualatex" || githubpublish) { -%>
 - <% if (githubpublish) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
 <% } -%>
@@ -130,11 +128,6 @@ You can <% if (!githubpublish) { %>re<% } %>run the [latex template generator] t
   Contains a fix to increase compatibility with Babel.
   See <https://tex.stackexchange.com/a/441701/9075> for details.
 <% } -%>
-<% if (cleveref) { missingFeatures = true; -%>
-- Automatic setting of "Fig." and "Section"/"Sect." according to the LNCS style.
-  Just use `\Cref{sec:xy}` at the beginning of a sentence and `\cref{sec:xy}` in the middle of a sentence.
-  Thanx to [cleveref].
-<% } -%>
 <% } -%>
 <% if (listings != "minted") { missingFeatures = true; -%>
 - Typesetting of listings using advanced highlighting powered by the [minted] package.
@@ -142,8 +135,8 @@ You can <% if (!githubpublish) { %>re<% } %>run the [latex template generator] t
 <% if (todo == "none") { missingFeatures = true; -%>
 - Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
 <% } -%>
-<% if (!cleveref || enquotes == "plainlatex") { -%>
-- Modern packages such as <% if (!cleveref) { missingFeatures = true; %>, [cleveref]<% } %><% if (enquotes == "plainlatex") { missingFeatures = true; %>, [csquotes]<% } %>.
+<% if (enquotes == "plainlatex") { -%>
+- Modern packages such as <% if (enquotes == "plainlatex") { missingFeatures = true; %>[csquotes]<% } %>.
 <% } -%>
 <% if (latexcompiler != "lualatex") { -%>
 - LaTeX compilation using the modern lualatex compiler.
