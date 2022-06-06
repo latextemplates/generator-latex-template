@@ -444,7 +444,6 @@ module.exports = class extends Generator {
       }
 
       // convert "String" Boolean command line options
-      this.props.cleveref = (this.props.cleveref === true) || (this.props.cleveref === 'true')
       this.props.examples = (this.props.examples === true) || (this.props.examples === 'true')
       this.props.howtotext = (this.props.howtotext === true) || (this.props.howtotext === 'true')
       this.props.overleaf = (this.props.overleaf === true) || (this.props.overleaf === 'true')
