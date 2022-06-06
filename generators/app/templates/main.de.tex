@@ -455,14 +455,53 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
   \small % ensure correct font size for the bibliography
   \bibliography{<%= filenames.bib %>}
 \endgroup
+<%  break; case "acmart": -%>
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{<%= filenames.bib %>}
+<%  break; case "ieee": -%>
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% Enable to reduce spacing between bibitems (source: https://tex.stackexchange.com/a/25774)
+% \def\IEEEbibitemsep{0pt plus .5pt}
+
+\bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
+% argument is your BibTeX string definitions and bibliography database(s)
+\bibliography{<%= filenames.bib %>}
+<% break; case "scientific-thesis": -%>
+
+\printbibliography
+<% break; default: -%>
+
+\bibliographystyle{plain}
+\bibliography{<%= filenames.bib %>}
+<% break; } -%>
 
 % Enfore empty line after bibliography
 \ \\
 %
 Alle Links wurden zuletzt am 29.03.2021 geprüft.
-<% } -%>
-<% if (documentclass == 'scientific-thesis') { -%>
 
+<% switch (documentclass) { case "lncs": -%>
+%%% ===============================================================================
+%\appendix
+%\addcontentsline{toc}{chapter}{APPENDICES}
+
+%\listoffigures
+%\listoftables
+%%% ===============================================================================
+
+%%% ===============================================================================
+%<%= heading1 %>{My first appendix}\label{sec:appendix1}
+%%% ===============================================================================
+<% break; case "scientific-thesis": -%>
 %%% ===============================================================================
 \appendix
 \addcontentsline{toc}{chapter}{Anhang}
