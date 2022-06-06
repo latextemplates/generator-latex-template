@@ -141,25 +141,21 @@
 <% if (enquotes == 'textcmds') { %><%- include('textcmds.preamble.en.tex', this); %><% } -%>
 
 <%- include('booktabs.preamble.en.tex', this); -%>
-<%- include('paralist.preamble.en.tex', this); %>
-<% if (documentclass == 'lncs')  { -%>
-<%- include('floatflt.preamble.en.tex', this); %>
-% Bibliopgraphy enhancements
-%  - enable \cite[prenote][]{ref}
-%  - enable \cite{ref1,ref2}
-% Alternative: \usepackage{cite}, which enables \cite{ref1, ref2} only (otherwise: Error message: "White space in argument")
 
-% Doc: http://texdoc.net/natbib
-\usepackage[%
-  square,        % for square brackets
-  comma,         % use commas as separators
-  numbers,       % for numerical citations;
-%  sort,          % orders multiple citations into the sequence in which they appear in the list of references;
-  sort&compress, % as sort but in addition multiple numerical citations
-                 % are compressed if possible (as 3-6, 15);
-]{natbib}
-% In the bibliography, references have to be formatted as 1., 2., ... not [1], [2], ...
-\renewcommand{\bibnumfmt}[1]{#1.}
+<%- include('paralist.preamble.en.tex', this); -%>
+<% switch (documentclass) {
+  case "acmart":
+  case "ieee":
+  case "lncs": -%>
+
+<%- include('natbib.preamble.en.tex', this); -%>
+<% break; case "scientific-thesis": -%>
+<%- include('biblatex.preamble.en.tex', this); -%>
+<% break; } -%>
+<% switch (documentclass) { case "acmart": -%>
+
+\citestyle{acmnumeric} % alternative: acmauthoryear
+<% break; case "lncs": -%>
 
 % Prepare more space-saving rendering of the bibliography
 % Source: https://tex.stackexchange.com/a/280936/9075
@@ -171,7 +167,8 @@
 { encoding = {OT1,T1,TS1} }
 { }
 
-<% } -%>
+<%- include('floatflt.preamble.en.tex', this); -%>
+<% break; } -%>
 <% if (todo == 'pdfcomment') { -%>
 
 <%- include('pdfcomment.preamble.en.tex', this); -%>
