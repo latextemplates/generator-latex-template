@@ -1,14 +1,20 @@
 <% if (preparereitzig) { -%>
 \RequirePackage{snapshot}
 <% } -%>
-<% if (documentclass == 'lncs') { -%>
+<% switch (documentclass) { case "lncs": -%>
 % Dieses Template wurde mit der "LLNCS DOCUMENT CLASS -- version 2.21 (12-Jan-2022)" getestet
 
-<% } -%>
+<% break; case "ieee": -%>
+% This template has been tested with IEEEtran of 2015.
+
+<% break; } -%>
 % !TeX spellcheck = de-DE
 % LTeX: language=de-DE
 % !TeX encoding = utf8
 % !TeX program = <%= latexcompiler %>
+<% if (requiresShellEscape) { -%>
+% !TeX TXS-program:compile = txs:///<%= latexcompiler %>/[--shell-escape]
+<% } -%>
 % !BIB program = <%= bibtextool %>
 % -*- coding:utf-8 mod:LaTeX -*-
 <% if (documentclass == 'scientific-thesis') { -%>
@@ -472,5 +478,5 @@ Alle Links wurden zuletzt am 29.03.2021 geprüft.
 \pagestyle{empty}
 \renewcommand*{\chapterpagestyle}{empty}
 \Versicherung
-<% } -%>
+<% break; } -%>
 \end{document}
