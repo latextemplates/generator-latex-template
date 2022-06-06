@@ -130,11 +130,11 @@ for documentclass in documentclasses:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: ''')
-                              yml.write("'${{{{ github.workspace }}}}/{}'\n".format(variantName))
+''')
+                              yml.write("          tags: localhost:5000/name/app:{}\n".format(variantName))
+                              yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               yml.write("      - name: latexmk {}\n".format(variantName))
-                              yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work \"latexmk ")
+                              yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} work \"latexmk ".format(variantName))
                               if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')):
                                 yml.write("paper.tex\"\n")
                               else:
