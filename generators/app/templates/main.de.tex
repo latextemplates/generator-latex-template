@@ -420,6 +420,7 @@ Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiel
 <% if (enquotes == 'plainlatex')  { %><%- include('plainlatex.enquotes.example.de.tex', this); %><% } -%>
 <%- include('cleveref.example.en.tex', this); %>
 <%- include('figure.example.de.tex', this); %>
+<%- include('subfloat.example.en.tex', this); %>
 <%- include('tables.example.en.tex', this); %>
 <% if (listings == 'listings') { -%>
 <%- include('listings.example.de.tex', this); %>
@@ -431,19 +432,61 @@ Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiel
 <% } -%>
 <%- include('otherfeatures.example.en.tex', this); %>
 <% } -%>
+<% if (howtotext) { -%>
 
-<% if (documentclass == 'lncs') { -%>
-\section{Zusammenfassung und Ausblick}
+%%% ===============================================================================
+<%= heading1 %>{Zusammenfassung und Ausblick}\label{sec:conclusion}
+%%% ===============================================================================
+
+Your conclusions are not just a factual summary of your work, but they position, interpret, and defend your findings against the state of the art that you discussed in \cref{sec:introduction:state-of-art}. You specifically outline which concrete findings or methodological contributions advance our knowledge towards the general objective you introduced in \cref{sec:introduction:topic}. Objectively discuss which parts you solved and in which parts you failed.
+
+You should explicitly discuss limitations and shortcomings of your work and detail what kind of future studies are needed to overcome these limitations. Be specific in the sense that your arguments for future work should be based on concrete findings and insights you obtained in your report.
+<% } else { -%>
+<% if (!examples && ((documentclass == 'acmart') || (documentclass == 'ieee'))) { -%>
+
+<%= heading1 %>{Lorem ipsum}
+\label{sec:loremipsum}
+\lipsum[1-4]
+<% } -%>
+
+<%= heading1 %>{Zusammenfassung und Ausblick}
 \label{sec:outlook}
 \lipsum[1-2]
+<% } -%>
 
+<% switch (documentclass) { case "lncs": -%>
 \subsubsection*{Danksagungen}
-\ldots
+
+<% break; case "acmart": -%>
+\begin{acks}
+<% break; case "ieee": -%>
+% regular IEEE prefers the singular form
+\section*{Danksagung}
+
+<% break; default: -%>
+<% break; } -%>
+<% if ((documentclass == 'acmart') || (documentclass == 'lncs') || (documentclass == 'ieee')) { -%>
+Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which is placed just before the reference section in your document \cite{acmart}.
+<% if (howtotext) { -%>
+
+The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology}{LaTeX template for Bachelor and Master theses at Eindhoven University of Technology}.
+<% } -%>
+<% if (documentclass == 'acmart') { -%>
+
+For more \LaTeX{} hints for ACM read on at \url{https://www.acm.org/publications/taps/latex-best-practices}.
+\end{acks}
+<% } -%>
+<% } -%>
+
+%%% ===============================================================================
+%%% Bibliography
+%%% ===============================================================================
 
 In the bibliography, use \texttt{\textbackslash textsuperscript} for <%- bquote %>st<%- equote %>, <%- bquote %>nd<%- equote %>, \ldots:
 E.g., <%- bquote %>The 2\textsuperscript{nd} conference on examples<%- equote %>.
 When you use \href{https://www.jabref.org}{JabRef}, you can use the clean up command to achieve that.
 See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the cleanup functionality.
+<% switch (documentclass) { case "lncs": -%>
 
 \renewcommand{\bibsection}{\section*{Literatur}} % requried for natbib to have "References" printed and as section*, not chapter*
 % Use natbib compatbile splncs04nat style.
