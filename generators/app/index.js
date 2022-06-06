@@ -15,13 +15,15 @@ module.exports = class extends Generator {
     );
 
     var params = {
-      // alternative libraries: https://stackoverflow.com/a/34782300/873282
       // this here was the quickest to integrate to yeoman-option-or-prompt
       // we accept that we currently cannot offer --help
-      // for that, command-line-args lib (https://github.com/75lb/command-line-args/) seems to be best: because, it supports multiple values for a key (which might be required at choices below)
-      // https://github.com/tj/commander.js could also be OK, but requires comma separated list for muliple values (is uncommon for command line lists, isn't it?)
+
+      // To offer --help, command-line-args lib (https://github.com/75lb/command-line-args/) seems to be best: because, it supports multiple values for a key (which might be required at choices below)
+      // https://github.com/tj/commander.js could also be OK. All parameters have to provided programatically.
       // yargs supports choices: http://yargs.js.org/docs/
       // stdio (https://github.com/sgmonda/stdio) does not support choices
+      // Discussion on alternative libraries: https://stackoverflow.com/a/34782300/873282
+
       options: require('minimist')(process.argv.slice(2)),
       filteredProps: {},
       prompt: function(filteredProps) {
@@ -238,10 +240,7 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
-        name: 'language',
-        when: function(response) {
-          return ((response.documentclass !== 'acmart') && (response.documentclass !== 'ieee'));
-        },
+        name: 'lang',
         message: 'Which language should the document be?',
         choices: [
           {
@@ -431,8 +430,10 @@ module.exports = class extends Generator {
       if ((this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee')) {
         this.props.bibtextool = 'bibtex';
         this.props.font = 'default';
-        this.props.language = 'en';
       }
+
+      // --language does not work properly, therefore, we used "lang" above. The templates still use "language"
+      this.props.language = this.props.lang
 
       // IEEE class offers "compsoc"
       // In 2021 this is not used any more, all papers are the "normal" IEEE format

@@ -85,10 +85,8 @@ for documentclass in documentclasses:
 ''')
               for howtotext in howtotexts:
                 for language in languages:
-                  if (documentclass == 'ieee') and (language != 'en'):
-                    continue
                   for font in fonts:
-                    if (documentclass == 'ieee') and (font != 'default'):
+                    if ((documentclass == 'acmart') or (documentclass == 'ieee')) and (font != 'default'):
                       continue
                     for listing in listings:
                       for enquote in enquotes:
@@ -112,7 +110,7 @@ for documentclass in documentclasses:
                               yml.write("           --overleaf=false\\\n")
                               yml.write("           --texlive=%s\\\n" % texlive)
                               yml.write("           --docker=reitzig\\\n")
-                              yml.write("           --language=%s\\\n" % language)
+                              yml.write("           --lang=%s\\\n" % language)
                               yml.write("           --font=%s\\\n" % font)
                               yml.write("           --listings=%s\\\n" % listing)
                               yml.write("           --enquotes=%s\\\n" % enquote)

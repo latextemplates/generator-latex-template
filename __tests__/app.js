@@ -11,7 +11,7 @@ describe("general tests", () => {
         documentclass: "scientific-thesis",
         latexcompiler: "pdflatex",
         bibtextool: "bibtex",
-        language: "english",
+        lang: "en",
         font: "arial"
       })
       .then(function(dir) {
@@ -28,7 +28,7 @@ describe("general tests", () => {
         documentclass: "scientific-thesis",
         latexcompiler: "pdflatex",
         bibtextool: "bibtex",
-        language: "german",
+        lang: "de",
         font: "arial"
       })
       .then(function(dir) {
