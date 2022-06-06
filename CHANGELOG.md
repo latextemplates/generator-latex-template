@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Refined description of usage of [llncsconf](https://ctan.org/pkg/llncsconf) package.
 - Always rely on [cleveref](https://ctan.org/pkg/cleveref). See [ADR-0003](docs/decisions/0003-use-cleveref.md).
 
+### Fixed
+
+- Fixed linebreak in introduction
+
 ## [0.6.0] – 2022-06-03
 
 ### Added
