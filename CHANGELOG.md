@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added
+
+- Support for setting paper size for all outputs
+- Magic comment for [LTeX](https://github.com/valentjn/vscode-ltex#ltex-extension-for-vs-code-grammarspell-checker-using-languagetool-with-support-for-latex-markdown-and-others) (because of [vscode-ltex#632](https://github.com/valentjn/vscode-ltex/issues/632))
+
+### Changed
+
+- Refined description of usage of [llncsconf](https://ctan.org/pkg/llncsconf) package.
+- Always rely on [cleveref](https://ctan.org/pkg/cleveref). See [ADR-0003](docs/decisions/0003-use-cleveref.md).
+
+### Fixed
+
+- Fixed line break in introduction
+
 ## [0.6.0] – 2022-06-03
 
 ### Added

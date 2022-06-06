@@ -130,9 +130,6 @@ module.exports = class extends Generator {
       {
         type: 'list',
         name: 'papersize',
-        when: function(response) {
-          return response.documentclass === 'ieee';
-        },
         message: 'Which paper size to use?',
         choices: [
           {
@@ -144,7 +141,7 @@ module.exports = class extends Generator {
             value: "letter"
           }
         ],
-        default: "a4paper"
+        default: "a4"
       },
       {
         type: 'list',
@@ -312,12 +309,6 @@ module.exports = class extends Generator {
           }
         ],
         default: "listings"
-      },
-      {
-        type: 'confirm',
-        name: 'cleveref',
-        message: 'Use cleveref?',
-        default: true
       },
       {
         type: 'list',

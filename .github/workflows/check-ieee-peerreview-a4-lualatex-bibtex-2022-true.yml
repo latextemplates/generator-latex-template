@@ -21,7 +21,7 @@ jobs:
         with:
           driver-opts: network=host
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx
@@ -33,13 +33,13 @@ jobs:
       - run: npm i npm@latest
       - run: npm install
       - run: mkdir /tmp/out
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_true
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -48,7 +48,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -58,23 +57,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -83,7 +82,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=none\
@@ -93,23 +91,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -118,7 +116,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -128,23 +125,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -153,7 +150,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -163,23 +159,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -188,7 +184,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -198,23 +193,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -223,7 +218,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=none\
@@ -233,23 +227,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -258,7 +252,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -268,23 +261,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -293,7 +286,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -303,23 +295,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -327,8 +319,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -338,23 +329,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -362,8 +353,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=none\
@@ -373,23 +363,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -397,8 +387,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -408,23 +397,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -432,8 +421,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -443,23 +431,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -467,8 +455,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -478,23 +465,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -502,8 +489,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=none\
@@ -513,23 +499,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -537,8 +523,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -548,23 +533,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_true
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_true
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -572,8 +557,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -583,583 +567,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_true'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_true'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_true
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_true
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_true'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_true
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_true work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_true'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
            --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_true
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_true
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=true
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_true'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_true'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_true
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_true'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1168,7 +592,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -1178,23 +601,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_pdfcomment_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1203,7 +626,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=none\
@@ -1213,23 +635,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_babel_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_babel_none_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1238,7 +660,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -1248,23 +669,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_pdfcomment_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1273,7 +694,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -1283,23 +703,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_csquotes_outerquote_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_csquotes_outerquote_none_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1308,7 +728,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -1318,23 +737,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_pdfcomment_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1343,7 +762,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=none\
@@ -1353,23 +771,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_babel_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_babel_none_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1378,7 +796,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -1388,23 +805,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_pdfcomment_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1413,7 +830,6 @@ jobs:
            --language=en\
            --font=default\
            --listings=listings\
-           --cleveref=true\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -1423,23 +839,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_true_plainlatex_outerquote_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_plainlatex_outerquote_none_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1447,8 +863,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -1458,23 +873,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_pdfcomment_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1482,8 +897,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=babel\
            --todo=none\
@@ -1493,23 +907,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_babel_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_babel_none_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1517,8 +931,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -1528,23 +941,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_pdfcomment_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1552,8 +965,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=csquotes\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -1563,23 +975,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_csquotes_outerquote_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_csquotes_outerquote_none_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1587,8 +999,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=pdfcomment\
@@ -1598,23 +1009,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_pdfcomment_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1622,8 +1033,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=babel\
            --todo=none\
@@ -1633,23 +1043,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_babel_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_babel_none_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1657,8 +1067,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=pdfcomment\
@@ -1668,23 +1077,23 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_false
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_pdfcomment_true_false'
+      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_false
+      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_false
         run: |
           npx yo $GITHUB_WORKSPACE\
            --documentclass=ieee\
-           --papersize=a4\
            --ieee_variant=peerreview\
+           --papersize=a4\
            --latexcompiler=lualatex\
            --bibtextool=bibtex\
            --overleaf=false\
@@ -1692,8 +1101,7 @@ jobs:
            --docker=reitzig\
            --language=en\
            --font=default\
-           --listings=listings\
-           --cleveref=false\
+           --listings=minted\
            --enquotes=plainlatex\
            --tweak_outerquote=outerquote\
            --todo=none\
@@ -1703,577 +1111,17 @@ jobs:
           ls -la
         env:
           yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_false'
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_false'
       - name: Build docker image
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_listings_false_plainlatex_outerquote_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_babel_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_csquotes_outerquote_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_babel_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=true\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_true_plainlatex_outerquote_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_babel_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=csquotes\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_csquotes_outerquote_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=babel\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_babel_none_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=pdfcomment\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_pdfcomment_true_false'
-      - run: mkdir ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_false
-      - name: Create ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_false
-        run: |
-          npx yo $GITHUB_WORKSPACE\
-           --documentclass=ieee\
-           --papersize=a4\
-           --ieee_variant=peerreview\
-           --latexcompiler=lualatex\
-           --bibtextool=bibtex\
-           --overleaf=false\
-           --texlive=2022\
-           --docker=reitzig\
-           --language=en\
-           --font=default\
-           --listings=minted\
-           --cleveref=false\
-           --enquotes=plainlatex\
-           --tweak_outerquote=outerquote\
-           --todo=none\
-           --examples=true\
-           --howtotext=false
-          pwd
-          ls -la
-        env:
-          yeoman_test: true
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_false'
-      - name: Build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: localhost:5000/name/app:latest
-          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_false'
-      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_false
-        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:latest work "latexmk paper.tex"
-        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_false_plainlatex_outerquote_none_true_false'
-      - uses: actions/upload-artifact@v3
+          tags: localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_false
+          context: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_false'
+      - name: latexmk ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_false
+        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_false work "latexmk paper.tex"
+        working-directory: '${{ github.workspace }}/ieee_lualatex_bibtex_2022_en_default_minted_plainlatex_outerquote_none_true_false'
+      - uses: actions/upload-artifact@v2
         with:
           name: pdfs
           path: /tmp/out
