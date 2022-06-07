@@ -41,29 +41,21 @@
 \documentclass[runningheads,<%= papersize %>paper,english]{llncs}[2022/01/12]
 <% break; case "acmart": -%>
 
-<% if (texlive >= 2021) { -%>
-% We balance the last page using the package "pbalance" (see https://ctan.org/pkg/pbalance), because it "just works" (in contrast to balance.sty or other solutions)
-<% } -%>
-\documentclass[<%= acm_format %>,<% if (acm_review) { %>review,<% } %><%= papersize %>paper,<% if (texlive >= 2021) { %>pbalance<% } else { %>balance<% } %>]{acmart}
+% Alternative to balance is the pbalance package (see https://ctan.org/pkg/pbalance), which sometimes works better
+\documentclass[<%= acm_format %>,<% if (acm_review) { %>review,<% } %><%= papersize %>paper,balance]{acmart}
 <% break; case "ieee": -%>
 
 % DO NOT DOWNLOAD IEEEtran.cls - Use the one of your LaTeX distribution
 % For the final version, replace "draftcls" by "final"
-\documentclass[<%= ieee_variant %>,<%= papersize %>paper]{IEEEtran}[2015/08/26]
-<% if (texlive >= 2021) { -%>
-
-% Balance the last page
-% The pbalance package (see https://ctan.org/pkg/pbalance) "just works" (in contrast to balance.sty or other solutions)
-\usepackage{pbalance}
-<% } else { -%>
+\documentclass[<%= ieee_variant %>,<%= papersize %>paper,english]{IEEEtran}[2015/08/26]
 
 % Balance the last page using the balance package (see https://ctan.org/pkg/balance)
+% Alternative to balance is the pbalance package (see https://ctan.org/pkg/pbalance), which sometimes works better
 \usepackage{balance}
-<% } -%>
 <% break; case "scientific-thesis": -%>
 
-% EN: The following package allows \\ at the title page
-%     For more information see https://github.com/latextemplates/scientific-thesis-cover/issues/4
+% The following package allows \\ at the title page
+% For more information see https://github.com/latextemplates/scientific-thesis-cover/issues/4
 \RequirePackage{kvoptions-patch}
 \documentclass[
   % fontsize=11pt is the standard
@@ -72,8 +64,8 @@
   a4paper,  % Standard format - only KOMAScript uses paper=a4 - https://tex.stackexchange.com/a/61044/9075
   twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
   bibliography=totoc,
-  %               idxtotoc,   %Index ins Inhaltsverzeichnis
-  %               liststotoc, %List of X ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
+  % idxtotoc,   % Index ins Inhaltsverzeichnis
+  % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
   headsepline,
   cleardoublepage=empty,
   parskip=half,
@@ -432,6 +424,7 @@
 
 % Abbreviations
 \printglossaries
+% \printnoidxglossaries
 % \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075
 
 \microtypesetup{protrusion=true}
