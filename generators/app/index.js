@@ -44,10 +44,6 @@ module.exports = class extends Generator {
         message: 'Which template should be generated?',
         choices: [
           {
-            name: "Scientic Thesis",
-            value: "scientific-thesis"
-          },
-          {
             name: "Association for Computing Machinery (ACM)",
             value: "acmart"
           },
@@ -58,7 +54,15 @@ module.exports = class extends Generator {
           {
             name: "Springer's Lecture Notes in Computer Science (LNCS)",
             value: "lncs"
-          }
+          },
+          {
+            name: "Scientic Thesis",
+            value: "scientific-thesis"
+          },
+          {
+            name: "PhD Thesis Template (University of Stuttgart)",
+            value: "ustutt"
+          },
         ],
         default: "scientific-thesis"
       },
@@ -407,6 +411,9 @@ module.exports = class extends Generator {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
+      this.props.isPaper = (this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
+      this.props.isThesis = !this.props.isPaper;
+
       if (this.props.overleaf) {
         // we do not prompt for texlive version in case of overleaf
         this.props.texlive = 2021;
@@ -425,6 +432,20 @@ module.exports = class extends Generator {
       // Command line argument "--preparereitzig" switches the generator to generate a template to be used to generate Texlivefile required by https://github.com/reitzig/texlive-docker
       this.props.preparereitzig = this.params.options.preparereitzig;
       this.props.preparereitzig = (this.props.preparereitzig === true) || (this.props.preparereitzig === 'true')
+
+      this.props.requiresShellEscape = (this.props.listings === 'minted');
+
+      this.props.feature = {};
+      this.props.feature.acronyms = this.props.isThesis;
+
+      this.props.available = {};
+      if (props.bibtextool == 'bibtex' && props.documentclass !== 'acmart' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
+        // acmart uses natbib
+        // in lncs, we patched-in natbib
+        this.props.available.citet = false;
+      } else {
+        this.props.available.citet = true;
+      }
 
       // Ensure all values are set - even if the user was not asked
       if ((this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee')) {
@@ -448,6 +469,8 @@ module.exports = class extends Generator {
       this.props.examples = (this.props.examples === true) || (this.props.examples === 'true')
       this.props.howtotext = (this.props.howtotext === true) || (this.props.howtotext === 'true')
       this.props.overleaf = (this.props.overleaf === true) || (this.props.overleaf === 'true')
+
+      // all properties set -- generate files
 
       if (this.props.examples) {
         this.props.useExampleEnvironment = true;
@@ -473,17 +496,16 @@ module.exports = class extends Generator {
         this.props.equote = "\"'";
       }
 
-      this.props.requiresShellEscape = (this.props.listings === 'minted');
-
-      this.props.feature = {};
-      this.props.feature.acronyms = (this.props.documentclass === 'scientific-thesis');
-
-      this.props.isPaper = (this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
       if (this.props.isPaper) {
         // this sets filenames.main and filenames.bib
         this.props.filenames = {
           "main": "paper",
           "bib": "paper"
+        };
+      } else if (this.props.documentclass == "ustutt") {
+        this.props.filenames = {
+          "main": "thesis-example",
+          "bib": "bibliography"
         };
       } else {
         this.props.filenames = {
@@ -492,22 +514,12 @@ module.exports = class extends Generator {
         };
       }
 
-      if (props.documentclass === 'scientific-thesis') {
-        this.props.heading1 = '\\chapter';
-        this.props.heading2 = '\\section';
+      if (this.props.isThesis) {
+          this.props.heading1 = '\\chapter';
+          this.props.heading2 = '\\section';
       } else {
-        this.props.heading1 = '\\section';
-        this.props.heading2 = '\\subsection';
-      }
-
-      this.props.available = {};
-
-      if (props.bibtextool == 'bibtex' && props.documentclass !== 'acmart' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
-        // acmart uses natbib
-        // in lncs, we patched-in natbib
-        this.props.available.citet = false;
-      } else {
-        this.props.available.citet = true;
+          this.props.heading1 = '\\section';
+          this.props.heading2 = '\\subsection';
       }
     });
   }
@@ -557,44 +569,7 @@ module.exports = class extends Generator {
         global.destinationPath('splncs04nat.bst')
       );
     }
-    if (global.props.language === 'de') {
-      global.fs.copyTpl(
-        global.templatePath('main.de.tex'),
-        global.destinationPath(global.props.filenames.main + ".tex"),
-        global.props
-      );
-      if (global.props.documentclass === 'scientific-thesis') {
-        global.fs.copy(
-          global.templatePath('acronyms.de.tex'),
-          global.destinationPath('acronyms.tex')
-        );
-      }
-      if (!global.props.githubpublish) {
-        // we keep the English README.md in case of GitHub publish
-        global.fs.copyTpl(
-          global.templatePath('README.de.md'),
-          global.destinationPath('README.md'),
-          global.props
-        );
-      }
-    } else {
-      global.fs.copyTpl(
-        global.templatePath('main.en.tex'),
-        global.destinationPath(global.props.filenames.main + ".tex"),
-        global.props
-      );
-      if (global.props.documentclass === 'scientific-thesis') {
-        global.fs.copy(
-          global.templatePath('acronyms.en.tex'),
-          global.destinationPath('acronyms.tex')
-        );
-      }
-      global.fs.copyTpl(
-        global.templatePath('README.en.md'),
-        global.destinationPath('README.md'),
-        global.props
-      );
-    }
+
     switch (global.props.docker) {
       case "reitzig":
         global.fs.copy(
@@ -624,6 +599,7 @@ module.exports = class extends Generator {
         );
         break;
     }
+
     if (global.props.docker) {
       global.fs.copyTpl(
         global.templatePath('.github/workflows/check.yml'),
@@ -631,6 +607,37 @@ module.exports = class extends Generator {
         global.props
       );
     }
+
+    if (!global.props.githubpublish || (global.props.language == 'en')) {
+      // we keep the English README.md in case of GitHub publish
+      global.fs.copyTpl(
+        global.templatePath('README.' + global.props.language + '.md'),
+        global.destinationPath('README.md'),
+        global.props
+      );
+    }
+
+    if (this.props.feature.acronyms) {
+      global.fs.copy(
+        global.templatePath('acronyms.' + global.props.language + '.tex'),
+        global.destinationPath('acronyms.tex')
+      );
+    }
+
+    global.fs.copyTpl(
+      global.templatePath('main.' + global.props.language + '.tex'),
+      global.destinationPath(global.props.filenames.main + ".tex"),
+      global.props
+    );
+
+    if (this.props.documentclass == 'ustutt') {
+      this.props.documentclass = 'ustutt-include';
+      global.fs.copyTpl(
+        global.templatePath('main.' + global.props.language + '.tex'),
+        global.destinationPath("shared/template.tex"),
+        global.props
+      );
+      }
   }
 
   install() {

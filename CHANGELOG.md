@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - `--language=x` is now `--lang=x`
 - Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop.
+- Implementation: No `default` branches any more for `switch`es on `documentclass`
 
 ## [0.7.0] – 2022-06-06
 
