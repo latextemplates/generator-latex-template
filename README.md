@@ -116,6 +116,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - `npx npm-check-updates -u`. [[Source](https://www.carlrippon.com/upgrading-npm-dependencies/)]
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
+  - Generate `package-lock.json` only: `npm i --package-lock-only`
 - When one encounters `Cannot find module 'yeoman-generator'`, please update the npm dependencies.
   That error occurred when using version `4.13.0` and `5.4.2` was available.
 - In case of the error "Error: EACCES, permission denied '/root/.config/configstore/insight-yo.json'", one needs to execute `chmod g+rwx /root /root/.config /root/.config/configstore`
