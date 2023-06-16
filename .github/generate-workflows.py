@@ -110,7 +110,7 @@ for documentclass in documentclasses:
                               if (texlive == 2023):
                                 yml.write("           --docker=dante\\\n")
                               else:
-                                yml.write("           --docker=reizig\\\n")
+                                yml.write("           --docker=reitzig\\\n")
                               yml.write("           --lang=%s\\\n" % language)
                               yml.write("           --font=%s\\\n" % font)
                               yml.write("           --listings=%s\\\n" % listing)
