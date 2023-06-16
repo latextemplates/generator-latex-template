@@ -3,15 +3,15 @@ FROM reitzig/texlive-<% switch (latexcompiler) {
   case "lualatex": %>base-luatex<% break;
   default: %>base<% break;
 } -%>:<% switch (texlive) {
-  case 2022: %>2022.2<% break;
-  case 2021: %>2021.10<% break;
+  case 2022: %>2022.8<% break;
+  case 2021: %>2021.9<% break;
 } -%>
 
 RUN apk update && apk add --no-cache bash perl python3 py3-pip
 RUN pip3 install pygments
 
 # Emulate "Install dependencies" of "entrypoint work ..."
-<% if (texlive < 2022) { -%>
+<% if (texlive < 2023) { -%>
 RUN tlmgr update --self --repository http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/<%= texlive %>/tlnet-final
 COPY Texlivefile /work/src
 RUN xargs tlmgr install --repository http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/<%= texlive %>/tlnet-final < "/work/src/Texlivefile" && \

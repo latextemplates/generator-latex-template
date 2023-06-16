@@ -3,7 +3,7 @@ latexcompilers = ['pdflatex', 'lualatex']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2021, 2022]
+texlives = [2022, 2023]
 
 languages = ['en', 'de']
 
@@ -36,8 +36,6 @@ for documentclass in documentclasses:
         for example in examples:
           for papersize in papersizes:
             for ieee_variant in ieee_variants:
-              if ((documentclass == 'ieee') and (latexcompiler == 'lualatex') and (texlive == 2021) and (example == 'true') and (ieee_variant != 'peerreview')):
-                continue
               if ((documentclass != 'ieee') and ((papersize != 'a4') or (ieee_variant != 'conference'))):
                 # we just go on for one IEEE specific element to enable this part being executed exactly ones for the "example" outer loop for non-IEEE
                 # we check for a4 only, not for letter
@@ -109,7 +107,10 @@ for documentclass in documentclasses:
                               yml.write("           --bibtextool=%s\\\n" % bibtextool)
                               yml.write("           --overleaf=false\\\n")
                               yml.write("           --texlive=%s\\\n" % texlive)
-                              yml.write("           --docker=reitzig\\\n")
+                              if (texlive == 2023):
+                                yml.write("           --docker=dante\\\n")
+                              else:
+                                yml.write("           --docker=reizig\\\n")
                               yml.write("           --lang=%s\\\n" % language)
                               yml.write("           --font=%s\\\n" % font)
                               yml.write("           --listings=%s\\\n" % listing)
