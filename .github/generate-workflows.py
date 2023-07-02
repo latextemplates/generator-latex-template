@@ -107,10 +107,7 @@ for documentclass in documentclasses:
                               yml.write("           --bibtextool=%s\\\n" % bibtextool)
                               yml.write("           --overleaf=false\\\n")
                               yml.write("           --texlive=%s\\\n" % texlive)
-                              if (texlive == 2023):
-                                yml.write("           --docker=dante\\\n")
-                              else:
-                                yml.write("           --docker=reitzig\\\n")
+                              yml.write("           --docker=reitzig\\\n")
                               yml.write("           --lang=%s\\\n" % language)
                               yml.write("           --font=%s\\\n" % font)
                               yml.write("           --listings=%s\\\n" % listing)
