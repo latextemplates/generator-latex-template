@@ -15,13 +15,13 @@ RUN pip3 install pygments
 <% if (texlive < 2023) { -%>
 RUN tlmgr update --self --repository http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/<%= texlive %>/tlnet-final
 COPY Texlivefile /work/src
-RUN xargs tlmgr install --repository http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/<%= texlive %>/tlnet-final < "/work/src/Texlivefile" && \
+RUN xargs tlmgr install --repository http://ftp.math.utah.edu/pub/tex/historic/systems/texlive/<%= texlive %>/tlnet-final < "/work/src/Texlivefile"
 <% } else { -%>
 RUN tlmgr update --self --repository https://mirror.mwt.me/ctan/systems/texlive/tlnet
 COPY Texlivefile /work/src
 RUN xargs tlmgr install --repository https://mirror.mwt.me/ctan/systems/texlive/tlnet < "/work/src/Texlivefile"
 <% } -%>
-RUN sha256sum "/work/src/Texlivefile" > "/work/tmp/Texlivefile.sha" && \
+RUN sha256sum "/work/src/Texlivefile" > "/work/tmp/Texlivefile.sha"
 #
 # make <% if (bibtextool == "biblatex") { %>biber, <% } %>latexmk and texlogsieve available
 <% if (bibtextool == "biblatex") { -%>
@@ -35,4 +35,4 @@ RUN cp /usr/local/texlive/<%= texlive %>/bin/x86_64-linuxmusl/texlogsieve /usr/l
 RUN luaotfload-tool --update
 <% } -%>
 # use latest texlogsieve
-RUN cd /usr/local/bin && wget https://gitlab.com/lago/texlogsieve/-/raw/main/texlogsieve?inline=false
+# RUN cd /usr/local/bin && wget https://gitlab.com/lago/texlogsieve/-/raw/main/texlogsieve?inline=false
