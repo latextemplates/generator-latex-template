@@ -168,20 +168,24 @@ module.exports = class extends Generator {
         //  return (!response.overleaf || (response.overleaf == "false"));
         // },
         message: 'Which TeXLive compatibility?',
-        choices: [
-          {
+        choices: function(state) {
+          var res = [];
+          res.push({
             name: "TeXLive 2021",
             value: 2021
-          },
-          {
-            name: "TeXLive 2022",
-            value: 2022
-          },
-          {
+          });
+          if (state.documentclass !== "scientific-thesis") {
+            res.push({
+              name: "TeXLive 2022",
+              value: 2022
+            })
+          }
+          res.push({
             name: "TeXLive 2023",
             value: 2023
-          }
-        ],
+          });
+          return res;
+        },
         default: 2023
       },
       {
