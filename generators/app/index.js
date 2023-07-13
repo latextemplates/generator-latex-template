@@ -413,7 +413,7 @@ module.exports = class extends Generator {
 
       if (this.props.overleaf) {
         // we do not prompt for texlive version in case of overleaf
-        this.props.texlive = 2021;
+        this.props.texlive = 2023;
       }
 
       // somehow texlive is not routed through
@@ -443,8 +443,8 @@ module.exports = class extends Generator {
       // In 2021 this is not used any more, all papers are the "normal" IEEE format
       this.props.ieee_compsoc = false;
 
-      // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex (TeXLive 2019 and 2020 work)
-      if ((this.props.documentclass === 'ieee') && (this.props.texlive == 2021)) {
+      // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex
+      if (this.props.documentclass === 'ieee') {
         this.props.latexcompiler = 'pdflatex';
       }
 
