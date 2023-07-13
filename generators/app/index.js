@@ -164,9 +164,9 @@ module.exports = class extends Generator {
       {
         type: 'list',
         name: 'texlive',
-        when: function(response) {
-          return (!response.overleaf || (response.overleaf == "false"));
-        },
+        // when: function(response) {
+        //  return (!response.overleaf || (response.overleaf == "false"));
+        // },
         message: 'Which TeXLive compatibility?',
         choices: [
           {
