@@ -176,9 +176,13 @@ module.exports = class extends Generator {
           {
             name: "TeXLive 2022",
             value: 2022
+          },
+          {
+            name: "TeXLive 2023",
+            value: 2023
           }
         ],
-        default: 2022
+        default: 2023
       },
       {
         type: 'list',
