@@ -33,8 +33,6 @@ for documentclass in documentclasses:
       if ((bibtextool == 'bibtex') and (documentclass == 'scientific-thesis')):
         continue
       for texlive in texlives:
-        if ((documentclass == 'scientific-thesis') and (texlive == 2022)):
-          continue
         for example in examples:
           for papersize in papersizes:
             for ieee_variant in ieee_variants:
