@@ -66,7 +66,7 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'acm_format',
         when: function(response) {
-          return response.documentclass === 'acm';
+          return response.documentclass === 'acmart';
         },
         message: 'Which format of ACM?',
         choices: [
@@ -101,7 +101,7 @@ module.exports = class extends Generator {
         type: 'confirm',
         name: 'acm_review',
         when: function(response) {
-          return response.documentclass === 'acm';
+          return response.documentclass == 'acmart';
         },
         message: 'Format as document to review?',
         default: true
