@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added support for German on LNCS and IEEE.
+- Added support for TeXLive 2023
+- Added support for [Island of TeX's Docker image](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
 
 ### Changed
 

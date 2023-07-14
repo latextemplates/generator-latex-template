@@ -232,6 +232,10 @@ module.exports = class extends Generator {
             value: false
           },
           {
+            name: "yes (Island of TeX)",
+            value: "iot"
+          },
+          {
             name: "yes (Reiztig)",
             value: "reitzig"
           },
@@ -600,6 +604,22 @@ module.exports = class extends Generator {
       );
     }
     switch (global.props.docker) {
+      case "iot":
+        global.fs.copy(
+          global.templatePath('dot.dockerignore'),
+          global.destinationPath('.dockerignore')
+        );
+        global.fs.copyTpl(
+          global.templatePath('Dockerfile.iot'),
+          global.destinationPath('Dockerfile'),
+          global.props
+        );
+        global.fs.copyTpl(
+          global.templatePath('Texlivefile'),
+          global.destinationPath('Texlivefile'),
+          global.props
+        );
+        break;
       case "reitzig":
         global.fs.copy(
           global.templatePath('dot.dockerignore'),
