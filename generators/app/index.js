@@ -47,7 +47,7 @@ export default class extends Generator {
       },
       {
         type: 'list',
-        name: 'acm_format',
+        name: 'acmformat',
         when: function(response) {
           return response.documentclass === 'acmart';
         },
@@ -82,7 +82,7 @@ export default class extends Generator {
       },
       {
         type: 'confirm',
-        name: 'acm_review',
+        name: 'acmreview',
         when: function(response) {
           return response.documentclass == 'acmart';
         },

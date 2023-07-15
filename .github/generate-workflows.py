@@ -18,8 +18,8 @@ examples = ['true', 'false']
 howtotexts = ['true', 'false']
 
 # ACM only
-acm_formats = ['manuscript', 'acmsmall', 'acmlarge', 'acmtog', 'sigconf', 'sigplan']
-acm_reviews = ['true', 'false']
+acmformats = ['manuscript', 'acmsmall', 'acmlarge', 'acmtog', 'sigconf', 'sigplan']
+acmreviews = ['true', 'false']
 
 # IEEE only
 papersizes = ['a4', 'letter']
@@ -100,8 +100,8 @@ for documentclass in documentclasses:
                               if (documentclass == 'ieee'):
                                 yml.write("           --ieeevariant=%s\\\n" % ieeevariant)
                               if (documentclass == 'acmart'):
-                                yml.write("           --acm_format=%s\\\n" % acm_formats[0])
-                                yml.write("           --acm_review=%s\\\n" % acm_reviews[0])
+                                yml.write("           --acmformat=%s\\\n" % acmformats[0])
+                                yml.write("           --acmreview=%s\\\n" % acmreviews[0])
                               yml.write("           --papersize=%s\\\n" % papersize)
                               yml.write("           --latexcompiler=%s\\\n" % latexcompiler)
                               yml.write("           --bibtextool=%s\\\n" % bibtextool)
