@@ -1,14 +1,14 @@
 'use strict';
-const Generator = require('yeoman-generator');
-const optionOrPrompt = require('yeoman-option-or-prompt');
-const chalk = require('chalk');
-const yosay = require('yosay');
-const fs = require('fs');
+import Generator from 'yeoman-generator';
+import optionOrPrompt from 'yeoman-option-or-prompt';
+import chalk from 'chalk';
+import yosay from 'yosay';
+import fs from 'fs';
 
 // "unzipper" instead of extract-zip, because we want to excact a subset of the archive
-const unzipper = require('unzipper');
+import unzipper from 'unzipper';
 
-module.exports = class extends Generator {
+export default class extends Generator {
 
   _optionOrPrompt = optionOrPrompt;
 
