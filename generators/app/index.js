@@ -9,35 +9,19 @@ const fs = require('fs');
 const unzipper = require('unzipper');
 
 module.exports = class extends Generator {
+
+  _optionOrPrompt = optionOrPrompt;
+
   prompting() {
     this.log(
       yosay(`Welcome to the ${chalk.red('latex-template')} generator!`)
     );
 
-    var params = {
-      // this here was the quickest to integrate to yeoman-option-or-prompt
-      // we accept that we currently cannot offer --help
+    var done = this.async();
 
-      // To offer --help, command-line-args lib (https://github.com/75lb/command-line-args/) seems to be best: because, it supports multiple values for a key (which might be required at choices below)
-      // https://github.com/tj/commander.js could also be OK. All parameters have to provided programatically.
-      // yargs supports choices: http://yargs.js.org/docs/
-      // stdio (https://github.com/sgmonda/stdio) does not support choices
-      // Discussion on alternative libraries: https://stackoverflow.com/a/34782300/873282
-
-      options: require('minimist')(process.argv.slice(2)),
-      filteredProps: {},
-      prompt: function(filteredProps) {
-        this.filteredProps = filteredProps
-        return {
-          then: function(f) {
-            return f;
-          }
-        }
-      }
-    }
-
-    // see "Development hints" in README.md for help on Inquirer.js
-    var mapper = optionOrPrompt.call(params, [
+    // Instead of calling prompt, call _optionOrPrompt to allow parameters to be passed as command line or composeWith options.
+    // See "Development hints" in README.md for help on Inquirer.js
+    this._optionOrPrompt([
       {
         type: 'list',
         name: 'documentclass',
@@ -191,6 +175,9 @@ module.exports = class extends Generator {
         choices: ["pdflatex", "lualatex"],
         default: "pdflatex",
         when: function(response) {
+          console.log("!!!")
+          console.log(response)
+          console.log("!!!")
           return !(response.documentclass === 'ieee');
         }
       },
@@ -396,22 +383,7 @@ module.exports = class extends Generator {
         message: 'Include minimal LaTeX examples?',
         default: true
       }
-    ]);
-
-    this.mapper = mapper;
-    this.params = params;
-
-    var prompt;
-
-    if (Object.keys(params.filteredProps).length === 0) {
-      prompt = new Promise(resolve => {
-        resolve(this.params.options)
-      })
-    } else {
-      prompt = this.prompt(params.filteredProps).then(props => this.mapper(props));
-    }
-
-    return prompt.then(props => {
+    ], function (props) {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
@@ -518,7 +490,7 @@ module.exports = class extends Generator {
         this.props.available.citet = true;
       }
     });
-  }
+  };
 
   writing() {
     let global = this;
@@ -659,4 +631,5 @@ module.exports = class extends Generator {
 
   install() {
   }
-};
+}
+
