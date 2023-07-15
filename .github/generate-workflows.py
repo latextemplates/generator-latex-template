@@ -23,7 +23,7 @@ acm_reviews = ['true', 'false']
 
 # IEEE only
 papersizes = ['a4', 'letter']
-ieee_variants = ['conference', 'journal', 'peerreview']
+ieeevariants = ['conference', 'journal', 'peerreview']
 
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
@@ -35,13 +35,13 @@ for documentclass in documentclasses:
       for texlive in texlives:
         for example in examples:
           for papersize in papersizes:
-            for ieee_variant in ieee_variants:
-              if ((documentclass != 'ieee') and ((papersize != 'a4') or (ieee_variant != 'conference'))):
+            for ieeevariant in ieeevariants:
+              if ((documentclass != 'ieee') and ((papersize != 'a4') or (ieeevariant != 'conference'))):
                 # we just go on for one IEEE specific element to enable this part being executed exactly ones for the "example" outer loop for non-IEEE
                 # we check for a4 only, not for letter
                 continue
               if (documentclass == 'ieee'):
-                dashedPart = "{}-{}-{}-{}-{}-{}-{}".format(documentclass, ieee_variant, papersize, latexcompiler, bibtextool, texlive, example);
+                dashedPart = "{}-{}-{}-{}-{}-{}-{}".format(documentclass, ieeevariant, papersize, latexcompiler, bibtextool, texlive, example);
               else:
                 dashedPart = "{}-{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, texlive, example);
               yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
@@ -98,7 +98,7 @@ for documentclass in documentclasses:
 ''')
                               yml.write("           --documentclass=%s\\\n" % documentclass)
                               if (documentclass == 'ieee'):
-                                yml.write("           --ieee_variant=%s\\\n" % ieee_variant)
+                                yml.write("           --ieeevariant=%s\\\n" % ieeevariant)
                               if (documentclass == 'acmart'):
                                 yml.write("           --acm_format=%s\\\n" % acm_formats[0])
                                 yml.write("           --acm_review=%s\\\n" % acm_reviews[0])

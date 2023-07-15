@@ -91,7 +91,7 @@ export default class extends Generator {
       },
       {
         type: 'list',
-        name: 'ieee_variant',
+        name: 'ieeevariant',
         when: function(response) {
           return response.documentclass === 'ieee';
         },
