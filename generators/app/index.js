@@ -175,9 +175,6 @@ module.exports = class extends Generator {
         choices: ["pdflatex", "lualatex"],
         default: "pdflatex",
         when: function(response) {
-          console.log("!!!")
-          console.log(response)
-          console.log("!!!")
           return !(response.documentclass === 'ieee');
         }
       },
