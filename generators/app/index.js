@@ -379,27 +379,25 @@ export default class extends Generator {
         message: 'Include minimal LaTeX examples?',
         default: true
       }
-    ], function (props) {
+    ]).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
-      if (this.props.overleaf) {
-        // we do not prompt for texlive version in case of overleaf
-        this.props.texlive = 2023;
-      }
-
       // somehow texlive is not routed through
       // special handling
-      if (this.params.options.texlive) {
-        this.props.texlive = parseInt(this.params.options.texlive)
+      if (this.options.texlive) {
+        this.props.texlive = parseInt(this.options.texlive)
+      } else if (this.props.overleaf) {
+        // we do not prompt for texlive version in case of overleaf
+        this.props.texlive = 2022;
       }
 
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
-      this.props.githubpublish = this.params.options.githubpublish;
+      this.props.githubpublish = this.options.githubpublish;
       this.props.githubpublish = (this.props.githubpublish === true) || (this.props.githubpublish === 'true')
 
       // Command line argument "--preparereitzig" switches the generator to generate a template to be used to generate Texlivefile required by https://github.com/reitzig/texlive-docker
-      this.props.preparereitzig = this.params.options.preparereitzig;
+      this.props.preparereitzig = this.options.preparereitzig;
       this.props.preparereitzig = (this.props.preparereitzig === true) || (this.props.preparereitzig === 'true')
 
       // Ensure all values are set - even if the user was not asked
@@ -486,7 +484,7 @@ export default class extends Generator {
         this.props.available.citet = true;
       }
       done();
-    }.bind(this));
+    });
   };
 
   writing() {
