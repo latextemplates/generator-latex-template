@@ -5,7 +5,7 @@ const chalk = require('chalk');
 const yosay = require('yosay');
 const fs = require('fs');
 
-// unzipper instead of extract-zip, because we want to excact a subset of the archive
+// "unzipper" instead of extract-zip, because we want to excact a subset of the archive
 const unzipper = require('unzipper');
 
 module.exports = class extends Generator {
@@ -17,10 +17,9 @@ module.exports = class extends Generator {
       yosay(`Welcome to the ${chalk.red('latex-template')} generator!`)
     );
 
-    var done = this.async();
-
     // Instead of calling prompt, call _optionOrPrompt to allow parameters to be passed as command line or composeWith options.
     // See "Development hints" in README.md for help on Inquirer.js
+    const done = this.async();
     this._optionOrPrompt([
       {
         type: 'list',
@@ -486,7 +485,8 @@ module.exports = class extends Generator {
       } else {
         this.props.available.citet = true;
       }
-    });
+      done();
+    }.bind(this));
   };
 
   writing() {
