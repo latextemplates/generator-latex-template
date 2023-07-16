@@ -12,7 +12,7 @@ fonts = ['default', 'times']
 
 listings = ['listings', 'minted']
 enquotes = ['csquotes', 'plainlatex']
-tweak_outerquotes = ['babel', 'outerquote']
+tweakouterquotes = ['babel', 'outerquote']
 todos = ['pdfcomment', 'none']
 examples = ['true', 'false']
 howtotexts = ['true', 'false']
@@ -88,9 +88,9 @@ for documentclass in documentclasses:
                       continue
                     for listing in listings:
                       for enquote in enquotes:
-                        for tweak_outerquote in tweak_outerquotes:
+                        for tweakouterquote in tweakouterquotes:
                           for todo in todos:
-                              variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweak_outerquote, todo, example, howtotext)
+                              variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml.write("      - run: mkdir {}\n".format(variantName))
                               yml.write("      - name: Create {}\n".format(variantName))
                               yml.write('''        run: |
@@ -112,7 +112,7 @@ for documentclass in documentclasses:
                               yml.write("           --font=%s\\\n" % font)
                               yml.write("           --listings=%s\\\n" % listing)
                               yml.write("           --enquotes=%s\\\n" % enquote)
-                              yml.write("           --tweak_outerquote=%s\\\n" % tweak_outerquote)
+                              yml.write("           --tweakouterquote=%s\\\n" % tweakouterquote)
                               yml.write("           --todo=%s\\\n" % todo)
                               yml.write("           --examples=%s\\\n" % example)
                               yml.write("           --howtotext=%s\n" % howtotext)

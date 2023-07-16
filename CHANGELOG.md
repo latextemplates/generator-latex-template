@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop
 - `ieee_variant` changed to `ieeevariant`
 - `acm_...` changed to `acm...`
+- `tweak_outerquote` changed to `tweakouterquote`
 
 ## [0.7.0] – 2022-06-06
 

@@ -333,7 +333,7 @@ export default class extends Generator {
       },
       {
         type: 'list',
-        name: 'tweak_outerquote',
+        name: 'tweakouterquote',
         message: 'Enable hyphenation tweak (e.g., application"=specific for app-lication-specific at a linebreak) or enable easy quotation (e.g., "application"; not common in default latex setups)?',
         choices: [
           {
@@ -411,7 +411,7 @@ export default class extends Generator {
 
       // IEEE class offers "compsoc"
       // In 2021 this is not used any more, all papers are the "normal" IEEE format
-      this.props.ieee_compsoc = false;
+      this.props.ieeecompsoc = false;
 
       // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex
       if (this.props.documentclass === 'ieee') {
@@ -433,7 +433,7 @@ export default class extends Generator {
         this.props.eexample = "";
       }
 
-      if (this.props.tweak_outerquote == 'outerquote') {
+      if (this.props.tweakouterquote == 'outerquote') {
         this.props.bquote = "\"";
         this.props.equote = "\"";
       } else if (this.props.enquotes == 'csquotes') {
