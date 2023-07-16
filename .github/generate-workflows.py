@@ -94,7 +94,7 @@ for documentclass in documentclasses:
                               yml.write("      - run: mkdir {}\n".format(variantName))
                               yml.write("      - name: Create {}\n".format(variantName))
                               yml.write('''        run: |
-          grep filteredPrompts node_modules/yeoman-option-or-prompt/index.js
+          grep filteredPrompts $GITHUB_WORKSPACE/node_modules/yeoman-option-or-prompt/index.js
           npx yo $GITHUB_WORKSPACE\\
 ''')
                               yml.write("           --documentclass=%s\\\n" % documentclass)
