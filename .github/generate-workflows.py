@@ -76,8 +76,9 @@ for documentclass in documentclasses:
         with:
           node-version: '14'
       - name: Update npm
-        run: npm i -g npm@latest
-      - run: npm i npm@latest
+        run: |
+          npm i -g npm@latest
+          npm i npm@latest
       - run: npm install
       - run: mkdir /tmp/out
 ''')
