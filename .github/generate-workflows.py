@@ -94,6 +94,7 @@ for documentclass in documentclasses:
                               yml.write("      - run: mkdir {}\n".format(variantName))
                               yml.write("      - name: Create {}\n".format(variantName))
                               yml.write('''        run: |
+          grep filteredPrompts node_modules/yeoman-option-or-prompt/index.js
           npx yo $GITHUB_WORKSPACE\\
 ''')
                               yml.write("           --documentclass=%s\\\n" % documentclass)
@@ -116,9 +117,7 @@ for documentclass in documentclasses:
                               yml.write("           --todo=%s\\\n" % todo)
                               yml.write("           --examples=%s\\\n" % example)
                               yml.write("           --howtotext=%s\n" % howtotext)
-                              yml.write('''          pwd
-          ls -la
-        env:
+                              yml.write('''        env:
           yeoman_test: true
 ''')
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
