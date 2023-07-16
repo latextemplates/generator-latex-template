@@ -133,10 +133,8 @@ for documentclass in documentclasses:
                               yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               yml.write("      - name: latexmk {}\n".format(variantName))
                               filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
-                              if docker == 'reitzig':
-                                  yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} work \"latexmk {}\"\n".format(variantName, filename))
-                              else:
-                                  yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} latexmk {}\n".format(variantName, filename))
+                              command = "latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
+                              yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} {}\n".format(variantName, command))
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
               yml.write('''      - uses: actions/upload-artifact@v2
         with:
