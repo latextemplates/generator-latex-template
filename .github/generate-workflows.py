@@ -132,18 +132,11 @@ for documentclass in documentclasses:
                               yml.write("          tags: localhost:5000/name/app:{}\n".format(variantName))
                               yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               yml.write("      - name: latexmk {}\n".format(variantName))
+                              filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
                               if docker == 'reitzig':
-                                  yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} work \"latexmk ".format(variantName))
+                                  yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} work \"latexmk {}\"\n".format(variantName, filename))
                               else:
-                                  yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} latexmk ".format(variantName))
-                              if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')):
-                                yml.write("paper.tex")
-                              else:
-                                yml.write("main.tex\"\n")
-                              if docker == 'reitzig':
-                                  yml.write("\"\n")
-                              else:
-                                  yml.write("\n")
+                                  yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} latexmk {}\n".format(variantName, filename))
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
               yml.write('''      - uses: actions/upload-artifact@v2
         with:
