@@ -25,6 +25,8 @@ acmreviews = ['true', 'false']
 papersizes = ['a4', 'letter']
 ieeevariants = ['conference', 'journal', 'peerreview']
 
+docker = "iot"
+
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
@@ -130,11 +132,18 @@ for documentclass in documentclasses:
                               yml.write("          tags: localhost:5000/name/app:{}\n".format(variantName))
                               yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               yml.write("      - name: latexmk {}\n".format(variantName))
-                              yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} work \"latexmk ".format(variantName))
+                              if docker == 'reitzig':
+                                  yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} work \"latexmk ".format(variantName))
+                              else:
+                                  yml.write("        run: docker run -v $(pwd):/work/src -v /tmp/out:/work/out localhost:5000/name/app:{} latexmk ".format(variantName))
                               if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')):
-                                yml.write("paper.tex\"\n")
+                                yml.write("paper.tex")
                               else:
                                 yml.write("main.tex\"\n")
+                              if docker == 'reitzig':
+                                  yml.write("\"\n")
+                              else:
+                                  yml.write("\n")
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
               yml.write('''      - uses: actions/upload-artifact@v2
         with:
