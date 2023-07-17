@@ -21,6 +21,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `acm_...` changed to `acm...`
 - `tweak_outerquote` changed to `tweakouterquote`
 
+### Fixed
+
+- Various LaTeX fixes to get compilation running on TeXLive 2023
+
 ## [0.7.0] – 2022-06-06
 
 ### Added
