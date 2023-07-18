@@ -19,6 +19,7 @@ caption
 catchfile
 cfr-lm
 cleveref
+cmap
 comment
 csquotes
 currfile
@@ -37,7 +38,11 @@ diagbox
 environ
 etexcmds
 etoolbox
+filehook
 floatflt
+<% if (latexcompiler == "lualatex") { -%>
+fontspec
+<% } -%>
 framed
 fvextra
 gettitlestring
@@ -67,11 +72,15 @@ latexmk
 letltxmacro
 libertine
 lineno
-linenoamsmath
 lipsum
 listings
 llncs
 ltxcmds
+<% if (latexcompiler == "lualatex") { -%>
+luatexbase
+luacode
+lualatex-math
+<% } -%>
 marginnote
 <% if (documentclass == "scientific-thesis") { -%>
 mfirstuc
@@ -84,6 +93,7 @@ mwe
 natbib
 ncctools
 newcomputermodern
+newfloat
 newtx
 newtxtt
 nfssext-cfr
@@ -91,8 +101,12 @@ nowidow
 oberdiek
 paralist
 pdfcomment
+luatex85
 pdfescape
 pdftexcmds
+<% if (examples) { -%>
+pgf
+<% } -%>
 pict2e
 preprint
 refcount
@@ -101,20 +115,32 @@ rerunfilecheck
 <% if (documentclass == "scientific-thesis") { -%>
 scientific-thesis-cover
 <% } -%>
+<% if (latexcompiler == "lualatex") { -%>
+selnolig
+<% } -%>
+<% if (documentclass == "acmart" || documentclass == 'scientific-thesis') { -%>
+setspace
+<% } -%>
 siunitx
 snapshot
 soul
 soulpos
-soulutf8
 sttools
 stringenc
 subfig
 svn-prov
 tcolorbox
 texlogsieve
+textcase
+<% if ((documentclass == "ieee") || (font == "times")) { -%>
+tex-gyre
+times
+<% } -%>
 totpages
 tracklang
 translator
+txfonts
+unicode-math
 uniquecounter
 upquote
 url

@@ -10,11 +10,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added support for German on LNCS and IEEE.
+- Added support for TeXLive 2023
+- Added support for [Island of TeX's Docker image](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
 
 ### Changed
 
+- Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop
 - `--language=x` is now `--lang=x`
-- Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop.
+- `ieee_variant` changed to `ieeevariant`
+- `acm_...` changed to `acm...`
+- `tweak_outerquote` changed to `tweakouterquote`
+
+### Fixed
+
+- Various LaTeX fixes to get compilation running on TeXLive 2023
 
 ## [0.7.0] – 2022-06-06
 

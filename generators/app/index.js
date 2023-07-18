@@ -1,43 +1,26 @@
 'use strict';
-const Generator = require('yeoman-generator');
-const optionOrPrompt = require('yeoman-option-or-prompt');
-const chalk = require('chalk');
-const yosay = require('yosay');
-const fs = require('fs');
+import Generator from 'yeoman-generator';
+import optionOrPrompt from 'yeoman-option-or-prompt';
+import chalk from 'chalk';
+import yosay from 'yosay';
+import fs from 'fs';
 
-// unzipper instead of extract-zip, because we want to excact a subset of the archive
-const unzipper = require('unzipper');
+// "unzipper" instead of extract-zip, because we want to excact a subset of the archive
+import unzipper from 'unzipper';
 
-module.exports = class extends Generator {
+export default class extends Generator {
+
+  _optionOrPrompt = optionOrPrompt;
+
   prompting() {
     this.log(
       yosay(`Welcome to the ${chalk.red('latex-template')} generator!`)
     );
 
-    var params = {
-      // this here was the quickest to integrate to yeoman-option-or-prompt
-      // we accept that we currently cannot offer --help
-
-      // To offer --help, command-line-args lib (https://github.com/75lb/command-line-args/) seems to be best: because, it supports multiple values for a key (which might be required at choices below)
-      // https://github.com/tj/commander.js could also be OK. All parameters have to provided programatically.
-      // yargs supports choices: http://yargs.js.org/docs/
-      // stdio (https://github.com/sgmonda/stdio) does not support choices
-      // Discussion on alternative libraries: https://stackoverflow.com/a/34782300/873282
-
-      options: require('minimist')(process.argv.slice(2)),
-      filteredProps: {},
-      prompt: function(filteredProps) {
-        this.filteredProps = filteredProps
-        return {
-          then: function(f) {
-            return f;
-          }
-        }
-      }
-    }
-
-    // see "Development hints" in README.md for help on Inquirer.js
-    var mapper = optionOrPrompt.call(params, [
+    // Instead of calling prompt, call _optionOrPrompt to allow parameters to be passed as command line or composeWith options.
+    // See "Development hints" in README.md for help on Inquirer.js
+    const done = this.async();
+    this._optionOrPrompt([
       {
         type: 'list',
         name: 'documentclass',
@@ -64,9 +47,9 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
-        name: 'acm_format',
+        name: 'acmformat',
         when: function(response) {
-          return response.documentclass === 'acm';
+          return response.documentclass === 'acmart';
         },
         message: 'Which format of ACM?',
         choices: [
@@ -99,16 +82,16 @@ module.exports = class extends Generator {
       },
       {
         type: 'confirm',
-        name: 'acm_review',
+        name: 'acmreview',
         when: function(response) {
-          return response.documentclass === 'acm';
+          return response.documentclass == 'acmart';
         },
         message: 'Format as document to review?',
         default: true
       },
       {
         type: 'list',
-        name: 'ieee_variant',
+        name: 'ieeevariant',
         when: function(response) {
           return response.documentclass === 'ieee';
         },
@@ -164,9 +147,9 @@ module.exports = class extends Generator {
       {
         type: 'list',
         name: 'texlive',
-        when: function(response) {
-          return (!response.overleaf || (response.overleaf == "false"));
-        },
+        // when: function(response) {
+        //  return (!response.overleaf || (response.overleaf == "false"));
+        // },
         message: 'Which TeXLive compatibility?',
         choices: [
           {
@@ -176,9 +159,13 @@ module.exports = class extends Generator {
           {
             name: "TeXLive 2022",
             value: 2022
+          },
+          {
+            name: "TeXLive 2023",
+            value: 2023
           }
         ],
-        default: 2022
+        default: 2023
       },
       {
         type: 'list',
@@ -226,6 +213,10 @@ module.exports = class extends Generator {
           {
             name: "no",
             value: false
+          },
+          {
+            name: "yes (Island of TeX)",
+            value: "iot"
           },
           {
             name: "yes (Reiztig)",
@@ -342,7 +333,7 @@ module.exports = class extends Generator {
       },
       {
         type: 'list',
-        name: 'tweak_outerquote',
+        name: 'tweakouterquote',
         message: 'Enable hyphenation tweak (e.g., application"=specific for app-lication-specific at a linebreak) or enable easy quotation (e.g., "application"; not common in default latex setups)?',
         choices: [
           {
@@ -388,42 +379,25 @@ module.exports = class extends Generator {
         message: 'Include minimal LaTeX examples?',
         default: true
       }
-    ]);
-
-    this.mapper = mapper;
-    this.params = params;
-
-    var prompt;
-
-    if (Object.keys(params.filteredProps).length === 0) {
-      prompt = new Promise(resolve => {
-        resolve(this.params.options)
-      })
-    } else {
-      prompt = this.prompt(params.filteredProps).then(props => this.mapper(props));
-    }
-
-    return prompt.then(props => {
+    ]).then(props => {
       // To access props later use this.props.someAnswer;
       this.props = props;
 
-      if (this.props.overleaf) {
-        // we do not prompt for texlive version in case of overleaf
-        this.props.texlive = 2021;
-      }
-
       // somehow texlive is not routed through
       // special handling
-      if (this.params.options.texlive) {
-        this.props.texlive = parseInt(this.params.options.texlive)
+      if (this.options.texlive) {
+        this.props.texlive = parseInt(this.options.texlive)
+      } else if (this.props.overleaf) {
+        // we do not prompt for texlive version in case of overleaf
+        this.props.texlive = 2022;
       }
 
       // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
-      this.props.githubpublish = this.params.options.githubpublish;
+      this.props.githubpublish = this.options.githubpublish;
       this.props.githubpublish = (this.props.githubpublish === true) || (this.props.githubpublish === 'true')
 
       // Command line argument "--preparereitzig" switches the generator to generate a template to be used to generate Texlivefile required by https://github.com/reitzig/texlive-docker
-      this.props.preparereitzig = this.params.options.preparereitzig;
+      this.props.preparereitzig = this.options.preparereitzig;
       this.props.preparereitzig = (this.props.preparereitzig === true) || (this.props.preparereitzig === 'true')
 
       // Ensure all values are set - even if the user was not asked
@@ -437,10 +411,10 @@ module.exports = class extends Generator {
 
       // IEEE class offers "compsoc"
       // In 2021 this is not used any more, all papers are the "normal" IEEE format
-      this.props.ieee_compsoc = false;
+      this.props.ieeecompsoc = false;
 
-      // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex (TeXLive 2019 and 2020 work)
-      if ((this.props.documentclass === 'ieee') && (this.props.texlive == 2021)) {
+      // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex
+      if (this.props.documentclass === 'ieee') {
         this.props.latexcompiler = 'pdflatex';
       }
 
@@ -459,7 +433,7 @@ module.exports = class extends Generator {
         this.props.eexample = "";
       }
 
-      if (this.props.tweak_outerquote == 'outerquote') {
+      if (this.props.tweakouterquote == 'outerquote') {
         this.props.bquote = "\"";
         this.props.equote = "\"";
       } else if (this.props.enquotes == 'csquotes') {
@@ -509,8 +483,9 @@ module.exports = class extends Generator {
       } else {
         this.props.available.citet = true;
       }
+      done();
     });
-  }
+  };
 
   writing() {
     let global = this;
@@ -596,6 +571,22 @@ module.exports = class extends Generator {
       );
     }
     switch (global.props.docker) {
+      case "iot":
+        global.fs.copy(
+          global.templatePath('dot.dockerignore'),
+          global.destinationPath('.dockerignore')
+        );
+        global.fs.copyTpl(
+          global.templatePath('Dockerfile.iot'),
+          global.destinationPath('Dockerfile'),
+          global.props
+        );
+        global.fs.copyTpl(
+          global.templatePath('Texlivefile'),
+          global.destinationPath('Texlivefile'),
+          global.props
+        );
+        break;
       case "reitzig":
         global.fs.copy(
           global.templatePath('dot.dockerignore'),
@@ -635,4 +626,5 @@ module.exports = class extends Generator {
 
   install() {
   }
-};
+}
+

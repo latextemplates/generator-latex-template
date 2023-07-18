@@ -50,12 +50,12 @@
 <% break; case "acmart": -%>
 
 % Alternative to balance is the pbalance package (see https://ctan.org/pkg/pbalance), which sometimes works better
-\documentclass[<%= acm_format %>,<% if (acm_review) { %>review,<% } %><%= papersize %>paper,balance]{acmart}
+\documentclass[<%= acmformat %>,<% if (acmreview) { %>review,<% } %><%= papersize %>paper,balance]{acmart}
 <% break; case "ieee": -%>
 
 % DO NOT DOWNLOAD IEEEtran.cls - Use the one of your LaTeX distribution
 % For the final version, replace "draftcls" by "final"
-\documentclass[<%= ieee_variant %>,<%= papersize %>paper,ngerman]{IEEEtran}[2015/08/26]
+\documentclass[<%= ieeevariant %>,<%= papersize %>paper,ngerman]{IEEEtran}[2015/08/26]
 
 % Balance the last page using the balance package (see https://ctan.org/pkg/balance)
 % Alternative to balance is the pbalance package (see https://ctan.org/pkg/pbalance), which sometimes works better
@@ -174,11 +174,12 @@
 \usepackage{stfloats}
 \fnbelowfloat
 
-<%- include('siunitx.preamble.en.tex'); %>
+<%- include('siunitx.preamble.de.tex'); %>
 <%- include('hyperref.preamble.de.tex', this); %>
 <%- include('subfig.preamble.en.tex', this); %>
 <% if (texlive >= 2021) { %><%- include('mindflow.preamble.en.tex', this); %>
 <% } -%>
+<% if (feature.acronyms) { -%>\usepackage{amsmath}<% } // acronyms load amsmath, which has to be loaded before cleveref -%>
 <%- include('cleveref.preamble.de.tex', this); %>
 \usepackage{lipsum}
 <% if (examples) { -%>
@@ -423,7 +424,7 @@
 % Alternative: \listof{Listing}{List of Listings}
 \lstlistoflistings
 <% } else { -%>
-\listof{Listing}{Verzeichnis der Listings}
+\listoflistings
 <% } -%>
 
 %mittels \newfloat wurde die Algorithmus-Gleitumgebung definiert.

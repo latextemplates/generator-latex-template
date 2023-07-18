@@ -1,0 +1,67 @@
+diff --git a/node_modules/yeoman-option-or-prompt/index.js b/node_modules/yeoman-option-or-prompt/index.js
+index d7fd869..ed8756f 100644
+--- a/node_modules/yeoman-option-or-prompt/index.js
++++ b/node_modules/yeoman-option-or-prompt/index.js
+@@ -18,11 +18,22 @@ module.exports = function(prompts) {
+   }, this);
+ 
+   if (filteredPrompts.length) {
+-    return this.prompt(filteredPrompts).then(function mergeProps(mergeProps) {
+-      // Merge mergeProps into props/
+-      Object.assign(props, mergeProps);
+-      return props;
+-    });
++    var runPrompts = async () => {
++      for (let i = 0; i < filteredPrompts.length; i++) {
++        let filteredPrompt = filteredPrompts[i];
++        var isWhenConditionFulfilled = typeof filteredPrompt.when !== 'function' ||
++          (typeof filteredPrompt.when === 'function' && filteredPrompt.when(props));
++        if (isWhenConditionFulfilled) {
++          delete filteredPrompt.when;
++          await new Promise(async resolve => {
++            const answers = await this.prompt(filteredPrompt);
++            Object.assign(props, answers);
++            resolve();
++          });
++        }
++      }
++    };
++    runPrompts.bind(this)();
+   }
+ 
+   // No prompting required call the callback right away.
+@@ -30,21 +41,21 @@ module.exports = function(prompts) {
+ };
+ 
+ function normalize(option){
+-    // TODO: 
+-    // accept other types
++  // TODO:
++  // accept other types
+ 
+-    if (typeof option === 'boolean') {
+-      return option;
+-    }
++  if (typeof option === 'boolean') {
++    return option;
++  }
+ 
+-    if (typeof option === 'string'){
+-      let lc = option.toLowerCase();
++  if (typeof option === 'string'){
++    let lc = option.toLowerCase();
+ 
+-      // it's a boolean in string format
+-      if (lc === 'true' || lc === 'false') {
+-        return (lc === 'true');
+-      } else {
+-        return option;
+-      }
++    // it's a boolean in string format
++    if (lc === 'true' || lc === 'false') {
++      return (lc === 'true');
++    } else {
++      return option;
+     }
++  }
+ }
