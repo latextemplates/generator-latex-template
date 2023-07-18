@@ -70,7 +70,7 @@ for documentclass in documentclasses:
         with:
           driver-opts: network=host
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx
@@ -150,9 +150,10 @@ for documentclass in documentclasses:
                               yml.write(yml_content)
                               ymlmiktex.write(yml_content)
                               yml.write('''      - name: Build docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
+          provenance: false
 ''')
                               yml.write("          tags: localhost:5000/name/app:{}\n".format(variantName))
                               yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
