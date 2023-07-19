@@ -1,9 +1,11 @@
+#!/usr/bin/python3
+
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2023]
+texlives = [2022, 2023]
 
 languages = ['en', 'de']
 
@@ -44,8 +46,10 @@ for documentclass in documentclasses:
                 continue
               if (documentclass == 'ieee'):
                 dashedPart = "{}-{}-{}-{}-{}-{}-{}".format(documentclass, ieeevariant, papersize, latexcompiler, bibtextool, texlive, example);
+                dashedPartMiktex = "{}-{}-{}-{}-{}-{}".format(documentclass, ieeevariant, papersize, latexcompiler, bibtextool, example);
               else:
                 dashedPart = "{}-{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, texlive, example);
+                dashedPartMiktex = "{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, example);
               yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
               yml.write("name: Check {}\n".format(dashedPart))
               yml.write("on: [push]\n")
@@ -84,8 +88,8 @@ for documentclass in documentclasses:
       - run: npm install
       - run: mkdir /tmp/out
 ''')
-              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPart), "w+")
-              ymlmiktex.write("name: MiKTeX {}\n".format(dashedPart))
+              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+")
+              ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write("on: [push]\n")
               ymlmiktex.write("concurrency:\n")
               ymlmiktex.write("  group: miktex-${{ github.workflow }}-${{ github.ref }}\n")
