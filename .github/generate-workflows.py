@@ -1,9 +1,11 @@
+#!/usr/bin/python3
+
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2023]
+texlives = [2022, 2023]
 
 languages = ['en', 'de']
 
