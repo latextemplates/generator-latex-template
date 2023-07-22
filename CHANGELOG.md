@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- Modern loading of German hyphenation patterns. Source: [babel-german#6](https://github.com/jspitz/babel-german/issues/6)
 - Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop
 - `--language=x` is now `--lang=x`
 - `ieee_variant` changed to `ieeevariant`
