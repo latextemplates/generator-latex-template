@@ -1,8 +1,8 @@
 diff --git a/node_modules/yeoman-option-or-prompt/index.js b/node_modules/yeoman-option-or-prompt/index.js
-index d7fd869..990c8a7 100644
+index d7fd869..0bb8ed9 100644
 --- a/node_modules/yeoman-option-or-prompt/index.js
 +++ b/node_modules/yeoman-option-or-prompt/index.js
-@@ -18,11 +18,23 @@ module.exports = function(prompts) {
+@@ -18,10 +18,18 @@ module.exports = function(prompts) {
    }, this);
  
    if (filteredPrompts.length) {
@@ -10,28 +10,22 @@ index d7fd869..990c8a7 100644
 -      // Merge mergeProps into props/
 -      Object.assign(props, mergeProps);
 -      return props;
--    });
-+    let promises = [];
-+    for (let i = 0; i < filteredPrompts.length; i++) {
-+      let filteredPrompt = filteredPrompts[i];
-+      var isWhenConditionFulfilled = typeof filteredPrompt.when !== 'function' ||
-+        (typeof filteredPrompt.when === 'function' && filteredPrompt.when(props));
-+      if (isWhenConditionFulfilled) {
-+        delete filteredPrompt.when;
-+        let promiseToAdd = new Promise(async resolve => {
++    return new Promise(async resolve => {
++      for (let i = 0; i < filteredPrompts.length; i++) {
++        let filteredPrompt = filteredPrompts[i];
++        var isWhenConditionFulfilled = typeof filteredPrompt.when !== 'function' ||
++          (typeof filteredPrompt.when === 'function' && filteredPrompt.when(props));
++        if (isWhenConditionFulfilled) {
++          delete filteredPrompt.when;
 +          const answers = await this.prompt(filteredPrompt);
-+          console.log("end prompt");
 +          Object.assign(props, answers);
-+          resolve();
-+        });
-+        promises.push(promiseToAdd);
++        }
 +      }
-+    }
-+    return Promise.all(promises);
++      resolve(props);
+     });
    }
  
-   // No prompting required call the callback right away.
-@@ -30,21 +42,21 @@ module.exports = function(prompts) {
+@@ -30,21 +38,21 @@ module.exports = function(prompts) {
  };
  
  function normalize(option){
