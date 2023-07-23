@@ -1,31 +1,69 @@
 diff --git a/node_modules/yeoman-option-or-prompt/index.js b/node_modules/yeoman-option-or-prompt/index.js
-index d7fd869..0bb8ed9 100644
+index d7fd869..f7cd11a 100644
 --- a/node_modules/yeoman-option-or-prompt/index.js
 +++ b/node_modules/yeoman-option-or-prompt/index.js
-@@ -18,10 +18,18 @@ module.exports = function(prompts) {
+@@ -1,5 +1,19 @@
+ 'use strict';
+ 
++class Wrapper {
++  constructor(map) {
++    this.map = map;
++  }
++
++  getPath(key) {
++    return this.map.get(key);
++  }
++
++  setPath(key, value) {
++    // not required, we handle persistance differently
++  }
++}
++
+ module.exports = function(prompts) {
+   // This method will only show prompts that haven't been supplied as options. This makes the generator more composable.
+   const filteredPrompts = [];
+@@ -12,39 +26,53 @@ module.exports = function(prompts) {
+       // No option supplied, user will be prompted
+       filteredPrompts.push(prompt);
+     } else {
+-      // Options supplied, add to props
++      // Options supplied, store it
+       props[prompt.name] = normalize(option);
+     }
    }, this);
  
-   if (filteredPrompts.length) {
+-  if (filteredPrompts.length) {
 -    return this.prompt(filteredPrompts).then(function mergeProps(mergeProps) {
 -      // Merge mergeProps into props/
 -      Object.assign(props, mergeProps);
 -      return props;
-+    return new Promise(async resolve => {
-+      for (let i = 0; i < filteredPrompts.length; i++) {
-+        let filteredPrompt = filteredPrompts[i];
-+        var isWhenConditionFulfilled = typeof filteredPrompt.when !== 'function' ||
-+          (typeof filteredPrompt.when === 'function' && filteredPrompt.when(props));
-+        if (isWhenConditionFulfilled) {
-+          delete filteredPrompt.when;
-+          const answers = await this.prompt(filteredPrompt);
-+          Object.assign(props, answers);
-+        }
-+      }
-+      resolve(props);
-     });
+-    });
++  if (!filteredPrompts.length) {
++    // No prompting required call the callback right away.
++    return Promise.resolve(props);
    }
  
-@@ -30,21 +38,21 @@ module.exports = function(prompts) {
+-  // No prompting required call the callback right away.
+-  return Promise.resolve(props);
++  return new Promise(async resolve => {
++    for (let i = 0; i < filteredPrompts.length; i++) {
++      let filteredPrompt = filteredPrompts[i];
++      var isWhenConditionFulfilled = typeof filteredPrompt.when !== 'function' ||
++        (typeof filteredPrompt.when === 'function' && filteredPrompt.when(props));
++      if (isWhenConditionFulfilled) {
++        delete filteredPrompt.when;
++        console.log("props after when is fulfilled")
++        console.log(props);
++        if (typeof filteredPrompt.choices === 'function') {
++          console.log("REPLACING CHOICES")
++          filteredPrompt.choices = filteredPrompt.choices(props);
++        };
++        const answers = await this.prompt(filteredPrompt);
++        Object.assign(props, answers);
++      }
++    }
++    resolve(props);
++  });
  };
  
  function normalize(option){

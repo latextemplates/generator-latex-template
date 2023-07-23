@@ -14,12 +14,6 @@ export default class extends Generator {
     // See "Development hints" in README.md for help on Inquirer.js
     const props = await this._optionOrPrompt(options);
 
-    console.log("prompt finished");
-    console.log("prompt finished");
-    console.log("prompt finished");
-    console.log("prompt finished");
-    console.log("prompt finished");
-
     // To access props later use this.props.someAnswer;
     this.props = props;
 
@@ -27,9 +21,6 @@ export default class extends Generator {
     // special handling
     if (this.options.texlive) {
       this.props.texlive = parseInt(this.options.texlive, 10);
-    } else if (this.props.overleaf) {
-      // We do not prompt for texlive version in case of overleaf
-      this.props.texlive = 2022;
     }
 
     // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
@@ -157,7 +148,6 @@ export default class extends Generator {
 
   writing() {
     this.props.config = this.props;
-    console.log(this.props);
     this.fs.copy(
       // .gitignore is not uploaded by npm publish
       // Thus, we prefix it with `dot`.

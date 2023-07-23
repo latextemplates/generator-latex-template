@@ -125,25 +125,36 @@ export const options = [
   {
     type: 'list',
     name: 'texlive',
-    // When(response) {
-    //  return (!response.overleaf || (response.overleaf == "false"));
-    // },
     message: 'Which TeXLive compatibility?',
-    choices: [
-      {
-        name: 'TeXLive 2021',
-        value: 2021,
-      },
-      {
-        name: 'TeXLive 2022',
-        value: 2022,
-      },
-      {
-        name: 'TeXLive 2023',
-        value: 2023,
-      },
-    ],
-    default: 2023,
+    choices: function(state) {
+      console.log("STATE")
+      console.log(state)
+      console.trace();
+      let res = [
+        {
+          name: 'TeXLive 2021',
+          value: 2021,
+        },
+        {
+          name: 'TeXLive 2022',
+          value: 2022,
+        }
+      ];
+      if (!state.overleaf) {
+        res.push({
+          name: 'TeXLive 2023',
+          value: 2023,
+        });
+      }
+      return res;
+    },
+    default(state) {
+      if (state.overleaf) {
+        return 2022;
+      } else {
+        return 2023;
+      }
+    }
   },
   {
     type: 'list',
@@ -229,7 +240,7 @@ export const options = [
     type: 'list',
     name: 'font',
     message: 'Which font should be used?',
-    choices(state) {
+    choices: (state) => {
       const res = [];
       if (state.documentclass === 'acmart') {
         res.push({
@@ -286,7 +297,7 @@ export const options = [
     type: 'list',
     name: 'enquotes',
     message: 'Which package to use to "enquote" text?',
-    choices(state) {
+    choices: (state) => {
       const res = [];
       res.push({
         name: 'csquotes (\\enquote{...} command)',
