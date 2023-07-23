@@ -7,6 +7,7 @@ We want to generate the template automatically.
 ## Considered Options
 
 * [Yeoman](https://yeoman.io/)
+* [texplate](https://ctan.org/pkg/texplate)
 * [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
 * [copier](https://github.com/copier-org/copier)
 * [Jinja2](http://jinja.pocoo.org/)
@@ -35,11 +36,20 @@ Proposed by @miwurster. Currently in use in different projects:
 * Good, because Can be used in the usual npm eco system, which makes it very user friendly.
 * Bad, because Uses JavaScript as language. The templates are hard to maintain.
 
+### [texplate](https://ctan.org/pkg/texplate)
+
+TeXplate is a Kotlin-based framework to generate LaTeX templates.
+
+* Good, because actively maintained by the Island of TeX community
+* Neutral, because Kotlin is used
+* Neutral, because only basic templates offered (see <https://gitlab.com/islandoftex/texplate/-/tree/master/src/main/resources/org/islandoftex/texplate/templates>)
+* Bad, because no concept of "mix and match" implemented.
+
 ### [Cookiecutter](https://github.com/cookiecutter/cookiecutter)
 
 * Good, because Very easy command line call. Example: `cookiecutter gh:audreyfeldroy/cookiecutter-pypackage`
 * Good, because Builds on Jinja2
-* Bad, because Settings need to be configured in a JSON file. Example: <https://cookiecutter.readthedocs.io/en/1.7.3/advanced/choice_variables.html>.
+* Bad, because Settings need to be configured in a JSON file. Example: <https://cookiecutter.readthedocs.io/en/2.2.3/advanced/choice_variables.html>.
 
 ### [copier](https://github.com/copier-org/copier)
 
