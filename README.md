@@ -25,30 +25,31 @@ and a generation into templates:
 
 ## Talks
 
-- [Oliver Kopp - The LaTeX Template Generator](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
+- [Oliver Kopp - The LaTeX Template Generator - TUG 2023](https://tug.org/tug2023/program.html) - first international presentation of the generator
+- [Oliver Kopp - The LaTeX Template Generator - DANTE Herbsttagung 2019](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
 
-## Usage
+### Precondition for the generator
 
-One has to install [Node.js](https://nodejs.org/en/) version 14 to get this generator running.
-On Windows, one can just run `choco install nodejs-lts` to get the right version of Node.js.
+One has to install [Node.js](https://nodejs.org/en/) version 18 (or later) to get this generator running.
+For simple installation, just head to <https://nodejs.org/> and follow the installation instructions.
 
-On Linux, one can start using the generator directly using the node execution wrapper [npx](https://www.npmjs.com/package/npx):
+### Using the generator
+
+One can start using the generator directly using the node execution wrapper [npx](https://www.npmjs.com/package/npx):
 
 ```bash
 npx -p yo -p generator-latex-template -c 'yo latex-template'
 ```
 
-### Installing `generator-latex-template`
+### Permanent installation (and simpler command line usage)
 
-In case one wants to have the generator installed permanently or `npx` does work as expected, one can install `generator-latex-template` using following command:
+In case one wants to have the generator installed permanently (or `npx` does work as expected), one can install `generator-latex-template` using following command:
 
 ```bash
 npm install -g generator-latex-template
 ```
 
-### Using the generator
-
-One can run the generator by invoking this command on a command prompt:
+Then, one can invoke the generator as follows:
 
 ```bash
 yo latex-template
@@ -98,7 +99,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Templating language: <https://ejs.co/>
 - Conditional questions: <https://stackoverflow.com/a/18706640/873282>.
 - Types of prompts: <https://github.com/SBoudrias/Inquirer.js#prompt-types>
-  - E.g,. [Question](https://github.com/SBoudrias/Inquirer.js#question)
+  - E.g., [Question](https://github.com/SBoudrias/Inquirer.js#question)
 - Add a new question
   - Also adapt `__tests__/app.js`
   - Execute tests with `npx jest`
