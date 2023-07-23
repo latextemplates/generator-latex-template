@@ -1,28 +1,8 @@
 diff --git a/node_modules/yeoman-option-or-prompt/index.js b/node_modules/yeoman-option-or-prompt/index.js
-index d7fd869..f7cd11a 100644
+index d7fd869..39e0ac6 100644
 --- a/node_modules/yeoman-option-or-prompt/index.js
 +++ b/node_modules/yeoman-option-or-prompt/index.js
-@@ -1,5 +1,19 @@
- 'use strict';
- 
-+class Wrapper {
-+  constructor(map) {
-+    this.map = map;
-+  }
-+
-+  getPath(key) {
-+    return this.map.get(key);
-+  }
-+
-+  setPath(key, value) {
-+    // not required, we handle persistance differently
-+  }
-+}
-+
- module.exports = function(prompts) {
-   // This method will only show prompts that haven't been supplied as options. This makes the generator more composable.
-   const filteredPrompts = [];
-@@ -12,39 +26,53 @@ module.exports = function(prompts) {
+@@ -12,39 +12,51 @@ module.exports = function(prompts) {
        // No option supplied, user will be prompted
        filteredPrompts.push(prompt);
      } else {
@@ -52,10 +32,8 @@ index d7fd869..f7cd11a 100644
 +        (typeof filteredPrompt.when === 'function' && filteredPrompt.when(props));
 +      if (isWhenConditionFulfilled) {
 +        delete filteredPrompt.when;
-+        console.log("props after when is fulfilled")
-+        console.log(props);
 +        if (typeof filteredPrompt.choices === 'function') {
-+          console.log("REPLACING CHOICES")
++          // We need to manually craft choices as YO's internal answers object cannot be modified
 +          filteredPrompt.choices = filteredPrompt.choices(props);
 +        };
 +        const answers = await this.prompt(filteredPrompt);

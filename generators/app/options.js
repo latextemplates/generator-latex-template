@@ -127,9 +127,6 @@ export const options = [
     name: 'texlive',
     message: 'Which TeXLive compatibility?',
     choices: function(state) {
-      console.log("STATE")
-      console.log(state)
-      console.trace();
       let res = [
         {
           name: 'TeXLive 2021',
