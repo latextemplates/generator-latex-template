@@ -12,15 +12,13 @@ export default class extends Generator {
 
   _optionOrPrompt = optionOrPrompt;
 
-  prompting() {
+  async prompting() {
     this.log(
       yosay(`Welcome to the ${chalk.red('latex-template')} generator!`)
     );
 
-    // Instead of calling prompt, call _optionOrPrompt to allow parameters to be passed as command line or composeWith options.
     // See "Development hints" in README.md for help on Inquirer.js
-    const done = this.async();
-    this._optionOrPrompt([
+    const props = await this._optionOrPrompt([
       {
         type: 'list',
         name: 'documentclass',
@@ -379,112 +377,111 @@ export default class extends Generator {
         message: 'Include minimal LaTeX examples?',
         default: true
       }
-    ]).then(props => {
-      // To access props later use this.props.someAnswer;
-      this.props = props;
+    ]);
 
-      // somehow texlive is not routed through
-      // special handling
-      if (this.options.texlive) {
-        this.props.texlive = parseInt(this.options.texlive)
-      } else if (this.props.overleaf) {
-        // we do not prompt for texlive version in case of overleaf
-        this.props.texlive = 2022;
-      }
+    // To access props later use this.props.someAnswer;
+    this.props = props;
 
-      // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
-      this.props.githubpublish = this.options.githubpublish;
-      this.props.githubpublish = (this.props.githubpublish === true) || (this.props.githubpublish === 'true')
+    // somehow texlive is not routed through
+    // special handling
+    if (this.options.texlive) {
+      this.props.texlive = parseInt(this.options.texlive)
+    } else if (this.props.overleaf) {
+      // we do not prompt for texlive version in case of overleaf
+      this.props.texlive = 2022;
+    }
 
-      // Command line argument "--preparereitzig" switches the generator to generate a template to be used to generate Texlivefile required by https://github.com/reitzig/texlive-docker
-      this.props.preparereitzig = this.options.preparereitzig;
-      this.props.preparereitzig = (this.props.preparereitzig === true) || (this.props.preparereitzig === 'true')
+    // Command line argument "--githubpublish" switches the generator to generate a template deployable on a GitHub repository (causing e.g., a refined README.md)
+    this.props.githubpublish = this.options.githubpublish;
+    this.props.githubpublish = (this.props.githubpublish === true) || (this.props.githubpublish === 'true')
 
-      // Ensure all values are set - even if the user was not asked
-      if ((this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee')) {
-        this.props.bibtextool = 'bibtex';
-        this.props.font = 'default';
-      }
+    // Command line argument "--preparereitzig" switches the generator to generate a template to be used to generate Texlivefile required by https://github.com/reitzig/texlive-docker
+    this.props.preparereitzig = this.options.preparereitzig;
+    this.props.preparereitzig = (this.props.preparereitzig === true) || (this.props.preparereitzig === 'true')
 
-      // --language does not work properly, therefore, we used "lang" above. The templates still use "language"
-      this.props.language = this.props.lang
+    // Ensure all values are set - even if the user was not asked
+    if ((this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee')) {
+      this.props.bibtextool = 'bibtex';
+      this.props.font = 'default';
+    }
 
-      // IEEE class offers "compsoc"
-      // In 2021 this is not used any more, all papers are the "normal" IEEE format
-      this.props.ieeecompsoc = false;
+    // --language does not work properly, therefore, we used "lang" above. The templates still use "language"
+    this.props.language = this.props.lang
 
-      // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex
-      if (this.props.documentclass === 'ieee') {
-        this.props.latexcompiler = 'pdflatex';
-      }
+    // IEEE class offers "compsoc"
+    // In 2021 this is not used any more, all papers are the "normal" IEEE format
+    this.props.ieeecompsoc = false;
 
-      // convert "String" Boolean command line options
-      this.props.examples = (this.props.examples === true) || (this.props.examples === 'true')
-      this.props.howtotext = (this.props.howtotext === true) || (this.props.howtotext === 'true')
-      this.props.overleaf = (this.props.overleaf === true) || (this.props.overleaf === 'true')
+    // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex
+    if (this.props.documentclass === 'ieee') {
+      this.props.latexcompiler = 'pdflatex';
+    }
 
-      if (this.props.examples) {
-        this.props.useExampleEnvironment = true;
-        this.props.bexample = "\\begin{ltgexample}"
-        this.props.eexample = "\\end{ltgexample}"
-      } else {
-        this.props.useExampleEnvironment = false;
-        this.props.bexample = "";
-        this.props.eexample = "";
-      }
+    // convert "String" Boolean command line options
+    this.props.examples = (this.props.examples === true) || (this.props.examples === 'true')
+    this.props.howtotext = (this.props.howtotext === true) || (this.props.howtotext === 'true')
+    this.props.overleaf = (this.props.overleaf === true) || (this.props.overleaf === 'true')
 
-      if (this.props.tweakouterquote == 'outerquote') {
-        this.props.bquote = "\"";
-        this.props.equote = "\"";
-      } else if (this.props.enquotes == 'csquotes') {
-        this.props.bquote = "\\enquote{";
-        this.props.equote = "}";
-      } else if (this.props.enquotes == 'textcmds') {
-        this.props.bquote = "\\qq{";
-        this.props.equote = "}";
-      } else {
-        this.props.bquote = "\"`";
-        this.props.equote = "\"'";
-      }
+    if (this.props.examples) {
+      this.props.useExampleEnvironment = true;
+      this.props.bexample = "\\begin{ltgexample}"
+      this.props.eexample = "\\end{ltgexample}"
+    } else {
+      this.props.useExampleEnvironment = false;
+      this.props.bexample = "";
+      this.props.eexample = "";
+    }
 
-      this.props.requiresShellEscape = (this.props.listings === 'minted');
+    if (this.props.tweakouterquote == 'outerquote') {
+      this.props.bquote = "\"";
+      this.props.equote = "\"";
+    } else if (this.props.enquotes == 'csquotes') {
+      this.props.bquote = "\\enquote{";
+      this.props.equote = "}";
+    } else if (this.props.enquotes == 'textcmds') {
+      this.props.bquote = "\\qq{";
+      this.props.equote = "}";
+    } else {
+      this.props.bquote = "\"`";
+      this.props.equote = "\"'";
+    }
 
-      this.props.feature = {};
-      this.props.feature.acronyms = (this.props.documentclass === 'scientific-thesis');
+    this.props.requiresShellEscape = (this.props.listings === 'minted');
 
-      this.props.isPaper = (this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
-      if (this.props.isPaper) {
-        // this sets filenames.main and filenames.bib
-        this.props.filenames = {
-          "main": "paper",
-          "bib": "paper"
-        };
-      } else {
-        this.props.filenames = {
-          "main": "main",
-          "bib": "bibliography"
-        };
-      }
+    this.props.feature = {};
+    this.props.feature.acronyms = (this.props.documentclass === 'scientific-thesis');
 
-      if (props.documentclass === 'scientific-thesis') {
-        this.props.heading1 = '\\chapter';
-        this.props.heading2 = '\\section';
-      } else {
-        this.props.heading1 = '\\section';
-        this.props.heading2 = '\\subsection';
-      }
+    this.props.isPaper = (this.props.documentclass === 'acmart') || (this.props.documentclass === 'ieee') || (this.props.documentclass === 'lncs');
+    if (this.props.isPaper) {
+      // this sets filenames.main and filenames.bib
+      this.props.filenames = {
+        "main": "paper",
+        "bib": "paper"
+      };
+    } else {
+      this.props.filenames = {
+        "main": "main",
+        "bib": "bibliography"
+      };
+    }
 
-      this.props.available = {};
+    if (props.documentclass === 'scientific-thesis') {
+      this.props.heading1 = '\\chapter';
+      this.props.heading2 = '\\section';
+    } else {
+      this.props.heading1 = '\\section';
+      this.props.heading2 = '\\subsection';
+    }
 
-      if (props.bibtextool == 'bibtex' && props.documentclass !== 'acmart' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
-        // acmart uses natbib
-        // in lncs, we patched-in natbib
-        this.props.available.citet = false;
-      } else {
-        this.props.available.citet = true;
-      }
-      done();
-    });
+    this.props.available = {};
+
+    if (props.bibtextool == 'bibtex' && props.documentclass !== 'acmart' && props.documentclass !== 'ieee' && props.documentclass !== 'lncs') {
+      // acmart uses natbib
+      // in lncs, we patched-in natbib
+      this.props.available.citet = false;
+    } else {
+      this.props.available.citet = true;
+    }
   };
 
   writing() {
