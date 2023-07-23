@@ -52,13 +52,31 @@ for documentclass in documentclasses:
                 dashedPartMiktex = "{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, example);
               yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
               yml.write("name: Check {}\n".format(dashedPart))
-              yml.write("on: [push]\n")
-              yml.write("concurrency:\n")
-              yml.write("  group: ${{ github.workflow }}-${{ github.ref }}\n")
-              yml.write("  cancel-in-progress: true\n")
-              yml.write("jobs:\n")
-              yml.write("  check:\n")
-              yml.write('''    runs-on: ubuntu-latest
+              yml.write("""on:
+  push:
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
     services:
       registry:
         image: registry:2
@@ -87,7 +105,7 @@ for documentclass in documentclasses:
           npm i npm@latest
       - run: npm install
       - run: mkdir /tmp/out
-''')
+""")
               ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+")
               ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write("on: [push]\n")
