@@ -1,8 +1,8 @@
 diff --git a/node_modules/yeoman-option-or-prompt/index.js b/node_modules/yeoman-option-or-prompt/index.js
-index d7fd869..39e0ac6 100644
+index d7fd869..102f07c 100644
 --- a/node_modules/yeoman-option-or-prompt/index.js
 +++ b/node_modules/yeoman-option-or-prompt/index.js
-@@ -12,39 +12,51 @@ module.exports = function(prompts) {
+@@ -12,39 +12,56 @@ module.exports = function(prompts) {
        // No option supplied, user will be prompted
        filteredPrompts.push(prompt);
      } else {
@@ -36,6 +36,9 @@ index d7fd869..39e0ac6 100644
 +          // We need to manually craft choices as YO's internal answers object cannot be modified
 +          filteredPrompt.choices = filteredPrompt.choices(props);
 +        };
++        if (typeof filteredPrompt.default === 'function') {
++          filteredPrompt.default = filteredPrompt.default(props);
++        };
 +        const answers = await this.prompt(filteredPrompt);
 +        Object.assign(props, answers);
 +      }
@@ -47,8 +50,7 @@ index d7fd869..39e0ac6 100644
  function normalize(option){
 -    // TODO: 
 -    // accept other types
-+  // TODO:
-+  // accept other types
++  // TODO: accept other types
  
 -    if (typeof option === 'boolean') {
 -      return option;
@@ -68,9 +70,12 @@ index d7fd869..39e0ac6 100644
 -      } else {
 -        return option;
 -      }
-+    // it's a boolean in string format
 +    if (lc === 'true' || lc === 'false') {
++      // it's a Boolean in string format
 +      return (lc === 'true');
++    } else if (!isNaN(lc)) {
++      // it's a number in string format
++      return Number(lc);
 +    } else {
 +      return option;
      }
