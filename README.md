@@ -125,10 +125,10 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Use [actionlint](https://github.com/rhysd/actionlint#readme)
   - Use [vs.code GitHub actions plugin](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
 - When adding a new package:
-  1. execute `npx` with `--generatereitzig`
+  1. execute `npx` with `--generatereitzig` (in a clean directory)
   2. run `pdflatex`
-  3. run `.../generate-texlivefile.sh`
-  4. copy `Texlivefile` to the root of the source repository
+  3. run `{repository-root}/generate-texlivefile.sh`
+  4. copy `Texlivefile` to the root of the `{repository-root}/generators/app/templates`
   5. adapt `Texlivefile` as required
 
 ### Useful snippets
