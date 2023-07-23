@@ -1,52 +1,56 @@
 diff --git a/node_modules/yeoman-option-or-prompt/index.js b/node_modules/yeoman-option-or-prompt/index.js
-index d7fd869..d159777 100644
+index d7fd869..102f07c 100644
 --- a/node_modules/yeoman-option-or-prompt/index.js
 +++ b/node_modules/yeoman-option-or-prompt/index.js
-@@ -1,6 +1,6 @@
- 'use strict';
- 
--module.exports = function(prompts) {
-+module.exports = async function(prompts) {
-   // This method will only show prompts that haven't been supplied as options. This makes the generator more composable.
-   const filteredPrompts = [];
-   const props = new Map();
-@@ -18,33 +18,44 @@ module.exports = function(prompts) {
+@@ -12,39 +12,56 @@ module.exports = function(prompts) {
+       // No option supplied, user will be prompted
+       filteredPrompts.push(prompt);
+     } else {
+-      // Options supplied, add to props
++      // Options supplied, store it
+       props[prompt.name] = normalize(option);
+     }
    }, this);
  
-   if (filteredPrompts.length) {
+-  if (filteredPrompts.length) {
 -    return this.prompt(filteredPrompts).then(function mergeProps(mergeProps) {
 -      // Merge mergeProps into props/
 -      Object.assign(props, mergeProps);
 -      return props;
 -    });
-+    var runPrompts = async () => {
-+      for (let i = 0; i < filteredPrompts.length; i++) {
-+        let filteredPrompt = filteredPrompts[i];
-+        var isWhenConditionFulfilled = typeof filteredPrompt.when !== 'function' ||
-+          (typeof filteredPrompt.when === 'function' && filteredPrompt.when(props));
-+        if (isWhenConditionFulfilled) {
-+          delete filteredPrompt.when;
-+          await new Promise(async resolve => {
-+            const answers = await this.prompt(filteredPrompt);
-+            Object.assign(props, answers);
-+            resolve();
-+          });
-+        }
-+      }
-+    };
-+    await runPrompts.bind(this)();
++  if (!filteredPrompts.length) {
++    // No prompting required call the callback right away.
++    return Promise.resolve(props);
    }
  
-   // No prompting required call the callback right away.
+-  // No prompting required call the callback right away.
 -  return Promise.resolve(props);
-+      return Promise.resolve(props);
++  return new Promise(async resolve => {
++    for (let i = 0; i < filteredPrompts.length; i++) {
++      let filteredPrompt = filteredPrompts[i];
++      var isWhenConditionFulfilled = typeof filteredPrompt.when !== 'function' ||
++        (typeof filteredPrompt.when === 'function' && filteredPrompt.when(props));
++      if (isWhenConditionFulfilled) {
++        delete filteredPrompt.when;
++        if (typeof filteredPrompt.choices === 'function') {
++          // We need to manually craft choices as YO's internal answers object cannot be modified
++          filteredPrompt.choices = filteredPrompt.choices(props);
++        };
++        if (typeof filteredPrompt.default === 'function') {
++          filteredPrompt.default = filteredPrompt.default(props);
++        };
++        const answers = await this.prompt(filteredPrompt);
++        Object.assign(props, answers);
++      }
++    }
++    resolve(props);
++  });
  };
  
  function normalize(option){
 -    // TODO: 
 -    // accept other types
-+  // TODO:
-+  // accept other types
++  // TODO: accept other types
  
 -    if (typeof option === 'boolean') {
 -      return option;
@@ -66,9 +70,12 @@ index d7fd869..d159777 100644
 -      } else {
 -        return option;
 -      }
-+    // it's a boolean in string format
 +    if (lc === 'true' || lc === 'false') {
++      // it's a Boolean in string format
 +      return (lc === 'true');
++    } else if (!isNaN(lc)) {
++      // it's a number in string format
++      return Number(lc);
 +    } else {
 +      return option;
      }
