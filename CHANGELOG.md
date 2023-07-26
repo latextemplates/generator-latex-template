@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- `.github/workflows/check.yml` now works for Island of TeX docker image, too.
+
 ## [0.8.0] – 2023-07-24
 
 ### Added

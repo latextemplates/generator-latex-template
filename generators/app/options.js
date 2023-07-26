@@ -126,8 +126,8 @@ export const options = [
     type: "list",
     name: "texlive",
     message: "Which TeXLive compatibility?",
-    choices: function (state) {
-      let res = [
+    choices(state) {
+      const res = [
         {
           name: "TeXLive 2021",
           value: 2021,
@@ -143,14 +143,15 @@ export const options = [
           value: 2023,
         });
       }
+
       return res;
     },
     default(state) {
       if (state.overleaf) {
         return 2022;
-      } else {
-        return 2023;
       }
+
+      return 2023;
     },
   },
   {
@@ -237,7 +238,7 @@ export const options = [
     type: "list",
     name: "font",
     message: "Which font should be used?",
-    choices: (state) => {
+    choices(state) {
       const res = [];
       if (state.documentclass === "acmart") {
         res.push({
@@ -294,7 +295,7 @@ export const options = [
     type: "list",
     name: "enquotes",
     message: 'Which package to use to "enquote" text?',
-    choices: (state) => {
+    choices(state) {
       const res = [];
       res.push({
         name: "csquotes (\\enquote{...} command)",
