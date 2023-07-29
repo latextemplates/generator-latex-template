@@ -130,6 +130,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 ''')
+              table = "documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext\n"
               for howtotext in howtotexts:
                 for language in languages:
                   for font in fonts:
@@ -140,6 +141,7 @@ jobs:
                         for tweakouterquote in tweakouterquotes:
                           for todo in todos:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
+                              table += "{:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8}\n".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantName)
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
@@ -179,6 +181,8 @@ jobs:
 ''')
                               yml.write("          tags: localhost:5000/name/app:{}\n".format(variantName))
                               yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
+                              yml.write("      - name: State\n")
+                              yml.write("        run: echo -e " + repr(table) + "\n")
                               yml.write("      - name: latexmk {}\n".format(variantName))
                               ymlmiktex.write("      - name: latexmk {}\n".format(variantName))
                               filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
