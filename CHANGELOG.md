@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - `.github/workflows/check.yml` now works for Island of TeX docker image, too.
+- There is no space within `e.g.` and `i.e.` (Commands `\eg` and `\ie`).
 
 ## [0.8.0] – 2023-07-24
 
