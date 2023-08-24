@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `.github/workflows/check.yml` now works for Island of TeX docker image, too.
 - There is no space within `e.g.` and `i.e.` (Commands `\eg` and `\ie`).
 
+### Removed
+
+- Removed log filtering using [texlogsieve](https://ctan.org/pkg/texlogsieve) in `latexmkrc`, because there are issues on MiKTeX on Windows. The binary is still available.
+
 ## [0.8.0] – 2023-07-24
 
 ### Added
