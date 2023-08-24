@@ -114,19 +114,23 @@ jobs:
               ymlmiktex.write("  cancel-in-progress: true\n")
               ymlmiktex.write("jobs:\n")
               ymlmiktex.write("  miktex:\n")
-              ymlmiktex.write('''    runs-on: ubuntu-22.04
+              ymlmiktex.write('''    runs-on: windows-latest
     steps:
       - name: Install MikTeX
         run: |
-          set -e
-          sudo gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/miktex.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/miktex.gpg] http://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
-          sudo apt-get update -y
-          sudo apt-get install -y --no-install-recommends miktex
-          sudo miktexsetup finish
-          sudo initexmf --admin --set-config-value=[MPM]AutoInstall=1
-          sudo mpm --admin --update-db
-          sudo mpm --admin --update
+          choco install miktex --no-progress
+          echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+      - name: Configure MiKTeX
+        run: |
+          initexmf --admin --verbose --set-config-value=[MPM]AutoInstall=1
+          miktex --admin --verbose packages update-package-database
+          miktex --admin --verbose packages update
+          miktex --verbose packages update
+          miktex --admin --verbose packages install cm-super
+          miktex --admin --verbose fndb refresh
+          initexmf --admin --verbose --update-fndb
+          initexmf --admin --verbose --mklinks --force
+          updmap --admin
       - name: Checkout repository
         uses: actions/checkout@v3
 ''')
