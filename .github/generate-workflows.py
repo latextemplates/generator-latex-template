@@ -133,6 +133,14 @@ jobs:
           updmap --admin
       - name: Checkout repository
         uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - name: Update npm
+        run: |
+          npm i -g npm@latest
+          npm i npm@latest
+      - run: npm install
 ''')
               table = "documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext\n"
               for howtotext in howtotexts:
@@ -148,7 +156,8 @@ jobs:
                               table += "{:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8}\n".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantName)
                               yml_content += "      - name: Create {}\n".format(variantName)
-                              yml_content += '''        run: |
+                              yml_content += '''        shell: bash
+        run: |
           npx yo $GITHUB_WORKSPACE\\
 '''
                               yml_content += "           --documentclass=%s\\\n" % documentclass
