@@ -50,7 +50,7 @@ for documentclass in documentclasses:
               else:
                 dashedPart = "{}-{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, texlive, example);
                 dashedPartMiktex = "{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, example);
-              yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
+              yml = open("workflows/check-{}.yml".format(dashedPart), "w+", newline='\n')
               yml.write("name: Check {}\n".format(dashedPart))
               yml.write("""on:
   push:
@@ -106,7 +106,7 @@ jobs:
       - run: npm install
       - run: mkdir /tmp/out
 """)
-              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+")
+              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+", newline='\n')
               ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write("on: [push]\n")
               ymlmiktex.write("concurrency:\n")
@@ -119,7 +119,7 @@ jobs:
       - name: Install MikTeX
         run: |
           choco install miktex --no-progress
-          echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+          echo "C:\\Program Files\\MiKTeX\\miktex\\bin\\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
       - name: Configure MiKTeX
         run: |
           initexmf --admin --verbose --set-config-value=[MPM]AutoInstall=1
