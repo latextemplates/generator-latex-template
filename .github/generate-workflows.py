@@ -54,6 +54,8 @@ for documentclass in documentclasses:
               yml.write("name: Check {}\n".format(dashedPart))
               yml.write("""on:
   push:
+    branches:
+      - main
     paths-ignore:
       - '.editorconfig'
       - '.eslintignore'
@@ -71,8 +73,29 @@ for documentclass in documentclasses:
       - 'user-data.sh'
       - 'docs/**'
       - '.vscode/**'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  merge_group:
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: "${{ github.workflow }}-${{ github.head_ref || github.ref }}"
   cancel-in-progress: true
 jobs:
   check:
