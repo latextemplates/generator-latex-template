@@ -145,7 +145,7 @@ jobs:
                               yml_content = "      - run: mkdir {}\n".format(variantName)
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
-          npx yo $GITHUB_WORKSPACE\\
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\\
 '''
                               yml_content += "           --documentclass=%s\\\n" % documentclass
                               if documentclass == 'ieee':
