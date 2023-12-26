@@ -86,9 +86,9 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v4
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         with:
           driver-opts: network=host
       - name: Cache Docker layers
@@ -174,7 +174,7 @@ jobs:
                               yml.write(yml_content)
                               ymlmiktex.write(yml_content)
                               yml.write('''      - name: Build docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: true
           provenance: false
