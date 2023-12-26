@@ -193,9 +193,6 @@ jobs:
                               yml_content += " --todo=%s" % todo
                               yml_content += " --examples=%s" % example
                               yml_content += " --howtotext=%s\n" % howtotext
-                              yml_content += '''        env:
-          yeoman_test: true
-'''
                               yml_content += "        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName)
                               yml.write(yml_content)
                               ymlmiktex.write(yml_content)
