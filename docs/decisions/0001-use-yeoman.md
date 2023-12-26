@@ -35,7 +35,7 @@ Proposed by @miwurster. Currently in use in different projects:
 * Good, because very popular.
 * Good, because can be used in the usual npm eco system, which makes it very user friendly.
 * Bad, because uses JavaScript as language. The templates are hard to maintain.
-* Bad, because moves fast (.)
+* Bad, because moves fast (e.g., yeoman-generator switched to TypeScript and [yo 5.0.0 does not work locally any more](https://github.com/yeoman/yo/issues/797))
 
 ### [texplate](https://ctan.org/pkg/texplate)
 
