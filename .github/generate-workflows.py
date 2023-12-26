@@ -172,28 +172,27 @@ jobs:
                               yml_content = "      - run: mkdir {}\n".format(variantName)
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
-          npx yo@v4.3.1 $GITHUB_WORKSPACE\\
-'''
-                              yml_content += "           --documentclass=%s\\\n" % documentclass
+          npx yo@v4.3.1 $GITHUB_WORKSPACE'''
+                              yml_content += " --documentclass=%s" % documentclass
                               if documentclass == 'ieee':
-                                  yml_content += "           --ieeevariant=%s\\\n" % ieeevariant
+                                  yml_content += " --ieeevariant=%s" % ieeevariant
                               if documentclass == 'acmart':
-                                  yml_content += "           --acmformat=%s\\\n" % acmformats[0]
-                                  yml_content += "           --acmreview=%s\\\n" % acmreviews[0]
-                              yml_content += "           --papersize=%s\\\n" % papersize
-                              yml_content += "           --latexcompiler=%s\\\n" % latexcompiler
-                              yml_content += "           --bibtextool=%s\\\n" % bibtextool
-                              yml_content += "           --overleaf=false\\\n"
-                              yml_content += "           --texlive=%s\\\n" % texlive
-                              yml_content += "           --docker=iot\\\n"
-                              yml_content += "           --lang=%s\\\n" % language
-                              yml_content += "           --font=%s\\\n" % font
-                              yml_content += "           --listings=%s\\\n" % listing
-                              yml_content += "           --enquotes=%s\\\n" % enquote
-                              yml_content += "           --tweakouterquote=%s\\\n" % tweakouterquote
-                              yml_content += "           --todo=%s\\\n" % todo
-                              yml_content += "           --examples=%s\\\n" % example
-                              yml_content += "           --howtotext=%s\n" % howtotext
+                                  yml_content += " --acmformat=%s" % acmformats[0]
+                                  yml_content += " --acmreview=%s" % acmreviews[0]
+                              yml_content += " --papersize=%s" % papersize
+                              yml_content += " --latexcompiler=%s" % latexcompiler
+                              yml_content += " --bibtextool=%s" % bibtextool
+                              yml_content += " --overleaf=false"
+                              yml_content += " --texlive=%s" % texlive
+                              yml_content += " --docker=iot"
+                              yml_content += " --lang=%s" % language
+                              yml_content += " --font=%s" % font
+                              yml_content += " --listings=%s" % listing
+                              yml_content += " --enquotes=%s" % enquote
+                              yml_content += " --tweakouterquote=%s" % tweakouterquote
+                              yml_content += " --todo=%s" % todo
+                              yml_content += " --examples=%s" % example
+                              yml_content += " --howtotext=%s\n" % howtotext
                               yml_content += '''        env:
           yeoman_test: true
 '''
