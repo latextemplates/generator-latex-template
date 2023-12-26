@@ -54,6 +54,8 @@ for documentclass in documentclasses:
               yml.write("name: Check {}\n".format(dashedPart))
               yml.write("""on:
   push:
+    branches:
+      - main
     paths-ignore:
       - '.editorconfig'
       - '.eslintignore'
@@ -71,12 +73,35 @@ for documentclass in documentclasses:
       - 'user-data.sh'
       - 'docs/**'
       - '.vscode/**'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  merge_group:
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: "${{ github.workflow }}-${{ github.head_ref || github.ref }}"
   cancel-in-progress: true
 jobs:
   check:
-    runs-on: ubuntu-latest
+""")
+              yml.write("    name: Check {}\n".format(dashedPart))
+              yml.write("""    runs-on: ubuntu-latest
     services:
       registry:
         image: registry:2
@@ -114,6 +139,7 @@ jobs:
               ymlmiktex.write("  cancel-in-progress: true\n")
               ymlmiktex.write("jobs:\n")
               ymlmiktex.write("  miktex:\n")
+              ymlmiktex.write("    name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write('''    runs-on: ubuntu-22.04
     steps:
       - name: Install MikTeX
@@ -194,7 +220,7 @@ jobs:
                               ymlmiktex.write("        run: {}\n".format(command))
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-              yml.write('''      - uses: actions/upload-artifact@v2
+              yml.write('''      - uses: actions/upload-artifact@v4
         with:
           name: pdfs
           path: /tmp/out
