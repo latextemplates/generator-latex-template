@@ -1,6 +1,8 @@
 name: Check lncs-a4-pdflatex-bibtex-2023-true
 on:
   push:
+    branches:
+      - main
     paths-ignore:
       - '.editorconfig'
       - '.eslintignore'
@@ -18,11 +20,33 @@ on:
       - 'user-data.sh'
       - 'docs/**'
       - '.vscode/**'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  merge_group:
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: "${{ github.workflow }}-${{ github.head_ref || github.ref }}"
   cancel-in-progress: true
 jobs:
   check:
+    name: Check lncs-a4-pdflatex-bibtex-2023-true
     runs-on: ubuntu-latest
     services:
       registry:
@@ -4660,7 +4684,7 @@ jobs:
       - name: latexmk lncs_pdflatex_bibtex_2023_de_times_minted_plainlatex_outerquote_none_true_false
         run: docker run -v $(pwd):/workdir -v /tmp/out:/work/out localhost:5000/name/app:lncs_pdflatex_bibtex_2023_de_times_minted_plainlatex_outerquote_none_true_false latexmk paper.tex
         working-directory: '${{ github.workspace }}/lncs_pdflatex_bibtex_2023_de_times_minted_plainlatex_outerquote_none_true_false'
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: pdfs
           path: /tmp/out
