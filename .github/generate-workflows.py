@@ -179,6 +179,8 @@ jobs:
         with:
           push: true
           provenance: false
+          build-args: |
+            TLMIRRORURL=https://tug.ctan.org/
 ''')
                               yml.write("          tags: localhost:5000/name/app:{}\n".format(variantName))
                               yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
