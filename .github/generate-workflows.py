@@ -84,7 +84,7 @@ jobs:
           - 5000:5000
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -128,7 +128,7 @@ jobs:
           sudo mpm --admin --update-db
           sudo mpm --admin --update
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 ''')
               table = "documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext\n"
               for howtotext in howtotexts:
