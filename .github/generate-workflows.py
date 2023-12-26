@@ -84,11 +84,11 @@ jobs:
           - 5000:5000
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
         with:
           driver-opts: network=host
       - name: Cache Docker layers
@@ -96,9 +96,9 @@ jobs:
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '20'
       - name: Update npm
         run: |
           npm i -g npm@latest
@@ -128,9 +128,10 @@ jobs:
           sudo mpm --admin --update-db
           sudo mpm --admin --update
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 ''')
-              table = "documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext\n"
+              table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |\n"
+              table += "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |\n"
               for howtotext in howtotexts:
                 for language in languages:
                   for font in fonts:
@@ -141,11 +142,11 @@ jobs:
                         for tweakouterquote in tweakouterquotes:
                           for todo in todos:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              table += "{:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8}\n".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
+                              table += "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |\n".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantName)
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
-          npx yo $GITHUB_WORKSPACE\\
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\\
 '''
                               yml_content += "           --documentclass=%s\\\n" % documentclass
                               if documentclass == 'ieee':
@@ -174,10 +175,12 @@ jobs:
                               yml.write(yml_content)
                               ymlmiktex.write(yml_content)
                               yml.write('''      - name: Build docker image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           push: true
           provenance: false
+          build-args: |
+            TLMIRRORURL=https://tug.ctan.org/
 ''')
                               yml.write("          tags: localhost:5000/name/app:{}\n".format(variantName))
                               yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))

@@ -103,16 +103,6 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Add a new question
   - Also adapt `__tests__/app.js`
   - Execute tests with `npx jest`
-- Test locally
-  - Create empty directory ("target directory")
-  - Change to the target directory
-  - Run `npx yo <path-to-git-repository>`
-    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
-  - Parameters can be set using command line
-    - Linux: `npx yo /tmp/repo --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-  - Run `latexmk` to build the PDF
 - Update npm dependencies
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - `npx npm-check-updates -u`. [[Source](https://www.carlrippon.com/upgrading-npm-dependencies/)]
@@ -124,12 +114,40 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Check GitHub actions
   - Use [actionlint](https://github.com/rhysd/actionlint#readme)
   - Use [vs.code GitHub actions plugin](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
+  - Use [act](https://github.com/nektos/act) for checking: `act --rm --platform ubuntu-latest=fwilhe2/act-runner:latest -W .github/workflows/check-ieee-conference-a4-pdflatex-bibtex-2023-true.yml`
 - When adding a new package:
   1. execute `npx` with `--generatereitzig` (in a clean directory)
   2. run `pdflatex`
   3. run `{repository-root}/generate-texlivefile.sh`
   4. copy `Texlivefile` to the root of the `{repository-root}/generators/app/templates`
   5. adapt `Texlivefile` as required
+
+### Test locally
+
+- Create empty directory ("target directory")
+- Change to the target directory
+- Run `npx yo@v4.3.1 <path-to-git-repository>`
+- Windows: `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template`
+
+<!-- markdownlint-disable-next-line MD004 -->
+* Note: yo 5.0.0 cannot be used due to [yo#797](https://github.com/yeoman/yo/issues/797)
+
+#### Linux
+
+Parameters can be set using command line
+
+- lncs: `npx yo@v4.3.1 /tmp/repo --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+
+#### Windows
+
+Parameters can be set using command line
+
+- IEEE template (with pdflatex and bibtex): `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- LNCS template (with pdflatex and bibtex): `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- Scientific Thesis Template: `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+
+<!-- markdownlint-disable-next-line MD004 -->
+* Run `latexmk` to build the PDF
 
 ### Useful snippets
 
