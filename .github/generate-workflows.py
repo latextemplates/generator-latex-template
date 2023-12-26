@@ -99,7 +99,9 @@ concurrency:
   cancel-in-progress: true
 jobs:
   check:
-    runs-on: ubuntu-latest
+""")
+              yml.write("    name: Check {}\n".format(dashedPart))
+              yml.write("""    runs-on: ubuntu-latest
     services:
       registry:
         image: registry:2
@@ -137,6 +139,7 @@ jobs:
               ymlmiktex.write("  cancel-in-progress: true\n")
               ymlmiktex.write("jobs:\n")
               ymlmiktex.write("  miktex:\n")
+              ymlmiktex.write("    name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write('''    runs-on: ubuntu-22.04
     steps:
       - name: Install MikTeX
