@@ -23,7 +23,7 @@ Chosen option: "Yeoman", because it seems to be the most easy to use generator.
 
 ### [Yeoman](https://yeoman.io/)
 
-Yeoman is a famous template generator. A sumamry is provided at <https://alternativeto.net/software/yeoman/about/>.
+Yeoman is a famous template generator. A summary is provided at <https://alternativeto.net/software/yeoman/about/>.
 
 Proposed by @miwurster. Currently in use in different projects:
 
@@ -32,9 +32,10 @@ Proposed by @miwurster. Currently in use in different projects:
 
 ---
 
-* Good, because Very popular.
-* Good, because Can be used in the usual npm eco system, which makes it very user friendly.
-* Bad, because Uses JavaScript as language. The templates are hard to maintain.
+* Good, because very popular.
+* Good, because can be used in the usual npm eco system, which makes it very user friendly.
+* Bad, because uses JavaScript as language. The templates are hard to maintain.
+* Bad, because moves fast (.)
 
 ### [texplate](https://ctan.org/pkg/texplate)
 
