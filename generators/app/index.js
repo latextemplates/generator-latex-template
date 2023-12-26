@@ -148,11 +148,12 @@ export default class extends Generator {
 
   writing() {
     this.props.config = this.props;
-    this.fs.copy(
+    this.fs.copyTpl(
       // .gitignore is not uploaded by npm publish
       // Thus, we prefix it with `dot`.
       this.templatePath("dot.gitignore"),
-      this.destinationPath(".gitignore")
+      this.destinationPath(".gitignore"),
+      this.props
     );
     this.fs.copyTpl(
       this.templatePath("dot.editorconfig"),
