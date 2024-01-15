@@ -1,0 +1,1819 @@
+name: MiKTeX acmart-a4-pdflatex-bibtex-true
+on: [push]
+concurrency:
+  group: miktex-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  miktex:
+    name: MiKTeX acmart-a4-pdflatex-bibtex-true
+    runs-on: windows-latest
+    steps:
+      - name: Install MikTeX
+        run: |
+          choco install miktex --no-progress
+          echo "C:\Program Files\MiKTeX\miktex\bin\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+      - name: Configure MiKTeX
+        run: |
+          initexmf --admin --verbose --set-config-value=[MPM]AutoInstall=1
+          miktex --admin --verbose packages update-package-database
+          miktex --admin --verbose packages update
+          miktex --verbose packages update
+          miktex --admin --verbose packages install cm-super
+          miktex --admin --verbose fndb refresh
+          initexmf --admin --verbose --update-fndb
+          initexmf --admin --verbose --mklinks --force
+          updmap --admin
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_true
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_true
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=true
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_true'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_true
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_true'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_babel_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_csquotes_outerquote_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_babel_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_listings_plainlatex_outerquote_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_babel_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_csquotes_outerquote_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_babel_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=en\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_en_default_minted_plainlatex_outerquote_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_babel_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_csquotes_outerquote_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_babel_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=listings\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_listings_plainlatex_outerquote_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_babel_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=csquotes\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_csquotes_outerquote_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=babel\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_babel_none_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=pdfcomment\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_pdfcomment_true_false'
+      - run: mkdir acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_false
+      - name: Create acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_false
+        shell: bash
+        run: |
+          npx yo@v4.3.1 $GITHUB_WORKSPACE\
+           --documentclass=acmart\
+           --acmformat=manuscript\
+           --acmreview=true\
+           --papersize=a4\
+           --latexcompiler=pdflatex\
+           --bibtextool=bibtex\
+           --overleaf=false\
+           --texlive=2023\
+           --docker=iot\
+           --lang=de\
+           --font=default\
+           --listings=minted\
+           --enquotes=plainlatex\
+           --tweakouterquote=outerquote\
+           --todo=none\
+           --examples=true\
+           --howtotext=false
+        env:
+          yeoman_test: true
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_false'
+      - name: latexmk acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_false
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/acmart_pdflatex_bibtex_2023_de_default_minted_plainlatex_outerquote_none_true_false'

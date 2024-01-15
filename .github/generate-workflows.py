@@ -46,11 +46,11 @@ for documentclass in documentclasses:
                 continue
               if (documentclass == 'ieee'):
                 dashedPart = "{}-{}-{}-{}-{}-{}-{}".format(documentclass, ieeevariant, papersize, latexcompiler, bibtextool, texlive, example);
-                dashedPartMiktex = "{}-{}-{}-{}-{}-{}".format(documentclass, ieeevariant, papersize, latexcompiler, bibtextool, example);
+                dashedPartMiktex = "{}-{}-{}-{}-{}-{}".format(documentclass, ieeevariant, papersize, latexcompiler, bibtextool, example, newline='\n');
               else:
                 dashedPart = "{}-{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, texlive, example);
                 dashedPartMiktex = "{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, example);
-              yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
+              yml = open("workflows/check-{}.yml".format(dashedPart), "w+", newline='\n')
               yml.write("name: Check {}\n".format(dashedPart))
               yml.write("""on:
   push:
@@ -131,7 +131,7 @@ jobs:
       - run: npm install
       - run: mkdir /tmp/out
 """)
-              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+")
+              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+", newline='\n')
               ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write("on: [push]\n")
               ymlmiktex.write("concurrency:\n")
@@ -140,19 +140,23 @@ jobs:
               ymlmiktex.write("jobs:\n")
               ymlmiktex.write("  miktex:\n")
               ymlmiktex.write("    name: MiKTeX {}\n".format(dashedPartMiktex))
-              ymlmiktex.write('''    runs-on: ubuntu-22.04
+              ymlmiktex.write('''    runs-on: windows-latest
     steps:
       - name: Install MikTeX
         run: |
-          set -e
-          sudo gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/miktex.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D6BC243565B2087BC3F897C9277A7293F59E4889
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/miktex.gpg] http://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
-          sudo apt-get update -y
-          sudo apt-get install -y --no-install-recommends miktex
-          sudo miktexsetup finish
-          sudo initexmf --admin --set-config-value=[MPM]AutoInstall=1
-          sudo mpm --admin --update-db
-          sudo mpm --admin --update
+          choco install miktex --no-progress
+          echo "C:\\Program Files\\MiKTeX\\miktex\\bin\\x64" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+      - name: Configure MiKTeX
+        run: |
+          initexmf --admin --verbose --set-config-value=[MPM]AutoInstall=1
+          miktex --admin --verbose packages update-package-database
+          miktex --admin --verbose packages update
+          miktex --verbose packages update
+          miktex --admin --verbose packages install cm-super
+          miktex --admin --verbose fndb refresh
+          initexmf --admin --verbose --update-fndb
+          initexmf --admin --verbose --mklinks --force
+          updmap --admin
       - name: Checkout repository
         uses: actions/checkout@v4
 ''')
@@ -171,7 +175,8 @@ jobs:
                               table += "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |\n".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantName)
                               yml_content += "      - name: Create {}\n".format(variantName)
-                              yml_content += '''        run: |
+                              yml_content += '''        shell: bash
+        run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE'''
                               yml_content += " --documentclass=%s" % documentclass
                               if documentclass == 'ieee':
