@@ -2,7 +2,10 @@
 
 > Generates latex templates (e.g., for thesis, workshops, conferences, IEEEtran, LNCS, ...) out of "micro-templates"
 
-See the **[talk about the generator](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf)** for an overview on the aims and the general concept.
+## Talks an papers
+
+- Paper: [Oliver Koppp - The LaTeX template generator: How micro-templates reduce template maintenance effort](https://tug.org/TUGboat/tb44-2/tb137kopp-microtemplates.html)
+- Talk: [Oliver Kopp - The LaTeX Template Generator - DANTE Herbsttagung 2019](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
 
 ## Background information
 
@@ -22,11 +25,6 @@ and a generation into templates:
 1. Support for [ACM](https://ctan.org/pkg/acmart), [IEEE](https://ctan.org/pkg/ieeetran), LNCS, [KOMA-Script](https://ctan.org/pkg/koma-script)
 2. Support for separate documents which require `--shell-escape` and not.
 3. Support for integrated pdflatex and lualatex documents
-
-## Talks
-
-- [Oliver Kopp - The LaTeX Template Generator - TUG 2023](https://tug.org/tug2023/program.html) - first international presentation of the generator
-- [Oliver Kopp - The LaTeX Template Generator - DANTE Herbsttagung 2019](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
 
 ### Precondition for the generator
 
