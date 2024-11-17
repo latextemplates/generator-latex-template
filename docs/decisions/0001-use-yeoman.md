@@ -14,6 +14,9 @@ We want to generate the template automatically.
 * [Cheetah](http://cheetahtemplate.org/)
 * [Apache Velocity](http://velocity.apache.org/)
 * [lualatex](https://en.wikipedia.org/wiki/LuaTeX)
+* hygen
+* nx
+* plop
 
 ## Decision Outcome
 
@@ -81,6 +84,20 @@ Recommended by <http://tex-talk.net/2012/03/generating-latex-code-with-a-templat
 Recommended by @Stefan-Kottwitz at <http://tex-talk.net/2012/03/generating-latex-code-with-a-template-engine/#comment-231>
 
 * Bad, because Just a framework. Not a templating engine and not a prompting engine per se.
+
+### [hygen](https://github.com/jondot/hygen)
+
+* Bad, because seems to miss interactivity
+
+### nx
+
+See <https://nx.dev/features/generate-code?utm_source=homepage&utm_medium=website&utm_campaign=homepage_links&utm_content=cta_achieve_more_ship_quicker#build-your-own-generator>
+
+* Neutral, because it appeared later than we opted for Yeoman.
+
+### [plop](https://plopjs.com/)
+
+* Neutral, because it appeared later than we opted for Yeoman.
 
 ## Links
 
