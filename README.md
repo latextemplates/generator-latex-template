@@ -2,7 +2,10 @@
 
 > Generates latex templates (e.g., for thesis, workshops, conferences, IEEEtran, LNCS, ...) out of "micro-templates"
 
-See the **[talk about the generator](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf)** for an overview on the aims and the general concept.
+## Talks an papers
+
+- Paper: [Oliver Koppp - The LaTeX template generator: How micro-templates reduce template maintenance effort](https://tug.org/TUGboat/tb44-2/tb137kopp-microtemplates.html)
+- Talk: [Oliver Kopp - The LaTeX Template Generator - DANTE Herbsttagung 2019](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
 
 ## Background information
 
@@ -23,32 +26,28 @@ and a generation into templates:
 2. Support for separate documents which require `--shell-escape` and not.
 3. Support for integrated pdflatex and lualatex documents
 
-## Talks
+### Precondition for the generator
 
-- [Oliver Kopp - The LaTeX Template Generator](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
+One has to install [Node.js](https://nodejs.org/en/) version 18 (or later) to get this generator running.
+For simple installation, just head to <https://nodejs.org/> and follow the installation instructions.
 
-## Usage
+### Using the generator
 
-One has to install [Node.js](https://nodejs.org/en/) version 14 to get this generator running.
-On Windows, one can just run `choco install nodejs-lts` to get the right version of Node.js.
-
-On Linux, one can start using the generator directly using the node execution wrapper [npx](https://www.npmjs.com/package/npx):
+One can start using the generator directly using the node execution wrapper [npx](https://www.npmjs.com/package/npx):
 
 ```bash
 npx -p yo -p generator-latex-template -c 'yo latex-template'
 ```
 
-### Installing `generator-latex-template`
+### Permanent installation (and simpler command line usage)
 
-In case one wants to have the generator installed permanently or `npx` does work as expected, one can install `generator-latex-template` using following command:
+In case one wants to have the generator installed permanently (or `npx` does work as expected), one can install `generator-latex-template` using following command:
 
 ```bash
 npm install -g generator-latex-template
 ```
 
-### Using the generator
-
-One can run the generator by invoking this command on a command prompt:
+Then, one can invoke the generator as follows:
 
 ```bash
 yo latex-template
@@ -98,36 +97,55 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Templating language: <https://ejs.co/>
 - Conditional questions: <https://stackoverflow.com/a/18706640/873282>.
 - Types of prompts: <https://github.com/SBoudrias/Inquirer.js#prompt-types>
-  - E.g,. [Question](https://github.com/SBoudrias/Inquirer.js#question)
+  - E.g., [Question](https://github.com/SBoudrias/Inquirer.js#question)
 - Add a new question
   - Also adapt `__tests__/app.js`
   - Execute tests with `npx jest`
-- Test locally
-  - Create empty directory ("target directory")
-  - Change to the target directory
-  - Run `npx yo <path-to-git-repository>`
-    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template`
-  - Parameters can be set using command line
-    - Linux: `npx yo /tmp/repo --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-    - Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --lang=en --font=default --listings=listings --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-    - Windows automatic generation of a LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2022 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweak_outerquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-  - Run `latexmk` to build the PDF
 - Update npm dependencies
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - `npx npm-check-updates -u`. [[Source](https://www.carlrippon.com/upgrading-npm-dependencies/)]
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
+  - Generate `package-lock.json` only: `npm i --package-lock-only`
 - When one encounters `Cannot find module 'yeoman-generator'`, please update the npm dependencies.
   That error occurred when using version `4.13.0` and `5.4.2` was available.
 - In case of the error "Error: EACCES, permission denied '/root/.config/configstore/insight-yo.json'", one needs to execute `chmod g+rwx /root /root/.config /root/.config/configstore`
 - Check GitHub actions
   - Use [actionlint](https://github.com/rhysd/actionlint#readme)
   - Use [vs.code GitHub actions plugin](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
+  - Use [act](https://github.com/nektos/act) for checking: `act --rm --platform ubuntu-latest=fwilhe2/act-runner:latest -W .github/workflows/check-ieee-conference-a4-pdflatex-bibtex-2023-true.yml`
 - When adding a new package:
-  1. execute `npx` with `--generatereitzig`
+  1. execute `npx` with `--generatereitzig` (in a clean directory)
   2. run `pdflatex`
-  3. run `.../generate-texlivefile.sh`
-  4. copy `Texlivefile` to the root of the source repository
+  3. run `{repository-root}/generate-texlivefile.sh`
+  4. copy `Texlivefile` to the root of the `{repository-root}/generators/app/templates`
   5. adapt `Texlivefile` as required
+
+### Test locally
+
+- Create empty directory ("target directory")
+- Change to the target directory
+- Run `npx yo@v4.3.1 <path-to-git-repository>`
+- Windows: `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template`
+
+<!-- markdownlint-disable-next-line MD004 -->
+* Note: yo 5.0.0 cannot be used due to [yo#797](https://github.com/yeoman/yo/issues/797)
+
+#### Linux
+
+Parameters can be set using command line
+
+- lncs: `npx yo@v4.3.1 /tmp/repo --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+
+#### Windows
+
+Parameters can be set using command line
+
+- IEEE template (with pdflatex and bibtex): `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- LNCS template (with pdflatex and bibtex): `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- Scientific Thesis Template: `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+
+<!-- markdownlint-disable-next-line MD004 -->
+* Run `latexmk` to build the PDF
 
 ### Useful snippets
 

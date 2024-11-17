@@ -7,15 +7,37 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop.
+- Implementation: No `default` branches any more for `switch`es on `documentclass`
+
+### Fixed
+
+- `.github/workflows/check.yml` now works for Island of TeX docker image, too.
+- There is no space within `e.g.` and `i.e.` (Commands `\eg` and `\ie`).
+- `.gitignore` now contains correct PDF ignore for `paper.pdf`.
+
+## [0.8.0] – 2023-07-24
+
 ### Added
 
 - Added support for German on LNCS and IEEE.
+- Added support for TeXLive 2023
+- Added support for [Island of TeX's Docker image](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
 
 ### Changed
 
+- Modern loading of German hyphenation patterns. Source: [babel-german#6](https://github.com/jspitz/babel-german/issues/6)
+- Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop
 - `--language=x` is now `--lang=x`
-- Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop.
-- Implementation: No `default` branches any more for `switch`es on `documentclass`
+- `ieee_variant` changed to `ieeevariant`
+- `acm_...` changed to `acm...`
+- `tweak_outerquote` changed to `tweakouterquote`
+
+### Fixed
+
+- Various LaTeX fixes to get compilation running on TeXLive 2023
 
 ## [0.7.0] – 2022-06-06
 
@@ -144,7 +166,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 First release of Markdown Architectural Decision Records.
 
-[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/0.7.0...main
+[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/0.8.0...main
+[0.8.0]: https://github.com/latextemplates/generator-latex-template/compare/0.7.0...0.8.0
 [0.7.0]: https://github.com/latextemplates/generator-latex-template/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/latextemplates/generator-latex-template/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/latextemplates/generator-latex-template/compare/0.4.0...0.5.0

@@ -31,6 +31,7 @@ jobs:
           tags: localhost:5000/name/app:latest
       - name: Set up Git repository
         uses: actions/checkout@v3
+<% if (docker == "reitzig") { -%>
       - run: |
           mkdir /tmp/out
           mkdir /tmp/res
@@ -41,3 +42,11 @@ jobs:
           name: test-result
           path: |
             /tmp/res/*.pdf
+<% } else { -%>
+      - run: docker run -v $(pwd):/workdir -w /workdir localhost:5000/name/app:latest work "latexmk -pdf -pdflatex='<% if ((latexcompiler == "pdflatex") || githubpublish) { %>pdflatex<% } else { %>lualatex<% } %> --interaction=nonstopmode' <%= filenames.main %>"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: test-result
+          path: |
+            /workdir/*.pdf
+<% } -%>

@@ -7,7 +7,7 @@ babel
 babel-english
 <%# german needed for some TeX source code input hacks -%>
 babel-german
-<% if (bibtextool == "biblatex") { -%>
+<% if (githubpublish || (bibtextool == "biblatex")) { -%>
 biblatex
 biber
 <% } -%>
@@ -19,6 +19,7 @@ caption
 catchfile
 cfr-lm
 cleveref
+cmap
 comment
 csquotes
 currfile
@@ -27,7 +28,7 @@ datetime2
 datetime2-german
 <% } -%>
 datetime2-english
-<% if (documentclass == "scientific-thesis") { -%>
+<% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
 datatool
 <% } -%>
 <% if (githubpublish || (language == "de")) { -%>
@@ -37,7 +38,12 @@ diagbox
 environ
 etexcmds
 etoolbox
+fancyvrb
+filehook
 floatflt
+<% if (githubpublish || (latexcompiler == "lualatex")) { -%>
+fontspec
+<% } -%>
 framed
 fvextra
 gettitlestring
@@ -57,7 +63,7 @@ ieeetran
 ifmtarg
 infwarerr
 intcalc
-<% if (documentclass == "scientific-thesis") { -%>
+<% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
 koma-script
 <% } -%>
 kvdefinekeys
@@ -67,13 +73,17 @@ latexmk
 letltxmacro
 libertine
 lineno
-linenoamsmath
 lipsum
 listings
 llncs
 ltxcmds
+<% if (githubpublish || (latexcompiler == "lualatex")) { -%>
+luatexbase
+luacode
+lualatex-math
+<% } -%>
 marginnote
-<% if (documentclass == "scientific-thesis") { -%>
+<% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
 mfirstuc
 <% } -%>
 microtype
@@ -84,6 +94,7 @@ mwe
 natbib
 ncctools
 newcomputermodern
+newfloat
 newtx
 newtxtt
 nfssext-cfr
@@ -91,35 +102,51 @@ nowidow
 oberdiek
 paralist
 pdfcomment
+luatex85
 pdfescape
 pdftexcmds
+<% if (githubpublish || (examples)) { -%>
+pgf
+<% } -%>
 pict2e
 preprint
 refcount
 regexpatch
 rerunfilecheck
-<% if (documentclass == "scientific-thesis") { -%>
+<% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
 scientific-thesis-cover
+<% } -%>
+<% if (githubpublish || (latexcompiler == "lualatex")) { -%>
+selnolig
+<% } -%>
+<% if (githubpublish || (documentclass == "acmart" || documentclass == 'scientific-thesis')) { -%>
+setspace
 <% } -%>
 siunitx
 snapshot
 soul
 soulpos
-soulutf8
 sttools
 stringenc
 subfig
 svn-prov
 tcolorbox
 texlogsieve
+textcase
+<% if (githubpublish || (documentclass == "ieee") || (font == "times")) { -%>
+tex-gyre
+times
+<% } -%>
 totpages
 tracklang
 translator
+txfonts
+unicode-math
 uniquecounter
 upquote
 url
 xcolor
-<% if (documentclass == "scientific-thesis") { -%>
+<% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
 xfor
 <% } -%>
 xkeyval
