@@ -213,25 +213,25 @@ export default class extends Generator {
       );
     }
 
-    global.fs.copyTpl(
-        global.templatePath('main.' + global.props.language + '.tex'),
-        global.destinationPath(global.props.filenames.main + ".tex"),
-        global.props
+    this.fs.copyTpl(
+      this.templatePath('main.' + this.props.language + '.tex'),
+      this.destinationPath(this.props.filenames.main + ".tex"),
+      this.props
     );
 
     if (this.props.feature.acronyms) {
-      global.fs.copy(
-        global.templatePath("acronyms." + global.props.language + ".tex"),
-        global.destinationPath("acronyms.tex"),
+      this.fs.copy(
+        this.templatePath("acronyms." + this.props.language + ".tex"),
+        this.destinationPath("acronyms.tex"),
       );
     }
 
     if (this.props.documentclass == "ustutt") {
       this.props.documentclass = "ustutt-include";
-      global.fs.copyTpl(
-        global.templatePath("main." + global.props.language + ".tex"),
-        global.destinationPath("shared/template.tex"),
-        global.props,
+      this.fs.copyTpl(
+        this.templatePath("main." + this.props.language + ".tex"),
+        this.destinationPath("shared/template.tex"),
+        this.props,
       );
     }
 
