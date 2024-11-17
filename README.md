@@ -101,7 +101,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Add a new question
   - Also adapt `__tests__/app.js`
   - Execute tests with `npx jest`
-- Update npm dependencies
+- Update NPM dependencies
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - `npx npm-check-updates -u`. [[Source](https://www.carlrippon.com/upgrading-npm-dependencies/)]
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
