@@ -5,10 +5,6 @@ export const options = [
     message: "Which template should be generated?",
     choices: [
       {
-        name: "Scientic Thesis",
-        value: "scientific-thesis",
-      },
-      {
         name: "Association for Computing Machinery (ACM)",
         value: "acmart",
       },
@@ -19,6 +15,14 @@ export const options = [
       {
         name: "Springer's Lecture Notes in Computer Science (LNCS)",
         value: "lncs",
+      },
+      {
+        name: "Scientic Thesis",
+        value: "scientific-thesis",
+      },
+      {
+        name: "PhD Thesis Template (University of Stuttgart)",
+        value: "ustutt",
       },
     ],
     default: "scientific-thesis",
