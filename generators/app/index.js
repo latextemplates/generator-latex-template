@@ -125,7 +125,7 @@ export default class extends Generator {
     }
 
     function createHeadingCommands(props) {
-      if (this.props.isThesis) {
+      if (props.isThesis) {
         props.heading1 = "\\chapter";
         props.heading2 = "\\section";
       } else {

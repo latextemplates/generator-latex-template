@@ -7,10 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Added support for TeXLive 2024.
+
 ### Changed
 
 - Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop.
 - Implementation: No `default` branches any more for `switch`es on `documentclass`
+- Pinned Yeoman to 4.3.1 as workaround for [yo#797](https://github.com/yeoman/yo/issues/797).
+- Dropped support for TeXLive 2022 and 2023.
 
 ### Fixed
 
@@ -23,7 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added support for German on LNCS and IEEE.
-- Added support for TeXLive 2023
+- Added support for TeXLive 2023.
 - Added support for [Island of TeX's Docker image](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
 
 ### Changed
