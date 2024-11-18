@@ -161,7 +161,7 @@ jobs:
                               yml_content += "      - name: Add to summary table and status\n";
                               yml_content += "        run: |\n";
                               yml_content += "          echo \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table);
-                              yml_content += "          echo LAST_DIR='${{{{ github.workspace }}}}/{}' >> $GITHUB_ENV\n".format(variantName);
+                              yml_content += "          echo LAST_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE'''
@@ -205,16 +205,17 @@ jobs:
         if: always()
         with:
           name: result
-          path: ${{ env.LAST_DIR }}
+          path: ${{ env.LAST_VARIANT }}
       - name: texlogsieve
         if: always()
         run: |
+          echo '## $LAST_VARIANT' >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 ''')
 
-              yml.write("        working-directory: ${{ env.LAST_DIR }}\n");
+              yml.write("        working-directory: ${{ env.LAST_VARIANT }}\n");
               yml.write("      - name: Finish summary table\n");
               yml.write("        if: always()\n");
               yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
