@@ -159,7 +159,7 @@ jobs:
                               table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantName)
                               yml_content += "      - name: Add to summary table\n";
-                              yml_content += "        echo -n \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table);
+                              yml_content += "        run: echo -n \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table);
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE'''
