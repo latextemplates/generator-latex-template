@@ -186,8 +186,8 @@ jobs:
                               yml.write('''      - name: Install TeX Live
         uses: zauguin/install-texlive@v3
         with:
-          package_file: Texlivefile
 ''')
+                              yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantName))
                               yml.write("      - name: latexmk {}\n".format(variantName))
                               ymlmiktex.write("      - name: latexmk {}\n".format(variantName))
                               filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
