@@ -205,7 +205,7 @@ jobs:
           path: ${{ env.LAST_VARIANT }}
 ''')
                               table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              yml.write("      - run:  echo \"TABLE=${{TABLE}}\\n{} [link](${{{{ steps.{}_u.artifact-url }}}}) |\" >> $GITHUB_ENV\n".format(table, variantName));
+                              yml.write("      - run:  echo \"TABLE=${{TABLE}}\\n{} [link](${{{{ steps.{}_u.outputs.artifact-url }}}}) |\" >> $GITHUB_ENV\n".format(table, variantName));
               yml.write('''      - name: texlogsieve
         if: always()
         run: |
