@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 - `texlogsieve` is not filtering the outputs of `latexmk` anymore.
+- Removed support for TeXLive 2022 and TeXLive 2023.
+- Removed support for LNCS older than January 2022. See [tex.sx](https://tex.stackexchange.com/a/630060/9075) for details.
 
 ## [0.8.0] – 2023-07-24
 
