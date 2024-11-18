@@ -197,12 +197,7 @@ jobs:
                               ymlmiktex.write("      - name: latexmk {}\n".format(variantName))
                               filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
                               command = "latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
-                              yml.write("        run: |\n")
-                              yml.write("          {}\n".format(command))
-                              yml.write("          echo '## {}'\n".format(variantName))
-                              yml.write("          echo '```' >> $GITHUB_STEP_SUMMARY\n")
-                              yml.write("          texlogsieve < *.log >> $GITHUB_STEP_SUMMARY\n")
-                              yml.write("          echo '```' >> $GITHUB_STEP_SUMMARY\n")
+                              yml.write("        run: {}\n".format(command))
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               ymlmiktex.write("        run: {}\n".format(command))
                               ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
@@ -212,7 +207,7 @@ jobs:
           name: result
           path: ${{ env.LAST_DIR }}
       - name: texlogsieve
-        if: failure()
+        if: always()
         run: |
           echo '```' >> $GITHUB_STEP_SUMMARY
           texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
