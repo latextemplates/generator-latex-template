@@ -1095,7 +1095,10 @@ jobs:
           path: ${{ env.LAST_DIR }}
       - name: texlogsieve
         if: always()
-        run: texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
+        run: |
+          echo "```" >> $GITHUB_STEP_SUMMARY
+          texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
         working-directory: ${{ env.LAST_DIR }}
       - name: Finish summary table
         if: always()

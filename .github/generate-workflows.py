@@ -205,11 +205,15 @@ jobs:
         if: always()
         with:
           name: result
+          path: ${{ env.LAST_DIR }}
+      - name: texlogsieve
+        if: always()
+        run: |
+          echo "```" >> $GITHUB_STEP_SUMMARY
+          texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
 ''')
-              yml.write("          path: ${{ env.LAST_DIR }}\n");
-              yml.write("      - name: texlogsieve\n");
-              yml.write("        if: always()\n");
-              yml.write("        run: texlogsieve < *.log >> $GITHUB_STEP_SUMMARY\n");
+
               yml.write("        working-directory: ${{ env.LAST_DIR }}\n");
               yml.write("      - name: Finish summary table\n");
               yml.write("        if: always()\n");
