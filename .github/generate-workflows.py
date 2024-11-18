@@ -164,9 +164,9 @@ jobs:
                               variantShort = "var_" + stable_hash(variantName)
                               yml_content = "      - run: mkdir {}\n".format(variantShort)
                               yml_content += "      - run: echo LAST_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
+                              yml_content += "      - run: echo LAST_VARIANT_SHORT='{}' >> $GITHUB_ENV\n".format(variantShort);
                               yml_content += "      - name: Create {}\n".format(variantName)
-                              yml_content += '''        run: |
-          npx yo@v4.3.1 $GITHUB_WORKSPACE'''
+                              yml_content += "        run: npx yo@v4.3.1 $GITHUB_WORKSPACE"
                               yml_content += " --documentclass=%s" % documentclass
                               if documentclass == 'ieee':
                                   yml_content += " --ieeevariant=%s" % ieeevariant
@@ -208,10 +208,11 @@ jobs:
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
-          path: ${{ env.LAST_VARIANT }}
+          path: ${{ env.LAST_VARIANT_SHORT }}
 ''')
                               table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml.write("      - run: echo \"TABLE=${{TABLE}}\\n{} [link](${{{{ steps.{}_u.outputs.artifact-url }}}}) |\" >> $GITHUB_ENV\n".format(table, variantShort));
+                              yml.write("        if: always()\n");
               yml.write('''      - name: texlogsieve
         if: always()
         run: |
@@ -220,7 +221,7 @@ jobs:
           texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 ''')
-              yml.write("        working-directory: ${{ env.LAST_VARIANT }}\n");
+              yml.write("        working-directory: ${{ env.LAST_VARIANT_SHORT }}\n");
               yml.write("      - name: Finish summary table\n");
               yml.write("        if: always()\n");
               yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
