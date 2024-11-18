@@ -156,7 +156,8 @@ jobs:
                         for tweakouterquote in tweakouterquotes:
                           for todo in todos:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              yml_content = "      - run: mkdir {}\n".format(variantName)
+                              variantShort = "var_" + str(abs(hash(variantName)))
+                              yml_content = "      - run: mkdir {}\n".format(variantShort)
                               yml_content += "      - run: echo LAST_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
@@ -181,23 +182,23 @@ jobs:
                               yml_content += " --todo=%s" % todo
                               yml_content += " --examples=%s" % example
                               yml_content += " --howtotext=%s\n" % howtotext
-                              yml_content += "        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName)
+                              yml_content += "        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort)
                               yml.write(yml_content)
                               ymlmiktex.write(yml_content)
                               yml.write('''      - name: Install TeX Live
         uses: zauguin/install-texlive@v3
         with:
 ''')
-                              yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantName))
+                              yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
                               yml.write("      - name: latexmk {}\n".format(variantName))
                               ymlmiktex.write("      - name: latexmk {}\n".format(variantName))
                               filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
                               command = "latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
                               yml.write("        run: {}\n".format(command))
-                              yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
+                              yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
                               ymlmiktex.write("        run: {}\n".format(command))
-                              ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-                              yml.write("      - id: {}_u\n".format(variantName))
+                              ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
+                              yml.write("      - id: {}_u\n".format(variantShort))
                               yml.write('''        uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -205,7 +206,7 @@ jobs:
           path: ${{ env.LAST_VARIANT }}
 ''')
                               table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              yml.write("      - run:  echo \"TABLE=${{TABLE}}\\n{} [link](${{{{ steps.{}_u.outputs.artifact-url }}}}) |\" >> $GITHUB_ENV\n".format(table, variantName));
+                              yml.write("      - run:  echo \"TABLE=${{TABLE}}\\n{} [link](${{{{ steps.{}_u.outputs.artifact-url }}}}) |\" >> $GITHUB_ENV\n".format(table, variantShort));
               yml.write('''      - name: texlogsieve
         if: always()
         run: |
