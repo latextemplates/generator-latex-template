@@ -201,12 +201,13 @@ jobs:
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               ymlmiktex.write("        run: {}\n".format(command))
                               ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-              yml.write('''      - uses: actions/upload-artifact@v4
+                              yml.write('''      - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: result
+          name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
-      - name: texlogsieve
+''')
+              yml.write('''      - name: texlogsieve
         if: always()
         run: |
           echo "## $LAST_VARIANT" >> $GITHUB_STEP_SUMMARY
