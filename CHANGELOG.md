@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Implementation: No `default` branches any more for `switch`es on `documentclass`
 - Pinned Yeoman to 4.3.1 as workaround for [yo#797](https://github.com/yeoman/yo/issues/797).
 - Dropped support for TeXLive 2022 and 2023.
+- `Texlivefile` is now always generated.
 
 ### Fixed
 
