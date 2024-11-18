@@ -61,7 +61,8 @@
   % fontsize=11pt is the standard
   numbers=noenddot,
   english,  % English as main language; this parameter is passed to other packages (e.g., selnolig in the case of lualatex)
-  a4paper,  % Standard format - only KOMAScript uses paper=a4 - https://tex.stackexchange.com/a/61044/9075
+  a4paper,  % Standard format
+  paper=a4, % KOMAScript uses paper=a4 - https://tex.stackexchange.com/a/61044/9075
   twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
   bibliography=totoc,
   % idxtotoc,   % Index ins Inhaltsverzeichnis
@@ -79,12 +80,36 @@
 \cfoot[]{}
 \ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
 \ifoot[]{}
-<% break; default: -%>
+<% break; case "ustutt": -%>
 
-% not yet supported template. Please report to the author of generator-latex-template
-\documentclass{scrbook}
+\documentclass[
+  % fontsize=11pt is the standard
+  numbers=noenddot,
+  english,  % English as main language; this parameter is passed to other packages (e.g., selnolig in the case of lualatex)
+  paper=a5, % Standard format - only KOMAScript uses paper=a4 - https://tex.stackexchange.com/a/61044/9075
+  twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
+  DIV=calc,
+  headings=small,
+  bibliography=totoc,
+  % idxtotoc,   % Index ins Inhaltsverzeichnis
+  % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
+  lsitof=totoc,
+  % headsepline,
+  % cleardoublepage=empty,
+  % parskip=half,
+  %               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
+  draft=false
+]{scrbook}
 <% } -%>
 
+<% if (documentclass == 'ustutt') { -%>
+\input{shared/template}
+\usepackage{shared/titlepage}
+
+% binding correction
+\setlength{\evensidemargin}{-24pt}
+\setlength{\oddsidemargin}{-24pt}
+<% } else { -%>
 % backticks (`) are rendered as such in verbatim environments.
 % See following links for details:
 %   - https://tex.stackexchange.com/a/341057/9075
@@ -243,6 +268,8 @@
 \input glyphtounicode
 \pdfgentounicode=1
 <% } -%>
+<%# end of  documentclass != 'ustutt' %>
+<% } -%>
 
 \begin{document}
 <% switch (documentclass) { case "lncs": -%>
@@ -346,8 +373,43 @@
 
 % Kurzfassung / abstract
 % auch im Stil vom Inhaltsverzeichnis
-<% break; default: -%>
-\section*{Abstract}
+<% break; case "ustutt": -%>
+
+% Die Seitennummerierung erfolgt durchlaufend ab der Titelseite. Also keine
+% Spielereien mit römischen Ziffern usw. - Die ISO 7144 schreibt das sogar für
+% wissenschaftliche Werke vor.
+% Von Promitionsordnung verlangt!
+% Deshalb ist \frontmatter DEAKTIVIERT
+%\frontmatter
+\title{Thesis Title}
+%\author{\texorpdfstring{\href{http://www.example.org/}{Author Name}}{Author Name}}
+\author{Author Name}
+\date{\today}
+\keywords{TODO}
+\firstexaminer{Prof.~Dr.~Max Mustermann}
+\secondexaminer{Prof.~Dr.~Emma Musterfrau}
+\dateofexamination{unbekannt}
+\placeofbirth{Gebortsort}
+\faculty{Fakultät für Informatik, Elektrotechnik und Informationstechnik}
+\department{Institut für Architektur von Anwendungssystemen}
+\maketitle
+
+%\mainmatter
+
+\pagestyle{scrheadings}
+
+%% --- Zusammenfassung/Kurzfassung -------------------------------
+\chapter*{Kurzfassung}
+\begin{otherlanguage}{ngerman}
+%Silbentrennung Deutsch
+Kurzfassung der Arbeit.
+\end{otherlanguage}
+\clearpage
+
+%% --- Abstract Page---------------------------------------------
+\chapter*{Abstract}
+\begin{otherlanguage}{american}
+% Silbentrennung auf Englisch
 <% break; } -%>
 <% if (howtotext) { -%>
 \emph{Write an abstract for your work. Replace each of the points below with one sentence (two if you must) and you have your abstract. Write it when you finished your entire report.\footnote{https://www.easterbrook.ca/steve/2010/01/how-to-write-a-scientific-abstract-in-six-easy-steps/}}
@@ -387,7 +449,18 @@
 % For peerreview papers, this IEEEtran command inserts a page break and
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
-<% break; case "scientific-thesis": -%>
+<% break; case "ustutt": -%>
+\pagestyle{scrheadings}
+\end{otherlanguage}
+\clearpage
+
+%% --- Acknowledgements page------------------------------------
+\chapter*{Danksagungen}
+I would like to thank the little green men from Mars. Without their anal probing equipment, the medical experiments on the monkeys described in this thesis would have been considerably more unpleasant for all parties involved.
+\clearpage
+
+<%# no break, because we need the fall-through -%>
+<% case "scientific-thesis": -%>
 
 \microtypesetup{protrusion=false}
 
@@ -421,6 +494,12 @@
 %\listof{Algorithmus}{List of Algorithms}
 %\listofalgorithms %Ist nur für Algorithmen, die mittels \begin{algorithm} umschlossen werden, nötig
 
+<% if (documentclass == 'ustutt') { -%>
+%\chapter*{Definitionsverzeichnis}
+%\addcontentsline{toc}{chapter}{Definitionsverzeichnis}
+%\listtheorems{definition}
+<% } -%>
+
 % Abbreviations
 \printglossaries
 % \printnoidxglossaries
@@ -431,9 +510,6 @@
 % Headline and footline
 \renewcommand*{\chapterpagestyle}{scrplain}
 \pagestyle{scrheadings}
-<% break; default: -%>
-
-\tableofcontents
 <% break; } -%>
 
 <% if (howtotext) { -%>
@@ -788,7 +864,54 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 \label{sec:loremipsum}
 \lipsum[1-4]
 <% } -%>
+<% if (documentclass == 'ustutt') { -%>
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\blindtext
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\subsection{Subsection}
+\label{ssec:example}
+\blindtext
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
 
+<% } -%>
 <%= heading1 %>{Conclusion and Outlook}
 \label{sec:outlook}
 \lipsum[1-2]
@@ -803,9 +926,8 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 % regular IEEE prefers the singular form
 \section*{Acknowledgment}
 
-<% break; default: -%>
 <% break; } -%>
-<% if ((documentclass == 'acmart') || (documentclass == 'lncs') || (documentclass == 'ieee')) { -%>
+<% if (isPaper) { -%>
 Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which is placed just before the reference section in your document \cite{acmart}.
 <% if (howtotext) { -%>
 
@@ -859,17 +981,15 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 % argument is your BibTeX string definitions and bibliography database(s)
 \bibliography{<%= filenames.bib %>}
 <% break; case "scientific-thesis": -%>
+<% case "ustutt": -%>
 
 \printbibliography
-<% break; default: -%>
-
-\bibliographystyle{plain}
-\bibliography{<%= filenames.bib %>}
 <% break; } -%>
 
 % Enfore empty line after bibliography
 \ \\
 %
+\noindent
 All links were last followed on October 5, 2020.
 
 <% switch (documentclass) { case "lncs": -%>
@@ -885,13 +1005,16 @@ All links were last followed on October 5, 2020.
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
 %%% ===============================================================================
 <% break; case "scientific-thesis": -%>
+<% case "ustutt": -%>
 %%% ===============================================================================
 \appendix
 \addcontentsline{toc}{chapter}{Appendices}
 
 %\listoffigures
 %\listoftables
-%%% ===============================================================================
+
+%\IfDefined{printindex}{\printindex}
+%\IfDefined{printnomenclature}{\printnomenclature}
 
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}

@@ -87,7 +87,12 @@ export default class extends Generator {
       this.props.equote = "\"'";
     }
 
-    this.props.requiresShellEscape = this.props.listings === "minted";
+    this.props.requiresShellEscape = this.props.isThesis;
+
+    if (this.props.docker == "no") {
+      // converts command-line "no" to the boolean equivalent
+      this.props.docker = false;
+    }
 
     createFeatures(props);
     isPaperHandling(props);
@@ -110,16 +115,22 @@ export default class extends Generator {
           main: "paper",
           bib: "paper",
         };
+      } else if (props.documentclass == "ustutt") {
+          props.filenames = {
+            "main": "thesis-example",
+            "bib": "bibliography"
+          }
       } else {
         props.filenames = {
           main: "main",
           bib: "bibliography",
         };
       }
+      props.isThesis = !props.isPaper;
     }
 
     function createHeadingCommands(props) {
-      if (props.documentclass === "scientific-thesis") {
+      if (props.isThesis) {
         props.heading1 = "\\chapter";
         props.heading2 = "\\section";
       } else {
@@ -192,40 +203,14 @@ export default class extends Generator {
       );
     }
 
-    if (this.props.language === "de") {
+    if ((this.props.language === "de") && (!this.props.githubpublish)) {
       this.fs.copyTpl(
-        this.templatePath("main.de.tex"),
-        this.destinationPath(this.props.filenames.main + ".tex"),
+        this.templatePath("README.de.md"),
+        this.destinationPath("README.md"),
         this.props
       );
-      if (this.props.documentclass === "scientific-thesis") {
-        this.fs.copy(
-          this.templatePath("acronyms.de.tex"),
-          this.destinationPath("acronyms.tex")
-        );
-      }
-
-      if (!this.props.githubpublish) {
-        // We keep the English README.md in case of GitHub publish
-        this.fs.copyTpl(
-          this.templatePath("README.de.md"),
-          this.destinationPath("README.md"),
-          this.props
-        );
-      }
     } else {
-      this.fs.copyTpl(
-        this.templatePath("main.en.tex"),
-        this.destinationPath(this.props.filenames.main + ".tex"),
-        this.props
-      );
-      if (this.props.documentclass === "scientific-thesis") {
-        this.fs.copy(
-          this.templatePath("acronyms.en.tex"),
-          this.destinationPath("acronyms.tex")
-        );
-      }
-
+      // We keep the English README.md in case of GitHub publish
       this.fs.copyTpl(
         this.templatePath("README.en.md"),
         this.destinationPath("README.md"),
@@ -233,8 +218,37 @@ export default class extends Generator {
       );
     }
 
+    this.fs.copyTpl(
+      this.templatePath('main.' + this.props.language + '.tex'),
+      this.destinationPath(this.props.filenames.main + ".tex"),
+      this.props
+    );
+
+    if (this.props.feature.acronyms) {
+      this.fs.copy(
+        this.templatePath("acronyms." + this.props.language + ".tex"),
+        this.destinationPath("acronyms.tex"),
+      );
+    }
+
+    if (this.props.documentclass == "ustutt") {
+      this.props.documentclass = "ustutt-include";
+      this.fs.copyTpl(
+        this.templatePath("main." + this.props.language + ".tex"),
+        this.destinationPath("shared/template.tex"),
+        this.props,
+      );
+    }
+
     // eslint-disable-next-line default-case
     switch (this.props.docker) {
+      case false:
+        this.fs.copyTpl(
+          this.templatePath("Texlivefile"),
+          this.destinationPath("Texlivefile"),
+          this.props
+        );
+        break;
       case "iot":
         this.fs.copy(
           this.templatePath("dot.dockerignore"),

@@ -7,18 +7,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Added support for TeXLive 2024.
+
+### Changed
+
+- Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop.
+- Implementation: No `default` branches any more for `switch`es on `documentclass`
+- Pinned Yeoman to 4.3.1 as workaround for [yo#797](https://github.com/yeoman/yo/issues/797).
+- Dropped support for TeXLive 2022 and 2023.
+- `Texlivefile` is now always generated.
+
 ### Fixed
 
 - `.github/workflows/check.yml` now works for Island of TeX docker image, too.
 - There is no space within `e.g.` and `i.e.` (Commands `\eg` and `\ie`).
 - `.gitignore` now contains correct PDF ignore for `paper.pdf`.
 
+### Removed
+
+- `texlogsieve` is not filtering the outputs of `latexmk` anymore.
+- Removed support for TeXLive 2022 and TeXLive 2023.
+- Removed support for LNCS older than January 2022. See [tex.sx](https://tex.stackexchange.com/a/630060/9075) for details.
+
 ## [0.8.0] – 2023-07-24
 
 ### Added
 
 - Added support for German on LNCS and IEEE.
-- Added support for TeXLive 2023
+- Added support for TeXLive 2023.
 - Added support for [Island of TeX's Docker image](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
 
 ### Changed

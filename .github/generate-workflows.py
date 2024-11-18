@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 
+import hashlib
+
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2022, 2023]
+texlives = [2024]
 
 languages = ['en', 'de']
 
@@ -29,6 +31,9 @@ ieeevariants = ['conference', 'journal', 'peerreview']
 
 docker = "iot"
 
+def stable_hash(value):
+  return str(hashlib.md5(value.encode('utf-8')).hexdigest())[:4]
+
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
@@ -50,7 +55,7 @@ for documentclass in documentclasses:
               else:
                 dashedPart = "{}-{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, texlive, example);
                 dashedPartMiktex = "{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, example);
-              yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
+              yml = open("workflows/check-{}.yml".format(dashedPart), "w+", encoding="utf-8")
               yml.write("name: Check {}\n".format(dashedPart))
               yml.write("""on:
   push:
@@ -102,25 +107,9 @@ jobs:
 """)
               yml.write("    name: Check {}\n".format(dashedPart))
               yml.write("""    runs-on: ubuntu-latest
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver-opts: network=host
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -131,7 +120,7 @@ jobs:
       - run: npm install
       - run: mkdir /tmp/out
 """)
-              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+")
+              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+", encoding="utf-8")
               ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write("on: [push]\n")
               ymlmiktex.write("concurrency:\n")
@@ -156,8 +145,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 ''')
-              table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |\n"
-              table += "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |\n"
+              table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext | link |"
+              yml.write("      - name: Summary table heading\n");
+              yml.write("        run: |\n");
+              yml.write("          TABLE='{}'\n".format(table));
+              table = "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- | -- |"
+              yml.write("          echo \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table));
               for howtotext in howtotexts:
                 for language in languages:
                   for font in fonts:
@@ -168,11 +161,14 @@ jobs:
                         for tweakouterquote in tweakouterquotes:
                           for todo in todos:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              table += "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |\n".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              yml_content = "      - run: mkdir {}\n".format(variantName)
-                              yml_content += "      - name: Create {}\n".format(variantName)
-                              yml_content += '''        run: |
-          npx yo@v4.3.1 $GITHUB_WORKSPACE'''
+                              variantShort = "var_" + stable_hash(variantName)
+                              table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
+                              yml_content = "      - run: mkdir {}\n".format(variantShort)
+                              yml_content += "      - run: echo CURRENT_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
+                              yml_content += "      - run: echo CURRENT_VARIANT_SHORT='{}' >> $GITHUB_ENV\n".format(variantShort);
+                              yml_content += "      - run: echo CURRENT_VARIANT_TABLE_ROW='{}' >> $GITHUB_ENV\n".format(table);
+                              yml_content += "      - name: Create {}\n".format(variantShort)
+                              yml_content += "        run: npx yo@v4.3.1 $GITHUB_WORKSPACE"
                               yml_content += " --documentclass=%s" % documentclass
                               if documentclass == 'ieee':
                                   yml_content += " --ieeevariant=%s" % ieeevariant
@@ -184,7 +180,7 @@ jobs:
                               yml_content += " --bibtextool=%s" % bibtextool
                               yml_content += " --overleaf=false"
                               yml_content += " --texlive=%s" % texlive
-                              yml_content += " --docker=iot"
+                              yml_content += " --docker=no"
                               yml_content += " --lang=%s" % language
                               yml_content += " --font=%s" % font
                               yml_content += " --listings=%s" % listing
@@ -193,33 +189,48 @@ jobs:
                               yml_content += " --todo=%s" % todo
                               yml_content += " --examples=%s" % example
                               yml_content += " --howtotext=%s\n" % howtotext
-                              yml_content += "        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName)
+                              yml_content += "        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort)
                               yml.write(yml_content)
                               ymlmiktex.write(yml_content)
-                              yml.write('''      - name: Build docker image
-        uses: docker/build-push-action@v5
+                              yml.write('''      - name: Install TeX Live
+        uses: zauguin/install-texlive@v3
         with:
-          push: true
-          provenance: false
-          build-args: |
-            TLMIRRORURL=https://tug.ctan.org/
 ''')
-                              yml.write("          tags: localhost:5000/name/app:{}\n".format(variantName))
-                              yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-                              yml.write("      - name: State\n")
-                              yml.write("        run: echo -e " + repr(table) + "\n")
-                              yml.write("      - name: latexmk {}\n".format(variantName))
-                              ymlmiktex.write("      - name: latexmk {}\n".format(variantName))
+                              yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
+                              yml.write("      - name: latexmk {}\n".format(variantShort))
+                              ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
                               filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
                               command = "latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
-                              yml.write("        run: docker run -v $(pwd):/workdir -v /tmp/out:/work/out localhost:5000/name/app:{} {}\n".format(variantName, command))
+                              yml.write("        run: {}\n".format(command))
+                              yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
                               ymlmiktex.write("        run: {}\n".format(command))
-                              yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-                              ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-              yml.write('''      - uses: actions/upload-artifact@v4
+                              ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
+                              yml.write("      - id: {}_u\n".format(variantShort))
+                              yml.write('''        uses: actions/upload-artifact@v4
         with:
-          name: pdfs
-          path: /tmp/out
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
 ''')
+                              yml.write("      - run: echo \"TABLE=${{TABLE}}\\n{} [link](${{{{ steps.{}_u.outputs.artifact-url }}}}) |\" >> $GITHUB_ENV\n".format(table, variantShort));
+              yml.write('''      - name: texlogsieve
+        if: always()
+        run: |
+          echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+      - id: failing_u
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}}\\n${CURRENT_VARIANT_TABLE_ROW} [link](${{ steps.failing_u.outputs.artifact-url }}) ❌ |" >> $GITHUB_ENV
+        if: failure()
+''')
+              yml.write("        working-directory: ${{ env.CURRENT_VARIANT_SHORT }}\n");
+              yml.write("      - name: Finish summary table\n");
+              yml.write("        if: always()\n");
+              yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
               yml.close()
               ymlmiktex.close()

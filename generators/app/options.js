@@ -5,10 +5,6 @@ export const options = [
     message: "Which template should be generated?",
     choices: [
       {
-        name: "Scientic Thesis",
-        value: "scientific-thesis",
-      },
-      {
         name: "Association for Computing Machinery (ACM)",
         value: "acmart",
       },
@@ -20,8 +16,16 @@ export const options = [
         name: "Springer's Lecture Notes in Computer Science (LNCS)",
         value: "lncs",
       },
+      {
+        name: "Scientic Thesis",
+        value: "scientific-thesis",
+      },
+      {
+        name: "PhD Thesis Template (University of Stuttgart)",
+        value: "ustutt",
+      },
     ],
-    default: "scientific-thesis",
+    default: "acmart",
   },
   {
     type: "list",
@@ -129,29 +133,25 @@ export const options = [
     choices(state) {
       const res = [
         {
-          name: "TeXLive 2021",
-          value: 2021,
-        },
-        {
-          name: "TeXLive 2022",
-          value: 2022,
+          name: "TeXLive 2024",
+          value: 2024,
         },
       ];
-      if (!state.overleaf) {
+/*      if (!state.overleaf) {
         res.push({
           name: "TeXLive 2023",
           value: 2023,
         });
       }
-
+*/
       return res;
     },
     default(state) {
       if (state.overleaf) {
-        return 2022;
+        return 2024;
       }
 
-      return 2023;
+      return 2024;
     },
   },
   {
