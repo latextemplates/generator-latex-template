@@ -110,8 +110,8 @@ export default class extends Generator {
           main: "paper",
           bib: "paper",
         };
-      } else if (this.props.documentclass == "ustutt") {
-          this.props.filenames = {
+      } else if (props.documentclass == "ustutt") {
+          props.filenames = {
             "main": "thesis-example",
             "bib": "bibliography"
           }
