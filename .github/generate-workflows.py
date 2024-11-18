@@ -209,7 +209,7 @@ jobs:
       - name: texlogsieve
         if: always()
         run: |
-          echo '## $LAST_VARIANT' >> $GITHUB_STEP_SUMMARY
+          echo "## $LAST_VARIANT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
