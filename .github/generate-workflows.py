@@ -55,7 +55,7 @@ for documentclass in documentclasses:
               else:
                 dashedPart = "{}-{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, texlive, example);
                 dashedPartMiktex = "{}-{}-{}-{}-{}".format(documentclass, papersize, latexcompiler, bibtextool, example);
-              yml = open("workflows/check-{}.yml".format(dashedPart), "w+")
+              yml = open("workflows/check-{}.yml".format(dashedPart), "w+", encoding="utf-8")
               yml.write("name: Check {}\n".format(dashedPart))
               yml.write("""on:
   push:
@@ -120,7 +120,7 @@ jobs:
       - run: npm install
       - run: mkdir /tmp/out
 """)
-              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+")
+              ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+", encoding="utf-8")
               ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write("on: [push]\n")
               ymlmiktex.write("concurrency:\n")
@@ -162,9 +162,11 @@ jobs:
                           for todo in todos:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               variantShort = "var_" + stable_hash(variantName)
+                              table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantShort)
-                              yml_content += "      - run: echo LAST_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
-                              yml_content += "      - run: echo LAST_VARIANT_SHORT='{}' >> $GITHUB_ENV\n".format(variantShort);
+                              yml_content += "      - run: echo CURRENT_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
+                              yml_content += "      - run: echo CURRENT_VARIANT_SHORT='{}' >> $GITHUB_ENV\n".format(variantShort);
+                              yml_content += "      - run: echo CURRENT_VARIANT_TABLE_ROW='{}' >> $GITHUB_ENV\n".format(table);
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += "        run: npx yo@v4.3.1 $GITHUB_WORKSPACE"
                               yml_content += " --documentclass=%s" % documentclass
@@ -205,23 +207,28 @@ jobs:
                               ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
                               yml.write("      - id: {}_u\n".format(variantShort))
                               yml.write('''        uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: ${{ env.LAST_VARIANT }}
-          path: ${{ env.LAST_VARIANT_SHORT }}
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
 ''')
-                              table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml.write("      - run: echo \"TABLE=${{TABLE}}\\n{} [link](${{{{ steps.{}_u.outputs.artifact-url }}}}) |\" >> $GITHUB_ENV\n".format(table, variantShort));
-                              yml.write("        if: always()\n");
               yml.write('''      - name: texlogsieve
         if: always()
         run: |
-          echo "## $LAST_VARIANT" >> $GITHUB_STEP_SUMMARY
+          echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
+          texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+      - id: failing_u
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}}\\n${CURRENT_VARIANT_TABLE_ROW} [link](${{ steps.failing_u.outputs.artifact-url }}) ❌ |" >> $GITHUB_ENV
+        if: failure()
 ''')
-              yml.write("        working-directory: ${{ env.LAST_VARIANT_SHORT }}\n");
+              yml.write("        working-directory: ${{ env.CURRENT_VARIANT_SHORT }}\n");
               yml.write("      - name: Finish summary table\n");
               yml.write("        if: always()\n");
               yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
