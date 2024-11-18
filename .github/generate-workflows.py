@@ -102,11 +102,6 @@ jobs:
 """)
               yml.write("    name: Check {}\n".format(dashedPart))
               yml.write("""    runs-on: ubuntu-latest
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
@@ -147,6 +142,7 @@ jobs:
 ''')
               table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |\n"
               table += "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |\n"
+              yml.write("      - run: echo '{}' >> $GITHUB_STEP_SUMMARY\n".format(table));
               for howtotext in howtotexts:
                 for language in languages:
                   for font in fonts:
@@ -157,8 +153,9 @@ jobs:
                         for tweakouterquote in tweakouterquotes:
                           for todo in todos:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              table += "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |\n".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
+                              table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |\n".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantName)
+                              yml_content += "      - run: echo '{}' >> $GITHUB_STEP_SUMMARY\n".format(table);
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE'''
@@ -190,8 +187,6 @@ jobs:
         with:
           package_file: Texlivefile
 ''')
-                              yml.write("      - name: State\n")
-                              yml.write("        run: echo -e " + repr(table) + "\n")
                               yml.write("      - name: latexmk {}\n".format(variantName))
                               ymlmiktex.write("      - name: latexmk {}\n".format(variantName))
                               filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
