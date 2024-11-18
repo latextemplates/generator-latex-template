@@ -89,6 +89,11 @@ export default class extends Generator {
 
     this.props.requiresShellEscape = this.props.isThesis;
 
+    if (this.props.docker == "no") {
+      // converts command-line "no" to the boolean equivalent
+      this.props.docker = false;
+    }
+
     createFeatures(props);
     isPaperHandling(props);
     createHeadingCommands(props);
@@ -237,6 +242,13 @@ export default class extends Generator {
 
     // eslint-disable-next-line default-case
     switch (this.props.docker) {
+      case false:
+        this.fs.copyTpl(
+          this.templatePath("Texlivefile"),
+          this.destinationPath("Texlivefile"),
+          this.props
+        );
+        break;
       case "iot":
         this.fs.copy(
           this.templatePath("dot.dockerignore"),
