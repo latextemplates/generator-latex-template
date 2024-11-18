@@ -149,7 +149,7 @@ jobs:
               yml.write("      - name: Summary table heading\n");
               yml.write("        run: |\n");
               yml.write("          TABLE='{}'\n".format(table));
-              table = "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |"
+              table = "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- | -- |"
               yml.write("          echo \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table));
               for howtotext in howtotexts:
                 for language in languages:
