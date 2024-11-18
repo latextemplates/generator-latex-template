@@ -62,13 +62,10 @@ jobs:
       - run: mkdir /tmp/out
       - name: Summary table heading
         run: |
-          TABLE='| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |'
+          TABLE='| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext | link |'
           echo "TABLE=${TABLE}\n| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
@@ -80,16 +77,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
@@ -101,16 +97,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
@@ -122,16 +117,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
@@ -143,16 +137,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
@@ -164,16 +157,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
@@ -185,16 +177,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
@@ -206,16 +197,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
@@ -227,16 +217,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
@@ -248,16 +237,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
@@ -269,16 +257,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
@@ -290,16 +277,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
@@ -311,16 +297,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
@@ -332,16 +317,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
@@ -353,16 +337,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
@@ -374,16 +357,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
@@ -395,16 +377,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
@@ -416,16 +397,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
@@ -437,16 +417,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
@@ -458,16 +437,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
@@ -479,16 +457,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
@@ -500,16 +477,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
@@ -521,16 +497,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
@@ -542,16 +517,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
@@ -563,16 +537,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
@@ -584,16 +557,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
@@ -605,16 +577,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
@@ -626,16 +597,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
@@ -647,16 +617,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
@@ -668,16 +637,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
@@ -689,16 +657,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
@@ -710,16 +677,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_true
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | true     |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_true
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
@@ -731,16 +697,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_true
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_true'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_true_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | true     | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_true_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
@@ -752,16 +717,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
@@ -773,16 +737,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
@@ -794,16 +757,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
@@ -815,16 +777,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
@@ -836,16 +797,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
@@ -857,16 +817,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
@@ -878,16 +837,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
@@ -899,16 +857,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
@@ -920,16 +877,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
@@ -941,16 +897,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
@@ -962,16 +917,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
@@ -983,16 +937,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
@@ -1004,16 +957,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
@@ -1025,16 +977,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
@@ -1046,16 +997,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
@@ -1067,16 +1017,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
@@ -1088,16 +1037,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
@@ -1109,16 +1057,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
@@ -1130,16 +1077,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
@@ -1151,16 +1097,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
@@ -1172,16 +1117,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
@@ -1193,16 +1137,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
@@ -1214,16 +1157,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
@@ -1235,16 +1177,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
@@ -1256,16 +1197,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
@@ -1277,16 +1217,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
@@ -1298,16 +1237,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
@@ -1319,16 +1257,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
@@ -1340,16 +1277,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
@@ -1361,16 +1297,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
@@ -1382,16 +1317,15 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_false
-      - name: Add to summary table and status
-        run: |
-          echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | false    |" >> $GITHUB_ENV
-          echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo LAST_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
       - name: Create ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_false
         run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
@@ -1403,11 +1337,13 @@ jobs:
       - name: latexmk ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_false
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_false'
-      - uses: actions/upload-artifact@v4
+      - id: ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_false_u
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
+      - run:  echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | false    | [link](${{ steps.ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_false_u.artifact-url }}) |" >> $GITHUB_ENV
       - name: texlogsieve
         if: always()
         run: |

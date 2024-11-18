@@ -140,7 +140,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 ''')
-              table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |"
+              table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext | link |"
               yml.write("      - name: Summary table heading\n");
               yml.write("        run: |\n");
               yml.write("          TABLE='{}'\n".format(table));
@@ -156,12 +156,8 @@ jobs:
                         for tweakouterquote in tweakouterquotes:
                           for todo in todos:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantName)
-                              yml_content += "      - name: Add to summary table and status\n";
-                              yml_content += "        run: |\n";
-                              yml_content += "          echo \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table);
-                              yml_content += "          echo LAST_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
+                              yml_content += "      - run: echo LAST_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE'''
@@ -201,12 +197,15 @@ jobs:
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               ymlmiktex.write("        run: {}\n".format(command))
                               ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
-                              yml.write('''      - uses: actions/upload-artifact@v4
+                              yml.write("      - id: {}_u\n".format(variantName))
+                              yml.write('''        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ${{ env.LAST_VARIANT }}
           path: ${{ env.LAST_VARIANT }}
 ''')
+                              table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
+                              yml.write("      - run:  echo \"TABLE=${{TABLE}}\\n{} [link](${{{{ steps.{}_u.artifact-url }}}}) |\" >> $GITHUB_ENV\n".format(table, variantName));
               yml.write('''      - name: texlogsieve
         if: always()
         run: |
@@ -215,7 +214,6 @@ jobs:
           texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 ''')
-
               yml.write("        working-directory: ${{ env.LAST_VARIANT }}\n");
               yml.write("      - name: Finish summary table\n");
               yml.write("        if: always()\n");
