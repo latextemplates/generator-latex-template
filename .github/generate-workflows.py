@@ -141,9 +141,11 @@ jobs:
         uses: actions/checkout@v4
 ''')
               table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |"
-              yml.write("      - run: echo -n '{}' >> $GITHUB_STEP_SUMMARY\n".format(table));
+              yml.write("      - name: Summary table heading");
+              yml.write("        run: |");
+              yml.write("          TABLE='{}'".format(table));
               table = "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |"
-              yml.write("      - run: echo -n '{}' >> $GITHUB_STEP_SUMMARY\n".format(table));
+              yml.write("          echo -n \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table));
               for howtotext in howtotexts:
                 for language in languages:
                   for font in fonts:
@@ -156,7 +158,8 @@ jobs:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantName)
-                              yml_content += "      - run: echo -n '{}' >> $GITHUB_STEP_SUMMARY\n".format(table);
+                              yml_content += "      - name: Add to summary table\n";
+                              yml_content += "        echo -n \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table);
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE'''
@@ -197,9 +200,13 @@ jobs:
                               ymlmiktex.write("        run: {}\n".format(command))
                               ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
               yml.write('''      - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: pdfs
           path: /tmp/out
 ''')
+              yml.write("      - name: Finish Summary table");
+              yml.write("        if: always()");
+              yml.write("        run: echo ${TABLE} >> $GITHUB_STEP_SUMMARY");
               yml.close()
               ymlmiktex.close()
