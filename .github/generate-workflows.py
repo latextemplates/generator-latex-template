@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import hashlib
+
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
@@ -28,6 +30,9 @@ papersizes = ['a4', 'letter']
 ieeevariants = ['conference', 'journal', 'peerreview']
 
 docker = "iot"
+
+def stable_hash(value):
+  return str(hashlib.md5(value.encode('utf-8')).hexdigest())[:4]
 
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
@@ -156,7 +161,7 @@ jobs:
                         for tweakouterquote in tweakouterquotes:
                           for todo in todos:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              variantShort = "var_" + str(abs(hash(variantName)))
+                              variantShort = "var_" + stable_hash(variantName)
                               yml_content = "      - run: mkdir {}\n".format(variantShort)
                               yml_content += "      - run: echo LAST_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
                               yml_content += "      - name: Create {}\n".format(variantName)
