@@ -145,7 +145,7 @@ jobs:
               yml.write("        run: |\n");
               yml.write("          TABLE='{}'\n".format(table));
               table = "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |"
-              yml.write("          echo -e \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table));
+              yml.write("          echo \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table));
               for howtotext in howtotexts:
                 for language in languages:
                   for font in fonts:
@@ -160,7 +160,7 @@ jobs:
                               yml_content = "      - run: mkdir {}\n".format(variantName)
                               yml_content += "      - name: Add to summary table and status\n";
                               yml_content += "        run: |\n";
-                              yml_content += "          echo -e \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table);
+                              yml_content += "          echo \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table);
                               yml_content += "          echo LAST_DIR='${{{{ github.workspace }}}}/{}' >> $GITHUB_ENV\n".format(variantName);
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
@@ -213,6 +213,6 @@ jobs:
               yml.write("        working-directory: ${{ env.LAST_DIR }}\n");
               yml.write("      - name: Finish summary table\n");
               yml.write("        if: always()\n");
-              yml.write("        run: echo ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
+              yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
               yml.close()
               ymlmiktex.close()
