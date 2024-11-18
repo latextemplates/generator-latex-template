@@ -167,7 +167,7 @@ jobs:
                               yml_content += "      - run: echo CURRENT_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
                               yml_content += "      - run: echo CURRENT_VARIANT_SHORT='{}' >> $GITHUB_ENV\n".format(variantShort);
                               yml_content += "      - run: echo CURRENT_VARIANT_TABLE_ROW='{}' >> $GITHUB_ENV\n".format(table);
-                              yml_content += "      - name: Create {}\n".format(variantName)
+                              yml_content += "      - name: Create {}\n".format(variantShort)
                               yml_content += "        run: npx yo@v4.3.1 $GITHUB_WORKSPACE"
                               yml_content += " --documentclass=%s" % documentclass
                               if documentclass == 'ieee':
@@ -197,8 +197,8 @@ jobs:
         with:
 ''')
                               yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
-                              yml.write("      - name: latexmk {}\n".format(variantName))
-                              ymlmiktex.write("      - name: latexmk {}\n".format(variantName))
+                              yml.write("      - name: latexmk {}\n".format(variantShort))
+                              ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
                               filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
                               command = "latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
                               yml.write("        run: {}\n".format(command))
