@@ -209,9 +209,9 @@ jobs:
       - name: texlogsieve
         if: always()
         run: |
-          echo "```" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           texlogsieve < *.log >> $GITHUB_STEP_SUMMARY
-          echo "```" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 ''')
 
               yml.write("        working-directory: ${{ env.LAST_DIR }}\n");
