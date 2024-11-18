@@ -161,7 +161,7 @@ jobs:
                               yml_content += "      - name: Add to summary table and status\n";
                               yml_content += "        run: |\n";
                               yml_content += "          echo \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table);
-                              yml_content += "          echo LAST_DIR='${{{{ github.workspace }}}}/{}'\n".format(variantName);
+                              yml_content += "          echo LAST_DIR='${{{{ github.workspace }}}}/{}' >> $GITHUB_ENV\n".format(variantName);
                               yml_content += "      - name: Create {}\n".format(variantName)
                               yml_content += '''        run: |
           npx yo@v4.3.1 $GITHUB_WORKSPACE'''
