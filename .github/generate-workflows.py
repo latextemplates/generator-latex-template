@@ -140,8 +140,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 ''')
-              table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |\n"
-              table += "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |\n"
+              table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |"
+              yml.write("      - run: echo '{}' >> $GITHUB_STEP_SUMMARY\n".format(table));
+              table = "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |"
               yml.write("      - run: echo '{}' >> $GITHUB_STEP_SUMMARY\n".format(table));
               for howtotext in howtotexts:
                 for language in languages:
