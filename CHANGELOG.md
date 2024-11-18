@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - There is no space within `e.g.` and `i.e.` (Commands `\eg` and `\ie`).
 - `.gitignore` now contains correct PDF ignore for `paper.pdf`.
 
+### Removed
+
+- `texlogsieve` is not filtering the outputs of `latexmk` anymore.
+
 ## [0.8.0] – 2023-07-24
 
 ### Added
