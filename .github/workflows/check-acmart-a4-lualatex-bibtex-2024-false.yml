@@ -60,7 +60,10 @@ jobs:
           npm i npm@latest
       - run: npm install
       - run: mkdir /tmp/out
-      - name: Summary table heading        run: |          TABLE='| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |'          echo -n "TABLE=${TABLE}\n| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |" >> $GITHUB_ENV
+      - name: Summary table heading
+        run: |
+          TABLE='| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |'
+          echo -n "TABLE=${TABLE}\n| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |" >> $GITHUB_ENV
       - run: mkdir acmart_lualatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true
       - name: Add to summary table
         echo -n "TABLE=${TABLE}\n| acmart        | lualatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | true     |" >> $GITHUB_ENV
@@ -962,4 +965,6 @@ jobs:
         with:
           name: pdfs
           path: /tmp/out
-      - name: Finish Summary table        if: always()        run: echo ${TABLE} >> $GITHUB_STEP_SUMMARY
+      - name: Finish Summary table
+        if: always()
+        run: echo ${TABLE} >> $GITHUB_STEP_SUMMARY

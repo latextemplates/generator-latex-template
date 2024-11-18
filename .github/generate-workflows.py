@@ -141,9 +141,9 @@ jobs:
         uses: actions/checkout@v4
 ''')
               table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext |"
-              yml.write("      - name: Summary table heading");
-              yml.write("        run: |");
-              yml.write("          TABLE='{}'".format(table));
+              yml.write("      - name: Summary table heading\n");
+              yml.write("        run: |\n");
+              yml.write("          TABLE='{}'\n".format(table));
               table = "| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- |"
               yml.write("          echo -n \"TABLE=${{TABLE}}\\n{}\" >> $GITHUB_ENV\n".format(table));
               for howtotext in howtotexts:
@@ -205,8 +205,8 @@ jobs:
           name: pdfs
           path: /tmp/out
 ''')
-              yml.write("      - name: Finish Summary table");
-              yml.write("        if: always()");
-              yml.write("        run: echo ${TABLE} >> $GITHUB_STEP_SUMMARY");
+              yml.write("      - name: Finish Summary table\n");
+              yml.write("        if: always()\n");
+              yml.write("        run: echo ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
               yml.close()
               ymlmiktex.close()
