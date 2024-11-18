@@ -5,7 +5,7 @@ latexcompilers = ['pdflatex', 'lualatex']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2022, 2023]
+texlives = [2024]
 
 languages = ['en', 'de']
 
@@ -184,7 +184,7 @@ jobs:
                               yml_content += " --bibtextool=%s" % bibtextool
                               yml_content += " --overleaf=false"
                               yml_content += " --texlive=%s" % texlive
-                              yml_content += " --docker=iot"
+                              yml_content += " --docker=no"
                               yml_content += " --lang=%s" % language
                               yml_content += " --font=%s" % font
                               yml_content += " --listings=%s" % listing
@@ -196,25 +196,19 @@ jobs:
                               yml_content += "        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName)
                               yml.write(yml_content)
                               ymlmiktex.write(yml_content)
-                              yml.write('''      - name: Build docker image
-        uses: docker/build-push-action@v5
+                              yml.write('''      - name: Install TeX Live
+        uses: zauguin/install-texlive@v3
         with:
-          push: true
-          provenance: false
-          build-args: |
-            TLMIRRORURL=https://tug.ctan.org/
+          package_file: Texlivefile
 ''')
-                              yml.write("          tags: localhost:5000/name/app:{}\n".format(variantName))
-                              yml.write("          context: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               yml.write("      - name: State\n")
                               yml.write("        run: echo -e " + repr(table) + "\n")
                               yml.write("      - name: latexmk {}\n".format(variantName))
                               ymlmiktex.write("      - name: latexmk {}\n".format(variantName))
                               filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
                               command = "latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
-                              yml.write("        run: docker run -v $(pwd):/workdir -v /tmp/out:/work/out localhost:5000/name/app:{} {}\n".format(variantName, command))
+                              yml.write("        run: {}\n".format(command))
                               ymlmiktex.write("        run: {}\n".format(command))
-                              yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
                               ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantName))
               yml.write('''      - uses: actions/upload-artifact@v4
         with:
