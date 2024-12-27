@@ -15,9 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Switched from [pbalance](https://ctan.org/pkg/pbalance) back to [balance](https://ctan.org/pkg/balance) package, because `pbalance` sometimes lead to an endless loop.
 - Implementation: No `default` branches any more for `switch`es on `documentclass`
-- Pinned Yeoman to 4.3.1 as workaround for [yo#797](https://github.com/yeoman/yo/issues/797).
 - Dropped support for TeXLive 2022 and 2023.
 - `Texlivefile` is now always generated.
+- Updated to [yeoman-generator v5.1.0](https://github.com/yeoman/yo/releases/tag/v5.1.0)
 
 ### Fixed
 
