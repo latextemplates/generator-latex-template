@@ -353,6 +353,12 @@ The possible options are listed in `<%= filenames.main %>.tex`.
 
 Yes. You can regenerate the template and choose "German" as language.
 
+<% if (language == 'de') { -%>
+### Q: `ngerman-x-latest` is reported missing
+
+Install the package `dehyph-exptl`.
+
+<% } -%>
 ## Further information
 
 <% if (documentclass == 'lncs') { -%>
