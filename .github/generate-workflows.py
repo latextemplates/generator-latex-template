@@ -118,7 +118,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
       - name: Update npm
         run: |
           npm i -g npm@latest
