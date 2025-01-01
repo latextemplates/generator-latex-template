@@ -2,6 +2,8 @@
 
 import hashlib
 
+failfast = False
+
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
@@ -100,8 +102,12 @@ for documentclass in documentclasses:
       - '.vscode/**'
   merge_group:
 concurrency:
-  group: "${{ github.workflow }}-${{ github.head_ref || github.ref }}"
-  cancel-in-progress: true
+""")
+              if failfast:
+                 yml.write("  group: texlive\n")
+              else:
+                 yml.write("  group: \"${{ github.workflow }}-${{ github.head_ref || github.ref }}\"\n")
+              yml.write("""  cancel-in-progress: true
 jobs:
   check:
 """)
@@ -112,7 +118,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
       - name: Update npm
         run: |
           npm i -g npm@latest
@@ -124,7 +130,10 @@ jobs:
               ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write("on: [push]\n")
               ymlmiktex.write("concurrency:\n")
-              ymlmiktex.write("  group: miktex-${{ github.workflow }}-${{ github.ref }}\n")
+              if failfast:
+                ymlmiktex.write("  group: miktex\n")
+              else:
+                ymlmiktex.write("  group: miktex-${{ github.workflow }}-${{ github.ref }}\n")
               ymlmiktex.write("  cancel-in-progress: true\n")
               ymlmiktex.write("jobs:\n")
               ymlmiktex.write("  miktex:\n")
@@ -168,7 +177,7 @@ jobs:
                               yml_content += "      - run: echo CURRENT_VARIANT_SHORT='{}' >> $GITHUB_ENV\n".format(variantShort);
                               yml_content += "      - run: echo CURRENT_VARIANT_TABLE_ROW='{}' >> $GITHUB_ENV\n".format(table);
                               yml_content += "      - name: Create {}\n".format(variantShort)
-                              yml_content += "        run: npx yo@v4.3.1 $GITHUB_WORKSPACE"
+                              yml_content += "        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js"
                               yml_content += " --documentclass=%s" % documentclass
                               if documentclass == 'ieee':
                                   yml_content += " --ieeevariant=%s" % ieeevariant

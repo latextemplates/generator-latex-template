@@ -124,25 +124,22 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 - Create empty directory ("target directory")
 - Change to the target directory
-- Run `npx yo@v4.3.1 <path-to-git-repository>`
-- Windows: `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template`
-
-<!-- markdownlint-disable-next-line MD004 -->
-* Note: yo 5.0.0 cannot be used due to [yo#797](https://github.com/yeoman/yo/issues/797)
+- Run `npx yo <path-to-git-repository>/generators/app/index.js`. Background: Starting from 5.0.0 on, [one needs to specify the full path to index.js](https://github.com/yeoman/yo/issues/797#issuecomment-2541794625).
+- Windows: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js`
 
 #### Linux
 
 Parameters can be set using command line
 
-- lncs: `npx yo@v4.3.1 /tmp/repo --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- lncs: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 
 #### Windows
 
 Parameters can be set using command line
 
-- IEEE template (with pdflatex and bibtex): `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- LNCS template (with pdflatex and bibtex): `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- Scientific Thesis Template: `npx yo@v4.3.1 c:\git-repositories\latextemplates\generator-latex-template --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- Scientific Thesis Template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 
 <!-- markdownlint-disable-next-line MD004 -->
 * Run `latexmk` to build the PDF
