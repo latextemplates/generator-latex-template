@@ -177,7 +177,7 @@ jobs:
                               yml_content += "      - run: echo CURRENT_VARIANT_SHORT='{}' >> $GITHUB_ENV\n".format(variantShort);
                               yml_content += "      - run: echo CURRENT_VARIANT_TABLE_ROW='{}' >> $GITHUB_ENV\n".format(table);
                               yml_content += "      - name: Create {}\n".format(variantShort)
-                              yml_content += "        run: npx yo@v4.3.1 $GITHUB_WORKSPACE"
+                              yml_content += "        run: npx yo@v5.1.0 $GITHUB_WORKSPACE"
                               yml_content += " --documentclass=%s" % documentclass
                               if documentclass == 'ieee':
                                   yml_content += " --ieeevariant=%s" % ieeevariant
