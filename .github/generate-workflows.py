@@ -2,7 +2,7 @@
 
 import hashlib
 
-failfast = True
+failfast = False
 
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
