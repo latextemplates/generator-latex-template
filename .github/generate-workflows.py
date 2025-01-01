@@ -2,6 +2,8 @@
 
 import hashlib
 
+failfast = True
+
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
 latexcompilers = ['pdflatex', 'lualatex']
 
@@ -100,8 +102,12 @@ for documentclass in documentclasses:
       - '.vscode/**'
   merge_group:
 concurrency:
-  group: "${{ github.workflow }}-${{ github.head_ref || github.ref }}"
-  cancel-in-progress: true
+""")
+              if failfast:
+                 yml.write("  group: texlive\n")
+              else:
+                 yml.write("  group: \"${{ github.workflow }}-${{ github.head_ref || github.ref }}\"\n")
+              yml.write("""  cancel-in-progress: true
 jobs:
   check:
 """)
@@ -124,7 +130,10 @@ jobs:
               ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write("on: [push]\n")
               ymlmiktex.write("concurrency:\n")
-              ymlmiktex.write("  group: miktex-${{ github.workflow }}-${{ github.ref }}\n")
+              if failfast:
+                ymlmiktex.write("  group: miktex\n")
+              else:
+                ymlmiktex.write("  group: miktex-${{ github.workflow }}-${{ github.ref }}\n")
               ymlmiktex.write("  cancel-in-progress: true\n")
               ymlmiktex.write("jobs:\n")
               ymlmiktex.write("  miktex:\n")
