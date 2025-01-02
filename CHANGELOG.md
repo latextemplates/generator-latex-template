@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added support for TeXLive 2024.
+- Added `both` as option, which includes `\ifluatex` to switch between LuaLaTeX and pdflatex.
 
 ### Changed
 
