@@ -112,22 +112,6 @@ export const options = [
   },
   {
     type: "list",
-    name: "overleaf",
-    message: "Overleaf compatibility?",
-    choices: [
-      {
-        name: "yes",
-        value: true,
-      },
-      {
-        name: "no",
-        value: false,
-      },
-    ],
-    default: true,
-  },
-  {
-    type: "list",
     name: "texlive",
     message: "Which TeXLive compatibility?",
     choices(state) {
