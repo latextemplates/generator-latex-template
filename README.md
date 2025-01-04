@@ -2,7 +2,7 @@
 
 > Generates latex templates (e.g., for thesis, workshops, conferences, IEEEtran, LNCS, ...) out of "micro-templates"
 
-## Talks an papers
+## Talks and papers
 
 - Paper: [Oliver Kopp - The LaTeX template generator: How micro-templates reduce template maintenance effort](https://tug.org/TUGboat/tb44-2/tb137kopp-microtemplates.html)
 - Talk: [Oliver Kopp - The LaTeX Template Generator - DANTE Herbsttagung 2019](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
@@ -131,15 +131,15 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 Parameters can be set using command line
 
-- lncs: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- lncs: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 
 #### Windows
 
 Parameters can be set using command line
 
-- IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- Scientific Thesis Template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- Scientific Thesis Template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 
 <!-- markdownlint-disable-next-line MD004 -->
 * Run `latexmk` to build the PDF
