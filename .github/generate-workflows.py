@@ -187,7 +187,6 @@ jobs:
                               yml_content += " --papersize=%s" % papersize
                               yml_content += " --latexcompiler=%s" % latexcompiler
                               yml_content += " --bibtextool=%s" % bibtextool
-                              yml_content += " --overleaf=false"
                               yml_content += " --texlive=%s" % texlive
                               yml_content += " --docker=no"
                               yml_content += " --lang=%s" % language
