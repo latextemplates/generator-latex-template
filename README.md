@@ -145,6 +145,22 @@ Parameters can be set using command line
 <!-- markdownlint-disable-next-line MD004 -->
 * Run `latexmk` to build the PDF
 
+To fire up a TeX Live installation and use the [Dependency Printer for TeX Live](https://gitlab.com/islandoftex/texmf/depp) to refine `Texlivefile`, execute following steps:
+
+```cmd
+docker run -it --rm -v c:\temp\ltg:/ltg registry.gitlab.com/islandoftex/images/texlive:latest
+```
+
+```bash
+cd /tmp
+git clone https://gitlab.com/islandoftex/texmf/depp.git
+cd depp
+l3build install
+cd /ltg
+# edit paper.tex and add `\RequirePackage[dependency-file=Texlivefile]{depp}`
+lualatex/pdflatex paper
+```
+
 ### Useful snippets
 
 ```ejs
