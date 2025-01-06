@@ -82,9 +82,6 @@ Following features are enabled in this template:
   Contains a fix to increase compatibility with Babel.
   See <https://tex.stackexchange.com/a/441701/9075> for details.
 <% } -%>
-<% if (howtotext) { -%>
-- Hints on writing an abstract and thesis by Dirk Fahland.
-<% } -%>
 - Automatic setting of "Fig." and "Section"/"Sect." according to the LNCS style.
   Just use `\Cref{sec:xy}` at the beginning of a sentence and `\cref{sec:xy}` in the middle of a sentence.
   Thanx to [cleveref].
@@ -111,6 +108,9 @@ Following features are enabled in this template:
 - <% if (githubpublish) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
 <% } -%>
 - Ready-to-go configuration for [latexindent].
+<% if (howtotext) { -%>
+- Hints on writing an abstract and thesis by Dirk Fahland.
+<% } -%>
 
 ## Disabled features
 
