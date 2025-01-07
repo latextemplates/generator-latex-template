@@ -221,9 +221,20 @@
 
 % Add manual adapted hyphenation of English words
 % See https://ctan.org/pkg/hyphenex and https://tex.stackexchange.com/a/22892/9075 for details
-% Does not work on MiKTeX, therefore disabled - issue reported at https://github.com/MiKTeX/miktex-packaging/issues/271
-% \input{ushyphex}
+\input{ushyphex}
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 
+<% if (latexcompiler == "both") { -%>
+\ifluatex
+<% } -%>
+% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/selnolig
+% See ADR-0009 for alternatives
+\usepackage{selnolig}
+<% if (latexcompiler == "both") { -%>
+\fi
+<% } -%>
+
+<% } -%>
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 <% switch (documentclass) { case "acmart": -%>

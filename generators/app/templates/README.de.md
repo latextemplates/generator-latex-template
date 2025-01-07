@@ -10,3 +10,7 @@ Kompiliere es mittels
 <%
 }
 %>
+
+## Features
+
+- Gute Worttrennung und Mikrotypographie für deutsche Texte.

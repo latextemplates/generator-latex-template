@@ -108,6 +108,7 @@ Following features are enabled in this template:
 - <% if (githubpublish) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
 <% } -%>
 - Ready-to-go configuration for [latexindent].
+- Proper hyphenation and microtype for English texts.
 <% if (howtotext) { -%>
 - Hints on writing an abstract and thesis by Dirk Fahland.
 <% } -%>
