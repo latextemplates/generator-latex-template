@@ -113,7 +113,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Use [actionlint](https://github.com/rhysd/actionlint#readme)
   - Use [vs.code GitHub actions plugin](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
   - Use [act](https://github.com/nektos/act) for checking: `act --rm --platform ubuntu-latest=fwilhe2/act-runner:latest -W .github/workflows/check-ieee-conference-a4-pdflatex-bibtex-2023-true.yml`
-- When adding a new package:
+- When adding a new package use `DEPP` (see above) or execute following steps:
   1. execute `npx` with `--generatereitzig` (in a clean directory)
   2. run `pdflatex`
   3. run `{repository-root}/generate-texlivefile.sh`
