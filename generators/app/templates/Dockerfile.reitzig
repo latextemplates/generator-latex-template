@@ -1,6 +1,6 @@
 FROM reitzig/texlive-<% switch (latexcompiler) {
   case "pdflatex": %>base<% break;
-  case "lualatex": %>base-luatex<% break;
+  case "lualatex": case "both": %>base-luatex<% break;
   default: %>base<% break;
 } -%>:<% switch (texlive) {
   case 2024: %>2024.11<% break;
@@ -23,7 +23,7 @@ RUN xargs tlmgr install --repository https://mirror.typesetting.eu < "/work/src/
 <% } -%>
   sha256sum "/work/src/Texlivefile" > "/work/tmp/Texlivefile.sha" &&\
   # make <% if (bibtextool == "biblatex") { %>biber, <% } %>latexmk and texlogsieve available
-  tlmgr path add<% if (latexcompiler === "lualatex") { %> &&\
+  tlmgr path add<% if ((latexcompiler === "lualatex") || (latexcompiler === "both")) { %> &&\
   # update font index
   luaotfload-tool --update<% } %>
 # use latest texlogsieve
