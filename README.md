@@ -119,6 +119,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   3. run `{repository-root}/generate-texlivefile.sh`
   4. copy `Texlivefile` to the root of the `{repository-root}/generators/app/templates`
   5. adapt `Texlivefile` as required
+- When issues with the template occur: `npx ejs-lint main.en.tex`
 
 ### Test locally
 
