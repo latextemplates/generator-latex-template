@@ -51,9 +51,9 @@ export default class extends Generator {
     this.props.ieeecompsoc = false;
 
     // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex
-    if (this.props.documentclass === "ieee") {
-      this.props.latexcompiler = "pdflatex";
-    }
+    //if (this.props.documentclass === "ieee") {
+      //this.props.latexcompiler = "pdflatex";
+    //}
 
     // Convert "String" Boolean command line options
     this.props.examples =

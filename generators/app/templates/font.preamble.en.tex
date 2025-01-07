@@ -1,4 +1,8 @@
-<% if (latexcompiler == "lualatex") { -%><%#
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
+<% if (latexcompiler == "both") { -%>
+\ifluatex
+<% } -%>
+<%#
 ###########################################################################
 lualatex
 ###########################################################################
@@ -86,7 +90,12 @@ SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
 \usepackage{setspace}
 \setstretch{1.2}
 <% } -%>
-<% } else { -%><%#
+<% } -%>
+<% if ((latexcompiler != "lualatex") || (latexcompiler == "both")) { -%>
+<% if (latexcompiler == "both") { -%>
+\else
+<% } -%>
+<%#
 ###########################################################################
 pdflatex
 ###########################################################################
@@ -135,4 +144,7 @@ pdflatex
 
 % Has to be loaded AFTER any font packages. See https://tex.stackexchange.com/a/2869/9075.
 \usepackage[T1]{fontenc}
+<% if (latexcompiler == "both") { -%>
+\fi
+<% } -%>
 <% } -%>

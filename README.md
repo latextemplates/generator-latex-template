@@ -2,7 +2,7 @@
 
 > Generates latex templates (e.g., for thesis, workshops, conferences, IEEEtran, LNCS, ...) out of "micro-templates"
 
-## Talks an papers
+## Talks and papers
 
 - Paper: [Oliver Kopp - The LaTeX template generator: How micro-templates reduce template maintenance effort](https://tug.org/TUGboat/tb44-2/tb137kopp-microtemplates.html)
 - Talk: [Oliver Kopp - The LaTeX Template Generator - DANTE Herbsttagung 2019](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
@@ -113,12 +113,13 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Use [actionlint](https://github.com/rhysd/actionlint#readme)
   - Use [vs.code GitHub actions plugin](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
   - Use [act](https://github.com/nektos/act) for checking: `act --rm --platform ubuntu-latest=fwilhe2/act-runner:latest -W .github/workflows/check-ieee-conference-a4-pdflatex-bibtex-2023-true.yml`
-- When adding a new package:
+- When adding a new package use `DEPP` (see above) or execute following steps:
   1. execute `npx` with `--generatereitzig` (in a clean directory)
   2. run `pdflatex`
   3. run `{repository-root}/generate-texlivefile.sh`
   4. copy `Texlivefile` to the root of the `{repository-root}/generators/app/templates`
   5. adapt `Texlivefile` as required
+- When issues with the template occur: `npx ejs-lint main.en.tex`
 
 ### Test locally
 
@@ -131,18 +132,34 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 Parameters can be set using command line
 
-- lncs: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- lncs: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 
 #### Windows
 
 Parameters can be set using command line
 
-- IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- Scientific Thesis Template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2023 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- Scientific Thesis Template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 
 <!-- markdownlint-disable-next-line MD004 -->
 * Run `latexmk` to build the PDF
+
+To fire up a TeX Live installation and use the [Dependency Printer for TeX Live](https://gitlab.com/islandoftex/texmf/depp) to refine `Texlivefile`, execute following steps:
+
+```cmd
+docker run -it --rm -v c:\temp\ltg:/ltg registry.gitlab.com/islandoftex/images/texlive:latest
+```
+
+```bash
+cd /tmp
+git clone https://gitlab.com/islandoftex/texmf/depp.git
+cd depp
+l3build install
+cd /ltg
+# edit paper.tex and add `\RequirePackage[dependency-file=Texlivefile]{depp}`
+lualatex/pdflatex paper
+```
 
 ### Useful snippets
 

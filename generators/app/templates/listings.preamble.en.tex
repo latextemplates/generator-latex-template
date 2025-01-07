@@ -74,7 +74,10 @@
   %
   captionpos=b
 }
-<% if (latexcompiler == "pdflatex") { -%>
+<% if ((latexcompiler == "pdflatex") || (latexcompiler == "both")) { -%>
+<% if (latexcompiler == "both") { -%>
+\ifluatex\else
+<% } -%>
 
 % Enable Umlauts when using \lstinputputlisting.
 % See https://stackoverflow.com/a/29260603/873282 für details.
@@ -93,6 +96,9 @@
   {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
   {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
 }
+<% if (latexcompiler == "both") { -%>
+\fi
+<% } -%>
 <% } -%>
 <% if (documentclass == 'lncs' && listings == 'listings+minted') { -%>
 

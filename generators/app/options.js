@@ -112,22 +112,6 @@ export const options = [
   },
   {
     type: "list",
-    name: "overleaf",
-    message: "Overleaf compatibility?",
-    choices: [
-      {
-        name: "yes",
-        value: true,
-      },
-      {
-        name: "no",
-        value: false,
-      },
-    ],
-    default: true,
-  },
-  {
-    type: "list",
     name: "texlive",
     message: "Which TeXLive compatibility?",
     choices(state) {
@@ -158,8 +142,21 @@ export const options = [
     type: "list",
     name: "latexcompiler",
     message: "Which latex compiler should be used?",
-    choices: ["pdflatex", "lualatex"],
-    default: "pdflatex",
+    choices: [
+      {
+        name: "pdflatex",
+        value: "pdflatex",
+      },
+      {
+        name: "lualatex",
+        value: "lualatex",
+      },
+      {
+        name: "lualatex and pdflatex (if switches in .tex files; default lualatex)",
+        value: "both",
+      },
+    ],
+    default: "both",
     when(response) {
       return !(response.documentclass === "ieee");
     },

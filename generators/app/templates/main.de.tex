@@ -1,5 +1,6 @@
 <% if (preparereitzig) { -%>
 \RequirePackage{snapshot}
+\RequirePackage[dependency-file=Texlivefile]{depp}
 <% } -%>
 <% switch (documentclass) { case "lncs": -%>
 % Dieses Template wurde mit der "LLNCS DOCUMENT CLASS -- version 2.21 (12-Jan-2022)" getestet
@@ -27,7 +28,7 @@
 % This option  present, because the current word template offered by Springer is DIN A4.
 % We accept that DIN A4 cause WTFs at persons not used to A4 in USA.
 %
-% "runningheads":
+% "runningheads" führt zu folgendem:
 %
 %  - zeigt Author + Titel auf jeder Seite.
 %  - Während des Schreibens und das Review des Papers hilft das, um z.B. auf konkrete Seitenzahlen einfach verweisen zu können.
@@ -37,7 +38,7 @@
 % blindly opening the folder, one could hit not the title page, but an arbitrary page. Therefore,
 % it is good to have title printed on the pages, too.
 %
-% Diese Option nach Aufforderung durch die Herausgeber entfernen.
+% Die Option "runningheads" ist nach Aufforderung durch die Herausgeber entfernen.
 %
 % To disable outputting page headers and footers, remove "runningheads"
 \documentclass[runningheads,<%= papersize %>paper,ngerman]{llncs}[2022/01/12]
@@ -69,8 +70,8 @@
   % abschließender Punkt (siehe [DUD96, R4])
   numbers=autoendperiod,
   ngerman,  % Neue deutsche Rechtschreibung; der Parameter wird an andere Pakete weiter gegeben
-  a4paper,  % Standard format - only KOMAScript uses paper=a4 - https://tex.stackexchange.com/a/61044/9075
-  twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
+  a4paper,  % KOMAScript allows for both paper=a4 and (standard) a4paper - https://tex.stackexchange.com/a/61044/9075
+  twoside,  % We are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
   bibliography=totoc,
   % idxtotoc,   % Index ins Inhaltsverzeichnis
   % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
@@ -87,10 +88,35 @@
 \cfoot[]{}
 \ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
 \ifoot[]{}
+<% break; case "ustutt": -%>
+
+\documentclass[
+  % fontsize=11pt is the standard
+  numbers=noenddot,
+  english,  % English as main language; this parameter is passed to other packages (e.g., selnolig in the case of lualatex)
+  paper=a5,
+  twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
+  DIV=calc,
+  headings=small,
+  bibliography=totoc,
+  % idxtotoc,   % Index ins Inhaltsverzeichnis
+  % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
+  lsitof=totoc,
+  % headsepline,
+  % cleardoublepage=empty,
+  % parskip=half,
+  %               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
+  draft=false
+]{scrbook}
 <% break; default: -%>
 
 % not yet supported template. Please report to the author of generator-latex-template
 \documentclass{scrbook}
+<% } -%>
+
+<% if (latexcompiler == "both") { -%>
+\usepackage{iftex}
+
 <% } -%>
 
 % backticks (`) werden als solches in verbatim-Umgebungen dargestellt
@@ -190,6 +216,14 @@
 <% } -%>
 
 <%- include('powerset.preamble.en.tex', this); -%>
+<% if (documentclass == 'ustutt') { -%>
+
+\usepackage{shared/titlepage}
+
+% binding correction
+\setlength{\evensidemargin}{-24pt}
+\setlength{\oddsidemargin}{-24pt}
+<% } -%>
 
 \usepackage{xspace}
 
@@ -199,7 +233,19 @@
 \newcommand{\hydash}{\penalty\@M-\hskip\z@skip}
 % Definition of "= taken from http://mirror.ctan.org/macros/latex/contrib/babel-contrib/german/ngermanb.dtx
 \makeatother
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 
+<% if (latexcompiler == "both") { -%>
+\ifluatex
+<% } -%>
+% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/autotype
+% See ADR-0008 for alternatives
+\usepackage{autotype}
+<% if (latexcompiler == "both") { -%>
+\fi
+<% } -%>
+
+<% } -%>
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 <% switch (documentclass) { case "acmart": -%>
@@ -230,7 +276,11 @@
 <% if (feature.acronyms) { -%><%- include('acronyms.preamble.en.tex', this); %><% } -%>
 <%- include('scientific-thesis-cover.preamble.en.tex', this); %>
 <% break; } -%>
-<% if (latexcompiler == "pdflatex") { -%>
+<% if ((latexcompiler == "pdflatex") || (latexcompiler == "both")) { -%>
+<% if (latexcompiler == "both") { -%>
+
+\ifpdftex
+<% } -%>
 
 % Enable copy and paste of text from the PDF
 % Only required for pdflatex. It "just works" in the case of lualatex.
@@ -243,9 +293,24 @@
 % According to https://tex.stackexchange.com/q/451235/9075 this is the way to go
 \input glyphtounicode
 \pdfgentounicode=1
+<% if (latexcompiler == "both") { -%>
+\fi
+<% } -%>
 <% } -%>
 
 \begin{document}
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
+<% if (latexcompiler == "both") { -%>
+\ifluatex
+<% } -%>
+% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/autotype
+% See ADR-0008 for alternatives
+\autotypelangoptions{ngerman}{ligbreak}
+<% if (latexcompiler == "both") { -%>
+\fi
+<% } -%>
+
+<% } -%>
 <% switch (documentclass) { case "lncs": -%>
 
 \title{Paper Title}
@@ -348,6 +413,43 @@
 % Kurzfassung / abstract
 % auch im Stil vom Inhaltsverzeichnis
 \section*{Kurzfassung}
+<% break; case "ustutt": -%>
+
+% Die Seitennummerierung erfolgt durchlaufend ab der Titelseite. Also keine
+% Spielereien mit römischen Ziffern usw. - Die ISO 7144 schreibt das sogar für
+% wissenschaftliche Werke vor.
+% Von Promitionsordnung verlangt!
+% Deshalb ist \frontmatter DEAKTIVIERT
+%\frontmatter
+\title{Thesis Title}
+%\author{\texorpdfstring{\href{http://www.example.org/}{Author Name}}{Author Name}}
+\author{Author Name}
+\date{\today}
+\keywords{TODO}
+\firstexaminer{Prof.~Dr.~Max Mustermann}
+\secondexaminer{Prof.~Dr.~Emma Musterfrau}
+\dateofexamination{unbekannt}
+\placeofbirth{Gebortsort}
+\faculty{Fakultät für Informatik, Elektrotechnik und Informationstechnik}
+\department{Institut für Architektur von Anwendungssystemen}
+\maketitle
+
+%\mainmatter
+
+\pagestyle{scrheadings}
+
+%% --- Zusammenfassung/Kurzfassung -------------------------------
+\chapter*{Kurzfassung}
+\begin{otherlanguage}{ngerman}
+%Silbentrennung Deutsch
+Kurzfassung der Arbeit.
+\end{otherlanguage}
+\clearpage
+
+%% --- Abstract Page---------------------------------------------
+\chapter*{Abstract}
+\begin{otherlanguage}{american}
+% Silbentrennung auf Englisch
 <% break; default: -%>
 <% break; } -%>
 <% if (howtotext) { -%>
@@ -367,6 +469,7 @@
 <% } else { -%>
 <Kurzfassung der Arbeit>
 <% } -%>
+<%# Jetzt ist der Anfang vom Abstract und der Inhalt gesetzt - jetzt folgt das Schließen des Abstracts -%>
 <% switch (documentclass) { case "lncs": -%>
 
 \keywords{First keyword \and Second keyword \and Third keyword}
@@ -388,7 +491,21 @@
 % For peerreview papers, this IEEEtran command inserts a page break and
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
-<% break; case "scientific-thesis": -%>
+<% break; case "ustutt": -%>
+\pagestyle{scrheadings}
+\end{otherlanguage}
+\clearpage
+
+%% --- Acknowledgements page------------------------------------
+\chapter*{Danksagungen}
+I would like to thank the little green men from Mars. Without their anal probing equipment, the medical experiments on the monkeys described in this thesis would have been considerably more unpleasant for all parties involved.
+\clearpage
+
+<%#
+no "break;", because we need the fall-through.
+The following is typeset for both ustutt and scientific-thesis.
+-%>
+<% case "scientific-thesis": -%>
 
 \microtypesetup{protrusion=false}
 
@@ -400,7 +517,7 @@
 %\makeatother
 %
 % Bei einem ungünstigen Seitenumbruch im Inhaltsverzeichnis, kann dieser mit
-% \addtocontents{toc}{\protect\newpage}
+%  \addtocontents{toc}{\protect\newpage}
 % an der passenden Stelle im Fließtext erzwungen werden.
 \tableofcontents
 
@@ -422,6 +539,12 @@
 %\listof{Algorithmus}{Verzeichnis der Algorithmen}
 %\listofalgorithms %Ist nur für Algorithmen, die mittels \begin{algorithm} umschlossen werden, nötig
 
+<% if (documentclass == 'ustutt') { -%>
+%\chapter*{Definitionsverzeichnis}
+%\addcontentsline{toc}{chapter}{Definitionsverzeichnis}
+%\listtheorems{definition}
+
+<% } -%>
 % Abkürzungsverzeichnis
 \printglossaries
 % \printnoidxglossaries
@@ -794,7 +917,54 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 \label{sec:loremipsum}
 \lipsum[1-4]
 <% } -%>
+<% if (documentclass == 'ustutt') { -%>
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\blindtext
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\subsection{Subsection}
+\label{ssec:example}
+\blindtext
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
 
+<% } -%>
 <%= heading1 %>{Zusammenfassung und Ausblick}
 \label{sec:outlook}
 Hier bitte einen kurzen Durchgang durch die Arbeit.
@@ -815,7 +985,7 @@ Hier bitte einen kurzen Durchgang durch die Arbeit.
 
 <% break; default: -%>
 <% break; } -%>
-<% if ((documentclass == 'acmart') || (documentclass == 'lncs') || (documentclass == 'ieee')) { -%>
+<% if (isPaper) { -%>
 Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which is placed just before the reference section in your document \cite{acmart}.
 <% if (howtotext) { -%>
 
@@ -841,7 +1011,7 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \renewcommand{\bibsection}{\section*{Literatur}} % requried for natbib to have "References" printed and as section*, not chapter*
 % Use natbib compatbile splncs04nat style.
 % It does provide all features of splncs03, but is developed in a clean way.
-% Source: http://phaseportrait.blogspot.de/2011/02/natbib-compatible-bibtex-style-bst-file.html
+% Source: https://github.com/tpavlic/splncs04nat
 \bibliographystyle{splncs04nat}
 \begingroup
   \microtypecontext{expansion=sloppy}
@@ -868,7 +1038,8 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
 % argument is your BibTeX string definitions and bibliography database(s)
 \bibliography{<%= filenames.bib %>}
-<% break; case "scientific-thesis": -%>
+<% break; case "ustutt": -%>
+<% case "scientific-thesis": -%>
 
 \printbibliography
 <% break; default: -%>
@@ -880,6 +1051,7 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 % Enfore empty line after bibliography
 \ \\
 %
+\noindnet
 Alle Links wurden zuletzt am 29.03.2021 geprüft.
 
 <% switch (documentclass) { case "lncs": -%>
@@ -894,14 +1066,17 @@ Alle Links wurden zuletzt am 29.03.2021 geprüft.
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
 %%% ===============================================================================
-<% break; case "scientific-thesis": -%>
+<% break; case "ustutt": -%>
+<% case "scientific-thesis": -%>
 %%% ===============================================================================
 \appendix
 \addcontentsline{toc}{chapter}{Anhang}
 
 %\listoffigures
 %\listoftables
-%%% ===============================================================================
+
+%\IfDefined{printindex}{\printindex}
+%\IfDefined{printnomenclature}{\printnomenclature}
 
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
