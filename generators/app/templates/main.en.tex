@@ -37,6 +37,8 @@
 % blindly opening the folder, one could hit not the title page, but an arbitrary page. Therefore,
 % it is good to have title printed on the pages, too.
 %
+% The optiion "runningheads" neesd to be removed upon request of the publisher.
+%
 % To disable outputting page headers and footers, remove "runningheads"
 \documentclass[runningheads,<%= papersize %>paper,english]{llncs}[2022/01/12]
 <% break; case "acmart": -%>
@@ -61,9 +63,8 @@
   % fontsize=11pt is the standard
   numbers=noenddot,
   english,  % English as main language; this parameter is passed to other packages (e.g., selnolig in the case of lualatex)
-  a4paper,  % Standard format
-  paper=a4, % KOMAScript uses paper=a4 - https://tex.stackexchange.com/a/61044/9075
-  twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
+  a4paper,  % KOMAScript allows for both paper=a4 and (standard) a4paper - https://tex.stackexchange.com/a/61044/9075
+  twoside,  % We are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
   bibliography=totoc,
   % idxtotoc,   % Index ins Inhaltsverzeichnis
   % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
@@ -86,7 +87,7 @@
   % fontsize=11pt is the standard
   numbers=noenddot,
   english,  % English as main language; this parameter is passed to other packages (e.g., selnolig in the case of lualatex)
-  paper=a5, % Standard format - only KOMAScript uses paper=a4 - https://tex.stackexchange.com/a/61044/9075
+  paper=a5,
   twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
   DIV=calc,
   headings=small,
@@ -100,16 +101,16 @@
   %               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
   draft=false
 ]{scrbook}
+<% break; default: -%>
+
+% not yet supported template. Please report to the author of generator-latex-template
+\documentclass{scrbook}
+<% } -%>
+<% if (latexcompiler == "both") { -%>
+\usepackage{iftex}
+
 <% } -%>
 
-<% if (documentclass == 'ustutt') { -%>
-\input{shared/template}
-\usepackage{shared/titlepage}
-
-% binding correction
-\setlength{\evensidemargin}{-24pt}
-\setlength{\oddsidemargin}{-24pt}
-<% } else { -%>
 % backticks (`) are rendered as such in verbatim environments.
 % See following links for details:
 %   - https://tex.stackexchange.com/a/341057/9075
@@ -123,7 +124,6 @@
 <%# ACM already provides a very good font configuration; thus we do not need to override it -%>
 <% if (documentclass != 'acmart') { %>
 <%- include('font.preamble.en.tex', this); -%>
-<% } -%>
 
 <%- include('microtype.preamble.en.tex', this); -%>
 
@@ -207,8 +207,17 @@
 <% } -%>
 
 <%- include('powerset.preamble.en.tex', this); -%>
+<% if (documentclass == 'ustutt') { -%>
+
+\usepackage{shared/titlepage}
+
+% binding correction
+\setlength{\evensidemargin}{-24pt}
+\setlength{\oddsidemargin}{-24pt}
+<% } -%>
 
 \usepackage{xspace}
+
 \newcommand{\eg}{e.g.,\ }
 \newcommand{\ie}{i.e.,\ }
 
@@ -254,7 +263,13 @@
 <% if (feature.acronyms) { -%><%- include('acronyms.preamble.en.tex', this); %><% } -%>
 <%- include('scientific-thesis-cover.preamble.en.tex', this); %>
 <% break; } -%>
-<% if (latexcompiler == "pdflatex") { -%>
+<%# end of  documentclass != 'ustutt' -%>
+<% } -%>
+<% if ((latexcompiler == "pdflatex") || (latexcompiler == "both")) { -%>
+<% if (latexcompiler == "both") { -%>
+
+\ifpdftex
+<% } -%>
 
 % Enable copy and paste of text from the PDF
 % Only required for pdflatex. It "just works" in the case of lualatex.
@@ -267,8 +282,10 @@
 % According to https://tex.stackexchange.com/q/451235/9075 this is the way to go
 \input glyphtounicode
 \pdfgentounicode=1
+<% if (latexcompiler == "both") { -%>
+\fi
 <% } -%>
-<%# end of  documentclass != 'ustutt' %>
+<%# end of  documentclass != 'ustutt' -%>
 <% } -%>
 
 \begin{document}

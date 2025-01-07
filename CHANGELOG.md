@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Added support for TeXLive 2024.
 - Added `both` as option, which includes `\ifluatex` to switch between LuaLaTeX and pdflatex.
+- Added [hyphenex](https://ctan.org/pkg/hyphenex) to enable more correct English hyphenation.
+- Added [autotype](https://ctan.org/pkg/autotype) to enable automatic language-specific typography for German documents.
 
 ### Changed
 
