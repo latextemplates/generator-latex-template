@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Dropped support for TeXLive 2022 and 2023.
 - `Texlivefile` is now always generated.
 - Updated to [yeoman-generator v5.1.0](https://github.com/yeoman/yo/releases/tag/v5.1.0)
+- Updated reitzig image to 2024.11
 
 ### Fixed
 
