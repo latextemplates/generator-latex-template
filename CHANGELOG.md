@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `.github/workflows/check.yml` now works for Island of TeX docker image, too.
 - There is no space within `e.g.` and `i.e.` (Commands `\eg` and `\ie`).
 - `.gitignore` now contains correct PDF ignore for `paper.pdf`.
+- Fixed installation of pygments in reitzig Docker image.
 
 ### Removed
 
