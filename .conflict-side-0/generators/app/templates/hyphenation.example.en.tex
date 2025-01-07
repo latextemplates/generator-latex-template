@@ -1,0 +1,22 @@
+<%= heading2 %>{Hyphenation}
+
+\LaTeX{} automatically hyphenates words.
+When using microtype, there should be less hypnetations than in other settings.
+It might be necessary to tweak the hyphenations nevertheless.
+Here are some hints:
+
+<%- bexample %>
+In case you write <%- bquote %>application-specific<%- equote %>, then the word will only be hyphenated at the dash.
+You can also write \verb1applica\allowbreak{}tion-specific1 (result: applica\allowbreak{}tion-specific), but this is much more effort.
+
+<% if (tweakouterquote == "outerquote")  { -%>
+In the net, you will read about that one can use a normal quote sign followed by an equal sign (\verb1"=1) to specify that hyphenation is allowed at other places in the word.
+Since we use the quote sign for automatic quoation, this is not possible anymore.
+Please use the command \verb1\hydash1 for the same purpose.
+Example: \verb1application\hydash specific1 (result: application\hydash specific).
+<% } else { -%>
+You can now write words containing hyphens which are hyphenated at other places in the word.
+For instance, \verb1application"=specific1 gets application"=specific.
+This is enabled by an additional configuration of the babel package.
+<% } -%>
+<%- eexample %>

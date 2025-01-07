@@ -1,0 +1,39 @@
+\usepackage[newfloat]{minted}
+
+\setminted{
+    % Line numbers not flowing out of the margin
+    numbersep=5pt,
+    xleftmargin=12pt,
+    %
+    % Better listing breaking
+    breakafter=-/\{,
+    breakbefore=\\
+    %
+    % Alternative: Rely on pygment's tokenizer. Does not work well with LaTeX and comments
+    % breakbytoken=true,
+    % breakbytokenanywhere=true
+}
+
+\usemintedstyle{bw} %black and white style
+%\usemintedstyle{vs} %visual studio
+%\usemintedstyle{friendlygrayscale} % custom style - submitted as pull request https://bitbucket.org/birkenfeld/pygments-main/pull-requests/748/add-style-friendly-grayscale/diff
+%\usemintedstyle{friendly}
+%\usemintedstyle{eclipse} %http://www.jevon.org/wiki/Eclipse_Pygments_Style
+%\usemintedstyle{autumn}
+%\usemintedstyle{rrt}
+%\usemintedstyle{borland}
+
+% We need to load caption to have a bold font on the label
+% The other parameters mimic the layout of the LNCS class
+\usepackage[labelfont=bf,font=small,skip=4pt]{caption}
+\SetupFloatingEnvironment{listing}{name=List.,within=none}
+
+% When using both minted and listings
+% Compatibility of packages minted and listings with respect to the numbering of "List." caption
+% Source: https://tex.stackexchange.com/a/269510/9075
+% \AtBeginEnvironment{listing}{\setcounter{listing}{\value{lstlisting}}}
+% \AtEndEnvironment{listing}{\stepcounter{lstlisting}}
+
+% Intermediate solution for hyperlinked refs. See https://tex.stackexchange.com/q/132420/9075 for more information.
+\newcommand{\labelline}[1]{\label[line]{#1}\hypertarget{#1}{}}
+\newcommand{\refline}[1]{\hyperlink{#1}{\FancyVerbLineautorefname~\ref*{#1}}}

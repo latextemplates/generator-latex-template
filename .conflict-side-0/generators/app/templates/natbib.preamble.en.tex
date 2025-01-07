@@ -1,0 +1,46 @@
+% Bibliopgraphy enhancements
+%  - enable \cite[prenote][]{ref}
+%  - enable \cite{ref1,ref2}
+% Alternative: \usepackage{cite}, which enables \cite{ref1, ref2} only (otherwise: Error message: "White space in argument")
+
+% Doc: http://texdoc.net/natbib
+<% if (ieeecompsoc) { -%>
+%\ifCLASSOPTIONcompsoc
+% IEEE Computer Society needs nocompress option at cite.sty
+% natbib includes the same functionality
+\usepackage[%
+  square,        % for square brackets
+  comma,         % use commas as separators
+  numbers,       % for numerical citations;
+  sort           % orders multiple citations into the sequence in which they appear in the list of references;
+  %sort&compress % as sort but in addition multiple numerical citations
+                % are compressed if possible (as 3-6, 15);
+]{natbib}
+<% } else if (documentclass != "acmart") { -%>
+<%# normal IEEE or LNCS -%>
+\usepackage[%
+  square,        % for square brackets
+  comma,         % use commas as separators
+  numbers,       % for numerical citations;
+  %sort           % orders multiple citations into the sequence in which they appear in the list of references;
+  sort&compress  % as sort but in addition multiple numerical citations
+                 % are compressed if possible (as 3-6, 15);
+]{natbib}
+<% } -%>
+<% switch (documentclass) { case "lncs": -%>
+
+% In the bibliography, references have to be formatted as 1., 2., ... not [1], [2], ...
+\renewcommand{\bibnumfmt}[1]{#1.}
+<% break; case "ieee": -%>
+
+% Same fontsize as without natbib
+\renewcommand{\bibfont}{\normalfont\footnotesize}
+<% break; default: -%>
+<% break; } -%>
+
+% Enable hyperlinked author names in the case of \citet
+% Source: https://tex.stackexchange.com/a/76075/9075
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\NAT@test}{\else \NAT@nm}{\else \NAT@hyper@{\NAT@nm}}{}{}
+\makeatother
