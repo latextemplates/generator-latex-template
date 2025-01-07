@@ -145,6 +145,8 @@ Parameters can be set using command line
 <!-- markdownlint-disable-next-line MD004 -->
 * Run `latexmk` to build the PDF
 
+##### Using DEPP
+
 To fire up a TeX Live installation and use the [Dependency Printer for TeX Live](https://gitlab.com/islandoftex/texmf/depp) to refine `Texlivefile`, execute following steps:
 
 ```cmd
@@ -160,6 +162,11 @@ cd /ltg
 # edit paper.tex and add `\RequirePackage[dependency-file=Texlivefile]{depp}`
 lualatex/pdflatex paper
 ```
+
+##### Running reitzig
+
+1. `docker build --progress=plain -t reitzig -f Dockerfile .`
+2. `docker run -it --rm -v c:\temp\ltg:/work/src -v c:\temp\ltg-out:/work/out reitzig work latexmk`
 
 ### Useful snippets
 
