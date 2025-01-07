@@ -387,6 +387,43 @@
 % Kurzfassung / abstract
 % auch im Stil vom Inhaltsverzeichnis
 \section*{Kurzfassung}
+<% break; case "ustutt": -%>
+
+% Die Seitennummerierung erfolgt durchlaufend ab der Titelseite. Also keine
+% Spielereien mit römischen Ziffern usw. - Die ISO 7144 schreibt das sogar für
+% wissenschaftliche Werke vor.
+% Von Promitionsordnung verlangt!
+% Deshalb ist \frontmatter DEAKTIVIERT
+%\frontmatter
+\title{Thesis Title}
+%\author{\texorpdfstring{\href{http://www.example.org/}{Author Name}}{Author Name}}
+\author{Author Name}
+\date{\today}
+\keywords{TODO}
+\firstexaminer{Prof.~Dr.~Max Mustermann}
+\secondexaminer{Prof.~Dr.~Emma Musterfrau}
+\dateofexamination{unbekannt}
+\placeofbirth{Gebortsort}
+\faculty{Fakultät für Informatik, Elektrotechnik und Informationstechnik}
+\department{Institut für Architektur von Anwendungssystemen}
+\maketitle
+
+%\mainmatter
+
+\pagestyle{scrheadings}
+
+%% --- Zusammenfassung/Kurzfassung -------------------------------
+\chapter*{Kurzfassung}
+\begin{otherlanguage}{ngerman}
+%Silbentrennung Deutsch
+Kurzfassung der Arbeit.
+\end{otherlanguage}
+\clearpage
+
+%% --- Abstract Page---------------------------------------------
+\chapter*{Abstract}
+\begin{otherlanguage}{american}
+% Silbentrennung auf Englisch
 <% break; default: -%>
 <% break; } -%>
 <% if (howtotext) { -%>
@@ -406,6 +443,7 @@
 <% } else { -%>
 <Kurzfassung der Arbeit>
 <% } -%>
+<%# Jetzt ist der Anfang vom Abstract und der Inhalt gesetzt - jetzt folgt das Schließen des Abstracts -%>
 <% switch (documentclass) { case "lncs": -%>
 
 \keywords{First keyword \and Second keyword \and Third keyword}
@@ -427,7 +465,21 @@
 % For peerreview papers, this IEEEtran command inserts a page break and
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
-<% break; case "scientific-thesis": -%>
+<% break; case "ustutt": -%>
+\pagestyle{scrheadings}
+\end{otherlanguage}
+\clearpage
+
+%% --- Acknowledgements page------------------------------------
+\chapter*{Danksagungen}
+I would like to thank the little green men from Mars. Without their anal probing equipment, the medical experiments on the monkeys described in this thesis would have been considerably more unpleasant for all parties involved.
+\clearpage
+
+<%#
+no "break;", because we need the fall-through.
+The following is typeset for both ustutt and scientific-thesis.
+-%>
+<% case "scientific-thesis": -%>
 
 \microtypesetup{protrusion=false}
 
@@ -439,7 +491,7 @@
 %\makeatother
 %
 % Bei einem ungünstigen Seitenumbruch im Inhaltsverzeichnis, kann dieser mit
-% \addtocontents{toc}{\protect\newpage}
+%  \addtocontents{toc}{\protect\newpage}
 % an der passenden Stelle im Fließtext erzwungen werden.
 \tableofcontents
 
@@ -461,6 +513,12 @@
 %\listof{Algorithmus}{Verzeichnis der Algorithmen}
 %\listofalgorithms %Ist nur für Algorithmen, die mittels \begin{algorithm} umschlossen werden, nötig
 
+<% if (documentclass == 'ustutt') { -%>
+%\chapter*{Definitionsverzeichnis}
+%\addcontentsline{toc}{chapter}{Definitionsverzeichnis}
+%\listtheorems{definition}
+
+<% } -%>
 % Abkürzungsverzeichnis
 \printglossaries
 % \printnoidxglossaries
@@ -833,7 +891,54 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 \label{sec:loremipsum}
 \lipsum[1-4]
 <% } -%>
+<% if (documentclass == 'ustutt') { -%>
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\blindtext
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\section{Section}
+\subsection{Subsection}
+\label{ssec:example}
+\blindtext
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
+\subsection{Subsection}
 
+<% } -%>
 <%= heading1 %>{Zusammenfassung und Ausblick}
 \label{sec:outlook}
 Hier bitte einen kurzen Durchgang durch die Arbeit.
@@ -854,7 +959,7 @@ Hier bitte einen kurzen Durchgang durch die Arbeit.
 
 <% break; default: -%>
 <% break; } -%>
-<% if ((documentclass == 'acmart') || (documentclass == 'lncs') || (documentclass == 'ieee')) { -%>
+<% if (isPaper) { -%>
 Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which is placed just before the reference section in your document \cite{acmart}.
 <% if (howtotext) { -%>
 
@@ -880,7 +985,7 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \renewcommand{\bibsection}{\section*{Literatur}} % requried for natbib to have "References" printed and as section*, not chapter*
 % Use natbib compatbile splncs04nat style.
 % It does provide all features of splncs03, but is developed in a clean way.
-% Source: http://phaseportrait.blogspot.de/2011/02/natbib-compatible-bibtex-style-bst-file.html
+% Source: https://github.com/tpavlic/splncs04nat
 \bibliographystyle{splncs04nat}
 \begingroup
   \microtypecontext{expansion=sloppy}
@@ -907,7 +1012,8 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
 % argument is your BibTeX string definitions and bibliography database(s)
 \bibliography{<%= filenames.bib %>}
-<% break; case "scientific-thesis": -%>
+<% break; case "ustutt": -%>
+<% case "scientific-thesis": -%>
 
 \printbibliography
 <% break; default: -%>
@@ -919,6 +1025,7 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 % Enfore empty line after bibliography
 \ \\
 %
+\noindnet
 Alle Links wurden zuletzt am 29.03.2021 geprüft.
 
 <% switch (documentclass) { case "lncs": -%>
@@ -933,14 +1040,17 @@ Alle Links wurden zuletzt am 29.03.2021 geprüft.
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
 %%% ===============================================================================
-<% break; case "scientific-thesis": -%>
+<% break; case "ustutt": -%>
+<% case "scientific-thesis": -%>
 %%% ===============================================================================
 \appendix
 \addcontentsline{toc}{chapter}{Anhang}
 
 %\listoffigures
 %\listoftables
-%%% ===============================================================================
+
+%\IfDefined{printindex}{\printindex}
+%\IfDefined{printnomenclature}{\printnomenclature}
 
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}

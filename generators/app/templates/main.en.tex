@@ -263,8 +263,6 @@
 <% if (feature.acronyms) { -%><%- include('acronyms.preamble.en.tex', this); %><% } -%>
 <%- include('scientific-thesis-cover.preamble.en.tex', this); %>
 <% break; } -%>
-<%# end of  documentclass != 'ustutt' -%>
-<% } -%>
 <% if ((latexcompiler == "pdflatex") || (latexcompiler == "both")) { -%>
 <% if (latexcompiler == "both") { -%>
 
@@ -285,7 +283,6 @@
 <% if (latexcompiler == "both") { -%>
 \fi
 <% } -%>
-<%# end of  documentclass != 'ustutt' -%>
 <% } -%>
 
 \begin{document}
@@ -388,8 +385,9 @@
 \pagestyle{plain.scrheadings}
 \renewcommand*{\chapterpagestyle}{plain.scrheadings}
 
-% Kurzfassung / abstract
-% auch im Stil vom Inhaltsverzeichnis
+% abstract
+% Same style as table of contents
+\section*{Abstract}
 <% break; case "ustutt": -%>
 
 % Die Seitennummerierung erfolgt durchlaufend ab der Titelseite. Also keine
@@ -427,6 +425,7 @@ Kurzfassung der Arbeit.
 \chapter*{Abstract}
 \begin{otherlanguage}{american}
 % Silbentrennung auf Englisch
+<% break; default: -%>
 <% break; } -%>
 <% if (howtotext) { -%>
 \emph{Write an abstract for your work. Replace each of the points below with one sentence (two if you must) and you have your abstract. Write it when you finished your entire report.\footnote{https://www.easterbrook.ca/steve/2010/01/how-to-write-a-scientific-abstract-in-six-easy-steps/}}
@@ -445,6 +444,7 @@ Kurzfassung der Arbeit.
 <% } else { -%>
 \lipsum[1]
 <% } -%>
+<%# Now, the abstract is started and some content exists. We need now to close the abstract. -%>
 <% switch (documentclass) { case "lncs": -%>
 
 \keywords{First keyword \and Second keyword \and Third keyword}
@@ -476,7 +476,10 @@ Kurzfassung der Arbeit.
 I would like to thank the little green men from Mars. Without their anal probing equipment, the medical experiments on the monkeys described in this thesis would have been considerably more unpleasant for all parties involved.
 \clearpage
 
-<%# no break, because we need the fall-through -%>
+<%#
+no "break;", because we need the fall-through.
+The following is typeset for both ustutt and scientific-thesis.
+-%>
 <% case "scientific-thesis": -%>
 
 \microtypesetup{protrusion=false}
@@ -490,7 +493,7 @@ I would like to thank the little green men from Mars. Without their anal probing
 %
 % In case of a strange break in the table of contents,
 % a page break can be inserted by issuing the following command at the "right" place in the main text:
-%   \addtocontents{toc}{\protect\newpage}
+%  \addtocontents{toc}{\protect\newpage}
 \tableofcontents
 
 \listoffigures
@@ -515,8 +518,8 @@ I would like to thank the little green men from Mars. Without their anal probing
 %\chapter*{Definitionsverzeichnis}
 %\addcontentsline{toc}{chapter}{Definitionsverzeichnis}
 %\listtheorems{definition}
-<% } -%>
 
+<% } -%>
 % Abbreviations
 \printglossaries
 % \printnoidxglossaries
@@ -527,6 +530,9 @@ I would like to thank the little green men from Mars. Without their anal probing
 % Headline and footline
 \renewcommand*{\chapterpagestyle}{scrplain}
 \pagestyle{scrheadings}
+<% break; default: -%>
+
+\tableofcontents
 <% break; } -%>
 
 <% if (howtotext) { -%>
@@ -868,7 +874,7 @@ It focuses on minimal examples, which can be directly adapted to the content
 <% if (howtotext) { -%>
 
 %%% ===============================================================================
-<%= heading1 %>{Conclusion}\label{sec:conclusion}
+<%= heading1 %>{Conclusion and Outlook}\label{sec:conclusion}
 %%% ===============================================================================
 
 Your conclusions are not just a factual summary of your work, but they position, interpret, and defend your findings against the state of the art that you discussed in \cref{sec:introduction:state-of-art}. You specifically outline which concrete findings or methodological contributions advance our knowledge towards the general objective you introduced in \cref{sec:introduction:topic}. Objectively discuss which parts you solved and in which parts you failed.
@@ -943,6 +949,7 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 % regular IEEE prefers the singular form
 \section*{Acknowledgment}
 
+<% break; default: -%>
 <% break; } -%>
 <% if (isPaper) { -%>
 Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which is placed just before the reference section in your document \cite{acmart}.
@@ -997,10 +1004,14 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
 % argument is your BibTeX string definitions and bibliography database(s)
 \bibliography{<%= filenames.bib %>}
-<% break; case "scientific-thesis": -%>
-<% case "ustutt": -%>
+<% break; case "ustutt": -%>
+<% case "scientific-thesis": -%>
 
 \printbibliography
+<% break; default: -%>
+
+\bibliographystyle{plain}
+\bibliography{<%= filenames.bib %>}
 <% break; } -%>
 
 % Enfore empty line after bibliography
@@ -1021,8 +1032,8 @@ All links were last followed on October 5, 2020.
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
 %%% ===============================================================================
-<% break; case "scientific-thesis": -%>
-<% case "ustutt": -%>
+<% break; case "ustutt": -%>
+<% case "scientific-thesis": -%>
 %%% ===============================================================================
 \appendix
 \addcontentsline{toc}{chapter}{Appendices}
