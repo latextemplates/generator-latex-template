@@ -126,6 +126,11 @@
 <%- include('babel.preamble.en.tex', this); -%>
 
 <%- include('url.preamble.en.tex', this); -%>
+
+<%# acronyms and unicode-math load amsmath, which has to be loaded before cleveref; we need it to load early to avoid option clash -%>
+<% if (isThesis || feature.acronyms) { %><%- include('math.preamble.en.tex', this); -%>
+
+<% } -%>
 <%# ACM already provides a very good font configuration; thus we do not need to override it -%>
 <% if (documentclass != 'acmart') { %>
 <%- include('font.preamble.en.tex', this); -%>
@@ -217,9 +222,8 @@
 
 <% if (texlive >= 2021) { %><%- include('mindflow.preamble.en.tex', this); %><% } -%>
 
-<%# acronyms load amsmath, which has to be loaded before cleveref -%>
-<% if (isThesis || feature.acronyms) { %><%- include('math.preamble.en.tex', this); -%><% } -%>
-<%- include('cleveref.preamble.en.tex', this); %>
+<%- include('cleveref.preamble.en.tex', this); -%>
+
 \usepackage{lipsum}
 <% if (examples) { -%>
 
