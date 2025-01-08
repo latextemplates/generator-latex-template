@@ -101,7 +101,7 @@ export default class extends Generator {
 
     function createFeatures(props) {
       props.feature = {};
-      props.feature.acronyms = props.documentclass === "scientific-thesis";
+      props.feature.acronyms = (props.documentclass === "ustutt" || props.documentclass === "scientific-thesis");
     }
 
     function isPaperHandling(props) {
