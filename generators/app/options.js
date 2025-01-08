@@ -218,7 +218,7 @@ export const options = [
   {
     type: "list",
     name: "lang",
-    message: "Which language should the document be?",
+    message: "Which language to use in the document?",
     choices: [
       {
         name: "English",
