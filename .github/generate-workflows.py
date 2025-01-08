@@ -112,17 +112,13 @@ jobs:
   check:
 """)
               yml.write("    name: Check {}\n".format(dashedPart))
-              yml.write("""    runs-on: ubuntu-latest
+              yml.write("""    runs-on: ubuntu-24.04
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Update npm
-        run: |
-          npm i -g npm@latest
-          npm i npm@latest
       - run: npm install
       - run: mkdir /tmp/out
 """)
@@ -138,7 +134,7 @@ jobs:
               ymlmiktex.write("jobs:\n")
               ymlmiktex.write("  miktex:\n")
               ymlmiktex.write("    name: MiKTeX {}\n".format(dashedPartMiktex))
-              ymlmiktex.write('''    runs-on: ubuntu-22.04
+              ymlmiktex.write('''    runs-on: ubuntu-24.04
     steps:
       - name: Install MikTeX
         run: |
