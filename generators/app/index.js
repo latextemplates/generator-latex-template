@@ -231,6 +231,7 @@ export default class extends Generator {
       );
     }
 
+    /*
     if (this.props.documentclass == "ustutt") {
       this.props.documentclass = "ustutt-include";
       this.fs.copyTpl(
@@ -239,6 +240,7 @@ export default class extends Generator {
         this.props,
       );
     }
+    */
 
     // eslint-disable-next-line default-case
     switch (this.props.docker) {
