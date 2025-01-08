@@ -17,9 +17,9 @@ RUN tlmgr update --self --repository https://mirrors.ctan.org/systems/texlive/tl
 COPY Texlivefile /work/src
 RUN xargs tlmgr install --repository https://mirrors.ctan.org/systems/texlive/tlnet/<%= texlive %>/tlnet-final < "/work/src/Texlivefile" &&\
 <% } else { -%>
-RUN tlmgr update --self --repository https://mirror.typesetting.eu
+RUN tlmgr update --self --repository https://ctan.org/tex-archive/systems/texlive/tlnet
 COPY Texlivefile /work/src
-RUN xargs tlmgr install --repository https://mirror.typesetting.eu < "/work/src/Texlivefile" &&\
+RUN xargs tlmgr install --repository https://ctan.org/tex-archive/systems/texlive/tlnet < "/work/src/Texlivefile" &&\
 <% } -%>
   sha256sum "/work/src/Texlivefile" > "/work/tmp/Texlivefile.sha" &&\
   # make <% if (bibtextool == "biblatex") { %>biber, <% } %>latexmk and texlogsieve available
