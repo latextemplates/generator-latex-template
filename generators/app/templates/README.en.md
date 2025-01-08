@@ -354,6 +354,12 @@ Attention! This is work in progress and does not always produce best results.
 Activate the `llncsconf` package.
 The possible options are listed in `<%= filenames.main %>.tex`.
 <% } -%>
+<% if ((documentclass == 'acm') || (documentclss == 'ieee')) { -%>
+
+### Q: Is it possible produce a self-archiving version?
+
+Use the [`authorarchive` package](https://ctan.org/pkg/authorarchive).
+<% } -%>
 
 ### Q: Can I also write in German?
 
