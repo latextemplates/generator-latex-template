@@ -4,7 +4,7 @@ import hashlib
 
 failfast = False
 
-documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
+documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis', 'ustutt']
 latexcompilers = ['pdflatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
