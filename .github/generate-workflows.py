@@ -120,7 +120,7 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-      - run: npm install
+      - run: npm ci
       - run: mkdir /tmp/out
 """)
               ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+", encoding="utf-8")
