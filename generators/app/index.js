@@ -114,6 +114,8 @@ export default class extends Generator {
         props.documentclass === "acmart" ||
         props.documentclass === "ieee" ||
         props.documentclass === "lncs";
+      // else it is a thesis (ustutt or scientific-thesis) (see below)
+
       if (props.isPaper) {
         // This sets filenames.main and filenames.bib
         props.filenames = {
