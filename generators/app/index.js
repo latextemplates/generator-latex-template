@@ -99,14 +99,14 @@ export default class extends Generator {
       this.props.docker = false;
     }
 
-    createFeatures(props);
     isPaperHandling(props);
+    createFeatures(props);
     createHeadingCommands(props);
     createAvailable(props);
 
     function createFeatures(props) {
       props.feature = {};
-      props.feature.acronyms = (props.documentclass === "ustutt" || props.documentclass === "scientific-thesis");
+      props.feature.acronyms = props.isThesis;
     }
 
     function isPaperHandling(props) {
