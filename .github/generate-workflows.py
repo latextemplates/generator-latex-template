@@ -207,7 +207,7 @@ jobs:
                               yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
                               yml.write("      - name: latexmk {}\n".format(variantShort))
                               ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
-                              filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
+                              filename = "paper.tex" if documentclass in ['acmart', 'lncs', 'ieee'] else "thesis-example.tex" if documentclass == 'ustutt' else "main.tex"
                               command = "latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
                               yml.write("        run: {}\n".format(command))
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
