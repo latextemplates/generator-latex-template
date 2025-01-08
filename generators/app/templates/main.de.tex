@@ -1092,17 +1092,38 @@ Alle Links wurden zuletzt am 29.03.2021 geprüft.
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
 %%% ===============================================================================
-<% break; case "ustutt": -%>
-<% case "scientific-thesis": -%>
+<% break; case "ustutt": case "scientific-thesis": -%>
 %%% ===============================================================================
-\appendix
-\addcontentsline{toc}{chapter}{Anhang}
 
+<% if (documentclass == "scientific-thesis") { -%>
+%\clearpage
 %\listoffigures
+
 %\listoftables
+
+%\chapter*{Definitionsverzeichnis}
+%\addcontentsline{toc}{chapter}{Definitionsverzeichnis}
+%\listtheorems{definition}
+
+<% } else { -%>
+\clearpage
+\listoffigures
+
+\listoftables
+
+\chapter*{Definitionsverzeichnis}
+\addcontentsline{toc}{chapter}{Definitionsverzeichnis}
+\listtheorems{definition}
+<% } -%>
 
 %\IfDefined{printindex}{\printindex}
 %\IfDefined{printnomenclature}{\printnomenclature}
+
+\appendix
+% 'Anhang' ins Inhaltsverzeichnis
+%\phantomsection
+%\addcontentsline{toc}{chapter}{Anhang}
+\addcontentsline{toc}{part}{Anhang}
 
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
@@ -1110,6 +1131,10 @@ Alle Links wurden zuletzt am 29.03.2021 geprüft.
 
 \pagestyle{empty}
 \renewcommand*{\chapterpagestyle}{empty}
+<% if (documentclass == "scientific-thesis") { -%>
 \Versicherung
+<% } else { -%>
+
+<% } -%>
 <% break; } -%>
 \end{document}

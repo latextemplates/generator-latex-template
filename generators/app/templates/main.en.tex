@@ -1077,17 +1077,38 @@ All links were last followed on October 5, 2020.
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
 %%% ===============================================================================
-<% break; case "ustutt": -%>
-<% case "scientific-thesis": -%>
+<% break; case "ustutt": case "scientific-thesis": -%>
 %%% ===============================================================================
-\appendix
-\addcontentsline{toc}{chapter}{Appendices}
 
+<% if (documentclass == "scientific-thesis") { -%>
+%\clearpage
 %\listoffigures
+
 %\listoftables
+
+%\chapter*{Definitionsverzeichnis}
+%\addcontentsline{toc}{chapter}{Definitionsverzeichnis}
+%\listtheorems{definition}
+
+<% } else { -%>
+\clearpage
+\listoffigures
+
+\listoftables
+
+\chapter*{List of Definitions}
+\addcontentsline{toc}{chapter}{List of Definitions}
+\listtheorems{definition}
+<% } -%>
 
 %\IfDefined{printindex}{\printindex}
 %\IfDefined{printnomenclature}{\printnomenclature}
+
+\appendix
+% 'Anhang' ins Inhaltsverzeichnis
+%\phantomsection
+%\addcontentsline{toc}{chapter}{Appendix}
+%\addcontentsline{toc}{part}{Appendix}
 
 %%% ===============================================================================
 %<%= heading1 %>{My first appendix}\label{sec:appendix1}
@@ -1095,6 +1116,10 @@ All links were last followed on October 5, 2020.
 
 \pagestyle{empty}
 \renewcommand*{\chapterpagestyle}{empty}
+<% if (documentclass == "scientific-thesis") { -%>
 \Versicherung
+<% } else { -%>
+
+<% } -%>
 <% break; } -%>
 \end{document}
