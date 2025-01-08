@@ -85,11 +85,6 @@ SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
 % For more information see https://ctan.org/pkg/selnolig
 % language "english" or "ngerman" is passed to selnolig by the document class
 \usepackage{selnolig}
-<% if (documentclass == 'scientific-thesis') { -%>
-
-\usepackage{setspace}
-\setstretch{1.2}
-<% } -%>
 <% } -%>
 <% if ((latexcompiler != "lualatex") || (latexcompiler == "both")) { -%>
 <% if (latexcompiler == "both") { -%>
@@ -136,15 +131,30 @@ pdflatex
 ]{cfr-lm}
 <% } -%>
 <% break; } -%>
-<% if (documentclass == 'scientific-thesis') { -%>
-
-\usepackage{setspace}
-\setstretch{1.2}
-<% } -%>
 
 % Has to be loaded AFTER any font packages. See https://tex.stackexchange.com/a/2869/9075.
 \usepackage[T1]{fontenc}
 <% if (latexcompiler == "both") { -%>
 \fi
 <% } -%>
+<% } -%>
+<% if (documentclass == 'scientific-thesis') { -%>
+
+\usepackage{setspace}
+\setstretch{1.2}
+<% } -%>
+<% if (documentclass == 'ustutt') { -%>
+
+\usepackage{setspace}
+\setstretch{1.2}
+
+% Zusatzliche Symbole (Text Companion font extension)
+\usepackage{textcomp}
+
+\setkomafont{sectioning}{\normalfont\normalcolor\rmfamily\mdseries}
+\setkomafont{descriptionlabel}{\bfseries}
+\setkomafont{pageheadfoot}{\small\sffamily}
+\setkomafont{pagenumber}{\small\sffamily\bfseries}
+
+\typearea[current]{last}
 <% } -%>
