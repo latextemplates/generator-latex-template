@@ -1,3 +1,38 @@
+<% if (documentclass == 'ustutt') { %>
+%% Clashes with mathdesign
+% \PreventPackageFromLoading{amssymb,amsfont}
+<%# inspired by https://github.com/programming-journal/programming/blob/main/programming.cls -%>
+% Mathdesign spuriously redefines things it should not.
+%
+\makeatletter
+\usepackage{etoolbox}
+%
+\csedef{P@MDback@fboxrule}{\the\fboxrule}
+\csedef{P@MDback@fboxsep}{\the\fboxsep}
+\csedef{P@MDback@arrayrulewidth}{\the\arrayrulewidth}
+\cslet{P@MDback@bfdefault}{\bfdefault}
+\cslet{P@MDback@footnoterule}{\footnoterule}
+\cslet{P@MDback@hrulefill}{\hrulefill}
+%
+\RequirePackage[charter,expert]{mathdesign}
+%
+\setlength{\fboxrule}{\csuse{P@MDback@fboxrule}}
+\setlength{\fboxsep}{\csuse{P@MDback@fboxsep}}
+\setlength{\arrayrulewidth}{\csuse{P@MDback@arrayrulewidth}}
+\letcs{\bfdefault}{P@MDback@bfdefault}
+\letcs{\footnoterule}{P@MDback@footnoterule}
+\letcs{\hrulefill}{P@MDback@hrulefill}
+% cleanup
+\csundef{P@MDback@fboxrule}
+\csundef{P@MDback@fboxsep}
+\csundef{P@MDback@arrayrulewidth}
+\csundef{P@MDback@bfdefault}
+\csundef{P@MDback@footnoterule}
+\csundef{P@MDback@hrulefill}
+%
+\makeatother
+
+<% } -%>
 <% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 <% if (latexcompiler == "both") { -%>
 \ifluatex
@@ -49,11 +84,25 @@ lualatex
 \setmonofont[StylisticSet={1,3},Scale=.9]{Inconsolatazi4}
 <% } -%>
 <%  break; default: -%>
-<%  if (documentclass === 'ieee') { -%>
-<%# The default font configuration of the IEEE template is used -%>
-<% } else { -%>
+<%# "default" font configuration -%>
+<% switch (documentclass) { case "ieee": -%>
+<%# Default font configuration of the IEEE template is used -%>
+<% break; case "ustutt": -%>
+<%# see also https://github.com/programming-journal/programming/blob/main/programming.cls -%>
+\makeatletter
+\setmainfont{XCharter}
+\setsansfont[Ligatures=TeX]{Arial}
+% Use Inconsolata font (https://ctan.org/pkg/inconsolata)
+% See https://tex.stackexchange.com/q/2241/9075 for a list of other alternative mono-spaced fonts
+% No [Ligatures=TeX], because we want " rendered as upquotes, not as typographic correct ones
+% shapely l, upright quotes
+% If it is too large, add ",Scale=.9"
+\setmonofont[StylisticSet={1,3}]{Inconsolatazi4}
+\makeatother
+<% break; case "scientific-thesis": -%>
+% TODO
+<% break; default: -%>
 <%# Default LaTeX Font and LuaLaTeX -%>
-<%# -%>
 <% if (texlive >= 2021) { -%>
 
 % Typewriter font (for source code etc)
@@ -78,7 +127,7 @@ BoldItalicFont=NewCMMono10-BoldOblique.otf,%
 SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
 
 \setmathfont{NewCMMath-Regular.otf}
-<% } -%>
+<% break; } -%>
 <% } break; } -%>
 
 % Enable proper ligatures
@@ -108,17 +157,20 @@ pdflatex
 \RequirePackage{newtxmath}
 \RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
 <% break; default: -%>
-<%# Computer Modern and pdflatex -%>
-<%# -%>
-<% if (documentclass === 'ieee') { -%>
+<%# "default" font configuration / Computer Modern and pdflatex -%>
+<% switch (documentclass) { case "ieee": -%>
 <%# The default font configuration (Palatino/Palladio) of the IEEE template is used.
-    In addition, we make the code appear more nice -%>
+In addition, we make the code appear more nice -%>
 
 % use nicer font for code
 \usepackage[zerostyle=b,scaled=.75]{newtxtt}
-<% } else { -%>
-<%# Default LaTeX Font and pdflatex -%>
-<%# -%>
+<% break; case "ustutt": -%>
+<%# See also https://github.com/programming-journal/programming/blob/main/programming.cls -%>
+\usepackage{XCharter}
+\usepackage[scaled=.95]{helvet}
+<% break; case "scientific-thesis": -%>
+% TODO
+<% break; default: -%>
 % This is the modern package for "Computer Modern".
 % In case this gets activated, one has to switch from cmap package to glyphtounicode (in the case of pdflatex)
 \usepackage[%
