@@ -43,6 +43,11 @@ export default class extends Generator {
       this.props.font = "default";
     }
 
+    if ((this.props.documentclass === "ustutt") || (this.props.documentclass === "scientific-thesis")) {
+      this.props.bibtextool = "biblatex";
+      this.props.font = "default";
+    }
+
     // --language does not work properly, therefore, we used "lang" above. The templates still use "language"
     this.props.language = this.props.lang;
 

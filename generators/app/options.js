@@ -164,7 +164,7 @@ export const options = [
   {
     when(response) {
       return (
-        response.documentclass !== "acmart" && response.documentclass !== "ieee"
+        response.documentclass !== "acmart" && response.documentclass !== "ieee" && response.documentclass !== "ustutt"
       );
     },
     type: "list",
@@ -269,7 +269,7 @@ export const options = [
     },
     default: "default",
     when(response) {
-      return response.documentclass !== "ieee";
+      return (response.documentclass !== "ieee") && (response.documentclass !== "ustutt");
     },
   },
   {
