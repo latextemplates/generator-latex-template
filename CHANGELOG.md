@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added [hyphenex](https://ctan.org/pkg/hyphenex) to enable more correct English hyphenation.
 - Added [autotype](https://ctan.org/pkg/autotype) to enable automatic language-specific typography for German documents. [#223](https://github.com/latextemplates/generator-latex-template/issues/223)
 - Added [selnolig](https://ctan.org/pkg/selnolig) to enable automatic language-specific typography for English documents. [#223](https://github.com/latextemplates/generator-latex-template/issues/223)
+- Added supprot for `todonotes`
 
 ### Changed
 

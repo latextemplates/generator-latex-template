@@ -346,11 +346,15 @@ export const options = [
       {
         name: "pdfcomment",
         value: "pdfcomment",
-      } /*
+      },
       {
-        name: "Plain LaTeX (simple \\commentontext and \\commentatside are defined)",
+        name: "todonotes",
+        value: "todonotes",
+      },
+      {
+        name: "Plain LaTeX (simple \\todo command is defined)",
         value: "plainlatex"
-      }, */,
+      },
       {
         name: "None (no support)",
         value: "none",

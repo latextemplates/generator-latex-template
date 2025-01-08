@@ -1,0 +1,38 @@
+<%# all TODOs should support following commands-%>
+
+% TODO (and comment) configuration
+%
+% - \todo (from todo, easy-todo, todonotes) / \TODO (from fixmetodonotes) - for "normal" TODOs
+% - \todofix - "important" TODOs
+%
+% - \commentontext - highlights text and has a hover comment
+% - \commentatside - just puts a comment to the side
+
+<% switch (todo) { case "pdfcomment": -%>
+% Enable nice comments
+\usepackage{pdfcomment}
+
+\newcommand{\commentontext}[2]{\colorbox{yellow!60}{#1}\pdfcomment[color={0.234 0.867 0.211},hoffset=-6pt,voffset=10pt,opacity=0.5]{#2}}
+\newcommand{\commentatside}[1]{\pdfcomment[color={0.045 0.278 0.643},icon=Note]{#1}}
+
+\newcommand{\todo}[1]{\commentatside{#1}}
+\newcommand{\todofix}[1]{\commentatside{#1}}
+\newcommand{\TODO}[1]{\commentatside{#1}}
+<% break; case "todonotes": -%>
+\usepackage[color=gray!17]{todonotes}
+\let\xtodo\todo
+\renewcommand{\todo}[1]{\xtodo[inline,color=black!5]{#1}}
+\newcommand{\todofix}[1]{\xtodo[color=red!40]{#1}}
+
+<% break; default: -%>
+<%# everything defined below -%>
+<% break; } -%>
+
+% Define default commands
+\makeatletter
+\@ifundefined{commentontext}{\newcommand{\commentontext}[2]{#1 \todo{#2}}}{}
+\@ifundefined{commentatside}{\newcommand{\commentatside}[1]{\marginpar{#1}}}{}
+\@ifundefined{todo}{\newcommand{\todo}[1]{\commentatside{#1}}}{}
+\@ifundefined{TODO}{\newcommand{\TODO}[1]{\todo{#1}}}{}
+\@ifundefined{todofix}{\newcommand{\todofix}[1]{\todo{#1}}}{}
+\makeatother
