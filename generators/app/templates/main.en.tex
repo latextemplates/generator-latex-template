@@ -182,7 +182,7 @@
   case "lncs": -%>
 
 <%- include('natbib.preamble.en.tex', this); -%>
-<% break; case "scientific-thesis": -%>
+<% break; case "scientific-thesis": case "ustutt": -%>
 <%- include('biblatex.preamble.en.tex', this); -%>
 <% break; } -%>
 <% switch (documentclass) { case "acmart": -%>
@@ -203,18 +203,20 @@
 <%- include('floatflt.preamble.en.tex', this); -%>
 <% break; } -%>
 
+<%- include('tables.preamble.de.tex', this); -%>
+
+<%- include('footnotes.preamble.en.tex', this); -%>
+
 <%- include('todo.preamble.en.tex', this); -%>
 
-% Put footnotes below floats
-% Source: https://tex.stackexchange.com/a/32993/9075
-\usepackage{stfloats}
-\fnbelowfloat
+<%- include('siunitx.preamble.en.tex'); -%>
 
-<%- include('siunitx.preamble.en.tex'); %>
-<%- include('hyperref.preamble.en.tex', this); %>
-<%- include('subfig.preamble.en.tex', this); %>
-<% if (texlive >= 2021) { %><%- include('mindflow.preamble.en.tex', this); %>
-<% } -%>
+<%- include('hyperref.preamble.en.tex', this); -%>
+
+<%- include('subfig.preamble.en.tex', this); -%>
+
+<% if (texlive >= 2021) { %><%- include('mindflow.preamble.en.tex', this); %><% } -%>
+
 <%# acronyms load amsmath, which has to be loaded before cleveref -%>
 <% if (isThesis || feature.acronyms) { %><%- include('math.preamble.en.tex', this); -%><% } -%>
 <%- include('cleveref.preamble.en.tex', this); %>
