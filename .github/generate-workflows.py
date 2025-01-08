@@ -119,7 +119,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install
+          cache: 'npm'
       - run: mkdir /tmp/out
 """)
               ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+", encoding="utf-8")
