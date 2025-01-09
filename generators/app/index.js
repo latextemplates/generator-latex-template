@@ -140,6 +140,7 @@ export default class extends Generator {
       if (props.isThesis) {
         props.heading1 = "\\chapter";
         props.heading2 = "\\section";
+        props.heading3 = "\\subsection";
       } else {
         props.heading1 = "\\section";
         props.heading2 = "\\subsection";
