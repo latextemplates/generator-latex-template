@@ -60,7 +60,7 @@ export default class extends Generator {
       //this.props.latexcompiler = "pdflatex";
     //}
 
-    this.props.reallatexcompiler = (latexcompiler == "both") ? "lualatex" : latexcompiler;
+    this.props.reallatexcompiler = (this.options.latexcompiler == "both") ? "lualatex" : this.options.latexcompiler;
 
     // Convert "String" Boolean command line options
     this.props.examples =
