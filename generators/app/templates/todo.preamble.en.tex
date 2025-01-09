@@ -5,19 +5,24 @@
 % - \todo (from todo, easy-todo, todonotes) / \TODO (from fixmetodonotes) - for "normal" TODOs
 % - \todofix - "important" TODOs
 %
-% - \commentontext - highlights text and has a hover comment
-% - \commentatside - just puts a comment to the side
+% - \textcomment - highlights text and has a hover comment
+% - \comment     - just puts a comment to the side
 
 <% switch (todo) { case "pdfcomment": -%>
 % Enable nice comments
 \usepackage{pdfcomment}
 
-\newcommand{\commentontext}[2]{\colorbox{yellow!60}{#1}\pdfcomment[color={0.234 0.867 0.211},hoffset=-6pt,voffset=10pt,opacity=0.5]{#2}}
-\newcommand{\commentatside}[1]{\pdfcomment[color={0.045 0.278 0.643},icon=Note]{#1}}
+\newcommand{\textcomment}[2]{\colorbox{yellow!60}{#1}\pdfcomment[color={0.234 0.867 0.211},hoffset=-6pt,voffset=10pt,opacity=0.5]{#2}}
 
-\newcommand{\todo}[1]{\commentatside{#1}}
-\newcommand{\todofix}[1]{\commentatside{#1}}
-\newcommand{\TODO}[1]{\commentatside{#1}}
+%Small PDF comment
+%1. Parameter: Comment
+\newcommand{\comment}[1]{\pdfcomment[color={0.045 0.278 0.643},voffset=4pt,icon=Note]{#1}}
+% Disabled variant - for the final PDF
+%\newcommand{\comment}[1]{}
+
+\newcommand{\todo}[1]{\comment{#1}}
+\newcommand{\todofix}[1]{\comment{#1}}
+\newcommand{\TODO}[1]{\comment{#1}}
 <% break; case "todonotes": -%>
 \usepackage[color=gray!17]{todonotes}
 \let\xtodo\todo
@@ -30,9 +35,26 @@
 
 % Define default commands
 \makeatletter
-\@ifundefined{commentontext}{\newcommand{\commentontext}[2]{#1 \todo{#2}}}{}
-\@ifundefined{commentatside}{\newcommand{\commentatside}[1]{\marginpar{#1}}}{}
-\@ifundefined{todo}{\newcommand{\todo}[1]{\commentatside{#1}}}{}
+\@ifundefined{textcomment}{\newcommand{\textcomment}[2]{#1 \todo{#2}}}{}
+\@ifundefined{comment}{\newcommand{\comment}[1]{\marginpar{#1}}}{}
+\@ifundefined{todo}{\newcommand{\todo}[1]{\comment{#1}}}{}
 \@ifundefined{TODO}{\newcommand{\TODO}[1]{\todo{#1}}}{}
 \@ifundefined{todofix}{\newcommand{\todofix}[1]{\todo{#1}}}{}
 \makeatother
+<% if (documentclass == "ustutt") { -%>
+
+% Aenderungen
+
+% New text:
+% 1. Parameter: Comment
+% 2. Parameter: New text
+\newcommand{\change}[2]{{\color{red}#2}\pdfcomment[color={0.234 0.867 0.211},voffset=8pt,opacity=0.5]{#1}}
+%Disabled variant - for the final PDF
+%\newcommand{\change}[2]{#2}
+<% } %>
+
+% Textmarker (Textfarbe rot)
+\newcommand{\textmarker}[1]{{\color{red} #1}\xspace}
+
+% Modified (Text blau)
+\newcommand{\modified}[1]{{\color{blue!60!black} #1}\xspace}
