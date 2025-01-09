@@ -106,7 +106,7 @@ export default class extends Generator {
 
     function createFeatures(props) {
       props.feature = {};
-      props.feature.acronyms = props.isThesis;
+      props.feature.abbreviations = props.isThesis;
     }
 
     function isPaperHandling(props) {
@@ -232,10 +232,10 @@ export default class extends Generator {
       this.props
     );
 
-    if (this.props.feature.acronyms) {
+    if (this.props.feature.abbreviations) {
       this.fs.copy(
-        this.templatePath("acronyms." + this.props.language + ".tex"),
-        this.destinationPath("acronyms.tex"),
+        this.templatePath("abbreviations." + this.props.language + ".tex"),
+        this.destinationPath("abbreviations.tex"),
       );
     }
 

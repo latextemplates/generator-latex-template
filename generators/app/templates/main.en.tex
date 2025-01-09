@@ -128,7 +128,7 @@
 <%- include('url.preamble.en.tex', this); -%>
 
 <%# acronyms and unicode-math load amsmath, which has to be loaded before cleveref; we need it to load early to avoid option clash -%>
-<% if (feature.acronyms) { %><%- include('math.preamble.en.tex', this); -%>
+<% if (feature.abbreviations) { %><%- include('math.preamble.en.tex', this); -%>
 
 <% } -%>
 <%# ACM already provides a very good font configuration; thus we do not need to override it -%>
@@ -267,7 +267,7 @@
 \setlength{\oddsidemargin}{-24pt}
 <% } -%>
 
-<% if (feature.acronyms) { -%><%- include('acronyms.preamble.en.tex', this); %>
+<% if (feature.abbreviations) { -%><%- include('abbreviations.preamble.en.tex', this); %>
 <% } -%>
 % Allows for defining commands that don't eat spaces.
 \usepackage{xspace}
@@ -589,7 +589,8 @@ The following is typeset for both ustutt and scientific-thesis.
 
 <% } -%>
 % Abbreviations / Acronyms
-\printglossaries
+\printglossary[type=\acronymtype,title={Abbreviations}]
+% \printglossaries
 % \printnoidxglossaries
 % \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075
 
@@ -940,7 +941,7 @@ It focuses on minimal examples, which can be directly adapted to the content
 <%- include('minted.example.en.tex', this); %>
 <% } -%>
 <%- include('paralist.example.en.tex', this); %>
-<% if (feature.acronyms) { %><%- include('acronyms.example.en.tex', this); %>
+<% if (feature.abbreviations) { %><%- include('abbreviations.example.en.tex', this); %>
 <% } -%>
 <%- include('otherfeatures.example.en.tex', this); %>
 <% if (isThesis) { -%>

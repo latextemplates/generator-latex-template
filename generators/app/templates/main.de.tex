@@ -134,7 +134,7 @@
 <%- include('url.preamble.de.tex', this); -%>
 
 <%# acronyms and unicode-math load amsmath, which has to be loaded before cleveref; we need it to load early to avoid option clash -%>
-<% if (isThesis || feature.acronyms) { %><%- include('math.preamble.en.tex', this); -%>
+<% if (isThesis || feature.abbreviations) { %><%- include('math.preamble.en.tex', this); -%>
 
 <% } -%>
 <%# ACM already provides a very good font configuration; thus we do not need to override it -%>
@@ -273,7 +273,7 @@
 \setlength{\oddsidemargin}{-24pt}
 <% } -%>
 
-<% if (feature.acronyms) { -%><%- include('acronyms.preamble.de.tex', this); %>
+<% if (feature.abbreviations) { -%><%- include('abbreviations.preamble.de.tex', this); %>
 <% } -%>
 \usepackage{xspace}
 
@@ -605,7 +605,8 @@ The following is typeset for both ustutt and scientific-thesis.
 
 <% } -%>
 % Abkürzungsverzeichnis / Acronyms / Abbreviations
-\printglossaries
+\printglossary[type=\acronymtype,title={Abkürzungsverzeichnis}]
+% \printglossaries
 % \printnoidxglossaries
 % \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075
 
@@ -961,7 +962,7 @@ Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiel
 <%- include('minted.example.en.tex', this); %>
 <% } -%>
 <%- include('paralist.example.en.tex', this); %>
-<% if (feature.acronyms) { %><%- include('acronyms.example.de.tex', this); %>
+<% if (feature.abbreviations) { %><%- include('abbreviations.example.de.tex', this); %>
 <% } -%>
 <%- include('otherfeatures.example.en.tex', this); %>
 <% if (isThesis) { -%>
