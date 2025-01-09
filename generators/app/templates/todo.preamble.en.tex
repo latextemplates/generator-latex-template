@@ -26,9 +26,17 @@
 % Disabled variant - for the final PDF
 %\newcommand{\comment}[1]{}
 
-\newcommand{\todo}[1]{\comment{#1}}
-\newcommand{\todofix}[1]{\comment{#1}}
-\newcommand{\TODO}[1]{\comment{#1}}
+\newcommand{\todo}[1]{TODO!\comment{#1}}
+
+% Aenderungen
+%
+% New text:
+% 1. Parameter: Comment
+% 2. Parameter: New text
+\newcommand{\change}[2]{{\color{red}#2}\pdfcomment[color={0.234 0.867 0.211},voffset=8pt,opacity=0.5]{#1}}
+%Disabled variant - for the final PDF
+%\newcommand{\change}[2]{#2}
+
 <% break; case "todonotes": -%>
 \usepackage[color=gray!17]{todonotes}
 \let\xtodo\todo
@@ -37,8 +45,8 @@
 
 <% break; default: -%>
 <%# everything defined below -%>
-<% break; } -%>
 
+<% break; } -%>
 % Define default commands
 \makeatletter
 \@ifundefined{missingfigure}{\newcommand{\missingfigure}}{... missing figure ...}{}
@@ -47,18 +55,8 @@
 \@ifundefined{todo}{\newcommand{\todo}[1]{\comment{#1}}}{}
 \@ifundefined{TODO}{\newcommand{\TODO}[1]{\todo{#1}}}{}
 \@ifundefined{todofix}{\newcommand{\todofix}[1]{\todo{#1}}}{}
+\@ifundefined{change}{\newcommand{\change}[2]{#1 $\rightarrow$ #2}}{}
 \makeatother
-<% if (documentclass == "ustutt") { -%>
-
-% Aenderungen
-
-% New text:
-% 1. Parameter: Comment
-% 2. Parameter: New text
-\newcommand{\change}[2]{{\color{red}#2}\pdfcomment[color={0.234 0.867 0.211},voffset=8pt,opacity=0.5]{#1}}
-%Disabled variant - for the final PDF
-%\newcommand{\change}[2]{#2}
-<% } %>
 
 % Textmarker (Textfarbe rot)
 \newcommand{\textmarker}[1]{{\color{red} #1}\xspace}
