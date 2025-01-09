@@ -47,7 +47,7 @@
 <% break; } -%>
 % Define default commands
 \makeatletter
-\@ifundefined{missingfigure}{\newcommand{\missingfigure}}{... missing figure ...}{}
+\@ifundefined{missingfigure}{\newcommand{\missingfigure}{... missing figure ...}}{}
 \@ifundefined{textcomment}{\newcommand{\textcomment}[2]{#1 \todo{#2}}}{}
 \@ifundefined{sidecomment}{\newcommand{\sidecomment}[1]{\marginpar{#1}}}{}
 \@ifundefined{todo}{\newcommand{\todo}[1]{\sidecomment{#1}}}{}
@@ -58,6 +58,9 @@
 
 % Textmarker (Textfarbe rot)
 \newcommand{\textmarker}[1]{{\color{red} #1}\xspace}
+
+% Fallback if soul is not loaded
+\@ifundefined{hl}{\newcommand{\hl}{\textmarker{#1}}}{}
 
 % Modified (Text blau)
 \newcommand{\modified}[1]{{\color{blue!60!black} #1}\xspace}
