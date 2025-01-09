@@ -236,10 +236,12 @@
 
 <%- include('subfig.preamble.en.tex', this); -%>
 
-<% if (texlive >= 2021) { %><%- include('mindflow.preamble.en.tex', this); %><% } -%>
+<% if (texlive >= 2021) { %><%- include('mindflow.preamble.en.tex', this); %>
 
-<% if (isThesis) { %><%- include('algorithms.preamble.en.tex', this); %><% } -%>
+<% } -%>
+<% if (isThesis) { %><%- include('algorithms.preamble.en.tex', this); %>
 
+<% } -%>
 <%- include('cleveref.preamble.en.tex', this); -%>
 
 \usepackage{lipsum}
@@ -347,18 +349,7 @@
 \fi
 <% } -%>
 <% } -%>
-<% if (documentclass == 'ustutt') { -%>
-
-%% Inhaltsverzeichnis (Schrift, Aussehen) sowie weitere Verzeichnisse ====
-\setcounter{secnumdepth}{3}    % Abbildungsnummerierung mit groesserer Tiefe
-\setcounter{tocdepth}{2}       % Inhaltsverzeichnis mit groesserer Tiefe
-
-% Align page sizes
-% Seems to be required somehow
-\setlength{\pdfpageheight}{\paperheight}
-\setlength{\pdfpagewidth}{\paperwidth}
-
-<% } -%>
+<% if (isThesis) { %><%- include('thesis-additions.en.tex', this); %><% } -%>
 \begin{document}
 <% switch (documentclass) { case "lncs": -%>
 
