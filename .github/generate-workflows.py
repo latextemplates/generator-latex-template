@@ -106,7 +106,7 @@ for documentclass in documentclasses:
 concurrency:
 """)
               if globalsingleworkflow:
-                 yml.write("  group: ${{ github.workflow }}\n")
+                 yml.write("  group: ${{ github.workflow }}-${{ github.actor_id }}\n")
               else:
                  yml.write("  group: \"${{ github.workflow }}-${{ github.head_ref || github.ref }}\"\n")
               yml.write("""  cancel-in-progress: true
@@ -130,7 +130,7 @@ jobs:
               ymlmiktex.write("on: [push]\n")
               ymlmiktex.write("concurrency:\n")
               if globalsingleworkflow:
-                ymlmiktex.write("  group: miktex-${{ github.workflow }}\n")
+                ymlmiktex.write("  group: miktex-${{ github.workflow }}-${{ github.actor_id }}\n")
               else:
                 ymlmiktex.write("  group: miktex-${{ github.workflow }}-${{ github.ref }}\n")
               ymlmiktex.write("  cancel-in-progress: true\n")
