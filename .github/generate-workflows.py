@@ -4,7 +4,7 @@ from cuid2 import Cuid
 
 CUID_GENERATOR: Cuid = Cuid(length=4)
 
-failfast = False
+globalsingleworkflow = True
 
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis', 'ustutt']
 latexcompilers = ['pdflatex', 'both']
@@ -105,8 +105,8 @@ for documentclass in documentclasses:
   merge_group:
 concurrency:
 """)
-              if failfast:
-                 yml.write("  group: texlive\n")
+              if globalsingleworkflow:
+                 yml.write("  group: ${{ github.workflow }}\n")
               else:
                  yml.write("  group: \"${{ github.workflow }}-${{ github.head_ref || github.ref }}\"\n")
               yml.write("""  cancel-in-progress: true
@@ -129,8 +129,8 @@ jobs:
               ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
               ymlmiktex.write("on: [push]\n")
               ymlmiktex.write("concurrency:\n")
-              if failfast:
-                ymlmiktex.write("  group: miktex\n")
+              if globalsingleworkflow:
+                ymlmiktex.write("  group: miktex-${{ github.workflow }}\n")
               else:
                 ymlmiktex.write("  group: miktex-${{ github.workflow }}-${{ github.ref }}\n")
               ymlmiktex.write("  cancel-in-progress: true\n")
