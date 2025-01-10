@@ -1,62 +1,62 @@
 name: Check acmart-both-bibtex-2024-true
 on:
-push:
-  branches:
-    - main
-  paths-ignore:
-    - '.editorconfig'
-    - '.eslintignore'
-    - '.gitpod.dockerfile'
-    - '.gitpod.yml'
-    - '.gitattributes'
-    - '.gitignore'
-    - '.markdownlint.yml'
-    - 'CHANGELOG.md'
-    - 'CONTRIBUTING.md'
-    - 'generate-texlivefile.sh'
-    - 'LICENSE'
-    - 'README.md'
-    - 'setup-do.sh'
-    - 'user-data.sh'
-    - 'docs/**'
-    - '.vscode/**'
-pull_request:
-  branches:
-    - main
-  paths-ignore:
-    - '.editorconfig'
-    - '.eslintignore'
-    - '.gitpod.dockerfile'
-    - '.gitpod.yml'
-    - '.gitattributes'
-    - '.gitignore'
-    - '.markdownlint.yml'
-    - 'CHANGELOG.md'
-    - 'CONTRIBUTING.md'
-    - 'generate-texlivefile.sh'
-    - 'LICENSE'
-    - 'README.md'
-    - 'setup-do.sh'
-    - 'user-data.sh'
-    - 'docs/**'
-    - '.vscode/**'
-merge_group:
-concurrency:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  merge_group:
+  concurrency:
   group: ${{ github.workflow }}-${{ github.actor_id }}
   cancel-in-progress: true
-jobs:
-check:
+  jobs:
+  check:
     name: Check acmart-both-bibtex-2024-true
     runs-on: ubuntu-24.04
-  steps:
-    - name: Set up Git repository
-      uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '22'
-        cache: 'npm'
-    - run: npm ci
-    - run: mkdir /tmp/out
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: mkdir /tmp/out
       - name: Summary table heading
         run: |
           TABLE='| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext | link |'
@@ -69,17 +69,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NTA0M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTA0M/Texlivefile'
       - name: latexmk var_NTA0M
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NTA0M'
       - id: var_NTA0M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_NTA0M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_Mjk1M
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -89,17 +89,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_Mjk1M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_Mjk1M/Texlivefile'
       - name: latexmk var_Mjk1M
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_Mjk1M'
       - id: var_Mjk1M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_Mjk1M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTBlY
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -109,17 +109,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NTBlY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTBlY/Texlivefile'
       - name: latexmk var_NTBlY
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NTBlY'
       - id: var_NTBlY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NTBlY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZmE3N
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -129,17 +129,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZmE3N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZmE3N/Texlivefile'
       - name: latexmk var_ZmE3N
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZmE3N'
       - id: var_ZmE3N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_ZmE3N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTdhN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -149,17 +149,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NTdhN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTdhN/Texlivefile'
       - name: latexmk var_NTdhN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NTdhN'
       - id: var_NTdhN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_NTdhN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OGRiN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -169,17 +169,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OGRiN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OGRiN/Texlivefile'
       - name: latexmk var_OGRiN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_OGRiN'
       - id: var_OGRiN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_OGRiN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NzA3N
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -189,17 +189,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NzA3N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NzA3N/Texlivefile'
       - name: latexmk var_NzA3N
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NzA3N'
       - id: var_NzA3N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NzA3N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTkzN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -209,17 +209,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MTkzN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTkzN/Texlivefile'
       - name: latexmk var_MTkzN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MTkzN'
       - id: var_MTkzN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_MTkzN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MzQ2O
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -229,17 +229,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MzQ2O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MzQ2O/Texlivefile'
       - name: latexmk var_MzQ2O
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MzQ2O'
       - id: var_MzQ2O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_MzQ2O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MzEzM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -249,17 +249,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MzEzM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MzEzM/Texlivefile'
       - name: latexmk var_MzEzM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MzEzM'
       - id: var_MzEzM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_MzEzM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YjZkY
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -269,17 +269,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YjZkY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YjZkY/Texlivefile'
       - name: latexmk var_YjZkY
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_YjZkY'
       - id: var_YjZkY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_YjZkY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZDVhN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -289,17 +289,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZDVhN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZDVhN/Texlivefile'
       - name: latexmk var_ZDVhN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZDVhN'
       - id: var_ZDVhN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_ZDVhN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZmNhN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -309,17 +309,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZmNhN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZmNhN/Texlivefile'
       - name: latexmk var_ZmNhN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZmNhN'
       - id: var_ZmNhN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_ZmNhN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OThkM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -329,17 +329,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OThkM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OThkM/Texlivefile'
       - name: latexmk var_OThkM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_OThkM'
       - id: var_OThkM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_OThkM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OTQ5Y
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -349,17 +349,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OTQ5Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OTQ5Y/Texlivefile'
       - name: latexmk var_OTQ5Y
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_OTQ5Y'
       - id: var_OTQ5Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_OTQ5Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_M2RhN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -369,17 +369,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_M2RhN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_M2RhN/Texlivefile'
       - name: latexmk var_M2RhN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_M2RhN'
       - id: var_M2RhN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_M2RhN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZDhlN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -389,17 +389,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZDhlN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZDhlN/Texlivefile'
       - name: latexmk var_ZDhlN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZDhlN'
       - id: var_ZDhlN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_ZDhlN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MmU4N
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -409,17 +409,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MmU4N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MmU4N/Texlivefile'
       - name: latexmk var_MmU4N
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MmU4N'
       - id: var_MmU4N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_MmU4N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDRmM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -429,17 +429,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NDRmM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDRmM/Texlivefile'
       - name: latexmk var_NDRmM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NDRmM'
       - id: var_NDRmM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NDRmM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MjY5Y
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -449,17 +449,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MjY5Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MjY5Y/Texlivefile'
       - name: latexmk var_MjY5Y
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MjY5Y'
       - id: var_MjY5Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_MjY5Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NGVjZ
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -469,17 +469,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NGVjZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NGVjZ/Texlivefile'
       - name: latexmk var_NGVjZ
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NGVjZ'
       - id: var_NGVjZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_NGVjZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_M2UwN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -489,17 +489,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_M2UwN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_M2UwN/Texlivefile'
       - name: latexmk var_M2UwN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_M2UwN'
       - id: var_M2UwN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_M2UwN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YWI0N
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -509,17 +509,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YWI0N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YWI0N/Texlivefile'
       - name: latexmk var_YWI0N
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_YWI0N'
       - id: var_YWI0N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_YWI0N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDIxM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -529,17 +529,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NDIxM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDIxM/Texlivefile'
       - name: latexmk var_NDIxM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NDIxM'
       - id: var_NDIxM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_NDIxM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MzQwZ
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -549,17 +549,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MzQwZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MzQwZ/Texlivefile'
       - name: latexmk var_MzQwZ
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MzQwZ'
       - id: var_MzQwZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_MzQwZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MGZiM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -569,17 +569,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MGZiM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MGZiM/Texlivefile'
       - name: latexmk var_MGZiM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MGZiM'
       - id: var_MGZiM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_MGZiM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NjVhN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -589,17 +589,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NjVhN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NjVhN/Texlivefile'
       - name: latexmk var_NjVhN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NjVhN'
       - id: var_NjVhN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NjVhN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NWQ4Z
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -609,17 +609,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NWQ4Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NWQ4Z/Texlivefile'
       - name: latexmk var_NWQ4Z
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NWQ4Z'
       - id: var_NWQ4Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_NWQ4Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MjA1M
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -629,17 +629,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MjA1M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MjA1M/Texlivefile'
       - name: latexmk var_MjA1M
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MjA1M'
       - id: var_MjA1M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_MjA1M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MjA5M
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -649,17 +649,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MjA5M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MjA5M/Texlivefile'
       - name: latexmk var_MjA5M
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MjA5M'
       - id: var_MjA5M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_MjA5M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YjAwM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -669,17 +669,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YjAwM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YjAwM/Texlivefile'
       - name: latexmk var_YjAwM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_YjAwM'
       - id: var_YjAwM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_YjAwM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZjgyN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -689,17 +689,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZjgyN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZjgyN/Texlivefile'
       - name: latexmk var_ZjgyN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZjgyN'
       - id: var_ZjgyN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_ZjgyN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NGRiZ
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -709,17 +709,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NGRiZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NGRiZ/Texlivefile'
       - name: latexmk var_NGRiZ
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NGRiZ'
       - id: var_NGRiZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_NGRiZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZDk2O
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -729,17 +729,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZDk2O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZDk2O/Texlivefile'
       - name: latexmk var_ZDk2O
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZDk2O'
       - id: var_ZDk2O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_ZDk2O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZGU4Z
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -749,17 +749,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZGU4Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZGU4Z/Texlivefile'
       - name: latexmk var_ZGU4Z
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZGU4Z'
       - id: var_ZGU4Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_ZGU4Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTU1Y
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -769,17 +769,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTU1Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTU1Y/Texlivefile'
       - name: latexmk var_MTU1Y
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MTU1Y'
       - id: var_MTU1Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_MTU1Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZTI1Z
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -789,17 +789,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZTI1Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZTI1Z/Texlivefile'
       - name: latexmk var_ZTI1Z
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZTI1Z'
       - id: var_ZTI1Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_ZTI1Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OGM0M
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -809,17 +809,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OGM0M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OGM0M/Texlivefile'
       - name: latexmk var_OGM0M
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_OGM0M'
       - id: var_OGM0M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_OGM0M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTc4Z
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -829,17 +829,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NTc4Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTc4Z/Texlivefile'
       - name: latexmk var_NTc4Z
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NTc4Z'
       - id: var_NTc4Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_NTc4Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YWMyO
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_listings_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -849,17 +849,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YWMyO'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YWMyO/Texlivefile'
       - name: latexmk var_YWMyO
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_YWMyO'
       - id: var_YWMyO_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_YWMyO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZmQ1Y
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -869,17 +869,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZmQ1Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZmQ1Y/Texlivefile'
       - name: latexmk var_ZmQ1Y
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZmQ1Y'
       - id: var_ZmQ1Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_ZmQ1Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MGI5Y
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -889,17 +889,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MGI5Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MGI5Y/Texlivefile'
       - name: latexmk var_MGI5Y
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MGI5Y'
       - id: var_MGI5Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_MGI5Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDJiZ
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -909,17 +909,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NDJiZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDJiZ/Texlivefile'
       - name: latexmk var_NDJiZ
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NDJiZ'
       - id: var_NDJiZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_NDJiZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTIwM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -929,17 +929,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTIwM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTIwM/Texlivefile'
       - name: latexmk var_MTIwM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MTIwM'
       - id: var_MTIwM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_MTIwM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTE2Y
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -949,17 +949,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NTE2Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTE2Y/Texlivefile'
       - name: latexmk var_NTE2Y
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NTE2Y'
       - id: var_NTE2Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_NTE2Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NmMwN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -969,17 +969,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NmMwN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NmMwN/Texlivefile'
       - name: latexmk var_NmMwN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NmMwN'
       - id: var_NmMwN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_NmMwN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YjcxZ
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -989,17 +989,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YjcxZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YjcxZ/Texlivefile'
       - name: latexmk var_YjcxZ
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_YjcxZ'
       - id: var_YjcxZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_YjcxZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NmRiM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_en_default_minted_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1009,17 +1009,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NmRiM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NmRiM/Texlivefile'
       - name: latexmk var_NmRiM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NmRiM'
       - id: var_NmRiM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_NmRiM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YTIxN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1029,17 +1029,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YTIxN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YTIxN/Texlivefile'
       - name: latexmk var_YTIxN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_YTIxN'
       - id: var_YTIxN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_YTIxN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ODQ3M
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -1049,17 +1049,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ODQ3M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ODQ3M/Texlivefile'
       - name: latexmk var_ODQ3M
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ODQ3M'
       - id: var_ODQ3M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_ODQ3M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDRkN
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1069,17 +1069,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NDRkN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDRkN/Texlivefile'
       - name: latexmk var_NDRkN
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NDRkN'
       - id: var_NDRkN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_NDRkN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTVlY
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1089,17 +1089,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NTVlY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTVlY/Texlivefile'
       - name: latexmk var_NTVlY
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NTVlY'
       - id: var_NTVlY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_NTVlY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZjdlY
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1109,17 +1109,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZjdlY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZjdlY/Texlivefile'
       - name: latexmk var_ZjdlY
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZjdlY'
       - id: var_ZjdlY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_ZjdlY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTk5N
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -1129,17 +1129,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTk5N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTk5N/Texlivefile'
       - name: latexmk var_MTk5N
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MTk5N'
       - id: var_MTk5N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_MTk5N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MjlkY
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1149,17 +1149,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MjlkY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MjlkY/Texlivefile'
       - name: latexmk var_MjlkY
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MjlkY'
       - id: var_MjlkY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_MjlkY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZTg3M
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_listings_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1169,17 +1169,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZTg3M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZTg3M/Texlivefile'
       - name: latexmk var_ZTg3M
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZTg3M'
       - id: var_ZTg3M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_ZTg3M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YWQzM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1189,17 +1189,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YWQzM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YWQzM/Texlivefile'
       - name: latexmk var_YWQzM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_YWQzM'
       - id: var_YWQzM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_YWQzM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NzYwM
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -1209,17 +1209,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NzYwM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NzYwM/Texlivefile'
       - name: latexmk var_NzYwM
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_NzYwM'
       - id: var_NzYwM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_NzYwM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MGE5Z
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1229,17 +1229,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MGE5Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MGE5Z/Texlivefile'
       - name: latexmk var_MGE5Z
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MGE5Z'
       - id: var_MGE5Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_MGE5Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZWVhO
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1249,17 +1249,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZWVhO'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZWVhO/Texlivefile'
       - name: latexmk var_ZWVhO
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_ZWVhO'
       - id: var_ZWVhO_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_ZWVhO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OGE2O
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1269,17 +1269,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OGE2O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OGE2O/Texlivefile'
       - name: latexmk var_OGE2O
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_OGE2O'
       - id: var_OGE2O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_OGE2O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_Y2NmY
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -1289,17 +1289,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_Y2NmY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_Y2NmY/Texlivefile'
       - name: latexmk var_Y2NmY
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_Y2NmY'
       - id: var_Y2NmY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_Y2NmY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MDIwY
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1309,17 +1309,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MDIwY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MDIwY/Texlivefile'
       - name: latexmk var_MDIwY
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_MDIwY'
       - id: var_MDIwY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_MDIwY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YzI3N
       - run: echo CURRENT_VARIANT='acmart_both_bibtex_2024_de_default_minted_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1329,46 +1329,46 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=acmart --acmformat=manuscript --acmreview=true --papersize=a4 --latexcompiler=both --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YzI3N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YzI3N/Texlivefile'
       - name: latexmk var_YzI3N
         run: latexmk paper.tex
         working-directory: '${{ github.workspace }}/var_YzI3N'
       - id: var_YzI3N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| acmart        | both          | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_YzI3N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - name: texlogsieve
-      if: always()
-      run: |
-        echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
-        echo '```' >> $GITHUB_STEP_SUMMARY
-        texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY || false
-        echo '```' >> $GITHUB_STEP_SUMMARY
-    - id: failing_u
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
-    - run: echo "TABLE=${TABLE}\n${CURRENT_VARIANT_TABLE_ROW} [link](${{ steps.failing_u.outputs.artifact-url }}) ❌ |" >> $GITHUB_ENV
-      if: failure()
+        if: always()
+        run: |
+          echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY || false
+          echo '```' >> $GITHUB_STEP_SUMMARY
+      - id: failing_u
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n${CURRENT_VARIANT_TABLE_ROW} [link](${{ steps.failing_u.outputs.artifact-url }}) ❌ |" >> $GITHUB_ENV
+        if: failure()
         working-directory: ${{ env.CURRENT_VARIANT_SHORT }}
       - name: Finish summary table
         if: always()
         run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY
       - run: |
-        gh run list -L 100 --json databaseId -s queued -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
-        while read -r run_id; do
-          gh run cancel "$run_id" || true
-        done
-        gh run list -L 100 --json databaseId -s in_progress -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
-        while read -r run_id; do
-          gh run cancel "$run_id" || true
-        done
-      if: failure()
-      env:
-        GH_TOKEN: ${{ github.token }}
+          gh run list -L 100 --json databaseId -s queued -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
+          while read -r run_id; do
+            gh run cancel "$run_id" || true
+          done
+          gh run list -L 100 --json databaseId -s in_progress -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
+          while read -r run_id; do
+            gh run cancel "$run_id" || true
+          done
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}

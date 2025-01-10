@@ -1,62 +1,62 @@
 name: Check scientific-thesis-pdflatex-biblatex-2024-true
 on:
-push:
-  branches:
-    - main
-  paths-ignore:
-    - '.editorconfig'
-    - '.eslintignore'
-    - '.gitpod.dockerfile'
-    - '.gitpod.yml'
-    - '.gitattributes'
-    - '.gitignore'
-    - '.markdownlint.yml'
-    - 'CHANGELOG.md'
-    - 'CONTRIBUTING.md'
-    - 'generate-texlivefile.sh'
-    - 'LICENSE'
-    - 'README.md'
-    - 'setup-do.sh'
-    - 'user-data.sh'
-    - 'docs/**'
-    - '.vscode/**'
-pull_request:
-  branches:
-    - main
-  paths-ignore:
-    - '.editorconfig'
-    - '.eslintignore'
-    - '.gitpod.dockerfile'
-    - '.gitpod.yml'
-    - '.gitattributes'
-    - '.gitignore'
-    - '.markdownlint.yml'
-    - 'CHANGELOG.md'
-    - 'CONTRIBUTING.md'
-    - 'generate-texlivefile.sh'
-    - 'LICENSE'
-    - 'README.md'
-    - 'setup-do.sh'
-    - 'user-data.sh'
-    - 'docs/**'
-    - '.vscode/**'
-merge_group:
-concurrency:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  merge_group:
+  concurrency:
   group: ${{ github.workflow }}-${{ github.actor_id }}
   cancel-in-progress: true
-jobs:
-check:
+  jobs:
+  check:
     name: Check scientific-thesis-pdflatex-biblatex-2024-true
     runs-on: ubuntu-24.04
-  steps:
-    - name: Set up Git repository
-      uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '22'
-        cache: 'npm'
-    - run: npm ci
-    - run: mkdir /tmp/out
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - run: npm ci
+      - run: mkdir /tmp/out
       - name: Summary table heading
         run: |
           TABLE='| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext | link |'
@@ -69,17 +69,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MWI1M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MWI1M/Texlivefile'
       - name: latexmk var_MWI1M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MWI1M'
       - id: var_MWI1M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_MWI1M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OGE5M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -89,17 +89,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OGE5M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OGE5M/Texlivefile'
       - name: latexmk var_OGE5M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OGE5M'
       - id: var_OGE5M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_OGE5M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MzM1Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -109,17 +109,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MzM1Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MzM1Y/Texlivefile'
       - name: latexmk var_MzM1Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MzM1Y'
       - id: var_MzM1Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_MzM1Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZGUyM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -129,17 +129,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZGUyM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZGUyM/Texlivefile'
       - name: latexmk var_ZGUyM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZGUyM'
       - id: var_ZGUyM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_ZGUyM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MzBmZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -149,17 +149,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MzBmZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MzBmZ/Texlivefile'
       - name: latexmk var_MzBmZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MzBmZ'
       - id: var_MzBmZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_MzBmZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NzBlY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -169,17 +169,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NzBlY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NzBlY/Texlivefile'
       - name: latexmk var_NzBlY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NzBlY'
       - id: var_NzBlY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_NzBlY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZDFlM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -189,17 +189,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZDFlM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZDFlM/Texlivefile'
       - name: latexmk var_ZDFlM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZDFlM'
       - id: var_ZDFlM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_ZDFlM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MWY1O
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -209,17 +209,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MWY1O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MWY1O/Texlivefile'
       - name: latexmk var_MWY1O
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MWY1O'
       - id: var_MWY1O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_MWY1O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_Mzk1N
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -229,17 +229,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_Mzk1N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_Mzk1N/Texlivefile'
       - name: latexmk var_Mzk1N
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_Mzk1N'
       - id: var_Mzk1N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_Mzk1N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NjgyM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -249,17 +249,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NjgyM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NjgyM/Texlivefile'
       - name: latexmk var_NjgyM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NjgyM'
       - id: var_NjgyM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_NjgyM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NzMwM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -269,17 +269,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NzMwM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NzMwM/Texlivefile'
       - name: latexmk var_NzMwM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NzMwM'
       - id: var_NzMwM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NzMwM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YzQ3M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -289,17 +289,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YzQ3M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YzQ3M/Texlivefile'
       - name: latexmk var_YzQ3M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YzQ3M'
       - id: var_YzQ3M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_YzQ3M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZTE5Z
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -309,17 +309,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZTE5Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZTE5Z/Texlivefile'
       - name: latexmk var_ZTE5Z
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZTE5Z'
       - id: var_ZTE5Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_ZTE5Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZGFiY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -329,17 +329,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZGFiY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZGFiY/Texlivefile'
       - name: latexmk var_ZGFiY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZGFiY'
       - id: var_ZGFiY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_ZGFiY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NWE0M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -349,17 +349,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NWE0M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NWE0M/Texlivefile'
       - name: latexmk var_NWE0M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NWE0M'
       - id: var_NWE0M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NWE0M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MmE0N
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -369,17 +369,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MmE0N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MmE0N/Texlivefile'
       - name: latexmk var_MmE0N
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MmE0N'
       - id: var_MmE0N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_MmE0N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OWEwN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -389,17 +389,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OWEwN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OWEwN/Texlivefile'
       - name: latexmk var_OWEwN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OWEwN'
       - id: var_OWEwN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_OWEwN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YTE5M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -409,17 +409,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YTE5M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YTE5M/Texlivefile'
       - name: latexmk var_YTE5M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YTE5M'
       - id: var_YTE5M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_YTE5M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NjhiN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -429,17 +429,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NjhiN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NjhiN/Texlivefile'
       - name: latexmk var_NjhiN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NjhiN'
       - id: var_NjhiN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NjhiN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDFiY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -449,17 +449,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NDFiY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDFiY/Texlivefile'
       - name: latexmk var_NDFiY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NDFiY'
       - id: var_NDFiY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_NDFiY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NmY3Z
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -469,17 +469,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NmY3Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NmY3Z/Texlivefile'
       - name: latexmk var_NmY3Z
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NmY3Z'
       - id: var_NmY3Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_NmY3Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ODAyM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -489,17 +489,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ODAyM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ODAyM/Texlivefile'
       - name: latexmk var_ODAyM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ODAyM'
       - id: var_ODAyM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_ODAyM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_M2QyY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -509,17 +509,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_M2QyY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_M2QyY/Texlivefile'
       - name: latexmk var_M2QyY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_M2QyY'
       - id: var_M2QyY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_M2QyY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZGI1O
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -529,17 +529,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZGI1O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZGI1O/Texlivefile'
       - name: latexmk var_ZGI1O
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZGI1O'
       - id: var_ZGI1O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_ZGI1O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OWY3O
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -549,17 +549,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OWY3O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OWY3O/Texlivefile'
       - name: latexmk var_OWY3O
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OWY3O'
       - id: var_OWY3O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_OWY3O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTk1Z
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -569,17 +569,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MTk1Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTk1Z/Texlivefile'
       - name: latexmk var_MTk1Z
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTk1Z'
       - id: var_MTk1Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_MTk1Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MDI1M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -589,17 +589,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MDI1M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MDI1M/Texlivefile'
       - name: latexmk var_MDI1M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MDI1M'
       - id: var_MDI1M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_MDI1M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZGE3Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -609,17 +609,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZGE3Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZGE3Y/Texlivefile'
       - name: latexmk var_ZGE3Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZGE3Y'
       - id: var_ZGE3Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_ZGE3Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTE2N
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -629,17 +629,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NTE2N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTE2N/Texlivefile'
       - name: latexmk var_NTE2N
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NTE2N'
       - id: var_NTE2N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_NTE2N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YzY0Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -649,17 +649,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YzY0Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YzY0Y/Texlivefile'
       - name: latexmk var_YzY0Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YzY0Y'
       - id: var_YzY0Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_YzY0Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YWJhZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -669,17 +669,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YWJhZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YWJhZ/Texlivefile'
       - name: latexmk var_YWJhZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YWJhZ'
       - id: var_YWJhZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_YWJhZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YWE1O
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -689,17 +689,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YWE1O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YWE1O/Texlivefile'
       - name: latexmk var_YWE1O
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YWE1O'
       - id: var_YWE1O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_YWE1O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YTJmY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -709,17 +709,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YTJmY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YTJmY/Texlivefile'
       - name: latexmk var_YTJmY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YTJmY'
       - id: var_YTJmY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_YTJmY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ODg3M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -729,17 +729,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ODg3M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ODg3M/Texlivefile'
       - name: latexmk var_ODg3M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ODg3M'
       - id: var_ODg3M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_ODg3M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MzZlZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -749,17 +749,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MzZlZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MzZlZ/Texlivefile'
       - name: latexmk var_MzZlZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MzZlZ'
       - id: var_MzZlZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_MzZlZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YjQxN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -769,17 +769,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YjQxN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YjQxN/Texlivefile'
       - name: latexmk var_YjQxN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YjQxN'
       - id: var_YjQxN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_YjQxN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_N2IwN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -789,17 +789,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_N2IwN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_N2IwN/Texlivefile'
       - name: latexmk var_N2IwN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_N2IwN'
       - id: var_N2IwN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_N2IwN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTY1O
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -809,17 +809,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MTY1O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTY1O/Texlivefile'
       - name: latexmk var_MTY1O
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTY1O'
       - id: var_MTY1O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_MTY1O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZGEyN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -829,17 +829,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZGEyN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZGEyN/Texlivefile'
       - name: latexmk var_ZGEyN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZGEyN'
       - id: var_ZGEyN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_ZGEyN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MThmO
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -849,17 +849,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MThmO'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MThmO/Texlivefile'
       - name: latexmk var_MThmO
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MThmO'
       - id: var_MThmO_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_MThmO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTBiY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -869,17 +869,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NTBiY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTBiY/Texlivefile'
       - name: latexmk var_NTBiY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NTBiY'
       - id: var_NTBiY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_NTBiY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MjYyY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -889,17 +889,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MjYyY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MjYyY/Texlivefile'
       - name: latexmk var_MjYyY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MjYyY'
       - id: var_MjYyY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_MjYyY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YTU2N
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -909,17 +909,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YTU2N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YTU2N/Texlivefile'
       - name: latexmk var_YTU2N
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YTU2N'
       - id: var_YTU2N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_YTU2N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OGQ5Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -929,17 +929,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OGQ5Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OGQ5Y/Texlivefile'
       - name: latexmk var_OGQ5Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OGQ5Y'
       - id: var_OGQ5Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_OGQ5Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NzE5Z
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -949,17 +949,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NzE5Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NzE5Z/Texlivefile'
       - name: latexmk var_NzE5Z
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NzE5Z'
       - id: var_NzE5Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_NzE5Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_N2EzM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -969,17 +969,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_N2EzM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_N2EzM/Texlivefile'
       - name: latexmk var_N2EzM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_N2EzM'
       - id: var_N2EzM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_N2EzM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MDdiN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -989,17 +989,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MDdiN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MDdiN/Texlivefile'
       - name: latexmk var_MDdiN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MDdiN'
       - id: var_MDdiN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_MDdiN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OWQ5M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -1009,17 +1009,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OWQ5M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OWQ5M/Texlivefile'
       - name: latexmk var_OWQ5M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OWQ5M'
       - id: var_OWQ5M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_OWQ5M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDJkZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -1029,17 +1029,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NDJkZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDJkZ/Texlivefile'
       - name: latexmk var_NDJkZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NDJkZ'
       - id: var_NDJkZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_NDJkZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OGFjY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -1049,17 +1049,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OGFjY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OGFjY/Texlivefile'
       - name: latexmk var_OGFjY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OGFjY'
       - id: var_OGFjY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_OGFjY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MmQ1N
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -1069,17 +1069,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MmQ1N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MmQ1N/Texlivefile'
       - name: latexmk var_MmQ1N
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MmQ1N'
       - id: var_MmQ1N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_MmQ1N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_N2M4N
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -1089,17 +1089,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_N2M4N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_N2M4N/Texlivefile'
       - name: latexmk var_N2M4N
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_N2M4N'
       - id: var_N2M4N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_N2M4N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_M2E2Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -1109,17 +1109,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_M2E2Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_M2E2Y/Texlivefile'
       - name: latexmk var_M2E2Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_M2E2Y'
       - id: var_M2E2Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_M2E2Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MmVkO
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -1129,17 +1129,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_MmVkO'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MmVkO/Texlivefile'
       - name: latexmk var_MmVkO
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MmVkO'
       - id: var_MmVkO_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_MmVkO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDc4M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -1149,17 +1149,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NDc4M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDc4M/Texlivefile'
       - name: latexmk var_NDc4M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NDc4M'
       - id: var_NDc4M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NDc4M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YmUwY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -1169,17 +1169,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_YmUwY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YmUwY/Texlivefile'
       - name: latexmk var_YmUwY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YmUwY'
       - id: var_YmUwY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_YmUwY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZGI3O
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_csquotes_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -1189,17 +1189,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZGI3O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZGI3O/Texlivefile'
       - name: latexmk var_ZGI3O
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZGI3O'
       - id: var_ZGI3O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | csquotes   | babel           | pdfcomment | true    | true     | [link](${{ steps.var_ZGI3O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_Yzk4N
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_csquotes_babel_none_true_true' >> $GITHUB_ENV
@@ -1209,17 +1209,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_Yzk4N'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_Yzk4N/Texlivefile'
       - name: latexmk var_Yzk4N
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_Yzk4N'
       - id: var_Yzk4N_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | csquotes   | babel           | none       | true    | true     | [link](${{ steps.var_Yzk4N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NWFlZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_csquotes_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -1229,17 +1229,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NWFlZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NWFlZ/Texlivefile'
       - name: latexmk var_NWFlZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NWFlZ'
       - id: var_NWFlZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | csquotes   | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NWFlZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZWUwM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_csquotes_outerquote_none_true_true' >> $GITHUB_ENV
@@ -1249,17 +1249,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_ZWUwM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZWUwM/Texlivefile'
       - name: latexmk var_ZWUwM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZWUwM'
       - id: var_ZWUwM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | csquotes   | outerquote      | none       | true    | true     | [link](${{ steps.var_ZWUwM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDZkO
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_plainlatex_babel_pdfcomment_true_true' >> $GITHUB_ENV
@@ -1269,17 +1269,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NDZkO'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDZkO/Texlivefile'
       - name: latexmk var_NDZkO
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NDZkO'
       - id: var_NDZkO_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | plainlatex | babel           | pdfcomment | true    | true     | [link](${{ steps.var_NDZkO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OWE0Z
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_plainlatex_babel_none_true_true' >> $GITHUB_ENV
@@ -1289,17 +1289,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_OWE0Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OWE0Z/Texlivefile'
       - name: latexmk var_OWE0Z
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OWE0Z'
       - id: var_OWE0Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | plainlatex | babel           | none       | true    | true     | [link](${{ steps.var_OWE0Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTBhM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_plainlatex_outerquote_pdfcomment_true_true' >> $GITHUB_ENV
@@ -1309,17 +1309,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NTBhM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTBhM/Texlivefile'
       - name: latexmk var_NTBhM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NTBhM'
       - id: var_NTBhM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | plainlatex | outerquote      | pdfcomment | true    | true     | [link](${{ steps.var_NTBhM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDBiZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_plainlatex_outerquote_none_true_true' >> $GITHUB_ENV
@@ -1329,17 +1329,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=true
         working-directory: '${{ github.workspace }}/var_NDBiZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDBiZ/Texlivefile'
       - name: latexmk var_NDBiZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NDBiZ'
       - id: var_NDBiZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | plainlatex | outerquote      | none       | true    | true     | [link](${{ steps.var_NDBiZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MDc2M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1349,17 +1349,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MDc2M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MDc2M/Texlivefile'
       - name: latexmk var_MDc2M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MDc2M'
       - id: var_MDc2M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_MDc2M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_Y2I5M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -1369,17 +1369,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_Y2I5M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_Y2I5M/Texlivefile'
       - name: latexmk var_Y2I5M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_Y2I5M'
       - id: var_Y2I5M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_Y2I5M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OTY1Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1389,17 +1389,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OTY1Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OTY1Y/Texlivefile'
       - name: latexmk var_OTY1Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OTY1Y'
       - id: var_OTY1Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_OTY1Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ODA5O
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1409,17 +1409,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ODA5O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ODA5O/Texlivefile'
       - name: latexmk var_ODA5O
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ODA5O'
       - id: var_ODA5O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_ODA5O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YTE5Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1429,17 +1429,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YTE5Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YTE5Y/Texlivefile'
       - name: latexmk var_YTE5Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YTE5Y'
       - id: var_YTE5Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_YTE5Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MmMyN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -1449,17 +1449,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MmMyN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MmMyN/Texlivefile'
       - name: latexmk var_MmMyN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MmMyN'
       - id: var_MmMyN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_MmMyN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTZmM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1469,17 +1469,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NTZmM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTZmM/Texlivefile'
       - name: latexmk var_NTZmM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NTZmM'
       - id: var_NTZmM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_NTZmM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MjBiN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_listings_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1489,17 +1489,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MjBiN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MjBiN/Texlivefile'
       - name: latexmk var_MjBiN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MjBiN'
       - id: var_MjBiN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | listings | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_MjBiN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZjBmO
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1509,17 +1509,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZjBmO'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZjBmO/Texlivefile'
       - name: latexmk var_ZjBmO
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZjBmO'
       - id: var_ZjBmO_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_ZjBmO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTA5Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -1529,17 +1529,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NTA5Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTA5Y/Texlivefile'
       - name: latexmk var_NTA5Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NTA5Y'
       - id: var_NTA5Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_NTA5Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YTVhN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1549,17 +1549,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YTVhN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YTVhN/Texlivefile'
       - name: latexmk var_YTVhN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YTVhN'
       - id: var_YTVhN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_YTVhN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MzNlY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1569,17 +1569,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MzNlY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MzNlY/Texlivefile'
       - name: latexmk var_MzNlY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MzNlY'
       - id: var_MzNlY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_MzNlY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZjIwZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1589,17 +1589,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZjIwZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZjIwZ/Texlivefile'
       - name: latexmk var_ZjIwZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZjIwZ'
       - id: var_ZjIwZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_ZjIwZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTk4M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -1609,17 +1609,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTk4M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTk4M/Texlivefile'
       - name: latexmk var_MTk4M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTk4M'
       - id: var_MTk4M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_MTk4M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MGIzZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1629,17 +1629,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MGIzZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MGIzZ/Texlivefile'
       - name: latexmk var_MGIzZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MGIzZ'
       - id: var_MGIzZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_MGIzZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MjQwM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_default_minted_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1649,17 +1649,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MjQwM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MjQwM/Texlivefile'
       - name: latexmk var_MjQwM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MjQwM'
       - id: var_MjQwM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_MjQwM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YjNmN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1669,17 +1669,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YjNmN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YjNmN/Texlivefile'
       - name: latexmk var_YjNmN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YjNmN'
       - id: var_YjNmN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_YjNmN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTM3Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -1689,17 +1689,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NTM3Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTM3Y/Texlivefile'
       - name: latexmk var_NTM3Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NTM3Y'
       - id: var_NTM3Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_NTM3Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTE0M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1709,17 +1709,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTE0M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTE0M/Texlivefile'
       - name: latexmk var_MTE0M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTE0M'
       - id: var_MTE0M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_MTE0M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTVjN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1729,17 +1729,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTVjN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTVjN/Texlivefile'
       - name: latexmk var_MTVjN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTVjN'
       - id: var_MTVjN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_MTVjN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZmYzM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1749,17 +1749,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZmYzM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZmYzM/Texlivefile'
       - name: latexmk var_ZmYzM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZmYzM'
       - id: var_ZmYzM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_ZmYzM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NWM5O
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -1769,17 +1769,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NWM5O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NWM5O/Texlivefile'
       - name: latexmk var_NWM5O
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NWM5O'
       - id: var_NWM5O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_NWM5O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MWZlY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1789,17 +1789,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MWZlY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MWZlY/Texlivefile'
       - name: latexmk var_MWZlY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MWZlY'
       - id: var_MWZlY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_MWZlY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MjMwM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_listings_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1809,17 +1809,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MjMwM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MjMwM/Texlivefile'
       - name: latexmk var_MjMwM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MjMwM'
       - id: var_MjMwM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | listings | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_MjMwM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OTk1M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1829,17 +1829,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OTk1M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OTk1M/Texlivefile'
       - name: latexmk var_OTk1M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OTk1M'
       - id: var_OTk1M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_OTk1M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZjllM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -1849,17 +1849,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZjllM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZjllM/Texlivefile'
       - name: latexmk var_ZjllM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZjllM'
       - id: var_ZjllM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_ZjllM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDIxM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1869,17 +1869,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NDIxM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDIxM/Texlivefile'
       - name: latexmk var_NDIxM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NDIxM'
       - id: var_NDIxM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_NDIxM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YjZlO
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1889,17 +1889,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YjZlO'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YjZlO/Texlivefile'
       - name: latexmk var_YjZlO
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YjZlO'
       - id: var_YjZlO_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_YjZlO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTAzN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1909,17 +1909,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTAzN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTAzN/Texlivefile'
       - name: latexmk var_MTAzN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTAzN'
       - id: var_MTAzN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_MTAzN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZmQ1Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -1929,17 +1929,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZmQ1Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZmQ1Y/Texlivefile'
       - name: latexmk var_ZmQ1Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZmQ1Y'
       - id: var_ZmQ1Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_ZmQ1Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NzBmO
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1949,17 +1949,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NzBmO'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NzBmO/Texlivefile'
       - name: latexmk var_NzBmO
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NzBmO'
       - id: var_NzBmO_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_NzBmO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZWRhN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_en_times_minted_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -1969,17 +1969,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZWRhN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZWRhN/Texlivefile'
       - name: latexmk var_ZWRhN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZWRhN'
       - id: var_ZWRhN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | en   | times   | minted   | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_ZWRhN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MDE0M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -1989,17 +1989,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MDE0M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MDE0M/Texlivefile'
       - name: latexmk var_MDE0M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MDE0M'
       - id: var_MDE0M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_MDE0M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MmU4Z
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -2009,17 +2009,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MmU4Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MmU4Z/Texlivefile'
       - name: latexmk var_MmU4Z
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MmU4Z'
       - id: var_MmU4Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_MmU4Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTViO
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2029,17 +2029,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTViO'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTViO/Texlivefile'
       - name: latexmk var_MTViO
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTViO'
       - id: var_MTViO_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_MTViO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTZlY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -2049,17 +2049,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTZlY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTZlY/Texlivefile'
       - name: latexmk var_MTZlY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTZlY'
       - id: var_MTZlY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_MTZlY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YjVlN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2069,17 +2069,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YjVlN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YjVlN/Texlivefile'
       - name: latexmk var_YjVlN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YjVlN'
       - id: var_YjVlN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_YjVlN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTQ1Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -2089,17 +2089,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NTQ1Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTQ1Y/Texlivefile'
       - name: latexmk var_NTQ1Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NTQ1Y'
       - id: var_NTQ1Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_NTQ1Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OTQ5O
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2109,17 +2109,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OTQ5O'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OTQ5O/Texlivefile'
       - name: latexmk var_OTQ5O
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OTQ5O'
       - id: var_OTQ5O_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_OTQ5O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NzM3M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_listings_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -2129,17 +2129,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NzM3M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NzM3M/Texlivefile'
       - name: latexmk var_NzM3M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NzM3M'
       - id: var_NzM3M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | listings | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_NzM3M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OWQzM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2149,17 +2149,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OWQzM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OWQzM/Texlivefile'
       - name: latexmk var_OWQzM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OWQzM'
       - id: var_OWQzM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_OWQzM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OGZmZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -2169,17 +2169,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OGZmZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OGZmZ/Texlivefile'
       - name: latexmk var_OGZmZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OGZmZ'
       - id: var_OGZmZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_OGZmZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OGQwN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2189,17 +2189,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OGQwN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OGQwN/Texlivefile'
       - name: latexmk var_OGQwN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OGQwN'
       - id: var_OGQwN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_OGQwN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NWQyN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -2209,17 +2209,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NWQyN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NWQyN/Texlivefile'
       - name: latexmk var_NWQyN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NWQyN'
       - id: var_NWQyN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_NWQyN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDAwZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2229,17 +2229,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NDAwZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDAwZ/Texlivefile'
       - name: latexmk var_NDAwZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NDAwZ'
       - id: var_NDAwZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_NDAwZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NGMwN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -2249,17 +2249,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NGMwN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NGMwN/Texlivefile'
       - name: latexmk var_NGMwN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NGMwN'
       - id: var_NGMwN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_NGMwN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDM0M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2269,17 +2269,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NDM0M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDM0M/Texlivefile'
       - name: latexmk var_NDM0M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NDM0M'
       - id: var_NDM0M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_NDM0M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ODdiZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_default_minted_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -2289,17 +2289,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ODdiZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ODdiZ/Texlivefile'
       - name: latexmk var_ODdiZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ODdiZ'
       - id: var_ODdiZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_ODdiZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YjkzZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2309,17 +2309,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YjkzZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YjkzZ/Texlivefile'
       - name: latexmk var_YjkzZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YjkzZ'
       - id: var_YjkzZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_YjkzZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MDhlZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -2329,17 +2329,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MDhlZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MDhlZ/Texlivefile'
       - name: latexmk var_MDhlZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MDhlZ'
       - id: var_MDhlZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_MDhlZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NTg2Y
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2349,17 +2349,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NTg2Y'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NTg2Y/Texlivefile'
       - name: latexmk var_NTg2Y
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NTg2Y'
       - id: var_NTg2Y_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_NTg2Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_YTFmY
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -2369,17 +2369,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_YTFmY'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_YTFmY/Texlivefile'
       - name: latexmk var_YTFmY
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_YTFmY'
       - id: var_YTFmY_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_YTFmY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_Y2VhN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2389,17 +2389,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_Y2VhN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_Y2VhN/Texlivefile'
       - name: latexmk var_Y2VhN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_Y2VhN'
       - id: var_Y2VhN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_Y2VhN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NjViN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -2409,17 +2409,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NjViN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NjViN/Texlivefile'
       - name: latexmk var_NjViN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NjViN'
       - id: var_NjViN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_NjViN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZjY5Z
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2429,17 +2429,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZjY5Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZjY5Z/Texlivefile'
       - name: latexmk var_ZjY5Z
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZjY5Z'
       - id: var_ZjY5Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_ZjY5Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTg2M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_listings_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -2449,17 +2449,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTg2M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTg2M/Texlivefile'
       - name: latexmk var_MTg2M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTg2M'
       - id: var_MTg2M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | listings | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_MTg2M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NmMwZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_csquotes_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2469,17 +2469,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NmMwZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NmMwZ/Texlivefile'
       - name: latexmk var_NmMwZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NmMwZ'
       - id: var_NmMwZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | csquotes   | babel           | pdfcomment | true    | false    | [link](${{ steps.var_NmMwZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NDg2M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_csquotes_babel_none_true_false' >> $GITHUB_ENV
@@ -2489,17 +2489,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NDg2M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NDg2M/Texlivefile'
       - name: latexmk var_NDg2M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NDg2M'
       - id: var_NDg2M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | csquotes   | babel           | none       | true    | false    | [link](${{ steps.var_NDg2M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_NWY4M
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_csquotes_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2509,17 +2509,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_NWY4M'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_NWY4M/Texlivefile'
       - name: latexmk var_NWY4M
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_NWY4M'
       - id: var_NWY4M_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | csquotes   | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_NWY4M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_ZTAwM
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_csquotes_outerquote_none_true_false' >> $GITHUB_ENV
@@ -2529,17 +2529,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_ZTAwM'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_ZTAwM/Texlivefile'
       - name: latexmk var_ZTAwM
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_ZTAwM'
       - id: var_ZTAwM_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | csquotes   | outerquote      | none       | true    | false    | [link](${{ steps.var_ZTAwM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OWEyZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_plainlatex_babel_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2549,17 +2549,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OWEyZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OWEyZ/Texlivefile'
       - name: latexmk var_OWEyZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OWEyZ'
       - id: var_OWEyZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | plainlatex | babel           | pdfcomment | true    | false    | [link](${{ steps.var_OWEyZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_MTk2Z
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_plainlatex_babel_none_true_false' >> $GITHUB_ENV
@@ -2569,17 +2569,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_MTk2Z'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_MTk2Z/Texlivefile'
       - name: latexmk var_MTk2Z
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_MTk2Z'
       - id: var_MTk2Z_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | plainlatex | babel           | none       | true    | false    | [link](${{ steps.var_MTk2Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OWUxZ
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_plainlatex_outerquote_pdfcomment_true_false' >> $GITHUB_ENV
@@ -2589,17 +2589,17 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OWUxZ'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OWUxZ/Texlivefile'
       - name: latexmk var_OWUxZ
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OWUxZ'
       - id: var_OWUxZ_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | plainlatex | outerquote      | pdfcomment | true    | false    | [link](${{ steps.var_OWUxZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - run: mkdir var_OGFkN
       - run: echo CURRENT_VARIANT='scientific-thesis_pdflatex_biblatex_2024_de_times_minted_plainlatex_outerquote_none_true_false' >> $GITHUB_ENV
@@ -2609,46 +2609,46 @@ check:
         run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=biblatex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=true --howtotext=false
         working-directory: '${{ github.workspace }}/var_OGFkN'
       - name: Install TeX Live
-      uses: zauguin/install-texlive@v3
-      with:
+        uses: zauguin/install-texlive@v3
+        with:
           package_file: '${{ github.workspace }}/var_OGFkN/Texlivefile'
       - name: latexmk var_OGFkN
         run: latexmk main.tex
         working-directory: '${{ github.workspace }}/var_OGFkN'
       - id: var_OGFkN_u
         uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
       - run: echo "TABLE=${TABLE}\n| scientific-thesis | pdflatex      | biblatex   | 2024    | de   | times   | minted   | plainlatex | outerquote      | none       | true    | false    | [link](${{ steps.var_OGFkN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
       - name: texlogsieve
-      if: always()
-      run: |
-        echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
-        echo '```' >> $GITHUB_STEP_SUMMARY
-        texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY || false
-        echo '```' >> $GITHUB_STEP_SUMMARY
-    - id: failing_u
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.CURRENT_VARIANT }}
-        path: ${{ env.CURRENT_VARIANT_SHORT }}
-    - run: echo "TABLE=${TABLE}\n${CURRENT_VARIANT_TABLE_ROW} [link](${{ steps.failing_u.outputs.artifact-url }}) ❌ |" >> $GITHUB_ENV
-      if: failure()
+        if: always()
+        run: |
+          echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY || false
+          echo '```' >> $GITHUB_STEP_SUMMARY
+      - id: failing_u
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n${CURRENT_VARIANT_TABLE_ROW} [link](${{ steps.failing_u.outputs.artifact-url }}) ❌ |" >> $GITHUB_ENV
+        if: failure()
         working-directory: ${{ env.CURRENT_VARIANT_SHORT }}
       - name: Finish summary table
         if: always()
         run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY
       - run: |
-        gh run list -L 100 --json databaseId -s queued -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
-        while read -r run_id; do
-          gh run cancel "$run_id" || true
-        done
-        gh run list -L 100 --json databaseId -s in_progress -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
-        while read -r run_id; do
-          gh run cancel "$run_id" || true
-        done
-      if: failure()
-      env:
-        GH_TOKEN: ${{ github.token }}
+          gh run list -L 100 --json databaseId -s queued -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
+          while read -r run_id; do
+            gh run cancel "$run_id" || true
+          done
+          gh run list -L 100 --json databaseId -s in_progress -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
+          while read -r run_id; do
+            gh run cancel "$run_id" || true
+          done
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
