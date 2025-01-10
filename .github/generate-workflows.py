@@ -4,6 +4,7 @@ import hashlib
 import base64
 
 globalsingleworkflow = True
+failfast = True
 
 documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis', 'ustutt']
 latexcompilers = ['pdflatex', 'both']
@@ -239,5 +240,13 @@ jobs:
               yml.write("      - name: Finish summary table\n");
               yml.write("        if: always()\n");
               yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
+              if failfast:
+                yml.write(r'''      - run: |
+          gh run list -s "in_progress" -L 100 | sed -n 's/.*pull_request[[:space:]]\+\([0-9]\+\).*/\1/p' | \
+          while read -r run_id; do
+            gh run cancel "$run_id"
+          done
+        if: failure()
+''')
               yml.close()
               ymlmiktex.close()
