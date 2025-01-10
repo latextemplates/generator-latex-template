@@ -242,11 +242,11 @@ jobs:
               yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
               if failfast:
                 yml.write(r'''      - run: |
-          gh run list -L 100 --json databaseId -s queued | jq -r '.[] | .databaseId' | \
+          gh run list -L 100 --json databaseId -s queued -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
           while read -r run_id; do
             gh run cancel "$run_id" || true
           done
-          gh run list -L 100 --json databaseId -s in_progress | jq -r '.[] | .databaseId' | \
+          gh run list -L 100 --json databaseId -s in_progress -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
           while read -r run_id; do
             gh run cancel "$run_id" || true
           done
