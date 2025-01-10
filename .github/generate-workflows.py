@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
-import hashlib
+from cuid2 import Cuid
+
+CUID_GENERATOR: Cuid = Cuid(length=4)
 
 failfast = False
 
@@ -34,7 +36,7 @@ ieeevariants = ['conference', 'journal', 'peerreview']
 docker = "iot"
 
 def stable_hash(value):
-  return str(hashlib.md5(value.encode('utf-8')).hexdigest())[:5]
+  return CUID_GENERATOR.generate()
 
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
