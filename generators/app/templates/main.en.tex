@@ -131,43 +131,25 @@
 <% if (feature.abbreviations) { %><%- include('math.preamble.en.tex', this); -%>
 
 <% } -%>
-<%# ACM already provides a very good font configuration; thus we do not need to override it -%>
-<% if (documentclass != 'acmart') { %>
 <%- include('font.preamble.en.tex', this); -%>
-<% } else { -%>
-<%# nevertheless, we need fontspec for selnolig -%>
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
-<% if (latexcompiler == "both") { -%>
-\ifluatex
-<% } -%>
-% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/selnolig
-% See ADR-0009 for alternatives
-\usepackage[no-math]{fontspec}
-\usepackage{unicode-math}
-<% if (latexcompiler == "both") { -%>
-\fi
-<% } -%>
-<% } -%>
-<% } -%>
 
 <%- include('microtype.preamble.en.tex', this); -%>
 
 <% if (documentclass == 'ustutt') { %>
 <%- include('ustutt-pagestyle.preamble.en.tex', this); %>
 <%- include('ustutt-chapterstyle.preamble.en.tex', this); -%>
-<% } -%>
 
+<% } -%>
 \usepackage{graphicx}
 
 <% if (documentclass == 'ustutt') { %>
-
 % Base folder, so there is no need to repeat this over and over again.
 \graphicspath{ {figures/} }
 
 %%% Doc: http://mirror.ctan.org/tex-archive/macros/latex/contrib/pdfpages/pdfpages.pdf
 \usepackage{pdfpages} % Include pages from external PDF documents in LaTeX documents
-<% } -%>
 
+<% } -%>
 <%- include('diagbox.preamble.en.tex', this); -%>
 
 <% if (documentclass == 'ustutt') { -%>
