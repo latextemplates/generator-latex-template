@@ -37,25 +37,44 @@
 }
 
 \lstset{
-  language=XML,
+  % everything between (* *) is a latex command
+  escapeinside={(*}{*)},
+  %
+  language=json,
   %
   showstringspaces=false,
   %
   extendedchars=true,
   %
+  <% if (documentclass == "ustutt") { -%>
+  basicstyle=\small\ttfamily,
+  stepnumber=2,               % Abstand zwischen den Zeilennummern
+  numbersep=5pt,              % Abstand der Nummern zum Text
+%        keywordstyle=[1]\textbf,    % Stil der Keywords
+%        keywordstyle=[2]\textbf,    %
+%        keywordstyle=[3]\textbf,    %
+%        keywordstyle=[4]\textbf,    %
+%        stringstyle=\color{stringcolor}, % Farbe der Strings, stringcolor derzeit undefiniert
+  showspaces=false,           % Leerzeichen anzeigen ?
+  showtabs=false,             % Tabs anzeigen ?
+  showstringspaces=false      % Leerzeichen in Strings anzeigen ?
+<% } else { -%>
   basicstyle=\footnotesize\ttfamily,
+  <% } -%>
   %
   commentstyle=\slshape,
   %
   % Default: \rmfamily, damit werden die Strings im Quellcode hervorgehoben. Zusaetzlich evtl.: \scshape oder \rmfamily durch \ttfamily ersetzen. Dann sieht's aus, wie bei fancyvrb
   stringstyle=\ttfamily,
   %
-  breaklines=true,
+  breaklines=true,            % Zeilen werden umbrochen
   %
   breakatwhitespace=true,
   %
   % Alternative: fixed
   columns=flexible,
+  %
+  tabsize=2,                  % Groesse von Tabs
   %
   numbers=left,
   %
@@ -71,7 +90,10 @@
   %
   captionpos=b
 }
-<% if (latexcompiler == "pdflatex") { -%>
+<% if ((latexcompiler == "pdflatex") || (latexcompiler == "both")) { -%>
+<% if (latexcompiler == "both") { -%>
+\ifluatex\else
+<% } -%>
 
 % Ermögliche Umlaute when using \lstinputputlisting.
 % Siehe https://stackoverflow.com/a/29260603/873282 für Details.
@@ -90,6 +112,9 @@
   {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
   {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
 }
+<% if (latexcompiler == "both") { -%>
+\fi
+<% } -%>
 <% } -%>
 <% if (documentclass == 'lncs' && listings == 'listings+minted') { -%>
 
@@ -99,3 +124,12 @@
 \usepackage{chngcntr}
 \AtBeginDocument{\counterwithout{lstlisting}{section}}
 <% } -%>
+
+\lstloadlanguages{% Check dokumentation for further languages...
+        %[Visual]Basic
+        %Pascal
+        %C
+        %C++
+        %XML
+        %HTML
+}

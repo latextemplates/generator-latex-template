@@ -1,0 +1,67 @@
+<% if (documentclass == 'ustutt') { -%>
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% figures and placement
+% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+%% Bilder und Graphiken ==================================================
+
+%%% Doc: float.div
+%floatrow is the successor of float
+%\usepackage{floatrow}             % Offers option [H] for float positioning
+%!! DOES NOT WORK WITH tex4ht !!
+%!! in seldom cases, floatrow causes trouble with biblatex's \citeauthor !!
+%--> use predecessor float
+\usepackage{float}
+
+%%% Doc: No Documentation
+%\usepackage{flafter}          % Floats immer erst nach der Referenz setzen
+
+% Defines a \FloatBarrier command, beyond which floats may not
+% pass; useful, for example, to ensure all floats for a section
+% appear before the next \section command.
+\usepackage[
+	section		% "\section" command will be redefined with "\FloatBarrier"
+]{placeins}
+%
+
+%%% Doc: http://mirror.ctan.org/tex-archive/macros/latex/contrib/subfig/subfig.pdf
+% Incompatible: loads package capt-of. Loading of 'capt-of' afterwards will fail therefor
+%\usepackage{subfig} % Layout wird weiter unten festgelegt !
+
+% Make float placement easier
+% See also http://dcwww.camd.dtu.dk/~schiotz/comp/LatexTips/LatexTips.html#figplacement
+\renewcommand{\floatpagefraction}{.75} % vorher: .5
+\renewcommand{\textfraction}{.1}       % vorher: .2
+\renewcommand{\topfraction}{.8}        % vorher: .7
+\renewcommand{\bottomfraction}{.5}     % vorher: .3
+\setcounter{topnumber}{3}              % vorher: 2
+\setcounter{bottomnumber}{2}           % vorher: 1
+\setcounter{totalnumber}{5}            % vorher: 3
+
+%%% Doc: http://mirror.ctan.org/tex-archive/macros/latex/contrib/psfrag/pfgguide.pdf
+% \usepackage{psfrag}	% Ersetzen von Zeichen in eps Bildern
+
+%%% Doc: http://www.ctan.org/tex-archive/macros/latex/contrib/sidecap/sidecap.pdf
+\usepackage[%
+%	outercaption,%	(default) caption is placed always on the outside side
+%	innercaption,% caption placed on the inner side
+%	leftcaption,%  caption placed on the left side
+	rightcaption,% caption placed on the right side
+%	wide,%			caption of float my extend into the margin if necessary
+%	margincaption,% caption set into margin
+	ragged,% caption is set ragged
+]{sidecap}
+
+\renewcommand\sidecaptionsep{2em}
+%\renewcommand\sidecaptionrelwidth{20}
+\sidecaptionvpos{table}{c}
+\sidecaptionvpos{figure}{c}
+
+%%%
+% Ermoeglicht es, Abbildungen um 90 Grad zu drehen
+% Alternatives Paket: rotating Allerdings wird hier nur das Bild gedreht, während bei lscape auch die PDF-Seite gedreht wird.
+%Das Paket lscape dreht die Seite auch nicht
+\usepackage{pdflscape}
+
+\floatstyle{ruled} %%???
+<% } -%>

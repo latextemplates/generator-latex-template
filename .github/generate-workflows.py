@@ -4,8 +4,8 @@ import hashlib
 
 failfast = False
 
-documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis']
-latexcompilers = ['pdflatex', 'lualatex']
+documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis', 'ustutt']
+latexcompilers = ['pdflatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
 
@@ -112,18 +112,15 @@ jobs:
   check:
 """)
               yml.write("    name: Check {}\n".format(dashedPart))
-              yml.write("""    runs-on: ubuntu-latest
+              yml.write("""    runs-on: ubuntu-24.04
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Update npm
-        run: |
-          npm i -g npm@latest
-          npm i npm@latest
-      - run: npm install
+          cache: 'npm'
+      - run: npm ci
       - run: mkdir /tmp/out
 """)
               ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+", encoding="utf-8")
@@ -138,7 +135,7 @@ jobs:
               ymlmiktex.write("jobs:\n")
               ymlmiktex.write("  miktex:\n")
               ymlmiktex.write("    name: MiKTeX {}\n".format(dashedPartMiktex))
-              ymlmiktex.write('''    runs-on: ubuntu-22.04
+              ymlmiktex.write('''    runs-on: ubuntu-24.04
     steps:
       - name: Install MikTeX
         run: |
@@ -207,7 +204,7 @@ jobs:
                               yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
                               yml.write("      - name: latexmk {}\n".format(variantShort))
                               ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
-                              filename = "paper.tex" if ((documentclass == 'acmart') or (documentclass == 'lncs') or (documentclass == 'ieee')) else "main.tex"
+                              filename = "paper.tex" if documentclass in ['acmart', 'lncs', 'ieee'] else "thesis-example.tex" if documentclass == 'ustutt' else "main.tex"
                               command = "latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
                               yml.write("        run: {}\n".format(command))
                               yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
@@ -225,7 +222,7 @@ jobs:
         run: |
           echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY
+          texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY || false
           echo '```' >> $GITHUB_STEP_SUMMARY
       - id: failing_u
         if: failure()

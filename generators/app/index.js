@@ -43,6 +43,11 @@ export default class extends Generator {
       this.props.font = "default";
     }
 
+    if ((this.props.documentclass === "ustutt") || (this.props.documentclass === "scientific-thesis")) {
+      this.props.bibtextool = "biblatex";
+      this.props.font = "default";
+    }
+
     // --language does not work properly, therefore, we used "lang" above. The templates still use "language"
     this.props.language = this.props.lang;
 
@@ -51,9 +56,11 @@ export default class extends Generator {
     this.props.ieeecompsoc = false;
 
     // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex
-    if (this.props.documentclass === "ieee") {
-      this.props.latexcompiler = "pdflatex";
-    }
+    //if (this.props.documentclass === "ieee") {
+      //this.props.latexcompiler = "pdflatex";
+    //}
+
+    this.props.reallatexcompiler = (this.options.latexcompiler == "both") ? "lualatex" : this.options.latexcompiler;
 
     // Convert "String" Boolean command line options
     this.props.examples =
@@ -94,14 +101,14 @@ export default class extends Generator {
       this.props.docker = false;
     }
 
-    createFeatures(props);
     isPaperHandling(props);
+    createFeatures(props);
     createHeadingCommands(props);
     createAvailable(props);
 
     function createFeatures(props) {
       props.feature = {};
-      props.feature.acronyms = props.documentclass === "scientific-thesis";
+      props.feature.abbreviations = props.isThesis;
     }
 
     function isPaperHandling(props) {
@@ -109,6 +116,8 @@ export default class extends Generator {
         props.documentclass === "acmart" ||
         props.documentclass === "ieee" ||
         props.documentclass === "lncs";
+      // else it is a thesis (ustutt or scientific-thesis) (see below)
+
       if (props.isPaper) {
         // This sets filenames.main and filenames.bib
         props.filenames = {
@@ -133,6 +142,7 @@ export default class extends Generator {
       if (props.isThesis) {
         props.heading1 = "\\chapter";
         props.heading2 = "\\section";
+        props.heading3 = "\\subsection";
       } else {
         props.heading1 = "\\section";
         props.heading2 = "\\subsection";
@@ -224,18 +234,25 @@ export default class extends Generator {
       this.props
     );
 
-    if (this.props.feature.acronyms) {
+    if (this.props.feature.abbreviations) {
       this.fs.copy(
-        this.templatePath("acronyms." + this.props.language + ".tex"),
-        this.destinationPath("acronyms.tex"),
+        this.templatePath("abbreviations." + this.props.language + ".tex"),
+        this.destinationPath("abbreviations.tex"),
       );
     }
 
     if (this.props.documentclass == "ustutt") {
+    /*
       this.props.documentclass = "ustutt-include";
       this.fs.copyTpl(
         this.templatePath("main." + this.props.language + ".tex"),
         this.destinationPath("shared/template.tex"),
+        this.props,
+      );
+      */
+      this.fs.copyTpl(
+        this.templatePath("ustutt-titlepage.sty"),
+        this.destinationPath("ustutt-titlepage.sty"),
         this.props,
       );
     }

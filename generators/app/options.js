@@ -142,8 +142,21 @@ export const options = [
     type: "list",
     name: "latexcompiler",
     message: "Which latex compiler should be used?",
-    choices: ["pdflatex", "lualatex"],
-    default: "pdflatex",
+    choices: [
+      {
+        name: "pdflatex",
+        value: "pdflatex",
+      },
+      {
+        name: "lualatex",
+        value: "lualatex",
+      },
+      {
+        name: "lualatex and pdflatex (if switches in .tex files; default lualatex)",
+        value: "both",
+      },
+    ],
+    default: "both",
     when(response) {
       return !(response.documentclass === "ieee");
     },
@@ -151,7 +164,7 @@ export const options = [
   {
     when(response) {
       return (
-        response.documentclass !== "acmart" && response.documentclass !== "ieee"
+        response.documentclass !== "acmart" && response.documentclass !== "ieee" && response.documentclass !== "ustutt"
       );
     },
     type: "list",
@@ -205,7 +218,7 @@ export const options = [
   {
     type: "list",
     name: "lang",
-    message: "Which language should the document be?",
+    message: "Which language to use in the document?",
     choices: [
       {
         name: "English",
@@ -256,7 +269,7 @@ export const options = [
     },
     default: "default",
     when(response) {
-      return response.documentclass !== "ieee";
+      return (response.documentclass !== "ieee") && (response.documentclass !== "ustutt");
     },
   },
   {
@@ -333,11 +346,15 @@ export const options = [
       {
         name: "pdfcomment",
         value: "pdfcomment",
-      } /*
+      },
       {
-        name: "Plain LaTeX (simple \\commentontext and \\commentatside are defined)",
+        name: "todonotes",
+        value: "todonotes",
+      },
+      {
+        name: "Plain LaTeX (simple \\todo command is defined)",
         value: "plainlatex"
-      }, */,
+      },
       {
         name: "None (no support)",
         value: "none",

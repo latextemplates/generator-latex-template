@@ -82,9 +82,6 @@ Following features are enabled in this template:
   Contains a fix to increase compatibility with Babel.
   See <https://tex.stackexchange.com/a/441701/9075> for details.
 <% } -%>
-<% if (howtotext) { -%>
-- Hints on writing an abstract and thesis by Dirk Fahland.
-<% } -%>
 - Automatic setting of "Fig." and "Section"/"Sect." according to the LNCS style.
   Just use `\Cref{sec:xy}` at the beginning of a sentence and `\cref{sec:xy}` in the middle of a sentence.
   Thanx to [cleveref].
@@ -111,6 +108,10 @@ Following features are enabled in this template:
 - <% if (githubpublish) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
 <% } -%>
 - Ready-to-go configuration for [latexindent].
+- Proper hyphenation and microtype for English texts.
+<% if (howtotext) { -%>
+- Hints on writing an abstract and thesis by Dirk Fahland.
+<% } -%>
 
 ## Disabled features
 
@@ -296,8 +297,13 @@ Please remove the file and update your LaTeX distribution.
 
 The author of the class offers a large FAQ at <http://www.michaelshell.org/tex/ieeetran/>.
 Please read on there.
-The other possiblity is to execute `texdoc ieeetran` and read in the documentation.
-For example, there is an explanation of how to typeset the afficiliation information with four or more authors properly.
+The other possibility is to execute `texdoc ieeetran` and read in the documentation.
+For example, there is an explanation of how to typeset the affiliation information with four or more authors properly.
+<% break; case "ustutt": -%>
+
+### Q: I get the error `Reload initiated (formats: otf,ttf,ttc); reason: Font "Inconsolatazi4" not found.`
+
+Install package `inconsolata`
 <% break; default: -%>
 <% break; } -%>
 <% if (githubpublish) { -%>
@@ -312,7 +318,7 @@ After that you can use and push the `main` branch as usual.
 Notes on syncing with the upstream repository [are available from GitHub](https://help.github.com/articles/syncing-a-fork/).
 <% } -%>
 
-### Q: I get the error  `! pdfTeX error (font expansion): auto expansion is only possible with scalable fonts.`
+### Q: I get the error `! pdfTeX error (font expansion): auto expansion is only possible with scalable fonts.`
 
 Install the `cm-super` package using the MiKTeX package manager. Then, run `initexmf --mkmaps` on the command line. (Long description: <https://tex.stackexchange.com/a/324972/9075>)
 
@@ -347,6 +353,12 @@ Attention! This is work in progress and does not always produce best results.
 
 Activate the `llncsconf` package.
 The possible options are listed in `<%= filenames.main %>.tex`.
+<% } -%>
+<% if ((documentclass == 'acm') || (documentclass == 'ieee')) { -%>
+
+### Q: Is it possible produce a self-archiving version?
+
+Use the [`authorarchive` package](https://ctan.org/pkg/authorarchive).
 <% } -%>
 
 ### Q: Can I also write in German?

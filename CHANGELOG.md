@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Added support for TeXLive 2024.
+- Added `both` as option, which includes `\ifluatex` to switch between LuaLaTeX and pdflatex.
+- Added [hyphenex](https://ctan.org/pkg/hyphenex) to enable more correct English hyphenation.
+- Added [autotype](https://ctan.org/pkg/autotype) to enable automatic language-specific typography for German documents. [#223](https://github.com/latextemplates/generator-latex-template/issues/223)
+- Added [selnolig](https://ctan.org/pkg/selnolig) to enable automatic language-specific typography for English documents. [#223](https://github.com/latextemplates/generator-latex-template/issues/223)
+- Added support for [`todonotes`](https://ctan.org/pkg/todonotes).
+- Added many examples and LaTeX configurations from [University of Stuttgart PhD Thesis Template](https://github.com/latextemplates/uni-stuttgart-dissertation-template).
 
 ### Changed
 
@@ -18,12 +24,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Dropped support for TeXLive 2022 and 2023.
 - `Texlivefile` is now always generated.
 - Updated to [yeoman-generator v5.1.0](https://github.com/yeoman/yo/releases/tag/v5.1.0)
+- Updated reitzig image to 2024.11
 
 ### Fixed
 
 - `.github/workflows/check.yml` now works for Island of TeX docker image, too.
 - There is no space within `e.g.` and `i.e.` (Commands `\eg` and `\ie`).
 - `.gitignore` now contains correct PDF ignore for `paper.pdf`.
+- Fixed installation of pygments in reitzig Docker image.
 
 ### Removed
 

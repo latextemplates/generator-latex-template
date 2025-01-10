@@ -47,18 +47,15 @@ concurrency:
 jobs:
   check:
     name: Check lncs-a4-pdflatex-bibtex-2024-false
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Update npm
-        run: |
-          npm i -g npm@latest
-          npm i npm@latest
-      - run: npm install
+          cache: 'npm'
+      - run: npm ci
       - run: mkdir /tmp/out
       - name: Summary table heading
         run: |
@@ -69,7 +66,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_9339' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_9339
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_9339'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -89,7 +86,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_a152' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_a152
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_a152'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -109,7 +106,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_3435' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_3435
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_3435'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -129,7 +126,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_1814' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_1814
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_1814'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -149,7 +146,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_b60e' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_b60e
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_b60e'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -169,7 +166,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_4b0f' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_4b0f
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_4b0f'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -189,7 +186,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_bdf2' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_bdf2
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_bdf2'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -209,7 +206,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_fe08' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_fe08
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_fe08'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -229,7 +226,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_b4c6' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_b4c6
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_b4c6'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -249,7 +246,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_0dab' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_0dab
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_0dab'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -269,7 +266,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_a3b8' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_a3b8
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_a3b8'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -289,7 +286,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_27e9' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_27e9
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_27e9'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -309,7 +306,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_4ae7' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_4ae7
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_4ae7'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -329,7 +326,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_738b' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_738b
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_738b'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -349,7 +346,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_c576' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_c576
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_c576'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -369,7 +366,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_f5f1' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_f5f1
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_f5f1'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -389,7 +386,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_669e' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_669e
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_669e'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -409,7 +406,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_2639' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_2639
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_2639'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -429,7 +426,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_c8ae' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_c8ae
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_c8ae'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -449,7 +446,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_5745' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_5745
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_5745'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -469,7 +466,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_3792' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_3792
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_3792'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -489,7 +486,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_8ed6' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_8ed6
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_8ed6'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -509,7 +506,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_54c3' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_54c3
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_54c3'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -529,7 +526,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_d2d9' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_d2d9
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_d2d9'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -549,7 +546,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_0acc' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_0acc
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_0acc'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -569,7 +566,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_3f15' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_3f15
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_3f15'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -589,7 +586,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_a4c6' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_a4c6
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_a4c6'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -609,7 +606,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_85ed' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_85ed
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_85ed'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -629,7 +626,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_d5dc' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_d5dc
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_d5dc'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -649,7 +646,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_79ce' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_79ce
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_79ce'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -669,7 +666,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_1ead' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_1ead
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_1ead'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -689,7 +686,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_d682' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_d682
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_d682'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -709,7 +706,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_ee0b' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_ee0b
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_ee0b'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -729,7 +726,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_108f' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_108f
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_108f'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -749,7 +746,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_b626' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_b626
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_b626'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -769,7 +766,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_a64f' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_a64f
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_a64f'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -789,7 +786,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_6874' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_6874
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_6874'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -809,7 +806,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_5fd8' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_5fd8
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_5fd8'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -829,7 +826,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_18f8' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_18f8
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_18f8'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -849,7 +846,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_5e03' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_5e03
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_5e03'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -869,7 +866,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_aaf9' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_aaf9
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_aaf9'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -889,7 +886,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_7e12' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_7e12
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_7e12'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -909,7 +906,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_bbb1' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_bbb1
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_bbb1'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -929,7 +926,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_714f' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_714f
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_714f'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -949,7 +946,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_14a4' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_14a4
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_14a4'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -969,7 +966,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_2a7f' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_2a7f
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_2a7f'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -989,7 +986,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_feb1' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_feb1
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_feb1'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1009,7 +1006,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_7832' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_7832
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_7832'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1029,7 +1026,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_441e' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_441e
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_441e'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1049,7 +1046,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_3222' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_3222
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_3222'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1069,7 +1066,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_f4ad' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_f4ad
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_f4ad'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1089,7 +1086,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_5107' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_5107
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_5107'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1109,7 +1106,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_4b06' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_4b06
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_4b06'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1129,7 +1126,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_3820' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_3820
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_3820'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1149,7 +1146,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_c3c9' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_c3c9
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_c3c9'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1169,7 +1166,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_dde9' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_dde9
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_dde9'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1189,7 +1186,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_b59a' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_b59a
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_b59a'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1209,7 +1206,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_c0bd' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_c0bd
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_c0bd'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1229,7 +1226,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_fc40' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_fc40
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_fc40'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1249,7 +1246,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_9ad7' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_9ad7
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_9ad7'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1269,7 +1266,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_5050' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_5050
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_5050'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1289,7 +1286,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_1b5e' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_1b5e
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_1b5e'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1309,7 +1306,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_5068' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
       - name: Create var_5068
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_5068'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1329,7 +1326,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_094b' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
       - name: Create var_094b
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
         working-directory: '${{ github.workspace }}/var_094b'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1349,7 +1346,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_ad75' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_ad75
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_ad75'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1369,7 +1366,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_2156' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_2156
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_2156'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1389,7 +1386,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_87b2' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_87b2
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_87b2'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1409,7 +1406,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_4681' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_4681
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_4681'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1429,7 +1426,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_fb56' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_fb56
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_fb56'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1449,7 +1446,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_05dc' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_05dc
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_05dc'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1469,7 +1466,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_785c' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_785c
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_785c'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1489,7 +1486,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_df75' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_df75
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_df75'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1509,7 +1506,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_0e13' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_0e13
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_0e13'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1529,7 +1526,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_e905' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_e905
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_e905'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1549,7 +1546,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_89b3' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_89b3
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_89b3'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1569,7 +1566,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_b8d9' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_b8d9
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_b8d9'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1589,7 +1586,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_af36' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_af36
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_af36'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1609,7 +1606,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_fa66' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_fa66
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_fa66'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1629,7 +1626,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_817f' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_817f
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_817f'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1649,7 +1646,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_f0b5' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_f0b5
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_f0b5'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1669,7 +1666,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_9fec' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_9fec
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_9fec'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1689,7 +1686,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_ddcc' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_ddcc
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_ddcc'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1709,7 +1706,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_78bc' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_78bc
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_78bc'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1729,7 +1726,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_f1fd' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_f1fd
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_f1fd'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1749,7 +1746,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_a855' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_a855
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_a855'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1769,7 +1766,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_89a2' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_89a2
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_89a2'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1789,7 +1786,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_a118' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_a118
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_a118'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1809,7 +1806,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_4c28' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | listings | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_4c28
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_4c28'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1829,7 +1826,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_b7bd' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_b7bd
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_b7bd'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1849,7 +1846,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_82d8' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_82d8
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_82d8'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1869,7 +1866,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_4206' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_4206
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_4206'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1889,7 +1886,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_07a2' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_07a2
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_07a2'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1909,7 +1906,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_bc25' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_bc25
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_bc25'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1929,7 +1926,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_7a82' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_7a82
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_7a82'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1949,7 +1946,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_3cef' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_3cef
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_3cef'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1969,7 +1966,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_b9bd' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | en   | times   | minted   | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_b9bd
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_b9bd'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -1989,7 +1986,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_1dfb' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_1dfb
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_1dfb'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2009,7 +2006,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_4932' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_4932
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_4932'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2029,7 +2026,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_694a' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_694a
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_694a'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2049,7 +2046,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_93b9' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_93b9
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_93b9'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2069,7 +2066,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_85e8' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_85e8
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_85e8'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2089,7 +2086,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_cd64' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_cd64
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_cd64'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2109,7 +2106,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_edc3' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_edc3
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_edc3'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2129,7 +2126,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_096f' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_096f
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_096f'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2149,7 +2146,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_e7c9' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_e7c9
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_e7c9'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2169,7 +2166,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_d3ad' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_d3ad
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_d3ad'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2189,7 +2186,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_1ac8' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_1ac8
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_1ac8'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2209,7 +2206,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_1762' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_1762
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_1762'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2229,7 +2226,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_bc73' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_bc73
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_bc73'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2249,7 +2246,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_4eec' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_4eec
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_4eec'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2269,7 +2266,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_1e3e' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_1e3e
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_1e3e'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2289,7 +2286,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_cb41' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_cb41
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_cb41'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2309,7 +2306,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_2bda' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_2bda
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_2bda'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2329,7 +2326,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_fcc8' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_fcc8
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_fcc8'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2349,7 +2346,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_bdcd' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_bdcd
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_bdcd'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2369,7 +2366,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_01db' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_01db
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_01db'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2389,7 +2386,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_41c1' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_41c1
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_41c1'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2409,7 +2406,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_7021' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_7021
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_7021'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2429,7 +2426,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_eae6' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_eae6
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_eae6'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2449,7 +2446,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_e20c' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | listings | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_e20c
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_e20c'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2469,7 +2466,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_7c3a' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_7c3a
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_7c3a'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2489,7 +2486,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_ac14' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_ac14
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_ac14'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2509,7 +2506,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_7a2a' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_7a2a
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_7a2a'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2529,7 +2526,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_00a6' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_00a6
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_00a6'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2549,7 +2546,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_bb81' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_bb81
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_bb81'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2569,7 +2566,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_bc65' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_bc65
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_bc65'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2589,7 +2586,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_cbec' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
       - name: Create var_cbec
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_cbec'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2609,7 +2606,7 @@ jobs:
       - run: echo CURRENT_VARIANT_SHORT='var_567d' >> $GITHUB_ENV
       - run: echo CURRENT_VARIANT_TABLE_ROW='| lncs          | pdflatex      | bibtex     | 2024    | de   | times   | minted   | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
       - name: Create var_567d
-        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --overleaf=false --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=times --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
         working-directory: '${{ github.workspace }}/var_567d'
       - name: Install TeX Live
         uses: zauguin/install-texlive@v3
@@ -2629,7 +2626,7 @@ jobs:
         run: |
           echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY
+          texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY || false
           echo '```' >> $GITHUB_STEP_SUMMARY
       - id: failing_u
         if: failure()

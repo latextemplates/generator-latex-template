@@ -113,12 +113,13 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - Use [actionlint](https://github.com/rhysd/actionlint#readme)
   - Use [vs.code GitHub actions plugin](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
   - Use [act](https://github.com/nektos/act) for checking: `act --rm --platform ubuntu-latest=fwilhe2/act-runner:latest -W .github/workflows/check-ieee-conference-a4-pdflatex-bibtex-2023-true.yml`
-- When adding a new package:
+- When adding a new package use `DEPP` (see above) or execute following steps:
   1. execute `npx` with `--generatereitzig` (in a clean directory)
   2. run `pdflatex`
   3. run `{repository-root}/generate-texlivefile.sh`
   4. copy `Texlivefile` to the root of the `{repository-root}/generators/app/templates`
   5. adapt `Texlivefile` as required
+- When issues with the template occur: `npx ejs-lint main.en.tex`
 
 ### Test locally
 
@@ -140,9 +141,33 @@ Parameters can be set using command line
 - IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 - LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 - Scientific Thesis Template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- USTUTT Template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --ustutt --papersize=a5 --latexcompiler=lualatex --bibtextool=biblatex --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=todonotes --examples=true --howtotext=true` -- `todonotes` is the preferred TODO package here.
 
 <!-- markdownlint-disable-next-line MD004 -->
 * Run `latexmk` to build the PDF
+
+##### Using DEPP
+
+To fire up a TeX Live installation and use the [Dependency Printer for TeX Live](https://gitlab.com/islandoftex/texmf/depp) to refine `Texlivefile`, execute following steps:
+
+```cmd
+docker run -it --rm -v c:\temp\ltg:/ltg registry.gitlab.com/islandoftex/images/texlive:latest
+```
+
+```bash
+cd /tmp
+git clone https://gitlab.com/islandoftex/texmf/depp.git
+cd depp
+l3build install
+cd /ltg
+# edit paper.tex and add `\RequirePackage[dependency-file=Texlivefile]{depp}`
+lualatex/pdflatex paper
+```
+
+##### Running reitzig
+
+1. `docker build --progress=plain -t reitzig -f Dockerfile .`
+2. `docker run -it --rm -v c:\temp\ltg:/work/src -v c:\temp\ltg-out:/work/out reitzig work latexmk`
 
 ### Useful snippets
 

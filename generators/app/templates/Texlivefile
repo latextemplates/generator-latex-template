@@ -1,9 +1,17 @@
 scheme-basic
+latexmk
+texlogsieve
 
 amsmath
+<% if (documentclass == "acmart") { -%>
 acmart
-atbegshi
-atveryend
+<% } -%>
+<% if (isThesis) { -%>
+algpseudocodex
+<% } -%>
+<% if (lang == "de") { -%>
+autotype
+<% } -%>
 auxhook
 babel
 babel-english
@@ -18,12 +26,14 @@ bitset
 blindtext
 booktabs
 caption
-catchfile
 cfr-lm
 cleveref
+<% if (githubpublish || (documentclass == "acmart")) { -%>
 cmap
-comment
+<% } -%>
+comment<%# required by at least acm%>
 csquotes
+ctablestack
 currfile
 datetime2
 <% if (githubpublish || (language == "de")) { -%>
@@ -37,121 +47,192 @@ datatool
 dehyph-exptl
 <% } -%>
 diagbox
+<% if (githubpublish || isThesis) { -%>
+enumitem
+<% } -%>
 environ
+epstopdf
 etexcmds
 etoolbox
+<% if (githubpublish || (documentclass == "acmart")) { -%>
 everyshi
-fancyvrb
+<% } -%>
 filehook
-floatflt
-<% if (githubpublish || (latexcompiler == "lualatex")) { -%>
+fixmath
+<% if (githubpublish || (documentclass == "acmart") ||  (documentclass == "ustutt")) { -%>
+float
+<% } -%>
+floatflt<%# required by acmart and lncs %>
+<% if (githubpublish || (documentclass == "ustutt")) { -%>
+fncychap
+<% } -%>
+fontaxes<%# required by at least acmart and scientific-thesis-template %>
+<% if (githubpublish || (latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 fontspec
 <% } -%>
-framed
-fvextra
+<% if (githubpublish || isThesis) { -%>
+footmisc
+<% } -%>
 gettitlestring
+<% if (githubpublish || (documentclass == 'ustutt') || (documentclass == 'scientific-thesis')) { -%>
 glossaries
 glossaries-extra
+<% } -%>
 graphics
+hyphenex
+inconsolata<%# required by ustutt, scientific-thesis, acm%>
+hycolor
+hypcap
 hyperref
-hyperxmp
+hyperxmp<%# required by acmart at least %>
 hyph-utf8
 hyphen-english
 <% if (githubpublish || (language == "de")) { -%>
 hyphen-german
 <% } -%>
-hyphenex
-inconsolata
+<% if (documentclass == 'ieee') { -%>
 ieeetran
-ifmtarg
+<% } -%>
+ifmtarg<%# required by acmart at least %>
+iftex
 infwarerr
 intcalc
-<% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
+<% if (githubpublish || isThesis) { -%>
 koma-script
 <% } -%>
 kvdefinekeys
 kvoptions
 kvsetkeys
-latexmk
 letltxmacro
+<% if (githubpublish || (documentclass == "acmart")) { -%>
 libertine
+libertinus-fonts<%# required by libertine%>
+<% } -%>
 lineno
 lipsum
 listings
+<% if (documentclass == "lncs") { -%>
 llncs
+<% } -%>
 ltxcmds
-<% if (githubpublish || (latexcompiler == "lualatex")) { -%>
-luatexbase
+<% if (githubpublish || (latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 luacode
 lualatex-math
+luatex85
+luatexbase
 <% } -%>
 marginnote
-<% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
+<% if (githubpublish || isThesis) { -%>
+mathdesign
+<% } -%>
+mathtools<%# required by amsmath somehow %>
+<% if (githubpublish || isThesis) { -%>
 mfirstuc
 <% } -%>
 microtype
 mindflow
+<% if (listings == 'minted') { -%>
 minted
+<% } -%>
 mnsymbol
+multirow
 mwe
 natbib
-ncctools
+<% if (githubpublish || (documentclass == "acmart")) { -%>
+ncctools<%# provides manyfoot%>
+<% } -%>
+<% if (githubpublish || (latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 newcomputermodern
+<% } -%>
+<% if (listings == 'minted') { -%>
 newfloat
+<% } -%>
+<% if ((latexcompiler == "pdflatex") || (documentclass == "acmart") || (font == "times")) { -%>
 newtx
 newtxtt
 nfssext-cfr
+<% } -%>
+<% if (githubpublish || isThesis) { -%>
+ntheorem
+<% } -%>
 nowidow
-oberdiek
 paralist
 pdfcomment
-luatex85
 pdfescape
+<% if (githubpublish || (documentclass == "ustutt")) { -%>
+pdflscape
+<% } -%>
 pdftexcmds
-<% if (githubpublish || (examples)) { -%>
+<% if (githubpublish || examples) { -%>
 pgf
 <% } -%>
 pict2e
-preprint
+<% if (githubpublish || (documentclass == "ustutt")) { -%>
+placeins
+<% } -%>
+<% if (documentclass == 'ieee') { -%>
+preprint<%# this includes balance%>
+<% } -%>
+<% if (githubpublish || (documentclass == "ustutt")) { -%>
+psnfss<%# provides pifont%>
+<% } -%>
 refcount
 rerunfilecheck
 <% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
 scientific-thesis-cover
 <% } -%>
-<% if (githubpublish || (latexcompiler == "lualatex")) { -%>
+<% if (githubpublish || isThesis) { -%>
+scrhack
+<% } -%>
+<% if (githubpublish || (lang == "en") && ((latexcompiler == "lualatex") || (latexcompiler == "both"))) { -%>
 selnolig
 <% } -%>
 <% if (githubpublish || (documentclass == "acmart" || documentclass == 'scientific-thesis')) { -%>
 setspace
 <% } -%>
+<% if (githubpublish || (documentclass == "ustutt")) { -%>
+sidecap
+<% } -%>
 siunitx
 snapshot
 soul
 soulpos
-sttools
 stringenc
+sttools<%# this includes stfloats; at least required by acmart, ieee, lncs, ustutt, scientific-thesis %>
 subfig
-svn-prov
+svn-prov<%# at least required by acmart, ustutt, scientific-thesis%>
 tcolorbox
-texlogsieve
-textcase
-<% if (githubpublish || (documentclass == "ieee") || (font == "times")) { -%>
-tex-gyre
-times
-xpatch
+<% if (githubpublish || (documentclass == "ustutt")) { -%>
+tikzpeople
 <% } -%>
+tex-gyre<%# at least required by acm, ieee, font config "times"; provides ts1-qtmr %>
+<% if (githubpublish || (documentclass == "ieee") || (font == "times")) { -%>
+times
+<% } -%>
+tools<%# contains dcolumn and varioref %>
+<% if (githubpublish || (documentclass == "acmart")) { -%>
 totpages
+<% } -%>
 tracklang
-translator
+translations
+trimspaces
+<% if (githubpublish || (documentclass == "ieee") || (font == "times")) { -%>
 txfonts
+<% } -%>
 unicode-math
 uniquecounter
 upquote
 url
+<% if (githubpublish || (documentclass == "ustutt")) { -%>
+xcharter
+<% } -%>
 xcolor
 <% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
 xfor
 <% } -%>
 xkeyval
-xstring
+<% if (githubpublish || (documentclass == "ieee") || (font == "times")) { -%>
+xpatch
+<% } -%>
+xstring<%# this includes stfloats; required by textcomp %>
 zref
