@@ -102,14 +102,14 @@ for documentclass in documentclasses:
       - 'docs/**'
       - '.vscode/**'
   merge_group:
-  concurrency:
+concurrency:
 """)
             if globalsingleworkflow:
               yml.write("  group: ${{ github.workflow }}-${{ github.actor_id }}\n")
             else:
               yml.write("  group: \"${{ github.workflow }}-${{ github.head_ref || github.ref }}\"\n")
             yml.write("""  cancel-in-progress: true
-  jobs:
+jobs:
   check:
 """)
             yml.write("    name: Check {}\n".format(dashedPart))
