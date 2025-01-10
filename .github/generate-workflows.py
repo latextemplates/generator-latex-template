@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import hashlib
+import base64
 
 globalsingleworkflow = True
 
@@ -35,7 +36,7 @@ docker = "iot"
 
 # Idea: Have the same value in the workflow between generations so that the git diff is as small as possible
 def stable_hash(value):
-  return str(hashlib.md5(value.encode('utf-8')).hexdigest())[:5]
+  return base64.b64encode(hashlib.md5(value.encode('utf-8')).hexdigest().encode('utf-8'))[:3].decode('utf-8')
 
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
