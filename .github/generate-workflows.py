@@ -247,6 +247,8 @@ jobs:
             gh run cancel "$run_id"
           done
         if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
 ''')
               yml.close()
               ymlmiktex.close()
