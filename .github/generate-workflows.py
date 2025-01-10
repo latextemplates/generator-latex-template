@@ -34,7 +34,7 @@ ieeevariants = ['conference', 'journal', 'peerreview']
 docker = "iot"
 
 def stable_hash(value):
-  return str(hashlib.md5(value.encode('utf-8')).hexdigest())[:4]
+  return str(hashlib.md5(value.encode('utf-8')).hexdigest())[:5]
 
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
