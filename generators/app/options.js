@@ -109,6 +109,9 @@ export const options = [
       },
     ],
     default: "a4",
+    when(response) {
+      return (response.documentclass != "ustutt" && response.documentclass != "scientific-thesis");
+    },
   },
   {
     type: "list",
