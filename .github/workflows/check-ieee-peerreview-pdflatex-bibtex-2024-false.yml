@@ -1,0 +1,1374 @@
+name: Check ieee-peerreview-pdflatex-bibtex-2024-false
+on:
+push:
+  branches:
+    - main
+  paths-ignore:
+    - '.editorconfig'
+    - '.eslintignore'
+    - '.gitpod.dockerfile'
+    - '.gitpod.yml'
+    - '.gitattributes'
+    - '.gitignore'
+    - '.markdownlint.yml'
+    - 'CHANGELOG.md'
+    - 'CONTRIBUTING.md'
+    - 'generate-texlivefile.sh'
+    - 'LICENSE'
+    - 'README.md'
+    - 'setup-do.sh'
+    - 'user-data.sh'
+    - 'docs/**'
+    - '.vscode/**'
+pull_request:
+  branches:
+    - main
+  paths-ignore:
+    - '.editorconfig'
+    - '.eslintignore'
+    - '.gitpod.dockerfile'
+    - '.gitpod.yml'
+    - '.gitattributes'
+    - '.gitignore'
+    - '.markdownlint.yml'
+    - 'CHANGELOG.md'
+    - 'CONTRIBUTING.md'
+    - 'generate-texlivefile.sh'
+    - 'LICENSE'
+    - 'README.md'
+    - 'setup-do.sh'
+    - 'user-data.sh'
+    - 'docs/**'
+    - '.vscode/**'
+merge_group:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.actor_id }}
+  cancel-in-progress: true
+jobs:
+check:
+    name: Check ieee-peerreview-pdflatex-bibtex-2024-false
+    runs-on: ubuntu-24.04
+  steps:
+    - name: Set up Git repository
+      uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'npm'
+    - run: npm ci
+    - run: mkdir /tmp/out
+      - name: Summary table heading
+        run: |
+          TABLE='| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext | link |'
+          echo "TABLE=${TABLE}\n| -- | -- | -- | -- | -- | --| -- | -- | -- | -- | -- | -- | -- |" >> $GITHUB_ENV
+      - run: mkdir var_NmVhN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NmVhN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_NmVhN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_NmVhN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NmVhN/Texlivefile'
+      - name: latexmk var_NmVhN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NmVhN'
+      - id: var_NmVhN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | true     | [link](${{ steps.var_NmVhN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZWUwZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZWUwZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ZWUwZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ZWUwZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZWUwZ/Texlivefile'
+      - name: latexmk var_ZWUwZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZWUwZ'
+      - id: var_ZWUwZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | true     | [link](${{ steps.var_ZWUwZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MGI5N
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MGI5N' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_MGI5N
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_MGI5N'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MGI5N/Texlivefile'
+      - name: latexmk var_MGI5N
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MGI5N'
+      - id: var_MGI5N_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     | [link](${{ steps.var_MGI5N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZTI5M
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZTI5M' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ZTI5M
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ZTI5M'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZTI5M/Texlivefile'
+      - name: latexmk var_ZTI5M
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZTI5M'
+      - id: var_ZTI5M_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | true     | [link](${{ steps.var_ZTI5M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MjRkY
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MjRkY' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_MjRkY
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_MjRkY'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MjRkY/Texlivefile'
+      - name: latexmk var_MjRkY
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MjRkY'
+      - id: var_MjRkY_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | true     | [link](${{ steps.var_MjRkY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZWQ1Y
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZWQ1Y' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ZWQ1Y
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ZWQ1Y'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZWQ1Y/Texlivefile'
+      - name: latexmk var_ZWQ1Y
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZWQ1Y'
+      - id: var_ZWQ1Y_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | true     | [link](${{ steps.var_ZWQ1Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MjUxN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MjUxN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_MjUxN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_MjUxN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MjUxN/Texlivefile'
+      - name: latexmk var_MjUxN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MjUxN'
+      - id: var_MjUxN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     | [link](${{ steps.var_MjUxN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ODFjM
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ODFjM' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ODFjM
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ODFjM'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ODFjM/Texlivefile'
+      - name: latexmk var_ODFjM
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ODFjM'
+      - id: var_ODFjM_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | true     | [link](${{ steps.var_ODFjM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZTFiY
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZTFiY' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ZTFiY
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ZTFiY'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZTFiY/Texlivefile'
+      - name: latexmk var_ZTFiY
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZTFiY'
+      - id: var_ZTFiY_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     | [link](${{ steps.var_ZTFiY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NjJmZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NjJmZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_NjJmZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_NjJmZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NjJmZ/Texlivefile'
+      - name: latexmk var_NjJmZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NjJmZ'
+      - id: var_NjJmZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | true     | [link](${{ steps.var_NjJmZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZDIyN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZDIyN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ZDIyN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ZDIyN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZDIyN/Texlivefile'
+      - name: latexmk var_ZDIyN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZDIyN'
+      - id: var_ZDIyN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     | [link](${{ steps.var_ZDIyN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_YzczM
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_YzczM' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_YzczM
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_YzczM'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_YzczM/Texlivefile'
+      - name: latexmk var_YzczM
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_YzczM'
+      - id: var_YzczM_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | true     | [link](${{ steps.var_YzczM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZGFiZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZGFiZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ZGFiZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ZGFiZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZGFiZ/Texlivefile'
+      - name: latexmk var_ZGFiZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZGFiZ'
+      - id: var_ZGFiZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     | [link](${{ steps.var_ZGFiZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_Y2JkZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_Y2JkZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_Y2JkZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_Y2JkZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_Y2JkZ/Texlivefile'
+      - name: latexmk var_Y2JkZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_Y2JkZ'
+      - id: var_Y2JkZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | true     | [link](${{ steps.var_Y2JkZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_YzBkM
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_YzBkM' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_YzBkM
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_YzBkM'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_YzBkM/Texlivefile'
+      - name: latexmk var_YzBkM
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_YzBkM'
+      - id: var_YzBkM_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     | [link](${{ steps.var_YzBkM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MjBmZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MjBmZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_MjBmZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_MjBmZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MjBmZ/Texlivefile'
+      - name: latexmk var_MjBmZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MjBmZ'
+      - id: var_MjBmZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | true     | [link](${{ steps.var_MjBmZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_Zjc0Y
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_Zjc0Y' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_Zjc0Y
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_Zjc0Y'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_Zjc0Y/Texlivefile'
+      - name: latexmk var_Zjc0Y
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_Zjc0Y'
+      - id: var_Zjc0Y_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | true     | [link](${{ steps.var_Zjc0Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NDhmN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NDhmN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_NDhmN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_NDhmN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NDhmN/Texlivefile'
+      - name: latexmk var_NDhmN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NDhmN'
+      - id: var_NDhmN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | true     | [link](${{ steps.var_NDhmN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MDU0M
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MDU0M' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_MDU0M
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_MDU0M'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MDU0M/Texlivefile'
+      - name: latexmk var_MDU0M
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MDU0M'
+      - id: var_MDU0M_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | true     | [link](${{ steps.var_MDU0M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_N2FlY
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_N2FlY' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_N2FlY
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_N2FlY'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_N2FlY/Texlivefile'
+      - name: latexmk var_N2FlY
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_N2FlY'
+      - id: var_N2FlY_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | true     | [link](${{ steps.var_N2FlY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NGQ3Y
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NGQ3Y' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_NGQ3Y
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_NGQ3Y'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NGQ3Y/Texlivefile'
+      - name: latexmk var_NGQ3Y
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NGQ3Y'
+      - id: var_NGQ3Y_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | true     | [link](${{ steps.var_NGQ3Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NGY2N
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NGY2N' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_NGY2N
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_NGY2N'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NGY2N/Texlivefile'
+      - name: latexmk var_NGY2N
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NGY2N'
+      - id: var_NGY2N_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | true     | [link](${{ steps.var_NGY2N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MDViN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MDViN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_MDViN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_MDViN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MDViN/Texlivefile'
+      - name: latexmk var_MDViN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MDViN'
+      - id: var_MDViN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | true     | [link](${{ steps.var_MDViN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MDMwY
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MDMwY' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_MDMwY
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_MDMwY'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MDMwY/Texlivefile'
+      - name: latexmk var_MDMwY
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MDMwY'
+      - id: var_MDMwY_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | true     | [link](${{ steps.var_MDMwY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_YjdiM
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_YjdiM' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_YjdiM
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_YjdiM'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_YjdiM/Texlivefile'
+      - name: latexmk var_YjdiM
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_YjdiM'
+      - id: var_YjdiM_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | true     | [link](${{ steps.var_YjdiM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NTQwN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NTQwN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_NTQwN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_NTQwN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NTQwN/Texlivefile'
+      - name: latexmk var_NTQwN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NTQwN'
+      - id: var_NTQwN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | true     | [link](${{ steps.var_NTQwN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZjRkZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZjRkZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ZjRkZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ZjRkZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZjRkZ/Texlivefile'
+      - name: latexmk var_ZjRkZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZjRkZ'
+      - id: var_ZjRkZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | true     | [link](${{ steps.var_ZjRkZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_YTdjM
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_YTdjM' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_YTdjM
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_YTdjM'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_YTdjM/Texlivefile'
+      - name: latexmk var_YTdjM
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_YTdjM'
+      - id: var_YTdjM_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | true     | [link](${{ steps.var_YTdjM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZmQxN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZmQxN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ZmQxN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ZmQxN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZmQxN/Texlivefile'
+      - name: latexmk var_ZmQxN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZmQxN'
+      - id: var_ZmQxN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | true     | [link](${{ steps.var_ZmQxN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NWY4O
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NWY4O' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_NWY4O
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_NWY4O'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NWY4O/Texlivefile'
+      - name: latexmk var_NWY4O
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NWY4O'
+      - id: var_NWY4O_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | true     | [link](${{ steps.var_NWY4O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZjgyZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZjgyZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_ZjgyZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_ZjgyZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZjgyZ/Texlivefile'
+      - name: latexmk var_ZjgyZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZjgyZ'
+      - id: var_ZjgyZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | true     | [link](${{ steps.var_ZjgyZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_OTRmZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_true' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_OTRmZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | true     |' >> $GITHUB_ENV
+      - name: Create var_OTRmZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=true
+        working-directory: '${{ github.workspace }}/var_OTRmZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_OTRmZ/Texlivefile'
+      - name: latexmk var_OTRmZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_OTRmZ'
+      - id: var_OTRmZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | true     | [link](${{ steps.var_OTRmZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NzljO
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NzljO' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_NzljO
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_NzljO'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NzljO/Texlivefile'
+      - name: latexmk var_NzljO
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NzljO'
+      - id: var_NzljO_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | pdfcomment | false   | false    | [link](${{ steps.var_NzljO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_OWI0Y
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_OWI0Y' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_OWI0Y
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_OWI0Y'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_OWI0Y/Texlivefile'
+      - name: latexmk var_OWI0Y
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_OWI0Y'
+      - id: var_OWI0Y_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | babel           | none       | false   | false    | [link](${{ steps.var_OWI0Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_N2MzZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_N2MzZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_N2MzZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_N2MzZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_N2MzZ/Texlivefile'
+      - name: latexmk var_N2MzZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_N2MzZ'
+      - id: var_N2MzZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    | [link](${{ steps.var_N2MzZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_OTZiZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_OTZiZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_OTZiZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_OTZiZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_OTZiZ/Texlivefile'
+      - name: latexmk var_OTZiZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_OTZiZ'
+      - id: var_OTZiZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | csquotes   | outerquote      | none       | false   | false    | [link](${{ steps.var_OTZiZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NzFmM
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NzFmM' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_NzFmM
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_NzFmM'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NzFmM/Texlivefile'
+      - name: latexmk var_NzFmM
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NzFmM'
+      - id: var_NzFmM_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | pdfcomment | false   | false    | [link](${{ steps.var_NzFmM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NTMxN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NTMxN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_NTMxN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_NTMxN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NTMxN/Texlivefile'
+      - name: latexmk var_NTMxN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NTMxN'
+      - id: var_NTMxN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | babel           | none       | false   | false    | [link](${{ steps.var_NTMxN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZWViN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZWViN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_ZWViN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_ZWViN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZWViN/Texlivefile'
+      - name: latexmk var_ZWViN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZWViN'
+      - id: var_ZWViN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    | [link](${{ steps.var_ZWViN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MmUxZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_listings_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MmUxZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_MmUxZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_MmUxZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MmUxZ/Texlivefile'
+      - name: latexmk var_MmUxZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MmUxZ'
+      - id: var_MmUxZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | listings | plainlatex | outerquote      | none       | false   | false    | [link](${{ steps.var_MmUxZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NzI5O
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NzI5O' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_NzI5O
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_NzI5O'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NzI5O/Texlivefile'
+      - name: latexmk var_NzI5O
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NzI5O'
+      - id: var_NzI5O_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    | [link](${{ steps.var_NzI5O_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NGZhY
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NGZhY' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_NGZhY
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_NGZhY'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NGZhY/Texlivefile'
+      - name: latexmk var_NGZhY
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NGZhY'
+      - id: var_NGZhY_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | babel           | none       | false   | false    | [link](${{ steps.var_NGZhY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MzNhZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MzNhZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_MzNhZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_MzNhZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MzNhZ/Texlivefile'
+      - name: latexmk var_MzNhZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MzNhZ'
+      - id: var_MzNhZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    | [link](${{ steps.var_MzNhZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NjUwN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NjUwN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_NjUwN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_NjUwN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NjUwN/Texlivefile'
+      - name: latexmk var_NjUwN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NjUwN'
+      - id: var_NjUwN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | csquotes   | outerquote      | none       | false   | false    | [link](${{ steps.var_NjUwN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MDNhM
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MDNhM' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_MDNhM
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_MDNhM'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MDNhM/Texlivefile'
+      - name: latexmk var_MDNhM
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MDNhM'
+      - id: var_MDNhM_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    | [link](${{ steps.var_MDNhM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZDNjM
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZDNjM' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_ZDNjM
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_ZDNjM'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZDNjM/Texlivefile'
+      - name: latexmk var_ZDNjM
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZDNjM'
+      - id: var_ZDNjM_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | babel           | none       | false   | false    | [link](${{ steps.var_ZDNjM_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NmE5N
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NmE5N' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_NmE5N
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_NmE5N'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NmE5N/Texlivefile'
+      - name: latexmk var_NmE5N
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NmE5N'
+      - id: var_NmE5N_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    | [link](${{ steps.var_NmE5N_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MWNhY
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_en_default_minted_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MWNhY' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_MWNhY
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=en --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_MWNhY'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MWNhY/Texlivefile'
+      - name: latexmk var_MWNhY
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MWNhY'
+      - id: var_MWNhY_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | en   | default | minted   | plainlatex | outerquote      | none       | false   | false    | [link](${{ steps.var_MWNhY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_NDNlO
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_NDNlO' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_NDNlO
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_NDNlO'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_NDNlO/Texlivefile'
+      - name: latexmk var_NDNlO
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_NDNlO'
+      - id: var_NDNlO_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | pdfcomment | false   | false    | [link](${{ steps.var_NDNlO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZjA3Z
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZjA3Z' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_ZjA3Z
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_ZjA3Z'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZjA3Z/Texlivefile'
+      - name: latexmk var_ZjA3Z
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZjA3Z'
+      - id: var_ZjA3Z_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | babel           | none       | false   | false    | [link](${{ steps.var_ZjA3Z_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MTgwZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MTgwZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_MTgwZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_MTgwZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MTgwZ/Texlivefile'
+      - name: latexmk var_MTgwZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MTgwZ'
+      - id: var_MTgwZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | pdfcomment | false   | false    | [link](${{ steps.var_MTgwZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZmE0Y
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZmE0Y' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_ZmE0Y
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_ZmE0Y'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZmE0Y/Texlivefile'
+      - name: latexmk var_ZmE0Y
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZmE0Y'
+      - id: var_ZmE0Y_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | csquotes   | outerquote      | none       | false   | false    | [link](${{ steps.var_ZmE0Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_YjZiO
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_YjZiO' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_YjZiO
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_YjZiO'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_YjZiO/Texlivefile'
+      - name: latexmk var_YjZiO
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_YjZiO'
+      - id: var_YjZiO_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | pdfcomment | false   | false    | [link](${{ steps.var_YjZiO_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZDEwN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZDEwN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_ZDEwN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_ZDEwN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZDEwN/Texlivefile'
+      - name: latexmk var_ZDEwN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZDEwN'
+      - id: var_ZDEwN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | babel           | none       | false   | false    | [link](${{ steps.var_ZDEwN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_YzFmN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_YzFmN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_YzFmN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_YzFmN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_YzFmN/Texlivefile'
+      - name: latexmk var_YzFmN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_YzFmN'
+      - id: var_YzFmN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | pdfcomment | false   | false    | [link](${{ steps.var_YzFmN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZjU3M
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_listings_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZjU3M' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_ZjU3M
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=listings --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_ZjU3M'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZjU3M/Texlivefile'
+      - name: latexmk var_ZjU3M
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZjU3M'
+      - id: var_ZjU3M_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | listings | plainlatex | outerquote      | none       | false   | false    | [link](${{ steps.var_ZjU3M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZWI2Y
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZWI2Y' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_ZWI2Y
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_ZWI2Y'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZWI2Y/Texlivefile'
+      - name: latexmk var_ZWI2Y
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZWI2Y'
+      - id: var_ZWI2Y_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | pdfcomment | false   | false    | [link](${{ steps.var_ZWI2Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_OWU3Y
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_OWU3Y' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_OWU3Y
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_OWU3Y'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_OWU3Y/Texlivefile'
+      - name: latexmk var_OWU3Y
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_OWU3Y'
+      - id: var_OWU3Y_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | babel           | none       | false   | false    | [link](${{ steps.var_OWU3Y_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MmRkN
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MmRkN' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_MmRkN
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_MmRkN'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MmRkN/Texlivefile'
+      - name: latexmk var_MmRkN
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MmRkN'
+      - id: var_MmRkN_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | pdfcomment | false   | false    | [link](${{ steps.var_MmRkN_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZDdiY
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_csquotes_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZDdiY' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_ZDdiY
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=csquotes --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_ZDdiY'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZDdiY/Texlivefile'
+      - name: latexmk var_ZDdiY
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZDdiY'
+      - id: var_ZDdiY_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | csquotes   | outerquote      | none       | false   | false    | [link](${{ steps.var_ZDdiY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MjhjZ
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MjhjZ' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_MjhjZ
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_MjhjZ'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MjhjZ/Texlivefile'
+      - name: latexmk var_MjhjZ
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MjhjZ'
+      - id: var_MjhjZ_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | pdfcomment | false   | false    | [link](${{ steps.var_MjhjZ_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_ZTE1M
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_babel_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_ZTE1M' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_ZTE1M
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=babel --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_ZTE1M'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_ZTE1M/Texlivefile'
+      - name: latexmk var_ZTE1M
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_ZTE1M'
+      - id: var_ZTE1M_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | babel           | none       | false   | false    | [link](${{ steps.var_ZTE1M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_MWMyY
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_pdfcomment_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_MWMyY' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_MWMyY
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=pdfcomment --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_MWMyY'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_MWMyY/Texlivefile'
+      - name: latexmk var_MWMyY
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_MWMyY'
+      - id: var_MWMyY_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | pdfcomment | false   | false    | [link](${{ steps.var_MWMyY_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - run: mkdir var_M2E3M
+      - run: echo CURRENT_VARIANT='ieee_pdflatex_bibtex_2024_de_default_minted_plainlatex_outerquote_none_false_false' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_SHORT='var_M2E3M' >> $GITHUB_ENV
+      - run: echo CURRENT_VARIANT_TABLE_ROW='| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | false    |' >> $GITHUB_ENV
+      - name: Create var_M2E3M
+        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js --documentclass=ieee --ieeevariant=peerreview --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=no --lang=de --font=default --listings=minted --enquotes=plainlatex --tweakouterquote=outerquote --todo=none --examples=false --howtotext=false
+        working-directory: '${{ github.workspace }}/var_M2E3M'
+      - name: Install TeX Live
+      uses: zauguin/install-texlive@v3
+      with:
+          package_file: '${{ github.workspace }}/var_M2E3M/Texlivefile'
+      - name: latexmk var_M2E3M
+        run: latexmk paper.tex
+        working-directory: '${{ github.workspace }}/var_M2E3M'
+      - id: var_M2E3M_u
+        uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\n| ieee          | pdflatex      | bibtex     | 2024    | de   | default | minted   | plainlatex | outerquote      | none       | false   | false    | [link](${{ steps.var_M2E3M_u.outputs.artifact-url }}) |" >> $GITHUB_ENV
+      - name: texlogsieve
+      if: always()
+      run: |
+        echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+        texlogsieve < $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY || false
+        echo '```' >> $GITHUB_STEP_SUMMARY
+    - id: failing_u
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.CURRENT_VARIANT }}
+        path: ${{ env.CURRENT_VARIANT_SHORT }}
+    - run: echo "TABLE=${TABLE}\n${CURRENT_VARIANT_TABLE_ROW} [link](${{ steps.failing_u.outputs.artifact-url }}) ❌ |" >> $GITHUB_ENV
+      if: failure()
+        working-directory: ${{ env.CURRENT_VARIANT_SHORT }}
+      - name: Finish summary table
+        if: always()
+        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY
+      - run: |
+        gh run list -L 100 --json databaseId -s queued -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
+        while read -r run_id; do
+          gh run cancel "$run_id" || true
+        done
+        gh run list -L 100 --json databaseId -s in_progress -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
+        while read -r run_id; do
+          gh run cancel "$run_id" || true
+        done
+      if: failure()
+      env:
+        GH_TOKEN: ${{ github.token }}
