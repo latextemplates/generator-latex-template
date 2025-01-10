@@ -33,6 +33,7 @@ ieeevariants = ['conference', 'journal', 'peerreview']
 
 docker = "iot"
 
+# Idea: Have the same value in the workflow between generations so that the git diff is as small as possible
 def stable_hash(value):
   return str(hashlib.md5(value.encode('utf-8')).hexdigest())[:5]
 
