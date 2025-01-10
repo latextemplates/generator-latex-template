@@ -35,7 +35,7 @@ ieeevariants = ['conference', 'journal', 'peerreview']
 
 docker = "iot"
 
-def stable_hash(value):
+def stable_hash():
   return CUID_GENERATOR.generate()
 
 for documentclass in documentclasses:
@@ -169,7 +169,7 @@ jobs:
                         for tweakouterquote in tweakouterquotes:
                           for todo in todos:
                               variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                              variantShort = "var_" + stable_hash(variantName)
+                              variantShort = "var_" + stable_hash()
                               table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                               yml_content = "      - run: mkdir {}\n".format(variantShort)
                               yml_content += "      - run: echo CURRENT_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
