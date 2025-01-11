@@ -206,7 +206,7 @@ jobs:
                             yml.write("      - name: latexmk {}\n".format(variantShort))
                             ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
                             filename = "paper.tex" if documentclass in ['acmart', 'lncs', 'ieee'] else "thesis-example.tex" if documentclass == 'ustutt' else "main.tex"
-                            command = "latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
+                            command = "updmap && tlmgr generate language --rebuild-sys && latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
                             yml.write("        run: {}\n".format(command))
                             yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
                             ymlmiktex.write("        run: {}\n".format(command))
