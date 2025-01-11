@@ -109,6 +109,9 @@ export const options = [
       },
     ],
     default: "a4",
+    when(response) {
+      return (response.documentclass != "ustutt" && response.documentclass != "scientific-thesis");
+    },
   },
   {
     type: "list",
@@ -298,14 +301,14 @@ export const options = [
         name: "csquotes (\\enquote{...} command)",
         value: "csquotes",
       });
-      if (state.language === "en") {
+      if (state.lang === "en") {
         res.push({
           name: "textcmds (\\qq{...} command)",
           value: "textcmds",
         });
       }
 
-      if (state.language === "de") {
+      if (state.lang === "de") {
         res.push({
           name: "Plain LaTeX (\\glqq{}text\\grqq{} - not recommended)",
           value: "plainlatex",

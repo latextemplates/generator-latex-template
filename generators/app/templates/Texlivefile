@@ -3,13 +3,15 @@ latexmk
 texlogsieve
 
 amsmath
-<% if (documentclass == "acmart") { -%>
+<% if (githubpublish || (documentclass == "acmart")) { -%>
 acmart
 <% } -%>
-<% if (isThesis) { -%>
+<% if (githubpublish || isThesis) { -%>
+algorithms
+algorithmicx<%# required by algpseudocodex%>
 algpseudocodex
 <% } -%>
-<% if (lang == "de") { -%>
+<% if (githubpublish || (lang == "de")) { -%>
 autotype
 <% } -%>
 auxhook
@@ -21,13 +23,23 @@ babel-german
 biblatex
 biber
 <% } -%>
+<% if (githubpublish || isThesis) { -%>
+bigfoot<%# provides perpage%>
+<% } -%>
 bigintcalc
 bitset
 blindtext
 booktabs
 caption
+<% if (githubpublish || (reallatexcompiler == "lualatex") && ((font == "arial") || (documentclass == "ustutt"))) { -%>
+catchfile
+<% } -%>
 cfr-lm
+<% if (githubpublish || (documentclass == "ustutt")) { -%>
+charter<%# required by mathdesign-charter%>
+<% } -%>
 cleveref
+cm-super
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 cmap
 <% } -%>
@@ -36,14 +48,14 @@ csquotes
 ctablestack
 currfile
 datetime2
-<% if (githubpublish || (language == "de")) { -%>
+<% if (githubpublish || (lang == "de")) { -%>
 datetime2-german
 <% } -%>
 datetime2-english
-<% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
+<% if (githubpublish || isThesis) { -%>
 datatool
 <% } -%>
-<% if (githubpublish || (language == "de")) { -%>
+<% if (githubpublish || (lang == "de")) { -%>
 dehyph-exptl
 <% } -%>
 diagbox
@@ -57,10 +69,16 @@ etoolbox
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 everyshi
 <% } -%>
+<% if (githubpublish || isThesis) { -%>
+fifo-stack<%# required by algpseudocodex%>
+<% } -%>
 filehook
 fixmath
-<% if (githubpublish || (documentclass == "acmart") ||  (documentclass == "ustutt")) { -%>
+<% if (githubpublish || (documentclass == "acmart") || isThesis) { -%>
 float
+<% if (githubpublish || isThesis) { -%>
+floatbytocbasic<%# required by scrhack%>
+<% } -%>
 <% } -%>
 floatflt<%# required by acmart and lncs %>
 <% if (githubpublish || (documentclass == "ustutt")) { -%>
@@ -76,9 +94,18 @@ footmisc
 gettitlestring
 <% if (githubpublish || (documentclass == 'ustutt') || (documentclass == 'scientific-thesis')) { -%>
 glossaries
+<% if (githubpublish || (lang == "de")) { -%>
+glossaries-german
+<% } -%>
+<% if (githubpublish || (lang == "en")) { -%>
+glossaries-english
+<% } -%>
 glossaries-extra
 <% } -%>
 graphics
+<% if (githubpublish || isThesis) { -%>
+helvetic
+<% } -%>
 hyphenex
 inconsolata<%# required by ustutt, scientific-thesis, acm%>
 hycolor
@@ -87,13 +114,16 @@ hyperref
 hyperxmp<%# required by acmart at least %>
 hyph-utf8
 hyphen-english
-<% if (githubpublish || (language == "de")) { -%>
+<% if (githubpublish || (lang == "de")) { -%>
 hyphen-german
 <% } -%>
 <% if (documentclass == 'ieee') { -%>
 ieeetran
 <% } -%>
 ifmtarg<%# required by acmart at least %>
+<% if (githubpublish || (reallatexcompiler == "lualatex") && (font == "arial")) { -%>
+ifplatform
+<% } -%>
 iftex
 infwarerr
 intcalc
@@ -115,11 +145,17 @@ listings
 llncs
 <% } -%>
 ltxcmds
+<% if (githubpublish || isThesis) { -%>
+lscapeenhanced
+<% } -%>
 <% if (githubpublish || (latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 luacode
 lualatex-math
 luatex85
 luatexbase
+<% } -%>
+<% if (githubpublish || isThesis) { -%>
+ly1<%# required by mathdesign-font %>
 <% } -%>
 marginnote
 <% if (githubpublish || isThesis) { -%>
@@ -159,10 +195,13 @@ nowidow
 paralist
 pdfcomment
 pdfescape
-<% if (githubpublish || (documentclass == "ustutt")) { -%>
+<% if (githubpublish || isThesis) { -%>
 pdflscape
 <% } -%>
 pdftexcmds
+<% if (githubpublish || isThesis) { -%>
+pdfpages
+<% } -%>
 <% if (githubpublish || examples) { -%>
 pgf
 <% } -%>
@@ -173,8 +212,11 @@ placeins
 <% if (documentclass == 'ieee') { -%>
 preprint<%# this includes balance%>
 <% } -%>
-<% if (githubpublish || (documentclass == "ustutt")) { -%>
+<% if (githubpublish || isThesis) { -%>
 psnfss<%# provides pifont%>
+<% } -%>
+<% if (githubpublish || isThesis) { -%>
+ragged2e<%# required by sidecyp %>
 <% } -%>
 refcount
 rerunfilecheck
@@ -187,8 +229,11 @@ scrhack
 <% if (githubpublish || (lang == "en") && ((latexcompiler == "lualatex") || (latexcompiler == "both"))) { -%>
 selnolig
 <% } -%>
-<% if (githubpublish || (documentclass == "acmart" || documentclass == 'scientific-thesis')) { -%>
+<% if (githubpublish || (documentclass == "acmart") || isThesis) { -%>
 setspace
+<% } -%>
+<% if (githubpublish || isThesis) { -%>
+setspaceenhanced
 <% } -%>
 <% if (githubpublish || (documentclass == "ustutt")) { -%>
 sidecap
@@ -201,15 +246,24 @@ stringenc
 sttools<%# this includes stfloats; at least required by acmart, ieee, lncs, ustutt, scientific-thesis %>
 subfig
 svn-prov<%# at least required by acmart, ustutt, scientific-thesis%>
+<% if (githubpublish || isThesis) { -%>
+tabto-ltx
+<% } -%>
 tcolorbox
+tex-gyre<%# at least required by acm, ieee, font config "times"; provides ts1-qtmr %>
 <% if (githubpublish || (documentclass == "ustutt")) { -%>
 tikzpeople
 <% } -%>
-tex-gyre<%# at least required by acm, ieee, font config "times"; provides ts1-qtmr %>
+<% if (githubpublish || isThesis) { -%>
+tikzmark
+<% } -%>
 <% if (githubpublish || (documentclass == "ieee") || (font == "times")) { -%>
 times
 <% } -%>
 tools<%# contains dcolumn and varioref %>
+<% if (githubpublish || isThesis) { -%>
+totcount
+<% } -%>
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 totpages
 <% } -%>
@@ -223,11 +277,16 @@ unicode-math
 uniquecounter
 upquote
 url
+<%# urw-arial - not good - see https://tex.stackexchange.com/a/309120/9075 %>
+<% if (githubpublish || isThesis) { -%>
+varwidth
+<% } -%>
 <% if (githubpublish || (documentclass == "ustutt")) { -%>
 xcharter
 <% } -%>
 xcolor
-<% if (githubpublish || (documentclass == "scientific-thesis")) { -%>
+<% if (githubpublish || isThesis) { -%>
+xifthen
 xfor
 <% } -%>
 xkeyval
