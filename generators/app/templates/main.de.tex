@@ -92,7 +92,7 @@
 <% break; case "ustutt": -%>
 
 \documentclass[
-  % fontsize=11pt is the standard
+  fontsize=10pt,
   numbers=noenddot,
   english,  % English as main language; this parameter is passed to other packages (e.g., selnolig in the case of lualatex)
   paper=a5,
@@ -159,14 +159,14 @@
 
 <%- include('microtype.preamble.de.tex', this); -%>
 
-<% if (documentclass == 'ustutt') { %>
+<% if (documentclass == 'ustutt') { -%>
 <%- include('ustutt-pagestyle.preamble.en.tex', this); %>
 <%- include('ustutt-chapterstyle.preamble.en.tex', this); -%>
 
 <% } -%>
 \usepackage{graphicx}
 
-<% if (documentclass == 'ustutt') { %>
+<% if (documentclass == 'ustutt') { -%>
 % Base folder, so there is no need to repeat this over and over again.
 \graphicspath{ {figures/} }
 
@@ -231,12 +231,11 @@
 
 <%- include('todos.preamble.en.tex', this); -%>
 
-<%- include('siunitx.preamble.en.tex'); -%>
+<%- include('siunitx.preamble.en.tex'); %>
 <% if (isThesis) { -%>
-
 <%- include('varioref.preamble.de.tex', this); %>
-<% } -%>
 
+<% } -%>
 <%- include('hyperref.preamble.de.tex', this); -%>
 
 <%- include('floats.preamble.en.tex', this); -%>
@@ -360,6 +359,9 @@
 
 <% } -%>
 \begin{document}
+<% if (isThesis) { -%>
+\setstretch{1.2}
+<% } -%>
 <% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 <% if (latexcompiler == "both") { -%>
 \ifluatex
@@ -489,9 +491,12 @@
 \firstexaminer{Prof.~Dr.~Max Mustermann}
 \secondexaminer{Prof.~Dr.~Emma Musterfrau}
 \dateofexamination{unbekannt}
-\placeofbirth{Gebortsort}
+\placeofbirth{Geburtsort}
 \faculty{Fakultät für Informatik, Elektrotechnik und Informationstechnik}
 \department{Institut für Architektur von Anwendungssystemen}
+% Degree - Akademischer Grad gemäß § 1 Abs. 1
+% Default: Dr. rer. nat.
+%\degree{Doktors der Naturwissenschaften (Dr.~rer.~nat.)}
 \maketitle
 
 %\mainmatter
@@ -880,8 +885,8 @@ Der Abschnitt kann je nach Kontext auch an anderer Stelle stehen.
 Winery~\cite{Winery} is a graphical \textcomment{modeling}{modeling with one ``l'', because of AE} tool.
 The whole idea of TOSCA is explained by <% if (available.citet) { %>\citet<% } else { %>Binz et al.~\cite<% } %>{Binz2009}.
 <% } -%>
-
 <% if (examples) { -%>
+
 <%= heading1 %>{LaTeX Hinweise}
 \label{sec:latexhints}
 
@@ -992,7 +997,7 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 <%= heading1 %>{Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum}
 \label{chap:label}
 %Um die Fußzeile zu demonstrieren
-\blindtext[3]
+\lipsum[3]
 
 \resetchapterfooter
 
@@ -1008,7 +1013,7 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 \section{Section}
 \section{Section}
 \section{Section}
-\blindtext
+\lipsum
 \section{Section}
 \section{Section}
 \section{Section}
@@ -1022,7 +1027,7 @@ You should explicitly discuss limitations and shortcomings of your work and deta
 \section{Section}
 \subsection{Subsection}
 \label{ssec:example}
-\blindtext
+\lipsum
 \subsection{Subsection}
 \subsection{Subsection}
 \subsection{Subsection}
