@@ -383,7 +383,6 @@ Install the package `dehyph-exptl`.
 - Other templates: <https://latextemplates.github.io/>
 
 [booktabs]: https://ctan.org/pkg/booktabs
-[cfr-lm]: https://www.ctan.org/pkg/cfr-lm
 [cleveref]: https://ctan.org/pkg/cleveref
 [csquotes]: https://www.ctan.org/pkg/csquotes
 [hypcap]: https://www.ctan.org/pkg/hypcap
@@ -392,7 +391,6 @@ Install the package `dehyph-exptl`.
 [microtype]: https://ctan.org/pkg/microtype
 [minted]: https://ctan.org/pkg/minted
 [natbib]: https://ctan.org/pkg/natbib
-[newtx]: https://ctan.org/pkg/newtx
 [paralist]: https://www.ctan.org/pkg/paralist
 [pdfcomment]: https://www.ctan.org/pkg/pdfcomment
 [upquote]: https://www.ctan.org/pkg/upquote
