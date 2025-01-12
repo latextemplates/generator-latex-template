@@ -132,6 +132,7 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - run: npm ci
+      - run: npm install -g yo
       - run: mkdir /tmp/out
 """)
             ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+", encoding="utf-8")
@@ -185,7 +186,7 @@ jobs:
                             yml_content += "      - run: echo CURRENT_VARIANT_SHORT='{}' >> $GITHUB_ENV\n".format(variantShort);
                             yml_content += "      - run: echo CURRENT_VARIANT_TABLE_ROW='{}' >> $GITHUB_ENV\n".format(table);
                             yml_content += "      - name: Create {}\n".format(variantShort)
-                            yml_content += "        run: npx yo $GITHUB_WORKSPACE/generators/app/index.js"
+                            yml_content += "        run: yo $GITHUB_WORKSPACE/generators/app/index.js"
                             yml_content += " --documentclass=%s" % documentclass
                             if documentclass == 'ieee':
                                 yml_content += " --ieeevariant=%s" % ieeevariant
