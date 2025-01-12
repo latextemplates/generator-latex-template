@@ -35,8 +35,18 @@ ieeevariants = ['conference', 'journal', 'peerreview']
 docker = "iot"
 
 # Idea: Have the same value in the workflow between generations so that the git diff is as small as possible
-def stable_hash(value):
-  return base64.b64encode(hashlib.md5(value.encode('utf-8')).hexdigest().encode('utf-8'))[:5].decode('utf-8')
+def stable_id(documentclass, ieeevariant, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext):
+  # in workflows NOT included: documentclass, ieeevariant, latexcompiler, bibtextool, texlive, example, ieeevariant
+    return (
+      language[0] +
+      font[0] +
+      listing[0] +
+      enquote[0] +
+      tweakouterquote[0] +
+      todo[0] +
+#      example[0] +
+      howtotext[0]
+  )
 
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
@@ -168,7 +178,7 @@ jobs:
                       for tweakouterquote in tweakouterquotes:
                         for todo in todos:
                             variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
-                            variantShort = "var_" + stable_hash(variantName)
+                            variantShort = "var_" + stable_id(documentclass, ieeevariant, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                             table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                             yml_content = "      - run: mkdir {}\n".format(variantShort)
                             yml_content += "      - run: echo CURRENT_VARIANT='{}' >> $GITHUB_ENV\n".format(variantName);
