@@ -250,9 +250,14 @@ export default class extends Generator {
         this.props,
       );
       */
-      this.fs.copyTpl(
+      this.fs.copy(
         this.templatePath("ustutt-titlepage.sty"),
         this.destinationPath("ustutt-titlepage.sty"),
+        this.props,
+      );
+      this.fs.copy(
+        this.templatePath("logos/ustutt-logo.pdf"),
+        this.destinationPath("ustutt-logo.pdf"),
         this.props,
       );
     }
