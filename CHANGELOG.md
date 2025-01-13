@@ -2,10 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](http://keepachangelog.com/).
+From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 
-## [Unreleased]
+## [2025-01-13]
 
 ### Added
 
@@ -188,7 +188,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 First release of Markdown Architectural Decision Records.
 
-[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/0.8.0...main
+[2025-01-13]: https://github.com/latextemplates/generator-latex-template/compare/0.8.0...2025-01-13
 [0.8.0]: https://github.com/latextemplates/generator-latex-template/compare/0.7.0...0.8.0
 [0.7.0]: https://github.com/latextemplates/generator-latex-template/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/latextemplates/generator-latex-template/compare/0.5.0...0.6.0
