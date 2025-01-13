@@ -199,7 +199,7 @@ ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generato
 
 ### Releasing a new version
 
-1. Update `CHANGELOG.md`
+1. Update `CHANGELOG.md` (change `h2` heading etc.)
 2. Update `package.json`, publish to [npmjs](https://www.npmjs.com/package/generator-latex-template), create GitHub release.
    Use [release-it](https://www.npmjs.com/package/release-it) (do not create a release on GitHub) and [github-release-from-changelog](https://www.npmjs.com/package/github-release-from-changelog).
 
