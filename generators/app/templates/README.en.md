@@ -17,8 +17,8 @@ In case you are running a later TeXLive version (or use MiKTeX), please regenera
 <% if (texlive > 2024) { -%>
 Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
-<% } -%>
 
+<% } -%>
 The official template is distributed via CTAN as the [IEEEtran package](https://ctan.org/pkg/ieeetran), which is actively maintained.
 However, de-facto configurations (hyperref) and modern features of latex (microtype) are not configured.
 This template does it.
@@ -34,8 +34,8 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 <% if (texlive > 2024) { -%>
 Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
-<% } -%>
 
+<% } -%>
 The official template is distributed via CTAN as the [acmart package](https://ctan.org/pkg/acmart), which is actively maintained.
 However, de-facto configurations (hyperref) and modern features of latex (microtype) are not configured.
 This template does it.
