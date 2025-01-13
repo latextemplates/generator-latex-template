@@ -42,7 +42,6 @@ This template does it.
 
 This template is for the conferences.
 In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
-
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
@@ -62,7 +61,6 @@ Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, an
 The template will be extended to support theses from different institutions.
 
 For [architectural decision records](https://adr.github.io) see [docs/adr](https://latextemplates.github.io/scientific-thesis-template/adr/).
-
 <%  break; default: -%>
 # LaTeX Document
 <% break; }
