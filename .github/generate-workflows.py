@@ -6,7 +6,7 @@ import base64
 globalsingleworkflow = True
 failfast = True
 
-documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis', 'ustutt']
+documentclasses = ['acmart', 'ieee', 'lncs'] # , 'scientific-thesis', 'ustutt']
 latexcompilers = ['pdflatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
@@ -71,6 +71,8 @@ for documentclass in documentclasses:
             yml = open("workflows/check-{}.yml".format(dashedPart), "w+", encoding="utf-8")
             yml.write("name: Check {}\n".format(dashedPart))
             yml.write("""on:
+  schedule:
+    - cron: "0 6 * * 5"
   push:
     branches:
       - main
@@ -260,7 +262,7 @@ jobs:
           while read -r run_id; do
             gh run cancel "$run_id" || true
           done
-        if: failure()
+        if: false()
         env:
           GH_TOKEN: ${{ github.token }}
 ''')

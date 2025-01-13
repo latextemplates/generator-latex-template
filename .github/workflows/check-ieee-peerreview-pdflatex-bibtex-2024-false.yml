@@ -1,5 +1,7 @@
 name: Check ieee-peerreview-pdflatex-bibtex-2024-false
 on:
+  schedule:
+    - cron: "0 6 * * 5"
   push:
     branches:
       - main
@@ -1370,6 +1372,6 @@ jobs:
           while read -r run_id; do
             gh run cancel "$run_id" || true
           done
-        if: failure()
+        if: false()
         env:
           GH_TOKEN: ${{ github.token }}
