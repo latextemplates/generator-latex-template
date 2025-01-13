@@ -198,6 +198,7 @@ jobs:
                             yml_content += " --bibtextool=%s" % bibtextool
                             yml_content += " --texlive=%s" % texlive
                             yml_content += " --docker=no"
+                            yml_content += " --overleaf=no"
                             yml_content += " --lang=%s" % language
                             yml_content += " --font=%s" % font
                             yml_content += " --listings=%s" % listing
