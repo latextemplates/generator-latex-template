@@ -101,7 +101,7 @@ export default class extends Generator {
       this.props.equote = "\"'";
     }
 
-    this.props.requiresShellEscape = this.props.isThesis;
+    this.props.requiresShellEscape = this.props.isThesis || this.props.listings == "minted";
 
     if (this.props.docker == "no") {
       // converts command-line "no" to the boolean equivalent
