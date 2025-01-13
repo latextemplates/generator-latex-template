@@ -77,7 +77,7 @@ Following features are enabled in this template:
 <% if (documentclass == 'lncs') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/LNCS/<% } %><%= filenames.main %>.tex) file
 - Example to have an image being placed right to a text
-<% if (language == 'de') { -%>
+<% if (githubpublish || (language == 'de')) { -%>
 - Support for German documents (without broken headers):
   Contains a fix to increase compatibility with Babel.
   See <https://tex.stackexchange.com/a/441701/9075> for details.
