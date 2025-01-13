@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `Texlivefile` is now always generated.
 - Updated to [yeoman-generator v5.1.0](https://github.com/yeoman/yo/releases/tag/v5.1.0)
 - Updated reitzig image to 2024.11
+- Use full image of [iot's docker image](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
 
 ### Fixed
 
