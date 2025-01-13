@@ -43,7 +43,12 @@ export default class extends Generator {
       this.props.font = "default";
     }
 
-    if ((this.props.documentclass === "ustutt") || (this.props.documentclass === "scientific-thesis")) {
+    if (this.props.documentclass === "scientific-thesis") {
+      this.props.bibtextool = "biblatex";
+      this.props.font = "times";
+    }
+
+    if (this.props.documentclass === "ustutt") {
       this.props.bibtextool = "biblatex";
       this.props.font = "default";
     }

@@ -166,7 +166,7 @@
 <% } -%>
 \usepackage{graphicx}
 
-<% if (documentclass == 'ustutt') { -%>
+<% if (isThesis) { -%>
 % Base folder, so there is no need to repeat this over and over again.
 \graphicspath{ {figures/} }
 
@@ -276,6 +276,10 @@
 <% if (feature.abbreviations) { -%><%- include('abbreviations.preamble.de.tex', this); %>
 <% } -%>
 \usepackage{xspace}
+% Macht \xspace und \enquote kompatibel
+\makeatletter
+\xspaceaddexceptions{\grqq \grq \csq@qclose@i \} }
+\makeatother
 
 % Enable hyphenation at other places as the dash.
 % Example: applicaiton\hydash specific
