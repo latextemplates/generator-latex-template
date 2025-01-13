@@ -4,9 +4,9 @@
 # Simplified LNCS Template
 
 > Quick start for modern LaTeXing with [LNCS](http://www.springer.com/computer/lncs).
-<% if (texlive == 2020) { -%>
+<% if (texlive > 2024) { -%>
 
-Please be aware that this template is optimized for overleaf, which [is based on TeXLive 2021](https://de.overleaf.com/blog/tex-live-2021-now-available).
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 <% } -%>
 <% break; case "ieee": -%>
@@ -14,8 +14,8 @@ In case you are running a later TeXLive version (or use MiKTeX), please regenera
 
 > Quick start for modern LaTeXing for an IEEE conference, based on the [Manuscript Template for Conference Proceedings](https://www.ieee.org/conferences_events/conferences/publishing/templates.html).
 
-<% if (texlive == 2020) { -%>
-Please be aware that this template is optimized for overleaf, which [is based on TeXLive 2021](https://de.overleaf.com/blog/tex-live-2021-now-available).
+<% if (texlive > 2024) { -%>
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 <% } -%>
 
@@ -26,6 +26,23 @@ This template does it.
 This template is for the conferences.
 It is based on the `bare_conf_compsoc.tex` distributed by IEEE.
 In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
+<% break; case "acmart": -%>
+# ACM
+
+> Quick start for modern LaTeXing for an ACM conference.
+
+<% if (texlive > 2024) { -%>
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
+In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
+<% } -%>
+
+The official template is distributed via CTAN as the [acmart package](https://ctan.org/pkg/acmart), which is actively maintained.
+However, de-facto configurations (hyperref) and modern features of latex (microtype) are not configured.
+This template does it.
+
+This template is for the conferences.
+In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
+
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
