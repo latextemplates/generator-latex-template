@@ -138,24 +138,7 @@
 <% if (isThesis || feature.abbreviations) { %><%- include('math.preamble.en.tex', this); -%>
 
 <% } -%>
-<%# ACM already provides a very good font configuration; thus we do not need to override it -%>
-<% if (documentclass != 'acmart') { %>
 <%- include('font.preamble.en.tex', this); -%>
-<% } else { -%>
-<%# nevertheless, we need fontspec for selnolig -%>
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
-<% if (latexcompiler == "both") { -%>
-\ifluatex
-<% } -%>
-% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/selnolig
-% See ADR-0009 for alternatives
-\usepackage[no-math]{fontspec}
-\usepackage{unicode-math}
-<% if (latexcompiler == "both") { -%>
-\fi
-<% } -%>
-<% } -%>
-<% } -%>
 
 <%- include('microtype.preamble.de.tex', this); -%>
 
