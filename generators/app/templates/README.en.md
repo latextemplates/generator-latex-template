@@ -258,11 +258,10 @@ To have minted running properly, you have to do following steps on Windows:
 
 1. Install python: `choco install python` - that uses [chocolatey](https://chocolatey.org/) to install Python
 2. Install [pygments]: `pip instal pygments` - that uses the Pyhton package manager to install the pygments library
-3. When latexing, use `-shell-escape`: `pdflatex -shell-escape paper`.
-   You can also just execute `latexmk paper`.
+3. When latexing, use `-shell-escape`: `pdflatex -shell-escape <%= filenames.main %>`.
+   You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
-<% switch (docker) {
-    case "reitzig": -%>
+<% switch (docker) { case "reitzig": -%>
 
 ## Usage with docker
 
@@ -271,7 +270,19 @@ The idea of that system is to host the document sources in a directory separated
 
     docker run --rm -v "c:\users\example\latex-document:/work/src" -v "c:\users\example\latex-document\out:/work/out" ltg work latexmk
 
-Following one-time setup is requried:
+Following one-time setup is required:
+
+    docker build -t ltg .
+
+<% break; case "iot": -%>
+
+## Usage with docker
+
+The generated `Dockerfile` is based on the [Dockerfile by the Island of TeX](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
+
+    docker run --rm -v "c:\users\example\latex-document:/workdir" latexmk
+
+Following one-time setup is required:
 
     docker build -t ltg .
 
