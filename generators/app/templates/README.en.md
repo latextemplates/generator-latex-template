@@ -365,7 +365,7 @@ Use the [`authorarchive` package](https://ctan.org/pkg/authorarchive).
 
 Yes. You can regenerate the template and choose "German" as language.
 
-<% if (language == 'de') { -%>
+<% if (githubpublish || (language == 'de')) { -%>
 ### Q: `ngerman-x-latest` is reported missing
 
 Install the package `dehyph-exptl`.
