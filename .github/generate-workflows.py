@@ -252,7 +252,7 @@ jobs:
             yml.write("      - name: Finish summary table\n");
             yml.write("        if: always()\n");
             yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
-            if failfast:
+            if False:
               yml.write(r'''      - run: |
           gh run list -L 100 --json databaseId -s queued | jq -r '.[] | .databaseId' | \
           while read -r run_id; do
@@ -262,7 +262,6 @@ jobs:
           while read -r run_id; do
             gh run cancel "$run_id" || true
           done
-        if: false()
         env:
           GH_TOKEN: ${{ github.token }}
 ''')
