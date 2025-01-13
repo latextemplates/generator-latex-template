@@ -123,6 +123,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 - Cancel workflows:
   - `gh run list -L 100 --json databaseId -s queued | jq -r '.[] | .databaseId' | awk '{gsub(/\\r\\n/,RS)} 1' | while read -r run_id; do gh run cancel "$run_id" || true; done`
   - `gh run list -L 100 --json databaseId -s in_progress | jq -r '.[] | .databaseId' | awk '{gsub(/\\r\\n/,RS)} 1' | while read -r run_id; do gh run cancel "$run_id" || true; done`
+- Update submodule of "derived" templates (LNCS, ...): `[ -z "$(git status --porcelain)" ] && cd generator-latex-template/ && git pull && cd .. && git add . && git commit -m"Update LTG" && git pull --rebase && git push`
 
 ### Test locally
 
