@@ -16,6 +16,7 @@ From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://
 - Added [selnolig](https://ctan.org/pkg/selnolig) to enable automatic language-specific typography for English documents. [#223](https://github.com/latextemplates/generator-latex-template/issues/223)
 - Added support for [`todonotes`](https://ctan.org/pkg/todonotes).
 - Added many examples and LaTeX configurations from [University of Stuttgart PhD Thesis Template](https://github.com/latextemplates/uni-stuttgart-dissertation-template).
+- Added hint on copying `_latexmkrc` to `latexmkrc` to avoid issues that `latexmk` calls `latex` instead of `pdflatex`.
 
 ### Changed
 
