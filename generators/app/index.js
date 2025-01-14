@@ -43,7 +43,12 @@ export default class extends Generator {
       this.props.font = "default";
     }
 
-    if ((this.props.documentclass === "ustutt") || (this.props.documentclass === "scientific-thesis")) {
+    if (this.props.documentclass === "scientific-thesis") {
+      this.props.bibtextool = "biblatex";
+      this.props.font = "times";
+    }
+
+    if (this.props.documentclass === "ustutt") {
       this.props.bibtextool = "biblatex";
       this.props.font = "default";
     }
@@ -63,6 +68,8 @@ export default class extends Generator {
     this.props.reallatexcompiler = (this.options.latexcompiler == "both") ? "lualatex" : this.options.latexcompiler;
 
     // Convert "String" Boolean command line options
+    this.props.acmreview =
+      this.props.acmreview === true || this.props.acmreview === "true";
     this.props.examples =
       this.props.examples === true || this.props.examples === "true";
     this.props.howtotext =
@@ -94,7 +101,7 @@ export default class extends Generator {
       this.props.equote = "\"'";
     }
 
-    this.props.requiresShellEscape = this.props.isThesis;
+    this.props.requiresShellEscape = this.props.isThesis || this.props.listings == "minted";
 
     if (this.props.docker == "no") {
       // converts command-line "no" to the boolean equivalent
@@ -272,9 +279,10 @@ export default class extends Generator {
         );
         break;
       case "iot":
-        this.fs.copy(
+        this.fs.copyTpl(
           this.templatePath("dot.dockerignore"),
-          this.destinationPath(".dockerignore")
+          this.destinationPath(".dockerignore"),
+          this.props
         );
         this.fs.copyTpl(
           this.templatePath("Dockerfile.iot"),
@@ -288,9 +296,10 @@ export default class extends Generator {
         );
         break;
       case "reitzig":
-        this.fs.copy(
+        this.fs.copyTpl(
           this.templatePath("dot.dockerignore"),
-          this.destinationPath(".dockerignore")
+          this.destinationPath(".dockerignore"),
+          this.props
         );
         this.fs.copyTpl(
           this.templatePath("Dockerfile.reitzig"),
@@ -304,9 +313,10 @@ export default class extends Generator {
         );
         break;
       case "dante":
-        this.fs.copy(
+        this.fs.copyTpl(
           this.templatePath("dot.dockerignore"),
-          this.destinationPath(".dockerignore")
+          this.destinationPath(".dockerignore"),
+          this.props
         );
         this.fs.copyTpl(
           this.templatePath("Dockerfile.dante"),
@@ -316,13 +326,11 @@ export default class extends Generator {
         break;
     }
 
-    if (this.props.docker) {
-      this.fs.copyTpl(
-        this.templatePath(".github/workflows/check.yml"),
-        this.destinationPath(".github/workflows/check.yml"),
-        this.props
-      );
-    }
+    this.fs.copyTpl(
+      this.templatePath(".github/workflows/check.yml"),
+      this.destinationPath(".github/workflows/check.yml"),
+      this.props
+    );
   }
 
   install() {}

@@ -4,9 +4,9 @@
 # Simplified LNCS Template
 
 > Quick start for modern LaTeXing with [LNCS](http://www.springer.com/computer/lncs).
-<% if (texlive == 2020) { -%>
+<% if (texlive > 2024) { -%>
 
-Please be aware that this template is optimized for overleaf, which [is based on TeXLive 2021](https://de.overleaf.com/blog/tex-live-2021-now-available).
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 <% } -%>
 <% break; case "ieee": -%>
@@ -14,17 +14,33 @@ In case you are running a later TeXLive version (or use MiKTeX), please regenera
 
 > Quick start for modern LaTeXing for an IEEE conference, based on the [Manuscript Template for Conference Proceedings](https://www.ieee.org/conferences_events/conferences/publishing/templates.html).
 
-<% if (texlive == 2020) { -%>
-Please be aware that this template is optimized for overleaf, which [is based on TeXLive 2021](https://de.overleaf.com/blog/tex-live-2021-now-available).
+<% if (texlive > 2024) { -%>
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
-<% } -%>
 
+<% } -%>
 The official template is distributed via CTAN as the [IEEEtran package](https://ctan.org/pkg/ieeetran), which is actively maintained.
 However, de-facto configurations (hyperref) and modern features of latex (microtype) are not configured.
 This template does it.
 
 This template is for the conferences.
 It is based on the `bare_conf_compsoc.tex` distributed by IEEE.
+In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
+<% break; case "acmart": -%>
+# ACM
+
+> Quick start for modern LaTeXing for an ACM conference.
+
+<% if (texlive > 2024) { -%>
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
+In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
+
+<% } -%>
+The official template is distributed via CTAN as the [acmart package](https://ctan.org/pkg/acmart), which is actively maintained.
+However, de-facto configurations (hyperref) and modern features of latex (microtype) are not configured.
+This template does it.
+
+This template is for the conferences.
 In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
@@ -45,7 +61,6 @@ Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, an
 The template will be extended to support theses from different institutions.
 
 For [architectural decision records](https://adr.github.io) see [docs/adr](https://latextemplates.github.io/scientific-thesis-template/adr/).
-
 <%  break; default: -%>
 # LaTeX Document
 <% break; }
@@ -57,6 +72,8 @@ To build the whole document, execute following command.
 Note that this requires a working perl installation.
 
     latexmk <%= filenames.main %>
+
+To enable this, please move `_latexmkrc` to `latexmkrc`.
 
 In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
 
@@ -77,7 +94,7 @@ Following features are enabled in this template:
 <% if (documentclass == 'lncs') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/LNCS/<% } %><%= filenames.main %>.tex) file
 - Example to have an image being placed right to a text
-<% if (language == 'de') { -%>
+<% if (githubpublish || (language == 'de')) { -%>
 - Support for German documents (without broken headers):
   Contains a fix to increase compatibility with Babel.
   See <https://tex.stackexchange.com/a/441701/9075> for details.
@@ -235,11 +252,12 @@ Statement from IEEE:
 <% } -%>
 
 ## Tool hints
-
 <% switch (documentclass) { case "lncs": -%>
+
 There is currently no official biblatex support.
 A first step towards that is done at [biblatex-lncs](https://ctan.org/pkg/biblatex-lncs).
 <% break; case "ieee": -%>
+
 There is currently no official biblatex support.
 A first step towards that is done at the [biblatex-ieee package](https://ctan.org/pkg/biblatex-ieee).
 <% break; default: -%>
@@ -258,11 +276,10 @@ To have minted running properly, you have to do following steps on Windows:
 
 1. Install python: `choco install python` - that uses [chocolatey](https://chocolatey.org/) to install Python
 2. Install [pygments]: `pip instal pygments` - that uses the Pyhton package manager to install the pygments library
-3. When latexing, use `-shell-escape`: `pdflatex -shell-escape paper`.
-   You can also just execute `latexmk paper`.
+3. When latexing, use `-shell-escape`: `pdflatex -shell-escape <%= filenames.main %>`.
+   You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
-<% switch (docker) {
-    case "reitzig": -%>
+<% switch (docker) { case "reitzig": -%>
 
 ## Usage with docker
 
@@ -271,7 +288,19 @@ The idea of that system is to host the document sources in a directory separated
 
     docker run --rm -v "c:\users\example\latex-document:/work/src" -v "c:\users\example\latex-document\out:/work/out" ltg work latexmk
 
-Following one-time setup is requried:
+Following one-time setup is required:
+
+    docker build -t ltg .
+
+<% break; case "iot": -%>
+
+## Usage with docker
+
+The generated `Dockerfile` is based on the [Dockerfile by the Island of TeX](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
+
+    docker run --rm -v "c:\users\example\latex-document:/workdir" latexmk
+
+Following one-time setup is required:
 
     docker build -t ltg .
 
@@ -280,9 +309,9 @@ Following one-time setup is requried:
 ## FAQs
 <% switch (documentclass) { case "lncs": -%>
 
-### Q: ShareLaTeX outputs a warning regarding the llncs class
+### Q: Overleaf outputs a warning regarding the llncs class
 
-ShareLaTeX might output following warning:
+Overleaf might output following warning:
 
 > LaTeX Warning: You have requested, on input line 8, version
 > 2018/03/10' of document class llncs, but only version 2004/08/17 v2.14
@@ -365,10 +394,18 @@ Use the [`authorarchive` package](https://ctan.org/pkg/authorarchive).
 
 Yes. You can regenerate the template and choose "German" as language.
 
-<% if (language == 'de') { -%>
+<% if (githubpublish || (language == 'de')) { -%>
 ### Q: `ngerman-x-latest` is reported missing
 
 Install the package `dehyph-exptl`.
+
+<% } -%>
+<% if (githubpublish) { -%>
+### Q: I get ``! I can't find file `clmr28t10+20'.``
+
+You seem to use `latexmk` locally.
+Please move `_latexmkrc` to `latexmkrc` to get `latexmk` working.
+If you don't do this, `latexmk` tries to execute `latex`, which tries to produce a DVI file (and not a PDF file).
 
 <% } -%>
 ## Further information
@@ -383,7 +420,6 @@ Install the package `dehyph-exptl`.
 - Other templates: <https://latextemplates.github.io/>
 
 [booktabs]: https://ctan.org/pkg/booktabs
-[cfr-lm]: https://www.ctan.org/pkg/cfr-lm
 [cleveref]: https://ctan.org/pkg/cleveref
 [csquotes]: https://www.ctan.org/pkg/csquotes
 [hypcap]: https://www.ctan.org/pkg/hypcap
@@ -392,7 +428,6 @@ Install the package `dehyph-exptl`.
 [microtype]: https://ctan.org/pkg/microtype
 [minted]: https://ctan.org/pkg/minted
 [natbib]: https://ctan.org/pkg/natbib
-[newtx]: https://ctan.org/pkg/newtx
 [paralist]: https://www.ctan.org/pkg/paralist
 [pdfcomment]: https://www.ctan.org/pkg/pdfcomment
 [upquote]: https://www.ctan.org/pkg/upquote

@@ -6,7 +6,7 @@ import base64
 globalsingleworkflow = True
 failfast = True
 
-documentclasses = ['acmart', 'ieee', 'lncs', 'scientific-thesis', 'ustutt']
+documentclasses = ['acmart', 'ieee', 'lncs'] # , 'scientific-thesis', 'ustutt']
 latexcompilers = ['pdflatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
@@ -71,6 +71,8 @@ for documentclass in documentclasses:
             yml = open("workflows/check-{}.yml".format(dashedPart), "w+", encoding="utf-8")
             yml.write("name: Check {}\n".format(dashedPart))
             yml.write("""on:
+  schedule:
+    - cron: "0 6 * * 5"
   push:
     branches:
       - main
@@ -198,6 +200,7 @@ jobs:
                             yml_content += " --bibtextool=%s" % bibtextool
                             yml_content += " --texlive=%s" % texlive
                             yml_content += " --docker=no"
+                            yml_content += " --overleaf=no"
                             yml_content += " --lang=%s" % language
                             yml_content += " --font=%s" % font
                             yml_content += " --listings=%s" % listing
@@ -249,17 +252,16 @@ jobs:
             yml.write("      - name: Finish summary table\n");
             yml.write("        if: always()\n");
             yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
-            if failfast:
+            if False:
               yml.write(r'''      - run: |
-          gh run list -L 100 --json databaseId -s queued -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
+          gh run list -L 100 --json databaseId -s queued | jq -r '.[] | .databaseId' | \
           while read -r run_id; do
             gh run cancel "$run_id" || true
           done
-          gh run list -L 100 --json databaseId -s in_progress -c ${{ github.sha }} | jq -r '.[] | .databaseId' | \
+          gh run list -L 100 --json databaseId -s in_progress | jq -r '.[] | .databaseId' | \
           while read -r run_id; do
             gh run cancel "$run_id" || true
           done
-        if: failure()
         env:
           GH_TOKEN: ${{ github.token }}
 ''')

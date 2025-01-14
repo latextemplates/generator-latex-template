@@ -2,10 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](http://keepachangelog.com/).
+From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 
-## [Unreleased]
+## [2025-01-14]
 
 ### Added
 
@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Added [selnolig](https://ctan.org/pkg/selnolig) to enable automatic language-specific typography for English documents. [#223](https://github.com/latextemplates/generator-latex-template/issues/223)
 - Added support for [`todonotes`](https://ctan.org/pkg/todonotes).
 - Added many examples and LaTeX configurations from [University of Stuttgart PhD Thesis Template](https://github.com/latextemplates/uni-stuttgart-dissertation-template).
+- Added hint on copying `_latexmkrc` to `latexmkrc` to avoid issues that `latexmk` calls `latex` instead of `pdflatex`.
 
 ### Changed
 
@@ -25,6 +26,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `Texlivefile` is now always generated.
 - Updated to [yeoman-generator v5.1.0](https://github.com/yeoman/yo/releases/tag/v5.1.0)
 - Updated reitzig image to 2024.11
+- Use full image of [iot's docker image](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
+- Generated GitHub workflow is now using [GitHub action install-texlive](https://github.com/zauguin/install-texlive) instead of Docker-based build.
 
 ### Fixed
 
@@ -38,7 +41,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `texlogsieve` is not filtering the outputs of `latexmk` anymore.
 - Removed support for TeXLive 2022 and TeXLive 2023.
 - Removed support for LNCS older than January 2022. See [tex.sx](https://tex.stackexchange.com/a/630060/9075) for details.
-- Removed switch for `overleaf`, because it is not used anymore.
 
 ## [0.8.0] – 2023-07-24
 
@@ -188,7 +190,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 First release of Markdown Architectural Decision Records.
 
-[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/0.8.0...main
+[2025-01-14]: https://github.com/latextemplates/generator-latex-template/compare/0.8.0...2025-01-13
 [0.8.0]: https://github.com/latextemplates/generator-latex-template/compare/0.7.0...0.8.0
 [0.7.0]: https://github.com/latextemplates/generator-latex-template/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/latextemplates/generator-latex-template/compare/0.5.0...0.6.0

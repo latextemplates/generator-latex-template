@@ -93,7 +93,6 @@ lualatex
 <%  break; default: -%>
 <%# "default" font configuration -%>
 <% switch (documentclass) { case "ieee": -%>
-
 <%# Default font configuration of the IEEE template is used -%>
 <% break; case "ustutt": -%>
 <%# see also https://github.com/programming-journal/programming/blob/main/programming.cls -%>
@@ -177,7 +176,6 @@ pdflatex
 <% switch (documentclass) { case "ieee": -%>
 <%# The default font configuration (Palatino/Palladio) of the IEEE template is used.
 In addition, we make the code appear more nice -%>
-
 % use nicer font for code
 \usepackage[zerostyle=b,scaled=.75]{newtxtt}
 <% break; case "ustutt": -%>
@@ -210,6 +208,55 @@ In addition, we make the code appear more nice -%>
 <% } -%>
 <% if (isThesis) { -%>
 
+% DE: Noch mehr Symbole
+%\usepackage{stmaryrd} %fuer \ovee, \owedge, \otimes
+%\usepackage{marvosym} %fuer \Writinghand %patched to not redefine \Rightarrow
+%\usepackage{mathrsfs} %mittels \mathscr{} schoenen geschwungenen Buchstaben erzeugen
+%\usepackage{calrsfs} %\mathcal{} ein bisserl dickeren buchstaben erzeugen - sieht net so gut aus.
+
+% EN: Fallback font - if the subsequent font packages do not define a font (e.g., monospaced)
+%     This is the modern package for "Computer Modern".
+%     In case this gets activated, one has to switch from cmap package to glyphtounicode (in the case of pdflatex)
+% DE: Fallback-Schriftart
+%\usepackage[%
+%    rm={oldstyle=false,proportional=true},%
+%    sf={oldstyle=false,proportional=true},%
+%    tt={oldstyle=false,proportional=true,variable=true},%
+%    qt=false%
+%]{cfr-lm}
+
+% EN: Headings are typset in Helvetica (which is similar to Arial)
+% DE: Schriftart fuer die Ueberschriften - ueberschreibt lmodern
+%\usepackage[scaled=.95]{helvet}
+
+% DE: Für Schreibschrift würde tun, muss aber nicht
+%\usepackage{mathrsfs} %  \mathscr{ABC}
+
+% EN: Font for the main text
+% DE: Schriftart fuer den Fliesstext - ueberschreibt lmodern
+%     Linux Libertine, siehe http://www.linuxlibertine.org/
+%     Packageparamter [osf] = Minuskel-Ziffern
+%     rm = libertine im Brottext, Linux Biolinum NICHT als serifenlose Schrift, sondern helvet (von oben) beibehalten
+%\usepackage[rm]{libertine}
+
+% EN: Alternative Font: Palantino. It is recommeded by Prof. Ludewig for German texts
+% DE: Alternative Schriftart: Palantino, Packageparamter [osf] = Minuskel-Ziffern
+%     Bitte nur in deutschen Texten
+%\usepackage{mathpazo} %ftp://ftp.dante.de/tex-archive/fonts/mathpazo/ - Tipp aus DE-TEX-FAQ 8.2.1
+% EN: The euro sign
+% DE: Das Euro Zeichen
+%     Fuer Palatino (mathpazo.sty): richtiges Euro-Zeichen
+%     Alternative: \usepackage{eurosym}
+% \newcommand{\EUR}{\ppleuro}
+
+% DE: Schriftart fuer Programmcode - ueberschreibt lmodern
+%     Falls auskommentiert, wird die Standardschriftart lmodern genommen
+%     Fuer schreibmaschinenartige Schluesselwoerter in den Listings - geht bei alten Installationen nicht, da einige Fontshapes (<>=) fehlen
+%\usepackage[scaled=.92]{luximono}
+%\usepackage{courier}
+% DE: BeraMono als Typewriter-Schrift, Tipp von http://tex.stackexchange.com/a/71346/9075
+%\usepackage[scaled=0.83]{beramono}
+
 \usepackage{setspace}
 % Alternative package: https://ctan.org/pkg/leading
 
@@ -218,6 +265,26 @@ In addition, we make the code appear more nice -%>
 \newcommand{\dingcheck}{\ding{51}}
 \newcommand{\dingcross}{\ding{55}}
 %for scaling see http://tex.stackexchange.com/a/130236/9075
+
+% DE: Noch mehr Symbole
+%\usepackage{stmaryrd} %fuer \ovee, \owedge, \otimes
+%\usepackage{marvosym} %fuer \Writinghand %patched to not redefine \Rightarrow
+%\usepackage{mathrsfs} %mittels \mathscr{} schoenen geschwungenen Buchstaben erzeugen
+%\usepackage{calrsfs} %\mathcal{} ein bisserl dickeren buchstaben erzeugen - sieht net so gut aus.
+<% } -%>
+<% if (documentclass == 'scientific-thesis') { -%>
+
+\usepackage[automark]{scrlayer-scrpage}
+\automark[section]{chapter}
+\setkomafont{pageheadfoot}{\normalfont\sffamily}
+\setkomafont{pagenumber}{\normalfont\sffamily}
+
+\ihead[]{}
+\chead[]{}
+\ohead[]{\headmark}
+\cfoot[]{}
+\ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
+\ifoot[]{}
 <% } -%>
 <% if (documentclass == 'ustutt') { -%>
 

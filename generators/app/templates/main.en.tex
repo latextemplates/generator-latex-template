@@ -76,13 +76,6 @@
   %               draft    % um zu sehen, wo noch nachgebessert werden muss - wichtig, da Bindungskorrektur mit drin
   draft=false
 ]{scrbook}
-\usepackage{scrlayer-scrpage}
-\ihead[]{}
-\chead[]{}
-\ohead[]{\headmark}
-\cfoot[]{}
-\ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
-\ifoot[]{}
 <% break; case "ustutt": -%>
 
 \documentclass[
@@ -215,7 +208,6 @@
 <%- include('hyperref.preamble.en.tex', this); -%>
 
 <%- include('floats.preamble.en.tex', this); -%>
-
 <%- include('subfig.preamble.en.tex', this); -%>
 
 <% if (texlive >= 2021) { %><%- include('mindflow.preamble.en.tex', this); %>
@@ -253,6 +245,10 @@
 <% } -%>
 % Allows for defining commands that don't eat spaces.
 \usepackage{xspace}
+% Adds compatibility to \xspace und \enquote
+\makeatletter
+\xspaceaddexceptions{\grqq \grq \csq@qclose@i \} }
+\makeatother
 
 \newcommand{\eg}{e.g.,\ }
 \newcommand{\ie}{i.e.,\ }
@@ -267,8 +263,8 @@
 % Add manual adapted hyphenation of English words
 % See https://ctan.org/pkg/hyphenex and https://tex.stackexchange.com/a/22892/9075 for details
 \input{ushyphex}
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 <% if (latexcompiler == "both") { -%>
 \ifluatex
 <% } -%>
@@ -337,6 +333,7 @@
 \begin{document}
 <% if (isThesis) { -%>
 \setstretch{1.2}
+\raggedbottom
 <% } -%>
 <% switch (documentclass) { case "lncs": -%>
 

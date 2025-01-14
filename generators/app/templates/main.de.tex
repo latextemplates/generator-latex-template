@@ -56,6 +56,7 @@
 % Balance the last page using the balance package (see https://ctan.org/pkg/balance)
 % Alternative to balance is the pbalance package (see https://ctan.org/pkg/pbalance), which sometimes works better
 \usepackage{balance}
+
 <% break; case "scientific-thesis": -%>
 
 % The following package allows \\ at the title page
@@ -138,24 +139,7 @@
 <% if (isThesis || feature.abbreviations) { %><%- include('math.preamble.en.tex', this); -%>
 
 <% } -%>
-<%# ACM already provides a very good font configuration; thus we do not need to override it -%>
-<% if (documentclass != 'acmart') { %>
 <%- include('font.preamble.en.tex', this); -%>
-<% } else { -%>
-<%# nevertheless, we need fontspec for selnolig -%>
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
-<% if (latexcompiler == "both") { -%>
-\ifluatex
-<% } -%>
-% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/selnolig
-% See ADR-0009 for alternatives
-\usepackage[no-math]{fontspec}
-\usepackage{unicode-math}
-<% if (latexcompiler == "both") { -%>
-\fi
-<% } -%>
-<% } -%>
-<% } -%>
 
 <%- include('microtype.preamble.de.tex', this); -%>
 
@@ -166,7 +150,7 @@
 <% } -%>
 \usepackage{graphicx}
 
-<% if (documentclass == 'ustutt') { -%>
+<% if (isThesis) { -%>
 % Base folder, so there is no need to repeat this over and over again.
 \graphicspath{ {figures/} }
 
@@ -231,7 +215,7 @@
 
 <%- include('todos.preamble.en.tex', this); -%>
 
-<%- include('siunitx.preamble.en.tex'); %>
+<%- include('siunitx.preamble.de.tex'); %>
 <% if (isThesis) { -%>
 <%- include('varioref.preamble.de.tex', this); %>
 
@@ -239,7 +223,6 @@
 <%- include('hyperref.preamble.de.tex', this); -%>
 
 <%- include('floats.preamble.en.tex', this); -%>
-
 <%- include('subfig.preamble.en.tex', this); -%>
 
 <% if (texlive >= 2021) { %><%- include('mindflow.preamble.en.tex', this); %>
@@ -276,6 +259,10 @@
 <% if (feature.abbreviations) { -%><%- include('abbreviations.preamble.de.tex', this); %>
 <% } -%>
 \usepackage{xspace}
+% Macht \xspace und \enquote kompatibel
+\makeatletter
+\xspaceaddexceptions{\grqq \grq \csq@qclose@i \} }
+\makeatother
 
 % Enable hyphenation at other places as the dash.
 % Example: applicaiton\hydash specific
@@ -361,6 +348,7 @@
 \begin{document}
 <% if (isThesis) { -%>
 \setstretch{1.2}
+\raggedbottom     % Variable Seitenhoehen zulassen
 <% } -%>
 <% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
 <% if (latexcompiler == "both") { -%>
@@ -375,7 +363,6 @@
 
 <% } -%>
 <% switch (documentclass) { case "lncs": -%>
-
 \title{Paper Title}
 % If Title is too long, use \titlerunning
 %\titlerunning{Short Title}

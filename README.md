@@ -120,6 +120,10 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   4. copy `Texlivefile` to the root of the `{repository-root}/generators/app/templates`
   5. adapt `Texlivefile` as required
 - When issues with the template occur: `npx ejs-lint main.en.tex`
+- Cancel workflows:
+  - `gh run list -L 100 --json databaseId -s queued -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | awk '{gsub(/\\r\\n/,RS)} 1' | while read -r run_id; do gh run cancel "$run_id" || true; done`
+  - `gh run list -L 100 --json databaseId -s in_progress -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | awk '{gsub(/\\r\\n/,RS)} 1' | while read -r run_id; do gh run cancel "$run_id" || true; done`
+- Update submodule of "derived" templates (LNCS, ...): `[ -z "$(git status --porcelain)" ] && cd generator-latex-template/ && git pull && cd .. && git add . && git commit -m"Update LTG" && git pull --rebase && git push`
 
 ### Test locally
 
@@ -138,10 +142,10 @@ Parameters can be set using command line
 
 Parameters can be set using command line
 
-- IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- Scientific Thesis Template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- USTUTT Template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --ustutt --papersize=a5 --latexcompiler=lualatex --bibtextool=biblatex --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=todonotes --examples=true --howtotext=true` -- `todonotes` is the preferred TODO package here.
+- IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- Scientific Thesis template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- USTUTT template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=ustutt --papersize=a5 --latexcompiler=lualatex --bibtextool=biblatex --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=todonotes --examples=true --howtotext=true` -- `todonotes` is the preferred TODO package here.
 
 <!-- markdownlint-disable-next-line MD004 -->
 * Run `latexmk` to build the PDF
@@ -195,7 +199,7 @@ ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generato
 
 ### Releasing a new version
 
-1. Update `CHANGELOG.md`
+1. Update `CHANGELOG.md` (change `h2` heading etc.)
 2. Update `package.json`, publish to [npmjs](https://www.npmjs.com/package/generator-latex-template), create GitHub release.
    Use [release-it](https://www.npmjs.com/package/release-it) (do not create a release on GitHub) and [github-release-from-changelog](https://www.npmjs.com/package/github-release-from-changelog).
 
