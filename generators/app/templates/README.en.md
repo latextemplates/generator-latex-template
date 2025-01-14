@@ -73,6 +73,8 @@ Note that this requires a working perl installation.
 
     latexmk <%= filenames.main %>
 
+To enable this, please move `_latexmkrc` to `latexmkrc`.
+
 In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
 
 <% if (latexcompiler == "pdflatex") { -%>
@@ -307,9 +309,9 @@ Following one-time setup is required:
 ## FAQs
 <% switch (documentclass) { case "lncs": -%>
 
-### Q: ShareLaTeX outputs a warning regarding the llncs class
+### Q: Overleaf outputs a warning regarding the llncs class
 
-ShareLaTeX might output following warning:
+Overleaf might output following warning:
 
 > LaTeX Warning: You have requested, on input line 8, version
 > 2018/03/10' of document class llncs, but only version 2004/08/17 v2.14
@@ -396,6 +398,14 @@ Yes. You can regenerate the template and choose "German" as language.
 ### Q: `ngerman-x-latest` is reported missing
 
 Install the package `dehyph-exptl`.
+
+<% } -%>
+<% if (githubpublish) { -%>
+### Q: I get ``! I can't find file `clmr28t10+20'.``
+
+You seem to use `latexmk` locally.
+Please move `_latexmkrc` to `latexmkrc` to get `latexmk` working.
+If you don't do this, `latexmk` tries to execute `latex`, which tries to produce a DVI file (and not a PDF file).
 
 <% } -%>
 ## Further information
