@@ -26,6 +26,7 @@ From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://
 - Updated to [yeoman-generator v5.1.0](https://github.com/yeoman/yo/releases/tag/v5.1.0)
 - Updated reitzig image to 2024.11
 - Use full image of [iot's docker image](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
+- Generated GitHub workflow is now using [GitHub action install-texlive](https://github.com/zauguin/install-texlive) instead of Docker-based build.
 
 ### Fixed
 
