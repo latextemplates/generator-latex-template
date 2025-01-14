@@ -298,7 +298,7 @@ Following one-time setup is required:
 
 The generated `Dockerfile` is based on the [Dockerfile by the Island of TeX](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
 
-    docker run --rm -v "c:\users\example\latex-document:/workdir" latexmk
+    docker run --rm -v "c:\users\example\latex-document:/workdir" ltg latexmk
 
 Following one-time setup is required:
 
