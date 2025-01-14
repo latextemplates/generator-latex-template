@@ -281,7 +281,8 @@ export default class extends Generator {
       case "iot":
         this.fs.copyTpl(
           this.templatePath("dot.dockerignore"),
-          this.destinationPath(".dockerignore")
+          this.destinationPath(".dockerignore"),
+          this.props
         );
         this.fs.copyTpl(
           this.templatePath("Dockerfile.iot"),
@@ -297,7 +298,8 @@ export default class extends Generator {
       case "reitzig":
         this.fs.copyTpl(
           this.templatePath("dot.dockerignore"),
-          this.destinationPath(".dockerignore")
+          this.destinationPath(".dockerignore"),
+          this.props
         );
         this.fs.copyTpl(
           this.templatePath("Dockerfile.reitzig"),
@@ -313,7 +315,8 @@ export default class extends Generator {
       case "dante":
         this.fs.copyTpl(
           this.templatePath("dot.dockerignore"),
-          this.destinationPath(".dockerignore")
+          this.destinationPath(".dockerignore"),
+          this.props
         );
         this.fs.copyTpl(
           this.templatePath("Dockerfile.dante"),
