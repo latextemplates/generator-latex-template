@@ -135,7 +135,6 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm install -g yo
-      - run: mkdir /tmp/out
 """)
             ymlmiktex = open("workflows/miktex-check-{}.yml".format(dashedPartMiktex), "w+", encoding="utf-8")
             ymlmiktex.write("name: MiKTeX {}\n".format(dashedPartMiktex))
