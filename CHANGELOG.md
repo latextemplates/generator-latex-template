@@ -12,6 +12,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Fixed tag for iot Docker image.
 
+### Changed
+
+- Refined `Makefile`
+
 ## [2025.1.14]
 
 ### Added
