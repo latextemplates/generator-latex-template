@@ -65,6 +65,8 @@ jobs:
       - run: npm install -g yo
       - name: Create lncs-reitzig
         run: yo ${{ github.workspace }}/code/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=reitzig --overleaf=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
+      - name: Install TeX Live
+        uses: zauguin/install-texlive@v3
       - run: make pdf
       - run: make aspell
       - run: make format
