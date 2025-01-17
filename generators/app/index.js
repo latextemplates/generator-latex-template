@@ -199,6 +199,7 @@ export default class extends Generator {
       this.props
     );
     this.fs.copyTpl(
+      // This is for latexindent
       this.templatePath("localSettings.yaml"),
       this.destinationPath("localSettings.yaml"),
       this.props
