@@ -88,7 +88,7 @@ edit:
 aspell:
 	for tex in $(TEX_FILES);	\
 		do	\
-			aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { >%-l en_US<% } %> --encoding=utf-8 -c $$tex; \
+			aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 -c $$tex; \
 		done
 
 showundef:
