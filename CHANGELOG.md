@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Added `.aspell.en.pws` and `.aspell.conf` to ignore some LaTeX comamnds at aspell.
+
 ### Fixed
 
 - Fixed tag for iot Docker image.
