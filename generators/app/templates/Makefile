@@ -86,9 +86,10 @@ edit:
 ## Leerzeichen ungleich Tabs !!!
 ## Config File nicht vergessen
 aspell:
-	for tex in $(TEX_FILES);	\
-		do	\
-			aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 -c $$tex; \
+	for tex in $(TEX_FILES);
+		do
+			# One could add a personal dictionary using --personal=.aspell.en.pws
+			aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 -c $$tex;
 		done
 
 showundef:
