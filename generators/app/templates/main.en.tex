@@ -146,9 +146,15 @@
 <% } -%>
 <%- include('diagbox.preamble.en.tex', this); -%>
 
-<% if (reallatexcompiler == "lualatex") { -%>
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
+<% if (latexcompiler == "both") { -%>
+\ifluatex
+<% } -%>
 \usepackage{spelling}
 \spellingoutput{off}
+<% if (latexcompiler == "both") { -%>
+\fi
+<% } -%>
 
 <% } -%>
 <% if (documentclass == 'ustutt') { -%>
