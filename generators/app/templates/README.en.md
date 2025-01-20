@@ -42,6 +42,11 @@ This template does it.
 
 This template is for the conferences.
 In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
+<% break; case "ustutt": -%>
+# University of Stuttgart PhD Thesis Template
+
+> Unofficial LaTeX template for PhD theses at the University of Stuttgart, Germany.
+
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
@@ -124,6 +129,10 @@ Following features are enabled in this template:
 <% if (latexcompiler == "lualatex" || githubpublish) { -%>
 - <% if (githubpublish) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
 <% } -%>
+<% if (bibtextool == "biblatex") { -%>
+- [biblatex]+[biber] instead of plain [bibtex] to have a more intuitive `.bib` file.
+<% } -%>
+- [latexmk] for easy compilation of the LaTeX document.
 - Ready-to-go configuration for [latexindent].
 - Proper hyphenation and microtype for English texts.
 <% if (howtotext) { -%>
@@ -419,12 +428,16 @@ If you don't do this, `latexmk` tries to execute `latex`, which tries to produce
 <% } -%>
 - Other templates: <https://latextemplates.github.io/>
 
+[biber]: https://www.ctan.org/pkg/biber
+[biblatex]: http://tex.stackexchange.com/tags/biblatex/info
+[bibtex]: https://www.ctan.org/pkg/bibtex
 [booktabs]: https://ctan.org/pkg/booktabs
 [cleveref]: https://ctan.org/pkg/cleveref
 [csquotes]: https://www.ctan.org/pkg/csquotes
 [hypcap]: https://www.ctan.org/pkg/hypcap
 [hyperref]: https://ctan.org/pkg/hyperref
 [latexindent]: https://ctan.org/pkg/latexindent
+[latexmk]: http://tex.stackexchange.com/tags/latexmk/info
 [microtype]: https://ctan.org/pkg/microtype
 [minted]: https://ctan.org/pkg/minted
 [natbib]: https://ctan.org/pkg/natbib

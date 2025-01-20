@@ -42,8 +42,8 @@
 \makeatother
 
 <% } -%>
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
-<% if (latexcompiler == "both") { -%>
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
+<% if (latexcompiler == "both") { indent = '  ' -%>
 \ifluatex
 <% } -%>
 <%#
@@ -51,52 +51,52 @@
 lualatex
 ###########################################################################
 -%>
-\usepackage[no-math]{fontspec}
-\usepackage{unicode-math}
+<%= indent %>\usepackage[no-math]{fontspec}
+<%= indent %>\usepackage{unicode-math}
 <% switch (font) { case "arial": -%>
 <%# Arial and LuaLaTeX -%>
 <%# -%>
 
-\usepackage{ifplatform}
-\ifwindows
-\setmainfont[Ligatures=TeX]{Arial}
-\setsansfont[Ligatures=TeX]{Arial}
-\else
-\usepackage{helvet} % source: comment to https://tex.stackexchange.com/q/212357/9075
-\fi
-% Use Inconsolata font (https://ctan.org/pkg/inconsolata)
-% See https://tex.stackexchange.com/q/2241/9075 for a list of other alternative mono-spaced fonts
-% No [Ligatures=TeX], because we want " rendered as upquotes, not as typographic correct ones
-% shapely l, upright quotes
-% If it is too large, add ",Scale=.9"
-\setmonofont[StylisticSet={1,3}]{Inconsolatazi4}
+<%= indent %>\usepackage{ifplatform}
+<%= indent %>\ifwindows
+<%= indent %>  \setmainfont[Ligatures=TeX]{Arial}
+<%= indent %>  \setsansfont[Ligatures=TeX]{Arial}
+<%= indent %>\else
+<%= indent %>\usepackage{helvet} % source: comment to https://tex.stackexchange.com/q/212357/9075
+<%= indent %>\fi
+<%= indent %>% Use Inconsolata font (https://ctan.org/pkg/inconsolata)
+<%= indent %>% See https://tex.stackexchange.com/q/2241/9075 for a list of other alternative mono-spaced fonts
+<%= indent %>% No [Ligatures=TeX], because we want " rendered as upquotes, not as typographic correct ones
+<%= indent %>% shapely l, upright quotes
+<%= indent %>% If it is too large, add ",Scale=.9"
+<%= indent %>\setmonofont[StylisticSet={1,3}]{Inconsolatazi4}
 <% break; case "times": -%>
 <%# Times New Roman and LuaLaTeX -%>
 <%# -%>
 
-% See https://tug.org/FontCatalogue/texgyretermes/ for more information
-\setmainfont{texgyretermes}[
-  Extension = .otf,
-  UprightFont = *-regular,
-  BoldFont = *-bold,
-  ItalicFont = *-italic,
-  BoldItalicFont = *-bolditalic,
-  Ligatures=TeX
-]
-% See https://tug.org/FontCatalogue/texgyreheros/ for more information
-\setsansfont[Scale=.9]{TeX Gyre Heros Regular}
+<%= indent %>% See https://tug.org/FontCatalogue/texgyretermes/ for more information
+<%= indent %>\setmainfont{texgyretermes}[
+<%= indent %>  Extension = .otf,
+<%= indent %>  UprightFont = *-regular,
+<%= indent %>  BoldFont = *-bold,
+<%= indent %>  ItalicFont = *-italic,
+<%= indent %>  BoldItalicFont = *-bolditalic,
+<%= indent %>  Ligatures=TeX
+<%= indent %>]
+<%= indent %>% See https://tug.org/FontCatalogue/texgyreheros/ for more information
+<%= indent %>\setsansfont[Scale=.9]{TeX Gyre Heros Regular}
 <% if (documentclass == 'lncs') { -%>
-% newtxtt looks good with times, but no equivalent for lualatex found,
-% therefore tried to replace with inconsolata.
-% However, inconsolata does not look good in the context of LNCS ...
-%\setmonofont[StylisticSet={1,3},Scale=.9]{inconsolata}
-% ... thus, we use the good old Latin Modern Mono font for source code.
-\setmonofont{Latin Modern Mono} % "variable=false"
+<%= indent %>% newtxtt looks good with times, but no equivalent for lualatex found,
+<%= indent %>% therefore tried to replace with inconsolata.
+<%= indent %>% However, inconsolata does not look good in the context of LNCS ...
+<%= indent %>%\setmonofont[StylisticSet={1,3},Scale=.9]{inconsolata}
+<%= indent %>% ... thus, we use the good old Latin Modern Mono font for source code.
+<%= indent %>\setmonofont{Latin Modern Mono} % "variable=false"
 <%# \setmonofont{Latin Modern Mono Prop} % "variable=true" -%>
 <% } else { -%>
-% shapely l, upright quotes
-% Normal scaling is too large --> thus, we use ",Scale=.9"
-\setmonofont[StylisticSet={1,3},Scale=.9]{Inconsolatazi4}
+<%= indent %>% shapely l, upright quotes
+<%= indent %>% Normal scaling is too large --> thus, we use ",Scale=.9"
+<%= indent %>\setmonofont[StylisticSet={1,3},Scale=.9]{Inconsolatazi4}
 <% } -%>
 <%  break; default: -%>
 <%# "default" font configuration -%>
@@ -104,60 +104,60 @@ lualatex
 <%# Default font configuration of the IEEE template is used -%>
 <% break; case "ustutt": -%>
 <%# see also https://github.com/programming-journal/programming/blob/main/programming.cls -%>
-\makeatletter
-\usepackage{ifplatform}
-\ifwindows
-\setmainfont{XCharter}
-\setsansfont[Ligatures=TeX]{Arial}
-\else
-\usepackage{helvet} % source: comment to https://tex.stackexchange.com/q/212357/9075
-\setmainfont{XCharter}
-\fi
-% Use Inconsolata font (https://ctan.org/pkg/inconsolata)
-% See https://tex.stackexchange.com/q/2241/9075 for a list of other alternative mono-spaced fonts
-% No [Ligatures=TeX], because we want " rendered as upquotes, not as typographic correct ones
-% shapely l, upright quotes
-% If it is too large, add ",Scale=.9"
-\setmonofont[StylisticSet={1,3}]{Inconsolatazi4}
-\makeatother
+<%= indent %>\makeatletter
+<%= indent %>\usepackage{ifplatform}
+<%= indent %>\ifwindows
+<%= indent %>  \setmainfont{XCharter}
+<%= indent %>  \setsansfont[Ligatures=TeX]{Arial}
+<%= indent %>\else
+<%= indent %>\usepackage{helvet} % source: comment to https://tex.stackexchange.com/q/212357/9075
+<%= indent %>\setmainfont{XCharter}
+<%= indent %>\fi
+<%= indent %>% Use Inconsolata font (https://ctan.org/pkg/inconsolata)
+<%= indent %>% See https://tex.stackexchange.com/q/2241/9075 for a list of other alternative mono-spaced fonts
+<%= indent %>% No [Ligatures=TeX], because we want " rendered as upquotes, not as typographic correct ones
+<%= indent %>% shapely l, upright quotes
+<%= indent %>% If it is too large, add ",Scale=.9"
+<%= indent %>\setmonofont[StylisticSet={1,3}]{Inconsolatazi4}
+<%= indent %>\makeatother
 <% break; case "scientific-thesis": -%>
 
-% TODO
+<%= indent %>% TODO
 <% break; case "acmart": -%>
 <%# no special configuration required -%>
 <% break; default: -%>
 <%# Default LaTeX Font and LuaLaTeX -%>
 <% if (texlive >= 2021) { -%>
 
-% Typewriter font (for source code etc)
-% Use New Computer Modern font (Computer Modern is the default LaTeX font; this is the implemented modern variant)
-% Source: https://tug.org/FontCatalogue/newcomputermoderntypewriter/
+<%= indent %>% Typewriter font (for source code etc)
+<%= indent %>% Use New Computer Modern font (Computer Modern is the default LaTeX font; this is the implemented modern variant)
+<%= indent %>% Source: https://tug.org/FontCatalogue/newcomputermoderntypewriter/
 
-\setmainfont[%
-ItalicFont=NewCM10-Italic.otf,%
-BoldFont=NewCM10-Bold.otf,%
-BoldItalicFont=NewCM10-BoldItalic.otf,%
-SmallCapsFeatures={Numbers=OldStyle}]{NewCM10-Regular.otf}
+<%= indent %>\setmainfont[
+<%= indent %>  ItalicFont=NewCM10-Italic.otf,
+<%= indent %>  BoldFont=NewCM10-Bold.otf,
+<%= indent %>  BoldItalicFont=NewCM10-BoldItalic.otf,
+<%= indent %>  SmallCapsFeatures={Numbers=OldStyle}]{NewCM10-Regular.otf}
 
-\setsansfont[%
-ItalicFont=NewCMSans10-Oblique.otf,%
-BoldFont=NewCMSans10-Bold.otf,%
-BoldItalicFont=NewCMSans10-BoldOblique.otf,%
-SmallCapsFeatures={Numbers=OldStyle}]{NewCMSans10-Regular.otf}
+<%= indent %>\setsansfont[
+<%= indent %>  ItalicFont=NewCMSans10-Oblique.otf,
+<%= indent %>  BoldFont=NewCMSans10-Bold.otf,
+<%= indent %>  BoldItalicFont=NewCMSans10-BoldOblique.otf,
+<%= indent %>  SmallCapsFeatures={Numbers=OldStyle}]{NewCMSans10-Regular.otf}
 
-\setmonofont[ItalicFont=NewCMMono10-Italic.otf,%
-BoldFont=NewCMMono10-Bold.otf,%
-BoldItalicFont=NewCMMono10-BoldOblique.otf,%
-SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
+<%= indent %>\setmonofont[ItalicFont=NewCMMono10-Italic.otf,
+<%= indent %>  BoldFont=NewCMMono10-Bold.otf,
+<%= indent %>  BoldItalicFont=NewCMMono10-BoldOblique.otf,
+<%= indent %>  SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
 
-\setmathfont{NewCMMath-Regular.otf}
+<%= indent %>\setmathfont{NewCMMath-Regular.otf}
 <% break; } -%>
 <% } break; } -%>
 
-% Enable proper ligatures
-% For more information see https://ctan.org/pkg/selnolig
-% language "english" or "ngerman" is passed to selnolig by the document class
-\usepackage{selnolig}
+<%= indent %>% Enable proper ligatures
+<%= indent %>% For more information see https://ctan.org/pkg/selnolig
+<%= indent %>% language "english" or "ngerman" is passed to selnolig by the document class
+<%= indent %>\usepackage{selnolig}
 <% } -%>
 <% if ((latexcompiler != "lualatex") || (latexcompiler == "both")) { -%>
 <% if (latexcompiler == "both") { -%>
@@ -168,48 +168,49 @@ SmallCapsFeatures={Numbers=OldStyle}]{NewCMMono10-Regular.otf}
 pdflatex
 ###########################################################################
 -%>
+<% if (latexcompiler == "both") { indent = '  ' } else { indent = '' } -%>
 <% switch (font) { case "arial": -%>
 <%# Arial and pdflatex -%>
 <%# -%>
-% Headings are typset in Helvetica (which is similar to Arial)
-\usepackage[scaled=.95]{helvet}
+<%= indent %>% Headings are typeset in Helvetica (which is similar to Arial)
+<%= indent %>\usepackage[scaled=.95]{helvet}
 <% break; case "times": -%>
 <%# Times New Roman and pdflatex -%>
 <%# -%>
-\RequirePackage{newtxtext}
-\RequirePackage{newtxmath}
-\RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
+<%= indent %>\RequirePackage{newtxtext}
+<%= indent %>\RequirePackage{newtxmath}
+<%= indent %>\RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
 <% break; default: -%>
 <%# "default" font configuration / Computer Modern and pdflatex -%>
 <% switch (documentclass) { case "ieee": -%>
 <%# The default font configuration (Palatino/Palladio) of the IEEE template is used.
 In addition, we make the code appear more nice -%>
-% use nicer font for code
-\usepackage[zerostyle=b,scaled=.75]{newtxtt}
+<%= indent %>% use nicer font for code
+<%= indent %>\usepackage[zerostyle=b,scaled=.75]{newtxtt}
 <% break; case "ustutt": -%>
 <%# See also https://github.com/programming-journal/programming/blob/main/programming.cls -%>
-\usepackage{XCharter}
-\usepackage[scaled=.95]{helvet}
+<%= indent %>\usepackage{XCharter}
+<%= indent %>\usepackage[scaled=.95]{helvet}
 <% break; case "scientific-thesis": -%>
-% TODO
+<%= indent %>% TODO
 <% break; case "acmart": -%>
 <%# no special configuration required -%>
 <% break; default: -%>
-% This is the modern package for "Computer Modern".
-% In case this gets activated, one has to switch from cmap package to glyphtounicode (in the case of pdflatex)
-\usepackage[%
-    rm={oldstyle=false,proportional=true},%
-    sf={oldstyle=false,proportional=true},%
-    % By using 'variable=true' the monospaced font can be used as variable font (with differents widths per letter)
-    % However, this makes listings look ugly.
-    tt={oldstyle=false,proportional=true,variable=false},%
-    qt=false%
-]{cfr-lm}
+<%= indent %>% This is the modern package for "Computer Modern".
+<%= indent %>% In case this gets activated, one has to switch from cmap package to glyphtounicode (in the case of pdflatex)
+<%= indent %>\usepackage[%
+<%= indent %>  rm={oldstyle=false,proportional=true},%
+<%= indent %>  sf={oldstyle=false,proportional=true},%
+<%= indent %>  % By using 'variable=true' the monospaced font can be used as variable font (with differents widths per letter)
+<%= indent %>  % However, this makes listings look ugly.
+<%= indent %>  tt={oldstyle=false,proportional=true,variable=false},%
+<%= indent %>  qt=false%
+<%= indent %>]{cfr-lm}
 <% } -%>
 <% break; } -%>
 
-% Has to be loaded AFTER any font packages. See https://tex.stackexchange.com/a/2869/9075.
-\usepackage[T1]{fontenc}
+<%= indent %>% Has to be loaded AFTER any font packages. See https://tex.stackexchange.com/a/2869/9075.
+<%= indent %>\usepackage[T1]{fontenc}
 <% if (latexcompiler == "both") { -%>
 \fi
 <% } -%>
@@ -233,7 +234,7 @@ In addition, we make the code appear more nice -%>
 %    qt=false%
 %]{cfr-lm}
 
-% EN: Headings are typset in Helvetica (which is similar to Arial)
+% EN: Headings are typeset in Helvetica (which is similar to Arial)
 % DE: Schriftart fuer die Ueberschriften - ueberschreibt lmodern
 %\usepackage[scaled=.95]{helvet}
 

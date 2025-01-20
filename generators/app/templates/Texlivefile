@@ -1,4 +1,5 @@
 scheme-basic
+latexindent
 latexmk
 texlogsieve
 
@@ -85,7 +86,7 @@ floatflt<%# required by acmart and lncs %>
 fncychap
 <% } -%>
 fontaxes<%# required by at least acmart and scientific-thesis-template %>
-<% if (githubpublish || (latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
+<% if (githubpublish || (reallatexcompiler == "lualatex")) { -%>
 fontspec
 <% } -%>
 <% if (githubpublish || isThesis) { -%>
@@ -148,11 +149,14 @@ ltxcmds
 <% if (githubpublish || isThesis) { -%>
 lscapeenhanced
 <% } -%>
-<% if (githubpublish || (latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
+<% if (githubpublish || (reallatexcompiler == "lualatex")) { -%>
 luacode
 lualatex-math
 luatex85
 luatexbase
+<% if (githubpublish || (lang == "en") && (reallatexcompiler == "lualatex")) { -%>
+luaxml<%# required by spelling %>
+<% } -%>
 <% } -%>
 <% if (githubpublish || isThesis) { -%>
 ly1<%# required by mathdesign-font %>
@@ -177,7 +181,7 @@ natbib
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 ncctools<%# provides manyfoot%>
 <% } -%>
-<% if (githubpublish || (latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
+<% if (githubpublish || (reallatexcompiler == "lualatex")) { -%>
 newcomputermodern
 <% } -%>
 <% if (githubpublish || (listings == 'minted')) { -%>
@@ -226,7 +230,7 @@ scientific-thesis-cover
 <% if (githubpublish || isThesis) { -%>
 scrhack
 <% } -%>
-<% if (githubpublish || (lang == "en") && ((latexcompiler == "lualatex") || (latexcompiler == "both"))) { -%>
+<% if (githubpublish || (lang == "en") && (reallatexcompiler == "lualatex")) { -%>
 selnolig
 <% } -%>
 <% if (githubpublish || (documentclass == "acmart") || isThesis) { -%>
@@ -242,6 +246,9 @@ siunitx
 snapshot
 soul
 soulpos
+<% if (githubpublish || (lang == "en") && (reallatexcompiler == "lualatex")) { -%>
+spelling
+<% } -%>
 stringenc
 sttools<%# this includes stfloats; at least required by acmart, ieee, lncs, ustutt, scientific-thesis %>
 subfig

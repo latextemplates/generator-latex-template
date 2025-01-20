@@ -1,0 +1,85 @@
+name: Check Makefile
+on:
+  schedule:
+    - cron: "0 6 * * 5"
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  merge_group:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.actor_id }}
+  cancel-in-progress: true
+jobs:
+  check-make:
+    name: make
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+        with:
+          path: 'code'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: 'code/package-lock.json'
+      - run: npm ci
+        working-directory: ${{ github.workspace }}/code
+      - run: npm install -g yo
+      - name: Create lncs-reitzig
+        run: yo ${{ github.workspace }}/code/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=reitzig --overleaf=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
+      - name: Install TeX Live
+        uses: zauguin/install-texlive@v3
+        with:
+          package_file: '${{ github.workspace }}/Texlivefile'
+      - run: make pdf
+      - uses: bscott-zebra/cache-apt-pkgs-action@bdb5bbaae8f11b3e4e63cf78e303ac1519dcff7f
+        with:
+          packages: libyaml-tiny-perl libfile-homedir-perl
+          version: 1.0
+          execute_install_scripts: true
+      - name: Prepare output of diff
+        run: |
+          git init
+          git add .
+      - run: make format
+        # Additional check - more than the make target itself
+      - name: No changes made by latexindent
+        run: git diff --exit-code

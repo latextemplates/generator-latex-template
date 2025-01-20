@@ -6,11 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
-## [Unreleased]
+## [2025.1.20]
+
+### Added
+
+- Added `.aspell.en.pws` and `.aspell.conf` to ignore some LaTeX commands at aspell.
+- Added `latexindent` to GitHub actions (`check.yml`).
+- Added support for [spelling](https://www.ctan.org/pkg/spelling) package (which highlights bad spellings in red - if `.spell.bad` containing misspelled words exists)
 
 ### Fixed
 
 - Fixed tag for iot Docker image.
+
+### Changed
+
+- Refined `Makefile`
 
 ## [2025.1.14]
 
@@ -197,7 +207,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
-[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2025.1.14...HEAD
+[2025.1.20]: https://github.com/latextemplates/generator-latex-template/compare/2025.1.14...2015.1.20
 [2025.1.14]: https://github.com/latextemplates/generator-latex-template/compare/0.8.0...2025.1.14
 [0.8.0]: https://github.com/latextemplates/generator-latex-template/compare/0.7.0...0.8.0
 [0.7.0]: https://github.com/latextemplates/generator-latex-template/compare/0.6.0...0.7.0
