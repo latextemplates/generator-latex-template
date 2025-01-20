@@ -11,6 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Added `.aspell.en.pws` and `.aspell.conf` to ignore some LaTeX commands at aspell.
+- Added support for [spelling](https://www.ctan.org/pkg/spelling) package (which highlights bad spellings in red - if `.spell.bad` containing misspelled words exists)
 
 ### Fixed
 
