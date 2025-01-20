@@ -160,12 +160,12 @@
 <% } -%>
 <%- include('diagbox.preamble.en.tex', this); -%>
 
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
-<% if (latexcompiler == "both") { -%>
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
+<% if (latexcompiler == "both") { indent = '  ' -%>
 \ifluatex
 <% } -%>
-\usepackage{spelling}
-\spellingoutput{off}
+<%= indent %>\usepackage{spelling}
+<%= indent %>\spellingoutput{off}
 <% if (latexcompiler == "both") { -%>
 \fi
 <% } -%>
@@ -281,14 +281,14 @@
 \newcommand{\hydash}{\penalty\@M-\hskip\z@skip}
 % Definition of "= taken from http://mirror.ctan.org/macros/latex/contrib/babel-contrib/german/ngermanb.dtx
 \makeatother
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
 
-<% if (latexcompiler == "both") { -%>
+<% if (latexcompiler == "both") { indent = '  ' -%>
 \ifluatex
 <% } -%>
-% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/autotype
-% See ADR-0008 for alternatives
-\usepackage{autotype}
+<%= indent %>% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/autotype
+<%= indent %>% See ADR-0008 for alternatives
+<%= indent %>\usepackage{autotype}
 <% if (latexcompiler == "both") { -%>
 \fi
 <% } -%>
@@ -333,22 +333,22 @@
 
 <%- include('scientific-thesis-cover.preamble.en.tex', this); %>
 <% break; } -%>
-<% if ((latexcompiler == "pdflatex") || (latexcompiler == "both")) { -%>
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
 
-<% if (latexcompiler == "both") { -%>
+<% if (latexcompiler == "both") { indent = '  ' -%>
 \ifpdftex
 <% } -%>
-% Enable copy and paste of text from the PDF
-% Only required for pdflatex. It "just works" in the case of lualatex.
-% Alternative: cmap or mmap package
-% mmap enables mathematical symbols, but does not work with the newtx font set
-% See: https://tex.stackexchange.com/a/64457/9075
-% Other solutions outlined at http://goemonx.blogspot.de/2012/01/pdflatex-ligaturen-und-copynpaste.html and http://tex.stackexchange.com/questions/4397/make-ligatures-in-linux-libertine-copyable-and-searchable
-% Trouble shooting outlined at https://tex.stackexchange.com/a/100618/9075
-%
-% According to https://tex.stackexchange.com/q/451235/9075 this is the way to go
-\input{glyphtounicode}
-\pdfgentounicode=1
+<%= indent %>% Enable copy and paste of text from the PDF
+<%= indent %>% Only required for pdflatex. It "just works" in the case of lualatex.
+<%= indent %>% Alternative: cmap or mmap package
+<%= indent %>% mmap enables mathematical symbols, but does not work with the newtx font set
+<%= indent %>% See: https://tex.stackexchange.com/a/64457/9075
+<%= indent %>% Other solutions outlined at http://goemonx.blogspot.de/2012/01/pdflatex-ligaturen-und-copynpaste.html and http://tex.stackexchange.com/questions/4397/make-ligatures-in-linux-libertine-copyable-and-searchable
+<%= indent %>% Trouble shooting outlined at https://tex.stackexchange.com/a/100618/9075
+<%= indent %>%
+<%= indent %>% According to https://tex.stackexchange.com/q/451235/9075 this is the way to go
+<%= indent %>\input{glyphtounicode}
+<%= indent %>\pdfgentounicode=1
 <% if (latexcompiler == "both") { -%>
 \fi
 <% } -%>
@@ -361,13 +361,13 @@
 \setstretch{1.2}
 \raggedbottom     % Variable Seitenhoehen zulassen
 <% } -%>
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { -%>
-<% if (latexcompiler == "both") { -%>
+<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
+<% if (latexcompiler == "both") { indent = '  ' -%>
 \ifluatex
 <% } -%>
-% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/autotype
-% See ADR-0008 for alternatives
-\autotypelangoptions{ngerman}{ligbreak}
+<%= indent %>% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/autotype
+<%= indent %>% See ADR-0008 for alternatives
+<%= indent %>\autotypelangoptions{ngerman}{ligbreak}
 <% if (latexcompiler == "both") { -%>
 \fi
 <% } -%>
@@ -895,46 +895,45 @@ The whole idea of TOSCA is explained by <% if (available.citet) { %>\citet<% } e
 \newenvironment{ltgexample}%
 {\LTGbeginlineexample=\numexpr\inputlineno+1\relax}%
 {\LTGendlineexample=\numexpr\inputlineno-1\relax%
-%
-\tcbinputlisting{%
-  listing only,
-  listing file=\currfilepath,
-  colback=green!5!white,
-  colframe=green!25,
-  coltitle=black!90,
-  coltext=black!90,
-  left=8mm,
-  title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\currfilepath},
+  \tcbinputlisting{%
+    listing only,
+    listing file=\currfilepath,
+    colback=green!5!white,
+    colframe=green!25,
+    coltitle=black!90,
+    coltext=black!90,
+    left=8mm,
+    title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\currfilepath},
 <% if (listings == 'listings') { -%>
-  listing options={%
-    frame=none,
-    language={[LaTeX]TeX},
-    escapeinside={},
-    firstline=\the\LTGbeginlineexample,
-    lastline=\the\LTGendlineexample,
-    firstnumber=\the\LTGbeginlineexample,
-    basewidth=.5em,
-    aboveskip=0mm,
-    belowskip=0mm,
-    numbers=left,
-    xleftmargin=0mm,
-    numberstyle=\tiny,
-    numbersep=8pt%
-  }
+    listing options={%
+      frame=none,
+      language={[LaTeX]TeX},
+      escapeinside={},
+      firstline=\the\LTGbeginlineexample,
+      lastline=\the\LTGendlineexample,
+      firstnumber=\the\LTGbeginlineexample,
+      basewidth=.5em,
+      aboveskip=0mm,
+      belowskip=0mm,
+      numbers=left,
+      xleftmargin=0mm,
+      numberstyle=\tiny,
+      numbersep=8pt%
+    }
 <% } else { -%>
-  minted language=TeX,
-  minted style=vs,
-  minted options={
-    fontsize=\footnotesize,
-    firstline=\the\LTGbeginlineexample,
-    lastline=\the\LTGendlineexample,
-    firstnumber=\the\LTGbeginlineexample,
-    breaklines,
-    linenos,
-    numbersep=8pt
-  }
+    minted language=TeX,
+    minted style=vs,
+    minted options={
+        fontsize=\footnotesize,
+        firstline=\the\LTGbeginlineexample,
+        lastline=\the\LTGendlineexample,
+        firstnumber=\the\LTGbeginlineexample,
+        breaklines,
+        linenos,
+        numbersep=8pt
+      }
 <% } -%>
-}
+  }
 }%
 <% } -%>
 
