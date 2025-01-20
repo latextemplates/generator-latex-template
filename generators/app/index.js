@@ -250,12 +250,6 @@ export default class extends Generator {
       this.props
     );
 
-    this.fs.copy(
-      this.templatePath('main.spell.good'),
-      this.destinationPath(this.props.filenames.main + ".spell.good"),
-      this.props
-    );
-
     if (this.props.feature.abbreviations) {
       this.fs.copy(
         this.templatePath("abbreviations." + this.props.language + ".tex"),
