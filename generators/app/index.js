@@ -249,6 +249,7 @@ export default class extends Generator {
       this.destinationPath(this.props.filenames.main + ".tex"),
       this.props
     );
+
     this.fs.copy(
       this.templatePath('main.spell.good'),
       this.destinationPath(this.props.filenames.main + ".spell.good"),
