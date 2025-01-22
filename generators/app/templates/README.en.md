@@ -151,8 +151,8 @@ Following features are enabled in this template:
 <% } -%>
 - [microtypographic extensions](https://www.ctan.org/pkg/microtype) for a better look of the paper.
 - Modern packages such as [microtype], [cleveref]<% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
-<% if (latexcompiler == "lualatex" || githubpublish && !isThesis) { -%>
-- <% if (githubpublish) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
+<% if (latexcompiler == "lualatex" || githubpublish) { -%>
+- <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
 <% } -%>
 <% if (bibtextool == "biblatex") { -%>
 - [biblatex]+[biber] instead of plain [bibtex] to have a more intuitive `.bib` file.
