@@ -34,23 +34,24 @@
 %% --- Descriptions with line breaks in labels ---------------------------------
 \usepackage{calc}
 
-\newcommand*\Descriptionlabel[1]
-{\raisebox{0pt}[1ex][0pt]
-  {\makebox[\labelwidth][1]
-    {\parbox[t]{\labelwidth}
-      {\hspace{0pt}\textbf{#1:}}}}}
-
-\newcommand*\Descriptionlabelx[1]
-{\parbox[t]{\textwidth}
-  {\textbf{#1}\\\mbox{}}
+\newcommand*\Descriptionlabel[1]{%
+  \raisebox{0pt}[1ex][0pt]
+    {\makebox[\labelwidth][1]
+      {\parbox[t]{\labelwidth}
+        {\hspace{0pt}\textbf{#1:}}}}
 }
 
-\newenvironment{Description}
-{\begin{list}{}{\let\makelabel\Descriptionlabelx
-    \setlength\labelwidth{1em}
-    \setlength\leftmargin{\labelwidth+\labelsep}}}
-{\end{list}}
+\newcommand*\Descriptionlabelx[1]{%
+  \parbox[t]{\textwidth}
+    {\textbf{#1}\\\mbox{}}
+}
 
+\newenvironment{Description}{
+  \begin{list}{}{\let\makelabel\Descriptionlabelx
+    \setlength\labelwidth{1em}
+    \setlength\leftmargin{\labelwidth+\labelsep}}
+}
+{\end{list}}
 
 % globally change line spacing of lists
 % paralist has suspended development since 10 years.
