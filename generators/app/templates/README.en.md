@@ -65,7 +65,6 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 - `make` or `latexmk` for compilation
 - `make clean` or `latexmk -C` for cleaning up
 - `make aspell` for interactive spell checking
-
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
