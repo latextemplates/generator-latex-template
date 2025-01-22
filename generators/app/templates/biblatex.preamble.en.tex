@@ -1,6 +1,5 @@
 \usepackage[
-  backend       = biber, %biber does not work with 64x versions alternative: bibtex8
-%minalphanames only works with biber backend
+  backend       = biber, %biber does not work with 64x versions alternative: bibtex8; minalphanames only works with biber backend
   sortcites     = true,
   bibstyle      = alphabetic,
   citestyle     = alphabetic,
@@ -50,13 +49,17 @@
 % enable hyperlinked author names when using \citeauthor
 % source: http://tex.stackexchange.com/a/75916/9075
 \DeclareCiteCommand{\citeauthor}
-{\boolfalse{citetracker}%
-\boolfalse{pagetracker}%
-\usebibmacro{prenote}}
-{\ifciteindex
-{\indexnames{labelname}}
-{}%
-\printtext[bibhyperref]{\printnames{labelname}}}
+{
+  \boolfalse{citetracker}%
+  \boolfalse{pagetracker}%
+  \usebibmacro{prenote}
+}
+{
+  \ifciteindex
+  {\indexnames{labelname}}
+  {}%
+  \printtext[bibhyperref]{\printnames{labelname}}
+}
 {\multicitedelim}
 {\usebibmacro{postnote}}
 <% if (documentclass == "ustutt") { -%>
