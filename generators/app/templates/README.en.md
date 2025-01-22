@@ -53,12 +53,6 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 - Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
 - Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
 
-## Prerequisites
-
-- Windows: Recent [MiKTeX](http://miktex.org/)
-- Mac OS X: Recent [TeX Live](https://www.tug.org/texlive/) (e.g. through [MacTeX](https://tug.org/mactex/)) - Try `sudo tlmgr update --all` if you encounter issues with biblatex
-- Linux: Recent TeX Live distribution
-
 ## Usage
 
 - `thesis-example.tex` is the main document
@@ -196,6 +190,17 @@ You can <% if (!githubpublish) { %>re<% } %>run the [latex template generator] t
 <% if (!missingFeatures) { -%>
 Congratulations. You chose to use all available features.
 <% } -%>
+
+<% switch (documentclass) { case "lncs": -%>
+There is currently no official biblatex support.
+A first step towards that is done at [biblatex-lncs](https://ctan.org/pkg/biblatex-lncs).
+
+<% break; case "ieee": -%>
+There is currently no official biblatex support.
+A first step towards that is done at the [biblatex-ieee package](https://ctan.org/pkg/biblatex-ieee).
+
+<% break; default: -%>
+<% break; } -%>
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
@@ -285,25 +290,15 @@ Statement from IEEE:
 <% } -%>
 
 ## Tool hints
-<% switch (documentclass) { case "lncs": -%>
 
-There is currently no official biblatex support.
-A first step towards that is done at [biblatex-lncs](https://ctan.org/pkg/biblatex-lncs).
-<% break; case "ieee": -%>
+### Prerequisites
 
-There is currently no official biblatex support.
-A first step towards that is done at the [biblatex-ieee package](https://ctan.org/pkg/biblatex-ieee).
-<% break; default: -%>
-<% break; } -%>
-
-MiKTeX installation hints are given at <http://latextemplates.github.io/scientific-thesis-template/#installation-hints-for-windows>.
-
-- Grammar and spell checking is available at [TeXstudio].
-  Please download [LanguageTool] (Windows: `choco install languagetool`) and [configure TeXstudio to use it](http://wiki.languagetool.org/checking-la-tex-with-languagetool#toc4).
-  Note that it is enough to point to `languagetool.jar`.
-  **If TeXstudio doesn't fit your need, check [the list of all available LaTeX Editors](http://tex.stackexchange.com/questions/339/latex-editors-ides).**
-- Use [JabRef] to manage your bibliography (Windows: `choco install jabref`).
+- Windows: Recent [MiKTeX](http://miktex.org/). MiKTeX installation hints are given at <http://latextemplates.github.io/scientific-thesis-template/#installation-hints-for-windows>.
+- Mac OS X: Recent [TeX Live](https://www.tug.org/texlive/) (e.g. through [MacTeX](https://tug.org/mactex/)) - Try `sudo tlmgr update --all` if you encounter issues with biblatex
+- Linux: Recent TeX Live distribution
 <% if (listings == "minted" || githubpublish) { -%>
+
+### Usage of `minted`
 
 To have minted running properly, you have to do following steps on Windows:
 
@@ -312,6 +307,14 @@ To have minted running properly, you have to do following steps on Windows:
 3. When latexing, use `-shell-escape`: `pdflatex -shell-escape <%= filenames.main %>`.
    You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
+
+### Other hints
+
+- Grammar and spell checking is available at [TeXstudio].
+  Please download [LanguageTool] (Windows: `choco install languagetool`) and [configure TeXstudio to use it](http://wiki.languagetool.org/checking-la-tex-with-languagetool#toc4).
+  Note that it is enough to point to `languagetool.jar`.
+  **If TeXstudio doesn't fit your need, check [the list of all available LaTeX Editors](http://tex.stackexchange.com/questions/339/latex-editors-ides).**
+- Use [JabRef] to manage your bibliography (Windows: `choco install jabref`).
 <% switch (docker) { case "reitzig": -%>
 
 ## Usage with docker
