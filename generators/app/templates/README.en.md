@@ -47,6 +47,25 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 
 > Unofficial LaTeX template for PhD theses at the University of Stuttgart, Germany.
 
+## Example PDFs
+
+- Thesis: [thesis-example.pdf](thesis-example.pdf)
+- Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
+- Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
+
+## Prerequisites
+
+- Windows: Recent [MiKTeX](http://miktex.org/)
+- Mac OS X: Recent [TeX Live](https://www.tug.org/texlive/) (e.g. through [MacTeX](https://tug.org/mactex/)) - Try `sudo tlmgr update --all` if you encounter issues with biblatex
+- Linux: Recent TeX Live distribution
+
+## Usage
+
+- `thesis-example.tex` is the main document
+- `make` or `latexmk` for compilation
+- `make clean` or `latexmk -C` for cleaning up
+- `make aspell` for interactive spell checking
+
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
@@ -92,6 +111,12 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 
 Following features are enabled in this template:
 
+<% if (documentclass == 'ustutt') { -%>
+- Output format is A5
+- Title page
+- Nice chapter headings
+- Important LaTeX packages are enabled
+<% } -%>
 <% if (documentclass == 'ieee') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/IEEE/<% } %><%= filenames.main %>.tex) file
 - Shows how IEEE copyright notice can be added.
@@ -122,11 +147,11 @@ Following features are enabled in this template:
 - Better breaking of long URLs.
 - Support for `\powerset` command.
 <% if (todo == "pdfcomment" || githubpublish) { -%>
-- <% if (githubpublish) { -%>(Optional) <% } %>Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
+- <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
 <% } -%>
 - [microtypographic extensions](https://www.ctan.org/pkg/microtype) for a better look of the paper.
 - Modern packages such as [microtype], [cleveref]<% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
-<% if (latexcompiler == "lualatex" || githubpublish) { -%>
+<% if (latexcompiler == "lualatex" || githubpublish && !isThesis) { -%>
 - <% if (githubpublish) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
 <% } -%>
 <% if (bibtextool == "biblatex") { -%>
@@ -338,6 +363,18 @@ Please read on there.
 The other possibility is to execute `texdoc ieeetran` and read in the documentation.
 For example, there is an explanation of how to typeset the affiliation information with four or more authors properly.
 <% break; case "ustutt": -%>
+
+### Q: How to rename `thesis-example.tex`?
+
+You probably don't want your document to be named `example`. In order to change this,
+replace the term `thesis-example` by e.g., `thesis-topic-name` in the following locations:
+
+| location                | occurrence                                |
+|-------------------------|-------------------------------------------|
+| `cover-print/cover.tex` | `\includegraphics{../thesis-example.pdf}` |
+| `.gitignore`            | `thesis-example.pdf`                      |
+| `.gitignore`            | `thesis-example*.png`                     |
+| `Makefile`              | `MASTER_TEX = thesis-example.tex`         |
 
 ### Q: I get the error `Reload initiated (formats: otf,ttf,ttc); reason: Font "Inconsolatazi4" not found.`
 
