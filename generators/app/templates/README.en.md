@@ -49,7 +49,10 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 
 ## Example PDFs
 
-- Thesis: [thesis-example.pdf](thesis-example.pdf)
+- Thesis 🇩🇪: [thesis-example.pdf](thesis-example.pdf)
+- Thesis 🇺🇸: [thesis-example-listings-en.pdf](thesis-example-listings-en.pdf)
+- Thesis (minted) 🇩🇪: [thesis-example-minted-de.pdf](thesis-example-minted-de.pdf)
+- Thesis (minted) 🇺🇸: [thesis-example-example-minted-en.pdf](thesis-example-example-minted-en.pdf)
 - Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
 - Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
 
@@ -388,7 +391,7 @@ Install package `inconsolata`
 ### Q: How can I synchronize updates from the template to my repository?
 
 1. Initialize your git repository as usual
-2. Add this repository as upstream: `git remote add upstream https://github.com/latextemplates/LNCS.git`
+2. Add this repository as upstream: `git remote add upstream https://github.com/latextemplates/{template}.git`
 3. Merge the branch `upstream/main` into your `main` branch: `git merge upstream/main`.
 
 After that you can use and push the `main` branch as usual.
