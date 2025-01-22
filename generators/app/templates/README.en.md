@@ -207,7 +207,6 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
-
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/LNCS/paper.pdf) - normal paper.
@@ -230,10 +229,10 @@ When using on overleaf, you have to switch Overleaf to use TeXLive 2022 (or late
 
 As you see on GitHub actions, the paper compiles out of the box.
 There is no need to adjust the packages or to remove some of them.
-This might lead to undesiered results such as hyperlinks not working any more or no good microtypographic features.
+This might lead to undesired results such as hyperlinks not working any more or no good microtypographic features.
 In case you think, a package needs to be altered or added, feel free to open an issue.
-<% break; case "ieee": -%>
 
+<% break; case "ieee": -%>
 ## Examples
 
 - [paper-conference.pdf](https://latextemplates.github.io/IEEE/paper-conference.pdf) - regular conference paper.
@@ -287,11 +286,11 @@ Hence, **double check with your conference whether you have to use `compsoc` or 
 Statement from IEEE:
 
 > Please note that, as stated on the webpage <https://www.ieee.org/conferences_events/conferences/publishing/templates.html>. "IEEE does not require a specific format for their conference articles". Thus, we dot not purport that the "compsoc" is a requirement for publishing conference papers with us.
+
 <% break; default: -%>
 <% break; }
 } else { -%>
 <% } -%>
-
 ## Tool hints
 
 ### Prerequisites
