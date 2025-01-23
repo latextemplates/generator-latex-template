@@ -28,7 +28,7 @@ jobs:
           fi
       - run: latexmk <%= filenames.main %>
 <% if (githubpublish || (lang == "en") && (reallatexcompiler == "lualatex")) { -%>
-      - uses: awalsh128/cache-apt-pkgs-action@latest
+      - uses: bscott-zebra/cache-apt-pkgs-action@avoid_using_xargs
         with:
           packages: aspell aspell-en<% if (language == 'de') { %> aspell-de<% } %>
           version: 1.0
@@ -56,7 +56,7 @@ jobs:
 
       # Original action does not work well - see https://github.com/awalsh128/cache-apt-pkgs-action/pull/136
       # The action is not updated - and thus the dictionaries are not updated
-      - uses: awalsh128/cache-apt-pkgs-action@latest
+      - uses: bscott-zebra/cache-apt-pkgs-action@avoid_using_xargs
         with:
           packages: aspell aspell-en<% if (language == 'de') { %> aspell-de<% } %>
           version: 1.0
@@ -90,7 +90,7 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
-      - uses: awalsh128/cache-apt-pkgs-action@latest
+      - uses: bscott-zebra/cache-apt-pkgs-action@avoid_using_xargs
         with:
           packages: libyaml-tiny-perl libfile-homedir-perl
           version: 1.0
