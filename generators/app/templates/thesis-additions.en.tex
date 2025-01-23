@@ -34,23 +34,28 @@
 %% --- Descriptions with line breaks in labels ---------------------------------
 \usepackage{calc}
 
-\newcommand*\Descriptionlabel[1]
-{\raisebox{0pt}[1ex][0pt]
-  {\makebox[\labelwidth][1]
-    {\parbox[t]{\labelwidth}
-      {\hspace{0pt}\textbf{#1:}}}}}
-
-\newcommand*\Descriptionlabelx[1]
-{\parbox[t]{\textwidth}
-  {\textbf{#1}\\\mbox{}}
+\newcommand*\Descriptionlabel[1]{%
+  \raisebox{0pt}[1ex][0pt]{
+    \makebox[\labelwidth][1]{
+      \parbox[t]{\labelwidth}{
+        \hspace{0pt}\textbf{#1:}}}}
 }
 
-\newenvironment{Description}
-{\begin{list}{}{\let\makelabel\Descriptionlabelx
-    \setlength\labelwidth{1em}
-    \setlength\leftmargin{\labelwidth+\labelsep}}}
-{\end{list}}
+\newcommand*\Descriptionlabelx[1]{%
+  \parbox[t]{\textwidth}{
+    \textbf{#1}\\\mbox{}}
+}
 
+\newenvironment{Description}{
+  \begin{list}{}{
+      \let\makelabel\Descriptionlabelx
+      \setlength\labelwidth{1em}
+      \setlength\leftmargin{\labelwidth+\labelsep}
+    }
+    }
+    {
+  \end{list}
+}
 
 % globally change line spacing of lists
 % paralist has suspended development since 10 years.
@@ -74,28 +79,28 @@
 \newenvironment{fquote}[1][]{%
   \newcommand{\fqauthor}{\relax}
   \ifthenelse{\isempty{#1}}
-  	{}% do nothing
-  	{\renewcommand{\fqauthor}{\hfill\textsc{--- #1}}}
+  {}% do nothing
+  {\renewcommand{\fqauthor}{\hfill\textsc{--- #1}}}
   \vspace{1em}
   \begin{list}{}{%
       \setlength{\leftmargin}{0.2\textwidth}
       \setlength{\rightmargin}{0.2\textwidth}
     }
     \item[]%
-    \begin{picture}(0,0)(0,0)
-      \put(-15,-5){\makebox(0,0){%
-	  \scalebox{4.5}{\textcolor{quotemark}{\bfseries``}}}%
-      }
-    \end{picture}\em\ignorespaces%
-}{%
-  \newline%
-  \makebox[0pt][l]{\hspace{0.6\textwidth}%
-  \begin{picture}(0,0)(0,0)
-    \put(15,10){\makebox(0,0){%
-	\scalebox{4.5}{\textcolor{quotemark}{\rmfamily\bfseries''}}}%
-    }
-  \end{picture}}%
-  \fqauthor
+          \begin{picture}(0,0)(0,0)
+            \put(-15,-5){\makebox(0,0){%
+                \scalebox{4.5}{\textcolor{quotemark}{\bfseries``}}}%
+            }
+          \end{picture}\em\ignorespaces%
+          }{%
+          \newline%
+          \makebox[0pt][l]{\hspace{0.6\textwidth}%
+            \begin{picture}(0,0)(0,0)
+              \put(15,10){\makebox(0,0){%
+                  \scalebox{4.5}{\textcolor{quotemark}{\rmfamily\bfseries''}}}%
+              }
+            \end{picture}}%
+          \fqauthor
   \end{list}
 }
 
@@ -106,28 +111,28 @@
 \newenvironment{gfquote}[1]{%
   \newcommand{\fqauthor}{\relax}
   \ifthenelse{\isempty{#1}}
-   {}% do nothing
-   {\renewcommand{\fqauthor}{\hfill\textsc{\textemdash #1}}}
+  {}% do nothing
+  {\renewcommand{\fqauthor}{\hfill\textsc{\textemdash #1}}}
   \vspace{1em}
   \begin{list}{}{%
       \setlength{\leftmargin}{0.2\textwidth}
       \setlength{\rightmargin}{0.2\textwidth}
     }
     \item[]%
-    \begin{picture}(0,0)(0,0)
-      \put(-15,-5){\makebox(0,0){%
-   \scalebox{4.5}{\textcolor{quotemark}{\bfseries \glqq}}}%
-      }
-    \end{picture}\em\ignorespaces%
-}{%
-  \newline%
-  \makebox[0pt][l]{\hspace{0.6\textwidth}%
-  \begin{picture}(0,0)(0,0)
-    \put(15,10){\makebox(0,0){%
- \scalebox{4.5}{\textcolor{quotemark}{\rmfamily\bfseries \grqq}}}%
-    }
-  \end{picture}}%
-  \fqauthor
+          \begin{picture}(0,0)(0,0)
+            \put(-15,-5){\makebox(0,0){%
+                \scalebox{4.5}{\textcolor{quotemark}{\bfseries \glqq}}}%
+            }
+          \end{picture}\em\ignorespaces%
+          }{%
+          \newline%
+          \makebox[0pt][l]{\hspace{0.6\textwidth}%
+            \begin{picture}(0,0)(0,0)
+              \put(15,10){\makebox(0,0){%
+                  \scalebox{4.5}{\textcolor{quotemark}{\rmfamily\bfseries \grqq}}}%
+              }
+            \end{picture}}%
+          \fqauthor
   \end{list}
 }
 
