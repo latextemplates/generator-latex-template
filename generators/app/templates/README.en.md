@@ -49,10 +49,10 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 
 ## Example PDFs
 
-- Thesis 🇩🇪: [thesis-example.pdf](thesis-example.pdf)
-- Thesis 🇺🇸: [thesis-example-listings-en.pdf](thesis-example-listings-en.pdf)
-- Thesis (minted) 🇩🇪: [thesis-example-minted-de.pdf](thesis-example-minted-de.pdf)
-- Thesis (minted) 🇺🇸: [thesis-example-example-minted-en.pdf](thesis-example-example-minted-en.pdf)
+- Thesis 🇩🇪: [thesis-example.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example.pdf)
+- Thesis 🇺🇸: [thesis-example-listings-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-listings-en.pdf)
+- Thesis (minted) 🇩🇪: [thesis-example-minted-de.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-minted-de.pdf)
+- Thesis (minted) 🇺🇸: [thesis-example-example-minted-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-example-minted-en.pdf)
 - Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
 - Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
 <% break; case "scientific-thesis": -%>
@@ -127,11 +127,11 @@ Following features are enabled in this template:
 - Important LaTeX packages are enabled
 <% } -%>
 <% if (documentclass == 'ieee') { -%>
-- Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/IEEE/<% } %><%= filenames.main %>.tex) file
+- Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
 - Shows how IEEE copyright notice can be added.
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
-- Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/LNCS/<% } %><%= filenames.main %>.tex) file
+- Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
 - Example to have an image being placed right to a text
 <% if (githubpublish || (language == 'de')) { -%>
 - Support for German documents (without broken headers):
