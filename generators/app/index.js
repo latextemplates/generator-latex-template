@@ -343,10 +343,9 @@ export default class extends Generator {
 
     this.fs.copy(
       this.templatePath(".vscode/extensions.json"),
-      this.destinationPath(".vscode/extensions.json"),
-      this.props
+      this.destinationPath(".vscode/extensions.json")
     );
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath("vscode.settings.json"),
       this.destinationPath("vscode.settings.json"),
       this.props

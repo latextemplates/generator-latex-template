@@ -59,8 +59,14 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 ## Usage
 
 - `thesis-example.tex` is the main document
-- `make` or `latexmk` for compilation
-- `make clean` or `latexmk -C` for cleaning up
+- Use "lualatex + biber" in your TeX editor or `latexmk  <%= filenames.main %>`/`make` in the command line
+
+Advanced:
+
+On the command line, there are additional features:
+
+- `latexmk -C` or `make clean` for cleaning up
+- `make format` to reformat the `.tex` files (one sentence per line and indent)
 - `make aspell` for interactive spell checking
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
@@ -99,15 +105,9 @@ To enable this, please move `_latexmkrc` to `latexmkrc`.
 
 In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
 
-<% if (latexcompiler == "pdflatex") { -%>
 ```bash
-pdflatex <%= filenames.main %>
+<%= reallatexcompiler %> <%= filenames.main %>
 ```
-<% } else { -%>
-```bash
-lualatex <%= filenames.main %>
-```
-<% } -%>
 
 ## Benefits
 
@@ -330,20 +330,20 @@ Update the following lines in the VSCode `settings.json` to contain:
 ```json
     "latex-workshop.latex.recipes": [
         {
-            "name": "lualatex ➞ biber ➞ lualatex × 2 🔃",
+            "name": "<%= reallatexcompiler %> ➞ <%= bibtextool %> ➞ <%= reallatexcompiler %> × 2 🔃",
             "tools": [
-                "lualatex",
-                "biber",
-                "lualatex",
-                "lualatex"
+                "<%= reallatexcompiler %>",
+                "<%= bibtextool %>",
+                "<%= reallatexcompiler %>",
+                "<%= reallatexcompiler %>"
             ]
         },
     ],
     "latex-workshop.latex.tools": [
         ...
         {
-            "name": "biber",
-            "command": "biber", # make sure this is not bibtex!
+            "name": "<%= bibtextool %>",
+            "command": "<%= bibtextool %>",
             "args": [
                 "%DOCFILE%"
             ],
