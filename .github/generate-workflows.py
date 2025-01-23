@@ -251,13 +251,13 @@ jobs:
             yml.write("      - name: Finish summary table\n");
             yml.write("        if: always()\n");
             yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
-            if False:
+            if True:
               yml.write(r'''      - run: |
-          gh run list -L 100 --json databaseId -s queued | jq -r '.[] | .databaseId' | \
+          gh run list -L 100 --json databaseId -s queued -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | \
           while read -r run_id; do
             gh run cancel "$run_id" || true
           done
-          gh run list -L 100 --json databaseId -s in_progress | jq -r '.[] | .databaseId' | \
+          gh run list -L 100 --json databaseId -s in_progress -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | \
           while read -r run_id; do
             gh run cancel "$run_id" || true
           done
