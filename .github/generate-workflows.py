@@ -6,7 +6,7 @@ import base64
 globalsingleworkflow = True
 failfast = True
 
-documentclasses = ['acmart', 'ieee', 'lncs'] # , 'scientific-thesis', 'ustutt']
+documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt'] # , 'scientific-thesis'
 latexcompilers = ['pdflatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
