@@ -55,19 +55,6 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 - Thesis (minted) 🇺🇸: [thesis-example-example-minted-en.pdf](thesis-example-example-minted-en.pdf)
 - Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
 - Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
-
-## Usage
-
-- `thesis-example.tex` is the main document
-- Use "lualatex + biber" in your TeX editor or `latexmk  <%= filenames.main %>`/`make` in the command line
-
-Advanced:
-
-On the command line, there are additional features:
-
-- `latexmk -C` or `make clean` for cleaning up
-- `make format` to reformat the `.tex` files (one sentence per line and indent)
-- `make aspell` for interactive spell checking
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
@@ -94,6 +81,16 @@ For [architectural decision records](https://adr.github.io) see [docs/adr](https
 # LaTeX Document
 <% } -%>
 
+## Usage
+
+- `thesis-example.tex` is the main document
+- Use "<%= reallatexcompiler %> + <%= bibtextool %>" in your TeX editor or `latexmk  <%= filenames.main %>` / `make` in the command line
+
+### Using `latexmk`
+
+[latexmk] is a very smart tool for latex compilation.
+It executes the latex tools as often as needed to get the final PDF.
+
 To build the whole document, execute following command.
 Note that this requires a working perl installation.
 
@@ -101,13 +98,23 @@ Note that this requires a working perl installation.
 latexmk <%= filenames.main %>
 ```
 
-To enable this, please move `_latexmkrc` to `latexmkrc`.
+<% if (overleaf || githubpublish) { -%>
+To enable latexmk, please move `_latexmkrc` to `latexmkrc`.
+<% } -%>
 
 In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
 
 ```bash
 <%= reallatexcompiler %> <%= filenames.main %>
 ```
+
+### Advanced usage
+
+On the command line, there are additional features:
+
+- `latexmk -C` or `make clean` for cleaning up
+- `make format` to reformat the `.tex` files (one sentence per line and indent)
+- `make aspell` for interactive spell checking
 
 ## Benefits
 
@@ -231,7 +238,7 @@ The official template is available at <https://www.springer.com/gp/computer-scie
 - Edit [paper.tex](paper.tex).
 - `latexmk paper`.
 
-When using on overleaf, you have to switch Overleaf to use TeXLive 2022 (or later).
+When using on overleaf, you have to switch Overleaf to use TeXLive 2024 (or later).
 
 As you see on GitHub actions, the paper compiles out of the box.
 There is no need to adjust the packages or to remove some of them.
