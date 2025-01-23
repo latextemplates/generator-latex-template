@@ -340,6 +340,17 @@ export default class extends Generator {
       this.destinationPath(".github/workflows/check.yml"),
       this.props
     );
+
+    this.fs.copy(
+      this.templatePath(".vscode/extensions.json"),
+      this.destinationPath(".vscode/extensions.json"),
+      this.props
+    );
+    this.fs.copy(
+      this.templatePath("vscode.settings.json"),
+      this.destinationPath("vscode.settings.json"),
+      this.props
+    );
   }
 
   install() {}

@@ -91,16 +91,22 @@ For [architectural decision records](https://adr.github.io) see [docs/adr](https
 To build the whole document, execute following command.
 Note that this requires a working perl installation.
 
-    latexmk <%= filenames.main %>
+```bash
+latexmk <%= filenames.main %>
+```
 
 To enable this, please move `_latexmkrc` to `latexmkrc`.
 
 In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
 
 <% if (latexcompiler == "pdflatex") { -%>
-    pdflatex <%= filenames.main %>
+```bash
+pdflatex <%= filenames.main %>
+```
 <% } else { -%>
-    lualatex <%= filenames.main %>
+```bash
+lualatex <%= filenames.main %>
+```
 <% } -%>
 
 ## Benefits
@@ -310,6 +316,75 @@ To have minted running properly, you have to do following steps on Windows:
    You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
 
+### VSCode configuration
+
+Currently, following extensionsa re recommended:
+
+- [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) to support LaTeX in VSCode and
+- [LaTeX Utilities](https://marketplace.visualstudio.com/items?itemName=tecosaur.latex-utilities) to enhance LaTeX Workshop
+- [LTeX+] to have a nice spell checker that also identifies grammar issues
+
+Then, change the setting of LaTeX Workshop to use biber:
+Update the following lines in the VSCode `settings.json` to contain:
+
+```json
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "lualatex ➞ biber ➞ lualatex × 2 🔃",
+            "tools": [
+                "lualatex",
+                "biber",
+                "lualatex",
+                "lualatex"
+            ]
+        },
+    ],
+    "latex-workshop.latex.tools": [
+        ...
+        {
+            "name": "biber",
+            "command": "biber", # make sure this is not bibtex!
+            "args": [
+                "%DOCFILE%"
+            ],
+            "env": {}
+        },
+        ...
+    ],
+```
+
+The following settings are additionally recommended:
+
+```json
+{
+    "editor.wordWrap": "on",                              # enable soft line breaks
+    "latex-workshop.view.pdf.viewer": "tab",              # display the generaded PDF in a separate tab
+    "latex-workshop.view.pdf.backgroundColor": "#cccccc", # use a darker background in de PDF viewer to lift of the pages from it
+    "latex-workshop.latex.autoBuild.run": "onSave",       # automatically build on saving .tex files
+    "editor.renderWhitespace": "all",                     # display all whitespaces
+}
+```
+
+Alternatively, just copy and paste the contents of the [vscode.settings.json](./vscode.settings.json) file to your VSCode settings file.
+
+### LTeX+ tips and tricks
+
+[LTeX+] is an offline grammar and spell checker with support for LaTeX and Markdown.
+
+Add a magic comment to your files to tell LTeX+ which language to use:
+
+```latex
+% LTeX: language=de-DE
+```
+
+If you want to use different languages in the text, use the `\foreignlanguage{language}{text}` command.
+LTeX+ will detect these elements and automatically switch the spell checker's language.
+For example:
+
+```latex
+\foreignlanguage{english}{Therefore, our proposed approach will change the world.}
+```
+
 ### Other hints
 
 - Grammar and spell checking is available at [TeXstudio].
@@ -324,11 +399,15 @@ To have minted running properly, you have to do following steps on Windows:
 The generated `Dockerfile` is based on the [Dockerfile by reitzig](https://github.com/reitzig/texlive-docker).
 The idea of that system is to host the document sources in a directory separated from the output directory.
 
-    docker run --rm -v "c:\users\example\latex-document:/work/src" -v "c:\users\example\latex-document\out:/work/out" ltg work latexmk
+```cmd
+docker run --rm -v "c:\users\example\latex-document:/work/src" -v "c:\users\example\latex-document\out:/work/out" ltg work latexmk
+```
 
 Following one-time setup is required:
 
-    docker build -t ltg .
+```cmd
+docker build -t ltg .
+```
 
 <% break; case "iot": -%>
 
@@ -336,11 +415,15 @@ Following one-time setup is required:
 
 The generated `Dockerfile` is based on the [Dockerfile by the Island of TeX](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image).
 
-    docker run --rm -v "c:\users\example\latex-document:/workdir" ltg latexmk
+```cmd
+docker run --rm -v "c:\users\example\latex-document:/workdir" ltg latexmk
+```
 
 Following one-time setup is required:
 
-    docker build -t ltg .
+```cmd
+docker build -t ltg .
+```
 
 <% break; default: -%>
 <% break; } -%>
@@ -489,6 +572,7 @@ If you don't do this, `latexmk` tries to execute `latex`, which tries to produce
 [JabRef]: https://www.jabref.org
 [LanguageTool]: https://languagetool.org/
 [latex template generator]: https://www.npmjs.com/package/generator-latex-template
+[LTeX+]: https://marketplace.visualstudio.com/items?itemName=ltex-plus.vscode-ltex-plus
 [pygments]: http://pygments.org/
 [TeXstudio]: http://texstudio.sourceforge.net/
 <% if (documentclass == 'lncs') { -%>
