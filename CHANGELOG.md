@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Added [TeXcount](https://app.uio.no/ifi/texcount/index.html) to GitHub action.
+
 ### Changed
 
 - Links in `README.md` to example `.tex` files are now relative.

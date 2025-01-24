@@ -28,6 +28,8 @@ jobs:
           fi
       - run: latexmk <%= filenames.main %>
 <% if (githubpublish || (lang == "en") && (reallatexcompiler == "lualatex")) { -%>
+
+      # Highlight mis-spelled words in the PDF
       - uses: bscott-zebra/cache-apt-pkgs-action@avoid_using_xargs
         with:
           packages: aspell aspell-en<% if (githubpublish || (language == 'de')) { %> aspell-de<% } %>
@@ -40,12 +42,27 @@ jobs:
             aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.en.pws list < $tex | sort | uniq >> <%= filenames.main %>.spell.bad
           done
       - run: latexmk <%= filenames.main %>
+
 <% } -%>
+      - name: Count words
+        run: |
+          texcount -inc <%= filenames.main %>.tex > texcount.txt
+          echo "## TeXcount word count" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat "texcount.html" >> $GITHUB_STEP_SUMMARY
+
+          texcount -inc -v -html <%= filenames.main %>.tex > texcount.html
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## TeXcount LaTeX interpretation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat "texcount.html" >> $GITHUB_STEP_SUMMARY
       - uses: actions/upload-artifact@v4
         with:
           name: test-result
           path: |
             <%= filenames.main %>.pdf
+            texcount.txt
+            texcount.html
   spell-checking:
     # This is based on https://github.com/mh61503891/action-paper-aspell/tree/master
     #
