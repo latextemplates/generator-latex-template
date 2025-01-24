@@ -10,7 +10,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
-- Added [TeXcount](https://app.uio.no/ifi/texcount/index.html) to GitHub action.
+- Added [TeXcount](https://app.uio.no/ifi/texcount/index.html) to GitHub workflow.
+- GitHub workflow job summary for `latexmk` generated using [texlogsieve](https://ctan.org/pkg/texlogsieve).
 
 ### Changed
 

@@ -43,12 +43,15 @@ jobs:
           done
       - run: latexmk <%= filenames.main %>
 
+      - name: Job summary using texlogsieve
+        run: texlogsieve < <%= filenames.main %>.log >> $GITHUB_STEP_SUMMARY || true
 <% } -%>
       - uses: actions/upload-artifact@v4
         with:
           name: test-result
           path: |
             <%= filenames.main %>.pdf
+            <%= filenames.main %>.log
   word-count:
     runs-on: ubuntu-latest
     steps:
