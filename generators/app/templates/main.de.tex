@@ -508,11 +508,11 @@ Kurzfassung der Arbeit.
 
 %% --- Abstract Page---------------------------------------------
 \chapter*{Abstract}
-\begin{otherlanguage}{american}
   % Silbentrennung auf Englisch
 <% break; default: -%>
 <% break; } -%>
 <% if (howtotext) { -%>
+\begin{otherlanguage}{american}
   \emph{Write an abstract for your work.
     Replace each of the points below with one sentence (two if you must) and you have your abstract.
     Write it when you finished your entire report.
@@ -563,9 +563,15 @@ Kurzfassung der Arbeit.
   Why should other people care?
   What can they do with your research.
   (Essay folks: all the same questions apply: what conclusions did you draw, and why would anyone care about them?)
-
-<% } else { -%>
-  \lipsum[1]
+\end{otherlanguage}
+<% } else { indent = '' -%>
+<% if (documentclass == "ustutt") { indent = '  ' -%>
+\begin{otherlanguage}{american}
+<% } -%>
+<%= indent %>\lipsum[1]
+<% if (documentclass == "ustutt") { -%>
+\end{otherlanguage}{american}
+<% } -%>
 
 <% } -%>
 <%# Jetzt ist der Anfang vom Abstract und der Inhalt gesetzt - jetzt folgt das Schließen des Abstracts -%>
@@ -590,7 +596,6 @@ Kurzfassung der Arbeit.
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 <% break; case "ustutt": -%>
-\end{otherlanguage}
 \pagestyle{scrheadings}
 \clearpage
 
