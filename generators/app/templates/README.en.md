@@ -49,10 +49,10 @@ In case you need other configurations, please adapt `paper-conference.tex` or ru
 
 ## Example PDFs
 
-- Thesis 🇩🇪: [thesis-example.pdf](thesis-example.pdf)
-- Thesis 🇺🇸: [thesis-example-listings-en.pdf](thesis-example-listings-en.pdf)
-- Thesis (minted) 🇩🇪: [thesis-example-minted-de.pdf](thesis-example-minted-de.pdf)
-- Thesis (minted) 🇺🇸: [thesis-example-example-minted-en.pdf](thesis-example-example-minted-en.pdf)
+- Thesis 🇩🇪: [thesis-example.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example.pdf)
+- Thesis 🇺🇸: [thesis-example-listings-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-listings-en.pdf)
+- Thesis (minted) 🇩🇪: [thesis-example-minted-de.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-minted-de.pdf)
+- Thesis (minted) 🇺🇸: [thesis-example-example-minted-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-example-minted-en.pdf)
 - Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
 - Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
 <% break; case "scientific-thesis": -%>
@@ -127,11 +127,11 @@ Following features are enabled in this template:
 - Important LaTeX packages are enabled
 <% } -%>
 <% if (documentclass == 'ieee') { -%>
-- Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/IEEE/<% } %><%= filenames.main %>.tex) file
+- Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
 - Shows how IEEE copyright notice can be added.
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
-- Provides a skeletal [<%= filenames.main %>.tex](<% if (githubpublish) { %>https://latextemplates.github.io/LNCS/<% } %><%= filenames.main %>.tex) file
+- Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
 - Example to have an image being placed right to a text
 <% if (githubpublish || (language == 'de')) { -%>
 - Support for German documents (without broken headers):
@@ -261,7 +261,7 @@ In case you think, a package needs to be altered or added, feel free to open an 
 ## Attention regarding `compsocconf`
 
 Some conferences distribute a `IEEEtran.cls` V1.7a dated 2007 and a parameter `compsocconf`.
-**The parameter `compsocconf` was NEVER included in Michael Shell's IEEEtran.cls file. It is unclear, who did this patch and why it is around in the wild.**
+**The parameter `compsocconf` was NEVER included in Michael Shell's `IEEEtran.cls` file. It is unclear, who did this patch and why it is around in the wild.**
 
 The most recent version is V1.8b and automatically distributed over CTAN, because it is actively maintained by Michael Shell at <http://www.michaelshell.org/tex/ieeetran/>.
 A full changelog is available at <http://mirror.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/changelog.txt>.
