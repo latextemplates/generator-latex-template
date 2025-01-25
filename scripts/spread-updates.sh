@@ -5,7 +5,7 @@ set -e
 
 cd ..
 
-for template in *-enhanced; do
+for template in *-enhanced uni-stuttgart-dissertation-template; do
   echo "$template"
   cd $template
   git pull
