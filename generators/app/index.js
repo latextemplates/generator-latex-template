@@ -131,6 +131,9 @@ export default class extends Generator {
           main: "paper",
           bib: "paper",
         };
+        if (props.documentclass == "ieee") {
+          props.filenames.main = "paper-conference"
+        }
       } else if (props.documentclass == "ustutt") {
           props.filenames = {
             "main": "thesis-example",

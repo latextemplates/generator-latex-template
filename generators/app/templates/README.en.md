@@ -507,15 +507,17 @@ The most simple solution to get more space is to exchange the font.
 
 Execute following command:
 
-    latexindent -l -s -sl -w <%= filenames.main %>.tex
+```bash
+latexindent -l -s -sl -w <%= filenames.main %>.tex
+```
 
 ### Q: I want to obey the one-sentence-per-line rule. How can I do that?
 
 Execute following command:
 
-    latexindent -m -l -s -sl -w <%= filenames.main %>.tex
-
-Attention! This is work in progress and does not always produce best results.
+```bash
+latexindent -m -l -s -sl -w <%= filenames.main %>.tex
+```
 <% if (documentclass == 'lncs') { -%>
 
 ### Q: Is it possible to have a footer indicating that the paper is intended to be submitted/submitted/published?
