@@ -1,9 +1,7 @@
 #!/bin/bash
 set -e
 
-git checkout -b refine-ltg
-git push
-cd ..
+# Current branch of generator-latex-template needs to be "refine-ltg"
 
 for template in *-enhanced; do
   cd "$template"
