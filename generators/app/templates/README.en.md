@@ -63,6 +63,7 @@ Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, an
 
 - University of Stuttgart, Computer Science
   - [English example](https://latextemplates.github.io/scientific-thesis-template/main-english.pdf)
+  - [English example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-english.pdf)
   - [German example](https://latextemplates.github.io/scientific-thesis-template/main-german.pdf)
   - [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german.pdf)
 
