@@ -79,7 +79,7 @@ For [architectural decision records](https://adr.github.io) see [docs/adr](docs/
 
 ## Usage
 
-- `thesis-example.tex` is the main document
+- `<%= filenames.main %>.tex` is the main document
 - Use "<%= reallatexcompiler %> + <%= bibtextool %>" in your TeX editor or `latexmk  <%= filenames.main %>` / `make` in the command line
 
 ### Using `latexmk`
@@ -120,7 +120,7 @@ Following features are enabled in this template:
 - Output format is A5
 - Title page
 - Nice chapter headings
-- Important LaTeX packages are enabled
+- Most recent LaTeX packages and package configuration based on long-time experience.
 <% } -%>
 <% if (documentclass == 'ieee') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
@@ -430,6 +430,29 @@ docker build -t ltg .
 
 <% break; default: -%>
 <% break; } -%>
+
+## Contained Directories and Files
+
+### Directories
+
+- [figures](graphics/) Directory containing the figures.
+  By using LuaLaTex/PDFLaTeX it is possible to use PDFs, JPGs, PNGs, ... We recommend to use PDFs to enable smooth scaling.
+
+### Files
+
+- `<%= filenames.main %>.tex` - The main `.tex` file loading all LaTeX packages and their configurations.
+  - Add text here
+  - Adjust title etc. here
+- [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
+- [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
+- [commands.tex](commands.tex) - Example LaTeX macros.
+
+Following additional files are included, which do not need to be adapted:
+
+- [localSettings.yaml](localSettings.yaml) - Settings for [latexindent](https://ctan.org/pkg/latexindent)
+- [Makefile](Makefile) - The Makefile. Builds on latexmk.
+- [Texlivefile](Texlivefile) - List of packages required for a minimal TeXLive installation.
+
 ## FAQs
 <% switch (documentclass) { case "lncs": -%>
 
@@ -556,6 +579,10 @@ If you don't do this, `latexmk` tries to execute `latex`, which tries to produce
 <% } -%>
 <% } -%>
 - Other templates: <https://latextemplates.github.io/>
+- Frank Mittelbach with Ulrike Fischer: [The LaTeX Companion](https://www.latex-project.org/news/2023/03/17/TLC3/) is the ultimate guide for LaTeX: The authors went through all packages offered by [CTAN](https://ctan.org/), selected the most promising ones, described them, and provide minimal working example for each of it.
+- Lutz Hering, Heike Hering: [How to Write Technial Reports](https://doi.org/10.1007/978-3-540-69929-3), Springer, 2010; also available in German [Technische Berichte - verständlich gliedern, gut gestalten, überzeugend vortragen](https://doi.org/10.1007/978-3-8348-8317-9). - Highly recommended, because it guides through all aspects of a report (such as a Master Thesis).
+- Marcus Deininger et al.: [Studienarbeiten - Ein Leitfaden zur Erstellung, Durchführung und Präsentation wissenschaftlicher Abschlussarbeiten am Beispiel Informatik](https://vdf.ch/studienarbeiten.html?author_id=2877), vdf. - Recommended as guideline for planning and working on the whole thesis.
+- Charles Lipson, [Cite Right, Second Edition: A Quick Guide to Citation Styles--MLA, APA, Chicago, the Sciences, Professions, and More](http://www.press.uchicago.edu/ucp/books/book/chicago/C/bo10702043.html), Chicago Guides to Writing, Editing, and Publishing, 2011. - Recommended in case you are unsure about how to correctly cite something.
 
 ## License
 
