@@ -262,6 +262,12 @@ export default class extends Generator {
       );
     }
 
+    this.fs.copyTpl(
+      this.templatePath("commands.tex"),
+      this.destinationPath("commands.tex"),
+      this.props
+    );
+
     if (this.props.documentclass == "ustutt") {
     /*
       this.props.documentclass = "ustutt-include";

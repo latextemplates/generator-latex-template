@@ -13,6 +13,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Fixed magic comment `!BIB program` for biblatex.
 - Database mode for JabRef is now biblatex (in case of biblatex is chosen).
 
+### Added
+
+- Added `commands.tex` collecting useful LaTeX macros.
+
 ## [2025.1.24]
 
 ### Added
