@@ -566,8 +566,8 @@ Any derived work can freely be relicensed and can omit original copyright and li
 ### Exceptions
 
 - `ustutt-logo.pdf` is restricted. See section "Verwendung des Logos bei Abschlussarbeiten wie Dissertationen, Bachelor- und Masterarbeiten sowie Hausarbeiten" at <https://www.beschaeftigte.uni-stuttgart.de/uni-services/oeffentlichkeitsarbeit/corporate-design/logo-und-schrift/> for details.
-
 <% } -%>
+
 [biber]: https://www.ctan.org/pkg/biber
 [biblatex]: http://tex.stackexchange.com/tags/biblatex/info
 [bibtex]: https://www.ctan.org/pkg/bibtex
