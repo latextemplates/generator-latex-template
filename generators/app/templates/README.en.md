@@ -69,7 +69,7 @@ Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, an
 
 The template will be extended to support theses from different institutions.
 
-For [architectural decision records](https://adr.github.io) see [docs/adr](https://latextemplates.github.io/scientific-thesis-template/adr/).
+For [architectural decision records](https://adr.github.io) see [docs/adr](docs/adr/).
 <%  break; default: -%>
 # LaTeX Document
 <% break; }
