@@ -3,6 +3,8 @@ set -e
 
 # Current branch of generator-latex-template needs to be "refine-ltg"
 
+cd ..
+
 for template in *-enhanced uni-stuttgart-dissertation-template; do
   echo "$template"
   cd "$template"
