@@ -357,7 +357,6 @@ Statement from IEEE:
 - Linux: Recent TeX Live distribution
 
 See [docs/latex-setup](docs/latex-setup) for refined installation instructions.
-
 <% if (listings == "minted" || githubpublish) { -%>
 
 ### Usage of `minted`
