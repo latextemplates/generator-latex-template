@@ -333,6 +333,9 @@ Statement from IEEE:
 - Windows: Recent [MiKTeX](http://miktex.org/). MiKTeX installation hints are given at <http://latextemplates.github.io/scientific-thesis-template/#installation-hints-for-windows>.
 - Mac OS X: Recent [TeX Live](https://www.tug.org/texlive/) (e.g. through [MacTeX](https://tug.org/mactex/)) - Try `sudo tlmgr update --all` if you encounter issues with biblatex
 - Linux: Recent TeX Live distribution
+
+See [docs/latex-setup](docs/latex-setup) for refined installation instructions.
+
 <% if (listings == "minted" || githubpublish) { -%>
 
 ### Usage of `minted`
@@ -413,14 +416,6 @@ For example:
 ```latex
 \foreignlanguage{english}{Therefore, our proposed approach will change the world.}
 ```
-
-### Other hints
-
-- Grammar and spell checking is available at [TeXstudio].
-  Please download [LanguageTool] (Windows: `choco install languagetool`) and [configure TeXstudio to use it](http://wiki.languagetool.org/checking-la-tex-with-languagetool#toc4).
-  Note that it is enough to point to `languagetool.jar`.
-  **If TeXstudio doesn't fit your need, check [the list of all available LaTeX Editors](http://tex.stackexchange.com/questions/339/latex-editors-ides).**
-- Use [JabRef] to manage your bibliography (Windows: `choco install jabref`).
 <% switch (docker) { case "reitzig": -%>
 
 ## Usage with docker
@@ -718,7 +713,6 @@ Any derived work can freely be relicensed and can omit original copyright and li
 [latex template generator]: https://www.npmjs.com/package/generator-latex-template
 [LTeX+]: https://marketplace.visualstudio.com/items?itemName=ltex-plus.vscode-ltex-plus
 [pygments]: https://pygments.org/
-[TeXstudio]: http://texstudio.sourceforge.net/
 <% if (documentclass == 'lncs') { -%>
 
 [llncs2e.zip]: ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip

@@ -346,6 +346,13 @@ export default class extends Generator {
         break;
     }
 
+    if (this.props.isThesis) {
+      this.fs.copy(
+        this.templatePath("docs/*"),
+        this.destinationPath("docs/")
+      );
+    }
+
     this.fs.copyTpl(
       this.templatePath(".github/workflows/check.yml"),
       this.destinationPath(".github/workflows/check.yml"),
