@@ -70,6 +70,21 @@ Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, an
 The template will be extended to support theses from different institutions.
 
 For [architectural decision records](https://adr.github.io) see [docs/adr](docs/adr/).
+
+## Quick start
+
+1. Download
+    1. Go to the development version at <https://github.com/latextemplates/scientific-thesis-template/archive/main.zip>. Reason: LaTeX packages change so fast over time and we cannot do a release on each change.
+    2. Extract `scientific-thesis-template-main.zip` to the directory you want to work. E.g., `c:\users\user\documents\thesis`.
+2. Start texing
+    - University of Stuttgart:
+        - English: `main-english.tex`
+        - German: `main-german.tex`
+        - German advanced usage: `main-minted-german.tex` (see below)
+
+### Usage at overleaf
+
+See [overleaf](overleaf/).
 <%  break; default: -%>
 # LaTeX Document
 <% break; }
@@ -86,6 +101,7 @@ For [architectural decision records](https://adr.github.io) see [docs/adr](docs/
 
 [latexmk] is a very smart tool for latex compilation.
 It executes the latex tools as often as needed to get the final PDF.
+(More information about why `latexmk` is great can be found at <https://tex.stackexchange.com/a/249243/9075>.)
 
 To build the whole document, execute following command.
 Note that this requires a working perl installation.
@@ -146,10 +162,15 @@ Following features are enabled in this template:
 <% } -%>
 <% if (listings == "minted" || githubpublish) { -%>
 - <% if (githubpublish) { -%>(Optional) <% } %>Typesetting of listings using advanced highlighting powered by the [minted] package.
+ `mitned` provides better output than [listings], but requires [pygments] to be installed.
 <% } -%>
 <% if (latexcompiler == "pdflatex" || githubpublish) { -%>
-- Generated PDF allows for copy and paste of text without getting words with ligatures such as "workflow" destroyed.
+- Generated PDF allows for copy and paste of text without getting words with [ligatures](https://en.wikipedia.org/wiki/Typographic_ligature) such as "workflow" destroyed.
   This is enabled by `glyphtounicode`, which encodes ligatures (such as fl) using unicode characters.
+<% } -%>
+<% if (reallatexcompiler == "lualatex" || githubpublish) { -%>
+- Ligatures are removed if they are typeset at the wrong place.
+  This is enabled by the [selnolig](https://tex.meta.stackexchange.com/questions/2884/new-package-selnolig-that-automates-suppression-of-typographic-ligatures) package.
 <% } -%>
 - Support of hyperlinked references without extra color thanx to [hyperref].
 - Better breaking of long URLs.
@@ -160,10 +181,12 @@ Following features are enabled in this template:
 - [microtypographic extensions](https://www.ctan.org/pkg/microtype) for a better look of the paper.
 - Modern packages such as [microtype], [cleveref]<% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
 <% if (latexcompiler == "lualatex" || githubpublish) { -%>
-- <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>LaTeX compilation using the modern lualatex compiler.
+- <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>LaTeX compilation using the modern [lualatex] compiler.
+  For older systems, [pdflatex](https://en.wikipedia.org/wiki/PdfTeX) is still supported.
 <% } -%>
 <% if (bibtextool == "biblatex") { -%>
-- [biblatex]+[biber] instead of plain [bibtex] to have a more intuitive `.bib` file.
+- [biblatex]+[biber] instead of plain [bibtex] to have a more intuitive `.bib` file:
+  Unicode (UTF-8) is fully supported and commands such as `\citeauthor{...}` work out of the box. See also <https://tex.stackexchange.com/q/8411/9075>.
 <% } -%>
 - [latexmk] for easy compilation of the LaTeX document.
 - Ready-to-go configuration for [latexindent].
@@ -199,7 +222,7 @@ You can <% if (!githubpublish) { %>re<% } %>run the [latex template generator] t
 - Modern packages such as <% if (enquotes == "plainlatex") { missingFeatures = true; %>[csquotes]<% } %>.
 <% } -%>
 <% if (latexcompiler != "lualatex") { -%>
-- LaTeX compilation using the modern lualatex compiler.
+- LaTeX compilation using the modern [lualatex] compiler.
 <% } -%>
 <% } -%>
 <% if (!missingFeatures) { -%>
@@ -681,6 +704,8 @@ Any derived work can freely be relicensed and can omit original copyright and li
 [hyperref]: https://ctan.org/pkg/hyperref
 [latexindent]: https://ctan.org/pkg/latexindent
 [latexmk]: http://tex.stackexchange.com/tags/latexmk/info
+[listings]: https://ctan.org/pkg/listings
+[lualatex]: http://www.luatex.org/
 [microtype]: https://ctan.org/pkg/microtype
 [minted]: https://ctan.org/pkg/minted
 [natbib]: https://ctan.org/pkg/natbib
@@ -692,7 +717,7 @@ Any derived work can freely be relicensed and can omit original copyright and li
 [LanguageTool]: https://languagetool.org/
 [latex template generator]: https://www.npmjs.com/package/generator-latex-template
 [LTeX+]: https://marketplace.visualstudio.com/items?itemName=ltex-plus.vscode-ltex-plus
-[pygments]: http://pygments.org/
+[pygments]: https://pygments.org/
 [TeXstudio]: http://texstudio.sourceforge.net/
 <% if (documentclass == 'lncs') { -%>
 
