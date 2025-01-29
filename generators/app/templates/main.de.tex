@@ -16,7 +16,7 @@
 <% if (requiresShellEscape) { -%>
 % !TeX TXS-program:compile = txs:///<%= reallatexcompiler %>/[--shell-escape]
 <% } -%>
-% !BIB program = <%= bibtextool %>
+% !BIB program = <% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %>
 % -*- coding:utf-8 mod:LaTeX -*-
 <% switch (documentclass) { case "lncs": -%>
 
@@ -306,6 +306,8 @@
   % May not be hypphenated
   AROMA TOSCA BPMN OASIS OMG DMTF IT DevOps
 }
+
+\input{commands}
 <% switch (documentclass) { case "acmart": -%>
 
 \acmConference[short-conference-name]{full-conference-name}{November 02--06, 2021}{City, Country}

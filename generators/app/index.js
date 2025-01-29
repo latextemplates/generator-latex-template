@@ -124,6 +124,7 @@ export default class extends Generator {
         props.documentclass === "ieee" ||
         props.documentclass === "lncs";
       // else it is a thesis (ustutt or scientific-thesis) (see below)
+      props.isThesis = !props.isPaper;
 
       if (props.isPaper) {
         // This sets filenames.main and filenames.bib
@@ -131,18 +132,19 @@ export default class extends Generator {
           main: "paper",
           bib: "paper",
         };
-      } else if (props.documentclass == "ustutt") {
-          props.filenames = {
-            "main": "thesis-example",
-            "bib": "bibliography"
-          }
       } else {
+        // isThesis
         props.filenames = {
-          main: "main",
-          bib: "bibliography",
-        };
+          "bib": "bibliography"
+        }
+        if (props.documentclass == "ustutt") {
+          props.filenames.main = "thesis-example";
+        } else if (props.language == "en") {
+          props.filenames.main = "main-english";
+        } else {
+          props.filenames.main = "main-german";
+        }
       }
-      props.isThesis = !props.isPaper;
     }
 
     function createHeadingCommands(props) {
@@ -257,6 +259,12 @@ export default class extends Generator {
       );
     }
 
+    this.fs.copyTpl(
+      this.templatePath("commands.tex"),
+      this.destinationPath("commands.tex"),
+      this.props
+    );
+
     if (this.props.documentclass == "ustutt") {
     /*
       this.props.documentclass = "ustutt-include";
@@ -333,6 +341,13 @@ export default class extends Generator {
           this.props
         );
         break;
+    }
+
+    if (this.props.isThesis) {
+      this.fs.copy(
+        this.templatePath("docs/*"),
+        this.destinationPath("docs/")
+      );
     }
 
     this.fs.copyTpl(

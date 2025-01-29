@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Fixed
+
+- Fixed magic comment `!BIB program` for biblatex.
+- Database mode for JabRef is now biblatex (in case of biblatex is chosen).
+- (ustutt) Fixed path to `cover.tex` in `README.md`.
+
+### Added
+
+- Added `commands.tex` to collects all LaTeX macros / commands for a better overview on available (custom) LaTeX commands.
+- (ustutt) Added LaTeX installation hints
+
+### Changed
+
+- Refined `README.md`
+
 ## [2025.1.24]
 
 ### Added
