@@ -1,13 +1,33 @@
 # Recommended LaTeX environments
 
-## Offline usage
+## TeXStudio as LaTeX Editor
 
 Grammar and spell checking is available at [TeXstudio].
 Please download [LanguageTool] and [configure TeXstudio to use it](http://wiki.languagetool.org/checking-la-tex-with-languagetool#toc4).
 Note that it is enough to point to `languagetool-server.jar`.
 ![language-tool-configuration](texstudio-configuration-languagetool.png)
 
+The template is compiled using normal compilation commands.
+Your LaTeX environment (such as [TeXStudio]) should take care about the compilation transparently.
+
+If you open `main-minted-german.tex`, there will be a warning that the compilation command will be overridden.
+Please answer `(a) allow for this document`:
+
+![allow --shell-escape for this document](texstudio-confirmation-1.png)
+
+At "Build & View", there will be a question to update to biber.
+Please answer `(a) allow for this document`:
+
+![allow biber for this document](texstudio-confirmation-2.png)
+
+When the "Package Installation" dialog pops up at TeXStudio, choose your username at "The package will be installed for:" and uncheck "Always show this dialog before installing packages."
+If you want to include .svg graphics, [inkscape] has to be in your path.
+
+**Attention!** The first compilation will take **at least 30 seconds**, because there will be some LaTeX packages installed.
+
 **If TeXstudio doesn't fit your need, check [the list of all available LaTeX Editors](http://tex.stackexchange.com/questions/339/latex-editors-ides).**
+
+## JabRef for managing literature
 
 Use [JabRef] to manage your bibliography.
 Quick installation using [Chocolatey]: `choco install texstudio languagetool jabref`.
