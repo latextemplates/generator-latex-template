@@ -16,7 +16,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
-- Added `commands.tex` collecting useful LaTeX macros.
+- Added `commands.tex` to collects all LaTeX macros / commands for a better overview on available (custom) LaTeX commands.
 
 ## [2025.1.24]
 
