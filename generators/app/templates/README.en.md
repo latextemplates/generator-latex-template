@@ -496,7 +496,6 @@ docker build -t ltg .
 
 <% break; default: -%>
 <% break; } -%>
-
 ## Contained Directories and Files
 
 ### Directories
