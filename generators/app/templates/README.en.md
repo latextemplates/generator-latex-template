@@ -355,8 +355,8 @@ Statement from IEEE:
 - Windows: Recent [MiKTeX](http://miktex.org/). MiKTeX installation hints are given at <http://latextemplates.github.io/scientific-thesis-template/#installation-hints-for-windows>.
 - Mac OS X: Recent [TeX Live](https://www.tug.org/texlive/) (e.g. through [MacTeX](https://tug.org/mactex/)) - Try `sudo tlmgr update --all` if you encounter issues with biblatex
 - Linux: Recent TeX Live distribution
-
 <% if (isThesis) { -%>
+
 See [docs/latex-setup](docs/latex-setup) for refined installation instructions.
 <% } else { -%>
 - Grammar and spell checking is available at [TeXstudio].
