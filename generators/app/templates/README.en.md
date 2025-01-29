@@ -114,11 +114,33 @@ latexmk <%= filenames.main %>
 To enable latexmk, please move `_latexmkrc` to `latexmkrc`.
 <% } -%>
 
+If you want automatic compilation use following command:
+
+```bash
+latexmk -pvc <%= filenames.main %>
+```
+
+This will also open a [Sumatra PDF] and only works with the supplied configuration.
+
+#### latexmk configuration
+
+This repository ships a `.latexmkrc` which is read by latexmk.
+In case there is a `_latexmkrc` file, you need to rename it to `.latexmkrc`.
+It is configured for Windows and especially sets Sumatra PDF as default PDF viewer.
+You can make this local configuration a global configuration, when you put it at [the right place](http://tex.stackexchange.com/a/41149/9075).
+
+If you want to add more packages, configure it there.
+For instance, for support of makeglossaries see <http://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries>.
+
+### Debugging LaTeX errors
+
 In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
 
 ```bash
-<%= reallatexcompiler %> <%= filenames.main %>
+<%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
 ```
+
+Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
 
 ### Advanced usage
 
@@ -419,6 +441,10 @@ Alternatively, just copy and paste the contents of the [vscode.settings.json](vs
 
 You can manually trigger compilation by hitting the green button in the extension or using other methods provided by LaTeX Workshop.
 
+Please remove the magic comments (`% !TeX program ...`) at the top of the `main-....tex` file.
+Although [LaTeX-Workshop supports magic comments](https://github.com/James-Yu/LaTeX-Workshop/blob/master/README.md#magic-comments), it currently does not work reliably.
+Without the magic comments, compilation works.
+
 ### LTeX+ tips and tricks
 
 [LTeX+] is an offline grammar and spell checker with support for LaTeX and Markdown.
@@ -666,7 +692,48 @@ Try with following command
 
 See <https://tex.stackexchange.com/a/124206/9075> for details.
 
+### Q: There is an output that biber/biblatex too old
+
+See installation hints of how to update them at different systems.
+
+### Q: MiKTeX complains about missing `.sty` files.
+
+Use the [MiKTeX console](https://miktex.org/howto/miktex-console) to refresh the package index.
+Then, automatic installation should work again.
+
+### Q: I cannot get minted to run. There is this `-shell-escape` warning.
+
+Please ensure that your compilation command includes `-shell-escape`.
+E.g., `lualatex -shell-escape -synctex=1 main-minted-german.tex`.
+When compiling `main-minted-german.tex` with TeXStudio, you will see a dialog warning about overriding the compilation command.
+Just answer "(a) allow for this document" and it will work.
+
+### Q: How to include Excel charts properly?
+
+1. Select the Excel chart you want to use.
+2. Print to PDF with the option "Print Selected Chart".
+3. Remove empty space of the created PDF page with `pdfcrop chart.pdf chart_cropped.pdf` (install via MikTeX first, if not available; check via `pdfcrop --version`).
+4. Use [pdfscissors](https://sites.google.com/site/pdfscissors) to crop the borders and title (maybe you have to allow <https://sites.google.com> in the Java security center in the control panel).
+5. Include the PDF in LaTeX via `\includegraphics{chart_cropped.pdf}`.
+
+<%#
+### Q: Overleaf complains about missing `.sty` files.
+
+Google for the name of the `sty` and upload it to overleaf.
+As of 2018-02-17, these are:
+
+- `lccaps.sty` - can be downloaded from <https://latextemplates.github.io/stys-for-overleaf/>.
+- `scientific-thesis-cover.sty` - can be downloaded from <https://raw.githubusercontent.com/latextemplates/scientific-thesis-cover/master/scientific-thesis-cover.sty>.
+
+### Q: My Paderborn title page is strange. The boxes seem to be located arbitrarily.
+
+Just run pdflatex again.
+-%>
 <% if (isThesis) { -%>
+### Q: How do I change the appearance of chapter headings?
+
+Look for `% Code for my fancy chapters.` in your main `.tex` file and play around with parameters.
+
 ### Q: Aren't there other templates?
 
 Sure. The [Hagenberg Thesis Document Collection](https://github.com/Digital-Media/HagenbergThesis) seems to be the most promising.
@@ -674,6 +741,13 @@ However, they currently do not support microtype and not the cover of the Univer
 
 We are collecting alternatives at the issue [#25](https://github.com/latextemplates/scientific-thesis-template/issues/25) and plan to add a comparison to each other template.
 
+### Q: Do I have to do something special for the final version?
+
+- If you included some version control statements, please remove them. Currently, the template does not support any, but it used to support SVN.
+- By using `\largepage` and `\shortpage`, single lines at the bottom or at the top of the page can be manually fixed.
+- Search the PDF for "TODO" or similar things. Remove `\usepackage{todonotes}` in your main `.tex` file.
+- Ensure that you run `lualatex` at least three times and that there are no "undefined references".
+- The margins are intended for good screen reading. **Do not change them** (or do exactly know what you are doing).
 <% } -%>
 <% if (documentclass == "scientific-thesis") { -%>
 ### Q: `main-minted-german.tex` does not compile: ``File `main-minted-german-plantuml.latex' not found. \end{plantuml}``. What can I do?
@@ -733,6 +807,7 @@ Any derived work can freely be relicensed and can omit original copyright and li
 [latex template generator]: https://www.npmjs.com/package/generator-latex-template
 [LTeX+]: https://marketplace.visualstudio.com/items?itemName=ltex-plus.vscode-ltex-plus
 [pygments]: https://pygments.org/
+[Sumatra PDF]: https://www.sumatrapdfreader.org/free-pdf-reader
 <% if (documentclass == 'lncs') { -%>
 
 [llncs2e.zip]: ftp://ftp.springernature.com/cs-proceeding/llncs/llncs2e.zip
