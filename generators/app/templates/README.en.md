@@ -184,7 +184,7 @@ Following features are enabled in this template:
 <% } -%>
 <% if (listings == "minted" || githubpublish) { -%>
 - <% if (githubpublish) { -%>(Optional) <% } %>Typesetting of listings using advanced highlighting powered by the [minted] package.
- `mitned` provides better output than [listings], but requires [pygments] to be installed.
+  `mitned` provides better output than [listings], but requires [pygments] to be installed.
 <% } -%>
 <% if (latexcompiler == "pdflatex" || githubpublish) { -%>
 - Generated PDF allows for copy and paste of text without getting words with [ligatures](https://en.wikipedia.org/wiki/Typographic_ligature) such as "workflow" destroyed.
