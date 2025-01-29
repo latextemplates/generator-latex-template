@@ -3,6 +3,8 @@ set -e
 
 # Current branch of generator-latex-template needs to be "refine-ltg"
 
+git push
+
 cd ..
 
 for template in scientific-thesis-template uni-stuttgart-dissertation-template *-enhanced ; do
