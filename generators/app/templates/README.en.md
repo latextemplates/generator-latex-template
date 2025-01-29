@@ -525,8 +525,8 @@ Install package `inconsolata`
 ### Q: How can I synchronize updates from the template to my repository?
 
 1. Initialize your git repository as usual
-2. Add this repository as upstream: `git remote add upstream https://github.com/latextemplates/{template}.git`
-3. Merge the branch `upstream/main` into your `main` branch: `git merge upstream/main`.
+2. Add this repository as git remote: `git remote add template https://github.com/latextemplates/{template}.git`
+3. Merge the branch `template/main` into your `main` branch: `git merge template/main`.
 
 After that you can use and push the `main` branch as usual.
 Notes on syncing with the upstream repository [are available from GitHub](https://help.github.com/articles/syncing-a-fork/).
