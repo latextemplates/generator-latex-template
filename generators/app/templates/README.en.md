@@ -350,7 +350,7 @@ To have minted running properly, you have to do following steps on Windows:
 
 ### VSCode configuration
 
-Currently, following extensionsa re recommended:
+Currently, following extensions are recommended:
 
 - [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) to support LaTeX in VSCode and
 - [LaTeX Utilities](https://marketplace.visualstudio.com/items?itemName=tecosaur.latex-utilities) to enhance LaTeX Workshop
