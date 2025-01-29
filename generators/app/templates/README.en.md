@@ -357,7 +357,11 @@ Currently, following extensions are recommended:
 - [LTeX+] to have a nice spell checker that also identifies grammar issues
 
 Then, change the setting of LaTeX Workshop to use biber:
-Update the following lines in the VSCode `settings.json` to contain:
+
+Press <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd> to open the command palette.
+Then type "JSON" and select "Preferences: Open Settings (JSON)" to open `settings.json`.
+
+Update the following lines in VSCode's `settings.json` to contain:
 
 ```javascript
     "latex-workshop.latex.recipes": [
@@ -384,6 +388,20 @@ Update the following lines in the VSCode `settings.json` to contain:
         // ...
     ],
 ```
+<%#
+
+  {
+    "name": "pdflatex",
+    "command": "pdflatex",
+    "args": [
+      "-synctex=1",
+      "-interaction=nonstopmode",
+      "-file-line-error",
+      "%DOC%"
+    ],
+    "env": {}
+  },
+-%>
 
 The following settings are additionally recommended:
 
@@ -392,12 +410,14 @@ The following settings are additionally recommended:
     "editor.wordWrap": "on",                              // enable soft line breaks
     "latex-workshop.view.pdf.viewer": "tab",              // display the generaded PDF in a separate tab
     "latex-workshop.view.pdf.backgroundColor": "#cccccc", // use a darker background in de PDF viewer to lift of the pages from it
-    "latex-workshop.latex.autoBuild.run": "onSave",       // automatically build on saving .tex files
+    "latex-workshop.latex.autoBuild.run": "never",        // never automatically build; alternative: "onSave" (on saving .tex files)
     "editor.renderWhitespace": "all",                     // display all whitespaces
 }
 ```
 
-Alternatively, just copy and paste the contents of the [vscode.settings.json](./vscode.settings.json) file to your VSCode settings file.
+Alternatively, just copy and paste the contents of the [vscode.settings.json](vscode.settings.json) file to your VSCode settings file.
+
+You can manually trigger compilation by hitting the green button in the extension or using other methods provided by LaTeX Workshop.
 
 ### LTeX+ tips and tricks
 
