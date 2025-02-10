@@ -10,7 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- Switched from [unicode-math](https://www.ctan.org/pkg/unicode-math) to [minim-math](https://www.ctan.org/pkg/minim-math) (when not on overleaf or TeXLive < 2024) [#348](https://github.com/latextemplates/generator-latex-template/issues/348)
+- Switched from [unicode-math](https://www.ctan.org/pkg/unicode-math) to [minim-math](https://www.ctan.org/pkg/minim-math) (when not on overleaf or TeXLive < 2024 or ACM) [#348](https://github.com/latextemplates/generator-latex-template/issues/348)
 
 ## [2025.1.31]
 
