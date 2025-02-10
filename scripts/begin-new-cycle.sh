@@ -1,7 +1,16 @@
 #!/bin/bash
 set -e
 
-# Current branch of generator-latex-template needs to be "refine-ltg"
+# Get the current branch name
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Check if the branch is "refine-ltg"
+if [[ "$current_branch" != "refine-ltg" ]]; then
+    echo "Error: Current branch is '$current_branch'. Expected 'refine-ltg'."
+    exit 1
+fi
+
+echo "Current branch is 'refine-ltg'. Continuing..."
 
 cd ..
 
