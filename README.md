@@ -125,6 +125,13 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - `gh run list -L 100 --json databaseId -s in_progress -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | awk '{gsub(/\\r\\n/,RS)} 1' | while read -r run_id; do gh run cancel "$run_id" -R latextemplates/generator-latex-template || true; done`
 - Update submodule of "derived" templates (LNCS, ...): `[ -z "$(git status --porcelain)" ] && cd generator-latex-template/ && git pull && cd .. && git add . && git commit -m"Update LTG" && git pull --rebase && git push`
 
+### Testing
+
+- All workflows test `overleaf=no` - and (nearly) all possible combinations.
+- All `*-refined` repositories test with `overleaf=true` - and only the typical settings for the template.
+- `refine-ltg` is the development branch for the template generator; only a small set of workflows enabled there due to load during testing.
+- `update-ltg` is the development branch at each `*-refined` template.
+
 ### Test locally
 
 - Create empty directory ("target directory")
