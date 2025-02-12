@@ -17,8 +17,7 @@ for template in scientific-thesis-template uni-stuttgart-dissertation-template *
   cd ..
   echo "Adding generator-latex-template..."
   git add generator-latex-template
-  git commit -m"Update LTG"
-  git push
+  git commit -m"Update LTG" && git push || true
   cd ..
   echo ""
 done
