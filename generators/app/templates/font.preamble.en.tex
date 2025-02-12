@@ -52,12 +52,13 @@ lualatex
 ###########################################################################
 -%>
 <%= indent %>\usepackage[no-math]{fontspec}
-<%= indent %>\usepackage{unicode-math}
+<% if (documentclass != "acmart") { -%>
+<%= indent %><% if (overleaf || texlive < 2024) { %>\usepackage{unicode-math}<% } else { %>\usepackage{minim-math}<% } %>
+<% } -%>
 <% switch (font) { case "arial": -%>
 <%# Arial and LuaLaTeX -%>
 <%# -%>
 
-<%= indent %>\usepackage{ifplatform}
 <%= indent %>\ifwindows
 <%= indent %>  \setmainfont[Ligatures=TeX]{Arial}
 <%= indent %>  \setsansfont[Ligatures=TeX]{Arial}
@@ -105,7 +106,6 @@ lualatex
 <% break; case "ustutt": -%>
 <%# see also https://github.com/programming-journal/programming/blob/main/programming.cls -%>
 
-<%= indent %>\usepackage{ifplatform}
 <%= indent %>\ifwindows
 <%= indent %>  \setmainfont{XCharter}
 <%= indent %>  \setsansfont[Ligatures=TeX]{Arial}

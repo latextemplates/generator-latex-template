@@ -128,7 +128,7 @@ hyphen-german
 ieeetran
 <% } -%>
 ifmtarg<%# required by acmart at least %>
-<% if (githubpublish || (reallatexcompiler == "lualatex") && (font == "arial")) { -%>
+<% if (githubpublish || isThesis) { -%>
 ifplatform
 <% } -%>
 iftex
@@ -177,6 +177,9 @@ mfirstuc
 <% } -%>
 microtype
 mindflow
+<% if (githubpublish || (!overleaf && (texlive >= 2024) && documentclass != "acmart")) { -%>
+minim-math<%# Modern (?) alternative to unicode-math %>
+<% } -%>
 <% if (githubpublish || (listings == 'minted')) { -%>
 minted
 <% } -%>
@@ -285,7 +288,9 @@ trimspaces
 <% if (githubpublish || (documentclass == "ieee") || (font == "times")) { -%>
 txfonts
 <% } -%>
+<% if (githubpublish || overleaf || (texlive < 2024) || documentclass == "acmart") { -%>
 unicode-math
+<% } -%>
 uniquecounter
 upquote
 url
