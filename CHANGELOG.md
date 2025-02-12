@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
 ## [2025.2.12]
 
 ### Changed
@@ -259,6 +261,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
+[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.12...main
 [2025.2.12]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.31...2025.2.12
 [2025.1.31]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.24...2015.1.31
 [2025.1.24]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.23...2015.1.24
