@@ -71,15 +71,15 @@ jobs:
         with:
           package_file: '${{ github.workspace }}/Texlivefile'
       - run: make pdf
-      - uses: bscott-zebra/cache-apt-pkgs-action@avoid_using_xargs
-        with:
-          packages: libyaml-tiny-perl libfile-homedir-perl
-          version: 1.0
-          execute_install_scripts: true
       - name: Prepare output of diff
         run: |
           git init
           git add .
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libyaml-tiny-perl libfile-homedir-perl
+          version: 1.0
+          execute_install_scripts: true
       - run: make format
         # Additional check - more than the make target itself
       - name: No changes made by latexindent
