@@ -19,7 +19,7 @@ for template in *-enhanced uni-stuttgart-dissertation-template; do
   cd "$template"
   git stash
   git checkout --force main
-  git pull
+  git pull --no-edit
   git branch -D update-ltg || true
   git checkout update-ltg || git checkout -b update-ltg
   echo "Preparing generator-latex-template..."

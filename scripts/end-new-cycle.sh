@@ -9,7 +9,7 @@ cd ..
 for template in *-enhanced uni-stuttgart-dissertation-template; do
   echo "$template"
   cd $template
-  git pull
+  git pull --no-edit
   echo "Updating generator-latex-template..."
   cd generator-latex-template
   git checkout --force main
@@ -18,7 +18,6 @@ for template in *-enhanced uni-stuttgart-dissertation-template; do
   echo "Adding generator-latex-template..."
   git add generator-latex-template
   git commit -m"Update LTG" || true
-  git pull --rebase
   git push
   cd ..
   echo ""
