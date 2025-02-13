@@ -72,19 +72,7 @@ jobs:
         uses: zauguin/install-texlive@v3
         with:
           package_file: '/tmp/gen/Texlivefile'
-      - name: Switch to pretest TeX Live
-        run: |
-          set -e
-          cd /tmp
-          # Source: https://www.tug.org/texlive/mirmon/
-          # too old
-          # PRETEST_URL=https://www.math.utah.edu/pub/tlpretest/
-          PRETEST_URL=http://ftp.cstug.cz/pub/tex/local/tlpretest/
-          wget -q $PRETEST_URL/update-tlmgr-latest.sh
-          sh ./update-tlmgr-latest.sh
-          tlmgr option repo $PRETEST_URL
-          tlmgr update --self --force
-          tlmgr update --all --force
+          repository: https://www.math.utah.edu/pub/tlpretest/
       - run: make pdf
         working-directory: /tmp/gen
       - uses: actions/upload-artifact@v4
