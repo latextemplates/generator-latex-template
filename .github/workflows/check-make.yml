@@ -72,6 +72,16 @@ jobs:
         uses: zauguin/install-texlive@v3
         with:
           package_file: '/tmp/gen/Texlivefile'
+      - name: Switch to pretest TeX Live
+        run: |
+          set -e
+          cd /tmp
+          PRETEST_URL=$(wget -qO- https://zauguin.github.io/texlive-mirrors/us | head -n1)
+          wget $PRETEST_URL/update-tlmgr-latest.sh
+          sh ./update-tlmgr-latest.sh
+          tlmgr option repo $PRETEST_URL
+          tlmgr update --self
+          tlmgr update --all
       - run: make pdf
         working-directory: /tmp/gen
       - uses: actions/upload-artifact@v4
