@@ -21,7 +21,8 @@ for template in *-enhanced uni-stuttgart-dissertation-template; do
   git checkout --force main
   git pull --no-edit
   git branch -D update-ltg || true
-  git checkout update-ltg || git checkout -b update-ltg
+  git push origin :update-ltg || true
+  git checkout -b update-ltg
   echo "Preparing generator-latex-template..."
   cd generator-latex-template
   git stash
