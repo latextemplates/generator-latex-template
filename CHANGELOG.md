@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Removed
+
+- Removed `minim-math`, since the `.sty` file seems to be missing on both MiKTeX and TeX Live.
+
 ## [2025.2.12]
 
 ### Changed
