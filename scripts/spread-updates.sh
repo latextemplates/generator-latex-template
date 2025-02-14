@@ -24,7 +24,7 @@ git fetch
 git checkout --force refine-ltg
 git reset --hard origin/refine-ltg
 cd ..
-ehco ""
+echo ""
 
 for template in *-enhanced uni-stuttgart-dissertation-template; do
   echo "$template"
