@@ -15,7 +15,7 @@ git push
 
 cd ..
 
-for template in scientific-thesis-template uni-stuttgart-dissertation-template *-enhanced ; do
+for template in *-enhanced uni-stuttgart-dissertation-template; do
   echo "$template"
   cd $template
 
