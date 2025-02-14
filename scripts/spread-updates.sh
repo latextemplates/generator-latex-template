@@ -20,7 +20,7 @@ cd scientific-thesis-template
 git pull --no-edit
 echo "Updating generator-latex-template..."
 cd generator-latex-template
-git fetch
+git fetch --prune
 git checkout --force refine-ltg
 git reset --hard origin/refine-ltg
 cd ..
@@ -38,14 +38,14 @@ for template in *-enhanced uni-stuttgart-dissertation-template; do
 
   # ensure update-ltg to be in line with origin/update-ltg
   echo "Force sync of update-ltg..."
-  git fetch
+  git fetch --prune
   git checkout --force origin/update-ltg
   git branch -D update-ltg || true
   git checkout update-ltg
 
   echo "Updating generator-latex-template..."
   cd generator-latex-template
-  git fetch
+  git fetch --prune
   git checkout --force refine-ltg
   git reset --hard origin/refine-ltg
   cd ..

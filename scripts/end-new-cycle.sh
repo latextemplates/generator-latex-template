@@ -20,7 +20,7 @@ for template in *-enhanced uni-stuttgart-dissertation-template; do
 
   # ensure update-ltg to be in line with origin/update-ltg
   echo "Force sync of update-ltg..."
-  git fetch
+  git fetch --prune
   git checkout --force origin/update-ltg
   git branch -D update-ltg || true
   git checkout update-ltg
@@ -28,7 +28,7 @@ for template in *-enhanced uni-stuttgart-dissertation-template; do
   echo "Updating generator-latex-template..."
   cd generator-latex-template
   git checkout --force main
-  git fetch
+  git fetch --prune
   git reset --hard origin/main
   cd ..
 
