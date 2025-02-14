@@ -24,6 +24,12 @@ git fetch
 git checkout --force refine-ltg
 git reset --hard origin/refine-ltg
 cd ..
+
+echo "Adding generator-latex-template..."
+git add generator-latex-template
+git commit -m"Update LTG" || true
+git push
+cd ..
 echo ""
 
 for template in *-enhanced uni-stuttgart-dissertation-template; do
