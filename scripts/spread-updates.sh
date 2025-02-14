@@ -15,6 +15,17 @@ git push
 
 cd ..
 
+echo "scientific-thesis-template"
+cd scientific-thesis-template
+git pull --no-edit
+echo "Updating generator-latex-template..."
+cd generator-latex-template
+git fetch
+git checkout --force refine-ltg
+git reset --hard origin/refine-ltg
+cd ..
+ehco ""
+
 for template in *-enhanced uni-stuttgart-dissertation-template; do
   echo "$template"
   cd $template
