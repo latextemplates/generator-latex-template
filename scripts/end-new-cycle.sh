@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+# script similar to spread-updates.sh
+
 # Current branch of generator-latex-template needs to be "main" and point to the latest release
 # Each template needs to be on the branch "update-ltg"
 
@@ -17,6 +19,7 @@ for template in *-enhanced uni-stuttgart-dissertation-template; do
   cd $template
 
   # ensure update-ltg to be in line with origin/update-ltg
+  echo "Force sync of update-ltg..."
   git fetch
   git checkout --force origin/update-ltg
   git branch -D update-ltg || true
