@@ -17,6 +17,7 @@ cd ..
 
 echo "scientific-thesis-template"
 cd scientific-thesis-template
+test -z "$(git status --porcelain)"
 git pull --no-edit
 echo "Updating generator-latex-template..."
 cd generator-latex-template
@@ -35,6 +36,8 @@ echo ""
 for template in *-enhanced uni-stuttgart-dissertation-template; do
   echo "$template"
   cd $template
+
+  test -z "$(git status --porcelain)"
 
   # ensure update-ltg to be in line with origin/update-ltg
   echo "Force sync of update-ltg..."
