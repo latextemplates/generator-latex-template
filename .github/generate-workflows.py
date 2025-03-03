@@ -11,7 +11,7 @@ latexcompilers = ['pdflatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2024]
+texlives = [2024, 2025]
 
 languages = ['en', 'de']
 
@@ -212,10 +212,11 @@ jobs:
                             yml.write(yml_content)
                             ymlmiktex.write(yml_content)
                             yml.write('''      - name: Install TeX Live
-        uses: zauguin/install-texlive@v3
+        uses: zauguin/install-texlive@v4
         with:
 ''')
                             yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
+                            yml.write("          texlive: %s\n" % texlive)
                             yml.write("      - name: latexmk {}\n".format(variantShort))
                             ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
                             filename = "paper.tex" if documentclass in ['acmart', 'lncs', 'ieee'] else "thesis-example.tex" if documentclass == 'ustutt' else "main.tex"
