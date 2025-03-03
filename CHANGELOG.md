@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Changed
+
+- Updated [zauguin/install-texlive](https://github.com/zauguin/install-texlive) to `v4`.
+
 ## [2025.2.14]
 
 ### Removed
