@@ -216,7 +216,7 @@ jobs:
         with:
 ''')
                             yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
-                            yml.write("          texlive: %s\n" % texlive)
+                            yml.write("          texlive_version: %s\n" % texlive)
                             yml.write("      - name: latexmk {}\n".format(variantShort))
                             ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
                             filename = "paper.tex" if documentclass in ['acmart', 'lncs', 'ieee'] else "thesis-example.tex" if documentclass == 'ustutt' else "main.tex"
