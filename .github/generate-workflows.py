@@ -256,7 +256,9 @@ jobs:
             yml.write("        if: always()\n");
             yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
             if failfast:
-              yml.write(r'''      - run: |
+              yml.write(r'''      - name: Cancel all other workflows
+        if: failure()
+        run: |
           gh run list -L 100 --json databaseId -s queued -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | \
           while read -r run_id; do
             gh run cancel "$run_id" || true
