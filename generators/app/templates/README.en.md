@@ -95,7 +95,7 @@ See [overleaf](overleaf/).
 ## Usage
 
 - `<%= filenames.main %>.tex` is the main document
-- Use "<%= reallatexcompiler %> + <%= bibtextool %>" in your TeX editor or `latexmk  <%= filenames.main %>` / `make` in the command line
+- Use "<%= reallatexcompiler %> + <%= bibtextool %>" in your TeX editor or `latexmk <%= filenames.main %>` / `make` in the command line
 
 ### Using `latexmk`
 
