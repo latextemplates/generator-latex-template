@@ -25,7 +25,7 @@ This template does it.
 
 This template is for the conferences.
 It is based on the `bare_conf_compsoc.tex` distributed by IEEE.
-In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
+In case you need other configurations, please adapt `paper.tex` or run the [latex template generator].
 <% break; case "acmart": -%>
 # ACM
 
@@ -41,7 +41,7 @@ However, de-facto configurations (hyperref) and modern features of latex (microt
 This template does it.
 
 This template is for the conferences.
-In case you need other configurations, please adapt `paper-conference.tex` or run the [latex template generator].
+In case you need other configurations, please adapt `paper.tex` or run the [latex template generator].
 <% break; case "ustutt": -%>
 # University of Stuttgart PhD Thesis Template
 
@@ -95,7 +95,7 @@ See [overleaf](overleaf/).
 ## Usage
 
 - `<%= filenames.main %>.tex` is the main document
-- Use "<%= reallatexcompiler %> + <%= bibtextool %>" in your TeX editor or `latexmk  <%= filenames.main %>` / `make` in the command line
+- Use "<%= reallatexcompiler %> + <%= bibtextool %>" in your TeX editor or `latexmk <%= filenames.main %>` / `make` in the command line
 
 ### Using `latexmk`
 
@@ -292,15 +292,15 @@ In case you think, a package needs to be altered or added, feel free to open an 
 <% break; case "ieee": -%>
 ## Examples
 
-- [paper-conference.pdf](https://latextemplates.github.io/IEEE/paper-conference.pdf) - regular conference paper.
-- [paper-conference-minted.pdf](https://latextemplates.github.io/IEEE/paper-conference-minted.pdf) - conference paper showing minted in action.
+- [paper.pdf](https://latextemplates.github.io/IEEE/paper.pdf) - regular conference paper.
+- [paper-minted.pdf](https://latextemplates.github.io/IEEE/paper-minted.pdf) - conference paper showing minted in action.
 
 ## Quick start
 
 - Click on `Download ZIP` or [here](https://github.com/latextemplates/IEEE/archive/main.zip).
 - Extract `main.zip` in the folder where you want to write your paper.
-- Edit [paper-conference.tex](paper-conference.tex).
-- `latexmk paper-conference`.
+- Edit [paper.tex](paper.tex).
+- `latexmk paper`.
 
 ## Attention regarding `compsocconf`
 
@@ -327,10 +327,6 @@ LaTeX Warning: Unused global option(s):
 ```
 
 ## `compsoc` option is not needed any more
-
-When using the 2007 version or the most recent version with (the unhandled) `compsocconf`, you'll get [paper-conference.pdf](https://latextemplates.github.io/IEEE/paper-conference.pdf) instead of `paper-conference-compsoc.pdf`.
-That differs significantly in the style used for section headings.
-`paper-conference-compsoc.pdf` was removed from the build since August 2021, because `compsoc` option was not used by computer science conferences in 2021.
 
 IEEE distributes their templates at <https://www.ieee.org/conferences_events/conferences/publishing/templates.html>.
 With the update of July 2017, the archive <https://www.ieee.org/documents/ieee-latex-conference-template.zip> contains both `bare_conf.tex` and `bare_conf_compsoc.tex`.

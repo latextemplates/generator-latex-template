@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [2025.3.4]
+
+### Changed
+
+- Updated [zauguin/install-texlive](https://github.com/zauguin/install-texlive) to `v4`.
+- Change output PDF check workflow name to "pdf (latexmk paper)".
+- Updated `cache-apt-pkgs-action` to use the `latest` version.
+- `.fls` is now also updated as test result (refs [texlogsieve#14](https://gitlab.com/lago/texlogsieve/-/issues/14#note_2342385986)).
+
 ## [2025.2.14]
 
 ### Removed
@@ -265,7 +274,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
-[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.14...main
+[2025.3.4]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.14...2025.3.4
 [2025.2.14]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.12...2025.2.14
 [2025.2.12]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.31...2025.2.12
 [2025.1.31]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.24...2015.1.31

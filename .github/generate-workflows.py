@@ -3,15 +3,18 @@
 import hashlib
 import base64
 
+# If enabled, each generated workflow gets a "global" unique id. Thus, if a new version is pushed on any branch, the current running version is cancelled.
 globalsingleworkflow = True
-failfast = True
+
+# If enabled, a failing workflow cancels all other workflows
+failfast = False
 
 documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt'] # , 'scientific-thesis'
 latexcompilers = ['pdflatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2024]
+texlives = [2024, 2025]
 
 languages = ['en', 'de']
 
@@ -212,10 +215,11 @@ jobs:
                             yml.write(yml_content)
                             ymlmiktex.write(yml_content)
                             yml.write('''      - name: Install TeX Live
-        uses: zauguin/install-texlive@v3
+        uses: zauguin/install-texlive@v4
         with:
 ''')
                             yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
+                            yml.write("          texlive_version: %s\n" % texlive)
                             yml.write("      - name: latexmk {}\n".format(variantShort))
                             ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
                             filename = "paper.tex" if documentclass in ['acmart', 'lncs', 'ieee'] else "thesis-example.tex" if documentclass == 'ustutt' else "main.tex"
@@ -252,7 +256,9 @@ jobs:
             yml.write("        if: always()\n");
             yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
             if failfast:
-              yml.write(r'''      - run: |
+              yml.write(r'''      - name: Cancel all other workflows
+        if: failure()
+        run: |
           gh run list -L 100 --json databaseId -s queued -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | \
           while read -r run_id; do
             gh run cancel "$run_id" || true
