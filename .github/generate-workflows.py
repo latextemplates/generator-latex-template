@@ -3,8 +3,11 @@
 import hashlib
 import base64
 
+# If enabled, each generated workflow gets a "global" unique id. Thus, if a new version is pushed on any branch, the current running version is cancelled.
 globalsingleworkflow = True
-failfast = True
+
+# If enabled, a failing workflow cancels all other workflows
+failfast = False
 
 documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt'] # , 'scientific-thesis'
 latexcompilers = ['pdflatex', 'both']
