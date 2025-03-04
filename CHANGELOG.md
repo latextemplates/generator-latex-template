@@ -11,6 +11,9 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Changed
 
 - Updated [zauguin/install-texlive](https://github.com/zauguin/install-texlive) to `v4`.
+- Change output PDF check workflow name to "pdf (latexmk paper)".
+- Updated `cache-apt-pkgs-action` to use the `latest` version.
+- `.fls` is now also updated as test result (refs [texlogsieve#14](https://gitlab.com/lago/texlogsieve/-/issues/14#note_2342385986)).
 
 ## [2025.2.14]
 
