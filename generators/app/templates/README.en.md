@@ -1,7 +1,7 @@
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
-# Simplified LNCS Template
+# Enhanced LNCS Template
 
 > Quick start for modern LaTeXing with [LNCS](http://www.springer.com/computer/lncs).
 <% if (texlive > 2024) { -%>
@@ -10,7 +10,7 @@ Please be aware that this template is optimized for overleaf, which is based on 
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 <% } -%>
 <% break; case "ieee": -%>
-# Simplified IEEE Template
+# Enhanced IEEE Template
 
 > Quick start for modern LaTeXing for an IEEE conference, based on the [Manuscript Template for Conference Proceedings](https://www.ieee.org/conferences_events/conferences/publishing/templates.html).
 
