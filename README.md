@@ -77,8 +77,8 @@ You can use the magic of `git` to prevent that:
 
 ## Resources
 
-- [IEEE](https://latextemplates.github.io/IEEE/) - example: [paper-conference-minted.tex](https://github.com/latextemplates/IEEE/blob/main/paper-conference-minted.tex)
-- [LNCS](https://latextemplates.github.io/LNCS/) - example: [paper.tex](https://github.com/latextemplates/LNCS/blob/main/paper.tex)
+- [IEEE](https://latextemplates.github.io/ieee-enhanced/) - example: [paper-conference-minted.tex](https://github.com/latextemplates/ieee-enhanced/blob/main/paper-conference-minted.tex)
+- [LNCS](https://latextemplates.github.io/lncs-enhanced/) - example: [paper.tex](https://github.com/latextemplates/lncs-enhanced/blob/main/paper.tex)
 - [scientific-thesis-template](https://latextemplates.github.io/scientific-thesis-template/) - example: [latexhints-english.tex](https://github.com/latextemplates/scientific-thesis-template/blob/main/latexhints-english.tex)
 - [alpenwasser/TeX](https://github.com/alpenwasser/TeX)
 
