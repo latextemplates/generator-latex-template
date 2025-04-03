@@ -10,7 +10,7 @@ globalsingleworkflow = True
 failfast = False
 
 documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt'] # , 'scientific-thesis'
-latexcompilers = ['pdflatex', 'both']
+latexcompilers = ['pdflatex', 'lualatex-dev', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
 
@@ -59,6 +59,8 @@ for documentclass in documentclasses:
       if ((bibtextool == 'bibtex') and (documentclass == 'scientific-thesis')):
         continue
       for texlive in texlives:
+        if (texlive < 2025) and latexcompiler.endswith("-dev"):
+          continue
         for example in examples:
           for ieeevariant in ieeevariants:
             if ((documentclass != 'ieee') and (ieeevariant != 'conference')):
