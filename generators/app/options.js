@@ -139,6 +139,10 @@ export const options = [
           name: "TeXLive 2024",
           value: 2024,
         },
+        {
+          name: "TeXLive 2025",
+          value: 2025,
+        },
       ];
 /*      if (!state.overleaf) {
         res.push({
@@ -154,7 +158,7 @@ export const options = [
         return 2024;
       }
 
-      return 2024;
+      return 2025;
     },
   },
   {
