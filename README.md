@@ -77,8 +77,8 @@ You can use the magic of `git` to prevent that:
 
 ## Resources
 
-- [IEEE](https://latextemplates.github.io/IEEE/) - example: [paper-conference-minted.tex](https://github.com/latextemplates/IEEE/blob/main/paper-conference-minted.tex)
-- [LNCS](https://latextemplates.github.io/LNCS/) - example: [paper.tex](https://github.com/latextemplates/LNCS/blob/main/paper.tex)
+- [IEEE](https://latextemplates.github.io/ieee-enhanced/) - example: [paper-conference-minted.tex](https://github.com/latextemplates/ieee-enhanced/blob/main/paper-conference-minted.tex)
+- [LNCS](https://latextemplates.github.io/lncs-enhanced/) - example: [paper.tex](https://github.com/latextemplates/lncs-enhanced/blob/main/paper.tex)
 - [scientific-thesis-template](https://latextemplates.github.io/scientific-thesis-template/) - example: [latexhints-english.tex](https://github.com/latextemplates/scientific-thesis-template/blob/main/latexhints-english.tex)
 - [alpenwasser/TeX](https://github.com/alpenwasser/TeX)
 
@@ -124,6 +124,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - `gh run list -L 100 --json databaseId -s queued -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | awk '{gsub(/\\r\\n/,RS)} 1' | while read -r run_id; do gh run cancel "$run_id" -R latextemplates/generator-latex-template || true; done`
   - `gh run list -L 100 --json databaseId -s in_progress -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | awk '{gsub(/\\r\\n/,RS)} 1' | while read -r run_id; do gh run cancel "$run_id" -R latextemplates/generator-latex-template || true; done`
 - Update submodule of "derived" templates (LNCS, ...): `scripts/spread-updates.sh`
+- Sort `dot.aspell.en.pws`: `cat dot.aspell.en.pws | (sed -u 1q; sort) | sponge dot.aspell.en.pws` <!-- hint by https://stackoverflow.com/a/56151840/873282 -->
 
 ### Testing
 
