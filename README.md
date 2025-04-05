@@ -124,6 +124,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - `gh run list -L 100 --json databaseId -s queued -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | awk '{gsub(/\\r\\n/,RS)} 1' | while read -r run_id; do gh run cancel "$run_id" -R latextemplates/generator-latex-template || true; done`
   - `gh run list -L 100 --json databaseId -s in_progress -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | awk '{gsub(/\\r\\n/,RS)} 1' | while read -r run_id; do gh run cancel "$run_id" -R latextemplates/generator-latex-template || true; done`
 - Update submodule of "derived" templates (LNCS, ...): `scripts/spread-updates.sh`
+- Sort `dot.aspell.en.pws`: `cat dot.aspell.en.pws | (sed -u 1q; sort) | sponge dot.aspell.en.pws` <!-- hint by https://stackoverflow.com/a/56151840/873282 -->
 
 ### Testing
 
