@@ -128,7 +128,6 @@
 
 <% } -%>
 <%- include('font.preamble.en.tex', this); -%>
-
 <%- include('microtype.preamble.en.tex', this); -%>
 
 <% if (documentclass == 'ustutt') { -%>
@@ -277,18 +276,6 @@
 % See https://ctan.org/pkg/hyphenex and https://tex.stackexchange.com/a/22892/9075 for details
 \input{ushyphex}
 
-<% if ((reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { indent = '' -%>
-<% if (latexcompiler == "both") { indent = '  ' -%>
-\ifluatex
-<% } -%>
-<%= indent %>% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/selnolig
-<%= indent %>% See ADR-0009 for alternatives
-<%= indent %>\usepackage{selnolig}
-<% if (latexcompiler == "both") { -%>
-\fi
-<% } -%>
-
-<% } -%>
 % correct bad hyphenation here
 \hyphenation{
   op-tical net-works semi-conduc-tor
