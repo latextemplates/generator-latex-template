@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Added support to use `lualatex-dev`.
+
 ### Fixed
 
 - Fixed utf-8 marking in generated `.aspell-en.pws`.
