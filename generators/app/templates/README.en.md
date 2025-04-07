@@ -190,7 +190,7 @@ Following features are enabled in this template:
 - Generated PDF allows for copy and paste of text without getting words with [ligatures](https://en.wikipedia.org/wiki/Typographic_ligature) such as "workflow" destroyed.
   This is enabled by `glyphtounicode`, which encodes ligatures (such as fl) using unicode characters.
 <% } -%>
-<% if (reallatexcompiler == "lualatex" || githubpublish) { -%>
+<% if ((reallatexcompiler.startsWith("lualatex")) || githubpublish) { -%>
 - Ligatures are removed if they are typeset at the wrong place.
   This is enabled by the [selnolig](https://tex.meta.stackexchange.com/questions/2884/new-package-selnolig-that-automates-suppression-of-typographic-ligatures) package.
 <% } -%>
@@ -202,7 +202,7 @@ Following features are enabled in this template:
 <% } -%>
 - [microtypographic extensions](https://www.ctan.org/pkg/microtype) for a better look of the paper.
 - Modern packages such as [microtype], [cleveref]<% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
-<% if (latexcompiler == "lualatex" || githubpublish) { -%>
+<% if ((reallatexcompiler.startsWith("lualatex")) || githubpublish) { -%>
 - <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>LaTeX compilation using the modern [lualatex] compiler.
   For older systems, [pdflatex](https://en.wikipedia.org/wiki/PdfTeX) is still supported.
 <% } -%>
@@ -243,7 +243,7 @@ You can <% if (!githubpublish) { %>re<% } %>run the [latex template generator] t
 <% if (enquotes == "plainlatex") { -%>
 - Modern packages such as <% if (enquotes == "plainlatex") { missingFeatures = true; %>[csquotes]<% } %>.
 <% } -%>
-<% if (latexcompiler != "lualatex") { -%>
+<% if (!reallatexcompiler.startsWith("lualatex")) { -%>
 - LaTeX compilation using the modern [lualatex] compiler.
 <% } -%>
 <% } -%>
