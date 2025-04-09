@@ -6,15 +6,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
-## [Unreleased]
+## [2025.4.9]
 
 ### Added
 
 - Added support to use `lualatex-dev`.
+- Added more words to personal aspell dictionary.
+- Added support for TeXLive 2025.
 
 ### Fixed
 
 - Fixed utf-8 marking in generated `.aspell-en.pws`.
+
+## Removed
+
+- Removed support for TeXLive 2023.
+- Removed double `\usepackage{selnolig}`.
 
 ## [2025.3.4]
 
@@ -284,6 +291,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
+[2025.4.9]: https://github.com/latextemplates/generator-latex-template/compare/2015.3.4...2025.4.9
 [2025.3.4]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.14...2025.3.4
 [2025.2.14]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.12...2025.2.14
 [2025.2.12]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.31...2025.2.12
