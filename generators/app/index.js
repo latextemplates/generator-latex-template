@@ -101,6 +101,8 @@ export default class extends Generator {
       this.props.equote = "\"'";
     }
 
+    isPaperHandling(props);
+
     this.props.requiresShellEscape = this.props.isThesis || this.props.listings == "minted";
 
     if (this.props.docker == "no") {
@@ -108,7 +110,6 @@ export default class extends Generator {
       this.props.docker = false;
     }
 
-    isPaperHandling(props);
     createFeatures(props);
     createHeadingCommands(props);
     createAvailable(props);

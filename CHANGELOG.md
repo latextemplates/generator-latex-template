@@ -17,6 +17,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - Fixed utf-8 marking in generated `.aspell-en.pws`.
+- Fixed generation of `-shell-escape`.
 
 ## Removed
 
