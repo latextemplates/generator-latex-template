@@ -128,8 +128,10 @@ jobs:
           failure=0
           for tex in $(ls *.tex content/*.tex 2>/dev/null); do
             if [[ "<%= language %>" == "de" && "$tex" == thesis-example* ]]; then
+              echo "$tex skipped"
               continue
             fi
+            echo "Checking $tex..."
 
             # Words are output in the order they appear in the document
             words=$(aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws list < $tex | tr '\n' ' ')
