@@ -12,6 +12,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Added support to use `lualatex-dev`.
 - Added more words to personal aspell dictionary.
+- Added `.aspell.de.pws` for German documents.
 - Added support for TeXLive 2025.
 
 ### Fixed

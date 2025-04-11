@@ -217,14 +217,22 @@ export default class extends Generator {
       this.destinationPath("Makefile"),
       this.props
     );
+
     this.fs.copy(
       this.templatePath("dot.aspell.conf"),
       this.destinationPath(".aspell.conf")
     );
-    this.fs.copy(
-      this.templatePath("dot.aspell.en.pws"),
-      this.destinationPath(".aspell.en.pws")
-    );
+    if ((this.props.language == "en") || (this.props.githubpublish)) {
+      this.fs.copy(
+        this.templatePath("dot.aspell.en.pws"),
+        this.destinationPath(".aspell.en.pws"));
+    }
+    if ((this.props.language == "de") || (this.props.githubpublish)) {
+      this.fs.copy(
+        this.templatePath("dot.aspell.de.pws"),
+        this.destinationPath(".aspell.de.pws"));
+    }
+
     if (this.props.documentclass === "lncs") {
       this.fs.copy(
         this.templatePath("splncs04nat.bst"),
