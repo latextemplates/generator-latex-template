@@ -24,6 +24,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Removed support for TeXLive 2023.
 - Removed double `\usepackage{selnolig}`.
 
+## Changed
+
+- Always use `awalsh128/cache-apt-pkgs-action@latest` in `check.yml`
+
 ## [2025.3.4]
 
 ### Changed
