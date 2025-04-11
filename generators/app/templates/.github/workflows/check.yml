@@ -46,7 +46,7 @@ jobs:
       - name: Job summary using texlogsieve
         run: |
           echo '```' >> $GITHUB_STEP_SUMMARY
-          texlogsieve < <%= filenames.main %>.log >> $GITHUB_STEP_SUMMARY || true
+          texlogsieve <%= filenames.main %>.log | tee -a "$GITHUB_STEP_SUMMARY" || true
           echo '```' >> $GITHUB_STEP_SUMMARY
 <% } -%>
       - uses: actions/upload-artifact@v4
