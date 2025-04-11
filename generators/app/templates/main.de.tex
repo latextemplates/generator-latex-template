@@ -116,10 +116,12 @@
 <% if (latexcompiler == "both") { -%>
 
 \usepackage{iftex}
-<% if (isThesis) { -%>\usepackage{ifplatform}
+<% } -%>
+<% if (isThesis) { -%>
+
+\usepackage{ifplatform}
 <% } -%>
 
-<% } -%>
 % backticks (`) werden als solches in verbatim-Umgebungen dargestellt
 % Details unter:
 %   - https://tex.stackexchange.com/a/341057/9075
@@ -136,7 +138,6 @@
 
 <% } -%>
 <%- include('font.preamble.en.tex', this); -%>
-
 <%- include('microtype.preamble.de.tex', this); -%>
 
 <% if (documentclass == 'ustutt') { -%>
@@ -156,7 +157,7 @@
 <% } -%>
 <%- include('diagbox.preamble.en.tex', this); -%>
 
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
+<% if ((reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { indent = '' -%>
 <% if (latexcompiler == "both") { indent = '  ' -%>
 \ifluatex
 <% } -%>
@@ -277,7 +278,7 @@
 \newcommand{\hydash}{\penalty\@M-\hskip\z@skip}
 % Definition of "= taken from http://mirror.ctan.org/macros/latex/contrib/babel-contrib/german/ngermanb.dtx
 \makeatother
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
+<% if ((reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { indent = '' -%>
 
 <% if (latexcompiler == "both") { indent = '  ' -%>
 \ifluatex
@@ -359,7 +360,7 @@
 \setstretch{1.2}
 \raggedbottom     % Variable Seitenhoehen zulassen
 <% } -%>
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
+<% if ((reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { indent = '' -%>
 <% if (latexcompiler == "both") { indent = '  ' -%>
 \ifluatex
 <% } -%>

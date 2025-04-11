@@ -138,15 +138,14 @@ export const options = [
         {
           name: "TeXLive 2024",
           value: 2024,
-        },
+        }
       ];
-/*      if (!state.overleaf) {
+      if (!state.overleaf) {
         res.push({
-          name: "TeXLive 2023",
-          value: 2023,
+          name: "TeXLive 2025",
+          value: 2025,
         });
       }
-*/
       return res;
     },
     default(state) {
@@ -154,31 +153,51 @@ export const options = [
         return 2024;
       }
 
-      return 2024;
+      return 2025;
     },
   },
   {
     type: "list",
     name: "latexcompiler",
     message: "Which latex compiler should be used?",
-    choices: [
-      {
-        name: "pdflatex",
-        value: "pdflatex",
-      },
-      {
-        name: "lualatex",
-        value: "lualatex",
-      },
-      {
-        name: "lualatex and pdflatex (if switches in .tex files; default lualatex)",
-        value: "both",
-      },
-    ],
-    default: "both",
-    when(response) {
-      return !(response.documentclass === "ieee");
+    choices(state) {
+      const res = [
+        {
+          name: "pdflatex",
+          value: "pdflatex",
+        }
+      ];
+      if (state.texlive == 2025) {
+        res.push(
+          {
+            name: "pdflatex-dev",
+            value: "pdflatex-dev",
+          }
+          );
+      }
+      res.push(
+        {
+          name: "lualatex",
+          value: "lualatex",
+        }
+      );
+      if (state.texlive == 2025) {
+        res.push(
+          {
+            name: "lualatex-dev",
+            value: "lualatex-dev",
+          }
+          );
+      }
+      res.push(
+        {
+          name: "lualatex and pdflatex (if switches in .tex files; default lualatex)",
+          value: "both",
+        }
+      );
+      return res;
     },
+    default: "both",
   },
   {
     when(response) {

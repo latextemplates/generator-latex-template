@@ -35,7 +35,7 @@ bookcover<%# required for cover.tex%>
 <% } -%>
 booktabs
 caption
-<% if (githubpublish || (reallatexcompiler == "lualatex") && ((font == "arial") || (documentclass == "ustutt"))) { -%>
+<% if (githubpublish || isThesis) { -%>
 catchfile
 <% } -%>
 cfr-lm
@@ -92,7 +92,7 @@ floatflt<%# required by acmart and lncs %>
 fncychap
 <% } -%>
 fontaxes<%# required by at least acmart and scientific-thesis-template %>
-<% if (githubpublish || (reallatexcompiler == "lualatex")) { -%>
+<% if (githubpublish || (reallatexcompiler.startsWith("lualatex"))) { -%>
 fontspec
 <% } -%>
 <% if (githubpublish || isThesis) { -%>
@@ -140,6 +140,10 @@ koma-script
 kvdefinekeys
 kvoptions
 kvsetkeys
+<% if (latexcompiler.endsWith("-dev")) { -%>
+latex-bin-dev
+latex-bin-dev.x86_64-linux
+<% } -%>
 letltxmacro
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 libertine
@@ -155,12 +159,12 @@ ltxcmds
 <% if (githubpublish || isThesis) { -%>
 lscapeenhanced
 <% } -%>
-<% if (githubpublish || (reallatexcompiler == "lualatex")) { -%>
+<% if (githubpublish || (reallatexcompiler.startsWith("lualatex"))) { -%>
 luacode
 lualatex-math
 luatex85
 luatexbase
-<% if (githubpublish || (lang == "en") && (reallatexcompiler == "lualatex")) { -%>
+<% if (githubpublish || (lang == "en") && (reallatexcompiler.startsWith("lualatex"))) { -%>
 luaxml<%# required by spelling %>
 <% } -%>
 <% } -%>
@@ -190,7 +194,7 @@ natbib
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 ncctools<%# provides manyfoot%>
 <% } -%>
-<% if (githubpublish || (reallatexcompiler == "lualatex")) { -%>
+<% if (githubpublish || (reallatexcompiler.startsWith("lualatex"))) { -%>
 newcomputermodern
 <% } -%>
 <% if (githubpublish || (listings == 'minted')) { -%>
@@ -239,7 +243,7 @@ scientific-thesis-cover
 <% if (githubpublish || isThesis) { -%>
 scrhack
 <% } -%>
-<% if (githubpublish || (lang == "en") && (reallatexcompiler == "lualatex")) { -%>
+<% if (githubpublish || (lang == "en") && (reallatexcompiler.startsWith("lualatex"))) { -%>
 selnolig
 <% } -%>
 <% if (githubpublish || (documentclass == "acmart") || isThesis) { -%>
@@ -255,7 +259,7 @@ siunitx
 snapshot
 soul
 soulpos
-<% if (githubpublish || (lang == "en") && (reallatexcompiler == "lualatex")) { -%>
+<% if (githubpublish || (lang == "en") && (reallatexcompiler.startsWith("lualatex"))) { -%>
 spelling
 <% } -%>
 stringenc

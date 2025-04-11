@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [2025.4.11]
+
+### Added
+
+- Added support to use `lualatex-dev`.
+- Added more words to personal aspell dictionary.
+- Added `.aspell.de.pws` for German documents.
+- Added support for TeXLive 2025.
+
+### Fixed
+
+- Fixed utf-8 marking in generated `.aspell-en.pws`.
+- Fixed generation of `-shell-escape`.
+
+## Removed
+
+- Removed support for TeXLive 2023.
+- Removed double `\usepackage{selnolig}`.
+
+## Changed
+
+- Always use `awalsh128/cache-apt-pkgs-action@latest` in `check.yml`
+
 ## [2025.3.4]
 
 ### Changed
@@ -169,17 +192,17 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Added generations of GitHub actions
-- Switch for `overleaf`. If set, `_latexmkrc` is generated instead of `latexmkrc`. [lncs#40](https://github.com/latextemplates/LNCS/issues/40)
+- Switch for `overleaf`. If set, `_latexmkrc` is generated instead of `latexmkrc`. [lncs-enahnced#40](https://github.com/latextemplates/lncs-enhanced/issues/40)
 
 ### Changed
 
-- Update `splncsnat` to [splncs04nat](https://github.com/tpavlic/splncs04nat). [lncs#35](https://github.com/latextemplates/LNCS/issues/35)
+- Update `splncsnat` to [splncs04nat](https://github.com/tpavlic/splncs04nat). [lncs-enahnced#35](https://github.com/latextemplates/lncs-enhanced/issues/35)
 
 ### Fixed
 
 - Fixed reference to examples in IEEE template
 - Fixed run for TeXLive 2021
-- Correct `\keywords{}` syntax for LCNS. [lncs#39](https://github.com/latextemplates/LNCS/issues/39)
+- Correct `\keywords{}` syntax for LCNS. [lncs-enahnced#39](https://github.com/latextemplates/lncs-enhanced/issues/39)
 
 ## [0.5.0] – 2022-02-28
 
@@ -274,6 +297,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
+[2025.4.11]: https://github.com/latextemplates/generator-latex-template/compare/2015.3.4...2025.4.11
 [2025.3.4]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.14...2025.3.4
 [2025.2.14]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.12...2025.2.14
 [2025.2.12]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.31...2025.2.12

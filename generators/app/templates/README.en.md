@@ -1,7 +1,7 @@
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
-# Simplified LNCS Template
+# Enhanced LNCS Template
 
 > Quick start for modern LaTeXing with [LNCS](http://www.springer.com/computer/lncs).
 <% if (texlive > 2024) { -%>
@@ -10,7 +10,7 @@ Please be aware that this template is optimized for overleaf, which is based on 
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 <% } -%>
 <% break; case "ieee": -%>
-# Simplified IEEE Template
+# Enhanced IEEE Template
 
 > Quick start for modern LaTeXing for an IEEE conference, based on the [Manuscript Template for Conference Proceedings](https://www.ieee.org/conferences_events/conferences/publishing/templates.html).
 
@@ -190,7 +190,7 @@ Following features are enabled in this template:
 - Generated PDF allows for copy and paste of text without getting words with [ligatures](https://en.wikipedia.org/wiki/Typographic_ligature) such as "workflow" destroyed.
   This is enabled by `glyphtounicode`, which encodes ligatures (such as fl) using unicode characters.
 <% } -%>
-<% if (reallatexcompiler == "lualatex" || githubpublish) { -%>
+<% if ((reallatexcompiler.startsWith("lualatex")) || githubpublish) { -%>
 - Ligatures are removed if they are typeset at the wrong place.
   This is enabled by the [selnolig](https://tex.meta.stackexchange.com/questions/2884/new-package-selnolig-that-automates-suppression-of-typographic-ligatures) package.
 <% } -%>
@@ -202,7 +202,7 @@ Following features are enabled in this template:
 <% } -%>
 - [microtypographic extensions](https://www.ctan.org/pkg/microtype) for a better look of the paper.
 - Modern packages such as [microtype], [cleveref]<% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
-<% if (latexcompiler == "lualatex" || githubpublish) { -%>
+<% if ((reallatexcompiler.startsWith("lualatex")) || githubpublish) { -%>
 - <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>LaTeX compilation using the modern [lualatex] compiler.
   For older systems, [pdflatex](https://en.wikipedia.org/wiki/PdfTeX) is still supported.
 <% } -%>
@@ -243,7 +243,7 @@ You can <% if (!githubpublish) { %>re<% } %>run the [latex template generator] t
 <% if (enquotes == "plainlatex") { -%>
 - Modern packages such as <% if (enquotes == "plainlatex") { missingFeatures = true; %>[csquotes]<% } %>.
 <% } -%>
-<% if (latexcompiler != "lualatex") { -%>
+<% if (!reallatexcompiler.startsWith("lualatex")) { -%>
 - LaTeX compilation using the modern [lualatex] compiler.
 <% } -%>
 <% } -%>
@@ -266,10 +266,10 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
     case "lncs": -%>
 ## Examples
 
-- [paper.pdf](https://latextemplates.github.io/LNCS/paper.pdf) - normal paper.
-- [paper-minted.pdf](https://latextemplates.github.io/LNCS/paper-minted.pdf) - paper showing minted in action.
-- [paper-newtx.pdf](http://latextemplates.github.io/LNCS/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
-- [paper-minted-newtx.pdf](http://latextemplates.github.io/LNCS/paper-minted-newtx.pdf) - paper typeset in Times Roman to save some space.
+- [paper.pdf](https://latextemplates.github.io/lncs-enhanced/paper.pdf) - normal paper.
+- [paper-minted.pdf](https://latextemplates.github.io/lncs-enhanced/paper-minted.pdf) - paper showing minted in action.
+- [paper-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
+- [paper-minted-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-minted-newtx.pdf) - paper typeset in Times Roman to save some space.
 
 ## Background
 
@@ -277,7 +277,7 @@ The official template is available at <https://www.springer.com/gp/computer-scie
 
 ## Quick start
 
-- Click on `Download ZIP` or [here](https://github.com/latextemplates/LNCS/archive/main.zip).
+- Click on `Download ZIP` or [here](https://github.com/latextemplates/lncs-enhanced/archive/main.zip).
 - Extract `LNCS-main.zip` in the folder where you want to write your paper.
 - Edit [paper.tex](paper.tex).
 - `latexmk paper`.
@@ -292,8 +292,8 @@ In case you think, a package needs to be altered or added, feel free to open an 
 <% break; case "ieee": -%>
 ## Examples
 
-- [paper.pdf](https://latextemplates.github.io/IEEE/paper.pdf) - regular conference paper.
-- [paper-minted.pdf](https://latextemplates.github.io/IEEE/paper-minted.pdf) - conference paper showing minted in action.
+- [paper.pdf](https://latextemplates.github.io/ieee-enhanced/paper.pdf) - regular conference paper.
+- [paper-minted.pdf](https://latextemplates.github.io/ieee-enhanced/paper-minted.pdf) - conference paper showing minted in action.
 
 ## Quick start
 

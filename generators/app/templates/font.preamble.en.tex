@@ -42,7 +42,7 @@
 \makeatother
 
 <% } -%>
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
+<% if ((reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { indent = '' -%>
 <% if (latexcompiler == "both") { indent = '  ' -%>
 \ifluatex
 <% } -%>
@@ -158,8 +158,9 @@ lualatex
 <%= indent %>% For more information see https://ctan.org/pkg/selnolig
 <%= indent %>% language "english" or "ngerman" is passed to selnolig by the document class
 <%= indent %>\usepackage{selnolig}
+
 <% } -%>
-<% if ((latexcompiler != "lualatex") || (latexcompiler == "both")) { -%>
+<% if ((!reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { -%>
 <% if (latexcompiler == "both") { -%>
 \else
 <% } -%>
@@ -215,8 +216,8 @@ In addition, we make the code appear more nice -%>
 \fi
 <% } -%>
 <% } -%>
-<% if (isThesis) { -%>
 
+<% if (isThesis) { -%>
 % DE: Noch mehr Symbole
 %\usepackage{stmaryrd} %fuer \ovee, \owedge, \otimes
 %\usepackage{marvosym} %fuer \Writinghand %patched to not redefine \Rightarrow
@@ -280,9 +281,9 @@ In addition, we make the code appear more nice -%>
 %\usepackage{marvosym} %fuer \Writinghand %patched to not redefine \Rightarrow
 %\usepackage{mathrsfs} %mittels \mathscr{} schoenen geschwungenen Buchstaben erzeugen
 %\usepackage{calrsfs} %\mathcal{} ein bisserl dickeren buchstaben erzeugen - sieht net so gut aus.
+
 <% } -%>
 <% if (documentclass == 'scientific-thesis') { -%>
-
 \automark[section]{chapter}
 \setkomafont{pageheadfoot}{\normalfont\sffamily}
 \setkomafont{pagenumber}{\normalfont\sffamily}
@@ -293,9 +294,9 @@ In addition, we make the code appear more nice -%>
 \cfoot[]{}
 \ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
 \ifoot[]{}
+
 <% } -%>
 <% if (documentclass == 'ustutt') { -%>
-
 % Zusatzliche Symbole (Text Companion font extension)
 \usepackage{textcomp}
 
@@ -305,4 +306,5 @@ In addition, we make the code appear more nice -%>
 \setkomafont{pagenumber}{\small\sffamily\bfseries}
 
 \typearea[current]{last}
+
 <% } -%>

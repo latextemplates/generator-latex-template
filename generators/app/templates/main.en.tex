@@ -50,7 +50,6 @@
 <% break; case "ieee": -%>
 
 % DO NOT DOWNLOAD IEEEtran.cls - Use the one of your LaTeX distribution
-% For the final version, replace "draftcls" by "final"
 \documentclass[<%= ieeevariant %>,<%= papersize %>paper,english]{IEEEtran}[2015/08/26]
 
 % Balance the last page using the balance package (see https://ctan.org/pkg/balance)
@@ -109,10 +108,12 @@
 <% if (latexcompiler == "both") { -%>
 
 \usepackage{iftex}
-<% if (isThesis) { -%>\usepackage{ifplatform}
+<% } -%>
+<% if (isThesis) { -%>
+
+\usepackage{ifplatform}
 <% } -%>
 
-<% } -%>
 % backticks (`) are rendered as such in verbatim environments.
 % See following links for details:
 %   - https://tex.stackexchange.com/a/341057/9075
@@ -129,7 +130,6 @@
 
 <% } -%>
 <%- include('font.preamble.en.tex', this); -%>
-
 <%- include('microtype.preamble.en.tex', this); -%>
 
 <% if (documentclass == 'ustutt') { -%>
@@ -149,7 +149,7 @@
 <% } -%>
 <%- include('diagbox.preamble.en.tex', this); -%>
 
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
+<% if ((reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { indent = '' -%>
 <% if (latexcompiler == "both") { indent = '  ' -%>
 \ifluatex
 <% } -%>
@@ -278,18 +278,6 @@
 % See https://ctan.org/pkg/hyphenex and https://tex.stackexchange.com/a/22892/9075 for details
 \input{ushyphex}
 
-<% if ((latexcompiler == "lualatex") || (latexcompiler == "both")) { indent = '' -%>
-<% if (latexcompiler == "both") { indent = '  ' -%>
-\ifluatex
-<% } -%>
-<%= indent %>% Enable correct rendering of ligatures - provided by https://ctan.org/pkg/selnolig
-<%= indent %>% See ADR-0009 for alternatives
-<%= indent %>\usepackage{selnolig}
-<% if (latexcompiler == "both") { -%>
-\fi
-<% } -%>
-
-<% } -%>
 % correct bad hyphenation here
 \hyphenation{
   op-tical net-works semi-conduc-tor
