@@ -12,6 +12,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Fixed "Inconsolata" on MiKTeX/Windows
 
+### Added
+
+- Added `.github/dependabot.yml` for updating the actions in the workflow using dependabot.
+
 ## [2025.4.11]
 
 ### Added
