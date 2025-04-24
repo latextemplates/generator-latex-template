@@ -11,6 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - Fixed "Inconsolata" on MiKTeX/Windows
+- Use `zauguin/install-texlive@v4` also in "pdf" task of `check.yml`
 
 ### Added
 
