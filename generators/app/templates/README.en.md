@@ -130,7 +130,7 @@ It is configured for Windows and especially sets Sumatra PDF as default PDF view
 You can make this local configuration a global configuration, when you put it at [the right place](http://tex.stackexchange.com/a/41149/9075).
 
 If you want to add more packages, configure it there.
-For instance, for support of makeglossaries see <http://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries>.
+For instance, for support of `makeglossaries` see <http://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries>.
 
 ### Debugging LaTeX errors
 
@@ -368,25 +368,25 @@ See [docs/latex-setup](docs/latex-setup) for refined installation instructions.
 To have minted running properly, you have to do following steps on Windows:
 
 1. Install python: `choco install python` - that uses [chocolatey](https://chocolatey.org/) to install Python
-2. Install [pygments]: `pip instal pygments` - that uses the Pyhton package manager to install the pygments library
+2. Install [`pygments`]: `pip instal pygments` - that uses the Python package manager to install the `pygments` library
 3. When latexing, use `-shell-escape`: `pdflatex -shell-escape <%= filenames.main %>`.
    You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
 
-### VSCode configuration
+### VS Code configuration
 
 Currently, following extensions are recommended:
 
-- [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) to support LaTeX in VSCode and
+- [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) to support LaTeX in VS Code and
 - [LaTeX Utilities](https://marketplace.visualstudio.com/items?itemName=tecosaur.latex-utilities) to enhance LaTeX Workshop
 - [LTeX+] to have a nice spell checker that also identifies grammar issues
 
-Then, change the setting of LaTeX Workshop to use biber:
+Then, change the setting of LaTeX Workshop to use `biber`:
 
 Press <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd> to open the command palette.
 Then type "JSON" and select "Preferences: Open Settings (JSON)" to open `settings.json`.
 
-Update the following lines in VSCode's `settings.json` to contain:
+Update the following lines in VS Code's `settings.json` to contain:
 
 ```javascript
     "latex-workshop.latex.recipes": [
@@ -440,7 +440,7 @@ The following settings are additionally recommended:
 }
 ```
 
-Alternatively, just copy and paste the contents of the [vscode.settings.json](vscode.settings.json) file to your VSCode settings file.
+Alternatively, just copy and paste the contents of the [vscode.settings.json](vscode.settings.json) file to your VS Code settings file.
 
 You can manually trigger compilation by hitting the green button in the extension or using other methods provided by LaTeX Workshop.
 
