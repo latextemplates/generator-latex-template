@@ -60,7 +60,8 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 
 1. Download
 2. Windows: Install [Inconsolata font](https://fonts.google.com/specimen/Inconsolata)
-3. Start texing
+3. Install Python and install minted3: `python -m pip install --force-reinstall latexminted`
+4. Start texing
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
@@ -190,7 +191,7 @@ Following features are enabled in this template:
 <% } -%>
 <% if (listings == "minted" || githubpublish) { -%>
 - <% if (githubpublish) { -%>(Optional) <% } %>Typesetting of listings using advanced highlighting powered by the [minted] package.
-  `minted` provides better output than [listings], but requires [pygments] to be installed.
+  `minted` provides better output than [listings], but requires [latexminted] to be installed.
 <% } -%>
 <% if (latexcompiler == "pdflatex" || githubpublish) { -%>
 - Generated PDF allows for copy and paste of text without getting words with [ligatures](https://en.wikipedia.org/wiki/Typographic_ligature) such as "workflow" destroyed.
@@ -374,7 +375,7 @@ See [docs/latex-setup](docs/latex-setup) for refined installation instructions.
 To have minted running properly, you have to do following steps on Windows:
 
 1. Install python: `choco install python` - that uses [chocolatey](https://chocolatey.org/) to install Python
-2. Install [`pygments`]: `pip instal pygments` - that uses the Python package manager to install the `pygments` library
+2. Install [latexminted]: `pip instal latexminted` - that uses the Python package manager to install the minted library
 3. When latexing, use `-shell-escape`: `pdflatex -shell-escape <%= filenames.main %>`.
    You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
@@ -610,10 +611,10 @@ See "How can I reformat my `.tex` files?"
 ### Q: I want to use minted, because I think its syntax highlighting seems to be better.
 
 You can re-generate the template and choose `minted` as listings environment.
-Moreover, ensure that python and [pygments](https://pygments.org/) are installed properly:
+Moreover, ensure that python and [latexminted] are installed properly:
 
 - `choco install python`
-- `pip install pygments`
+- `pip install latexminted`
 
 ### Q: I have troubles with minted on Windows.
 
@@ -832,7 +833,7 @@ Any derived work can freely be relicensed and can omit original copyright and li
 [LanguageTool]: https://languagetool.org/
 [latex template generator]: https://www.npmjs.com/package/generator-latex-template
 [LTeX+]: https://marketplace.visualstudio.com/items?itemName=ltex-plus.vscode-ltex-plus
-[pygments]: https://pygments.org/
+[latexminted]: https://pypi.org/project/latexminted/
 [Sumatra PDF]: https://www.sumatrapdfreader.org/free-pdf-reader
 <% if (documentclass == 'lncs') { -%>
 
