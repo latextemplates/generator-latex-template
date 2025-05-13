@@ -55,6 +55,12 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 - Thesis (minted) 🇺🇸: [thesis-example-example-minted-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-example-minted-en.pdf)
 - Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
 - Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
+
+## Quick start
+
+1. Download
+2. Windows: Install [Inconsolata font](https://fonts.google.com/specimen/Inconsolata)
+3. Start texing
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
