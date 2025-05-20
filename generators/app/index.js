@@ -359,6 +359,12 @@ export default class extends Generator {
       );
     }
 
+    this.fs.copy(
+      this.templatePath(".github/dependabot.yml"),
+      this.destinationPath(".github/dependabot.yml"),
+      this.props
+    );
+
     this.fs.copyTpl(
       this.templatePath(".github/workflows/check.yml"),
       this.destinationPath(".github/workflows/check.yml"),
