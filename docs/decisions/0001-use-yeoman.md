@@ -65,6 +65,7 @@ TeXplate is a Kotlin-based framework to generate LaTeX templates.
 
 Recommended by @mfa and @andlaus, also because of <http://eosrei.net/articles/2015/11/latex-templates-python-and-jinja2-generate-pdfs>
 
+* Good, because it can be combined with [simple-term-menu](https://github.com/Cs137/simple-term-menu)
 * Bad, because Just a templating engine. Prompts are out of scope.
 
 ### [Cheetah](http://cheetahtemplate.org/)
