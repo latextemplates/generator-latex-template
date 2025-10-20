@@ -1,6 +1,9 @@
 name: Check
 on:
   push:
+    branches:
+      - main
+  pull_request:
   schedule:
     - cron: "5 6 * * 1"
   workflow_dispatch:
@@ -13,11 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install TeX Live
-        uses: zauguin/install-texlive@v3
+        uses: zauguin/install-texlive@v4
         with:
           package_file: '${{ github.workspace }}/Texlivefile'
+          texlive_version: <%= texlive %>
       - name: Prepare latexmk
         run: |
           updmap -sys
@@ -40,6 +44,10 @@ jobs:
         run: |
           sudo apt-get install -y aspell-en<% if (githubpublish || (language == 'de')) { %> aspell-de<% } %>
       - name: aspell
+<% if (githubpublish && (documentclass === "scientific-thesis")) { -%>
+        # Needs more adaption for scientific thesis; therefore disabled
+        if: false()
+<% } -%>
         run: |
           for tex in $(ls *.tex content/*.tex 2>/dev/null); do
             if [[ "<%= language %>" == "de" && "$tex" == thesis-example* ]]; then
@@ -58,6 +66,8 @@ jobs:
 
       - name: Job summary using texlogsieve
         run: |
+          texlogsieve --version | head -n 1
+
           echo '```' >> $GITHUB_STEP_SUMMARY
           texlogsieve <%= filenames.main %>.log | tee -a "$GITHUB_STEP_SUMMARY" || true
           echo '```' >> $GITHUB_STEP_SUMMARY
@@ -73,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install TeX Live
         uses: zauguin/install-texlive@v4
         with:
@@ -108,7 +118,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Original action does not work well - see https://github.com/awalsh128/cache-apt-pkgs-action/pull/136
       # The action is not updated - and thus the dictionaries are not updated
@@ -153,7 +163,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: libyaml-tiny-perl libfile-homedir-perl

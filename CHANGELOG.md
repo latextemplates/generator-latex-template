@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [2025.10.20]
+
+### Fixed
+
+- Fixed "Inconsolata" on MiKTeX/Windows
+- Use `zauguin/install-texlive@v4` also in "pdf" task of `check.yml`
+
+### Added
+
+- Added `.github/dependabot.yml` for updating the actions in the workflow using dependabot.
+
 ## [2025.4.11]
 
 ### Added
@@ -297,14 +308,15 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
-[2025.4.11]: https://github.com/latextemplates/generator-latex-template/compare/2015.3.4...2025.4.11
-[2025.3.4]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.14...2025.3.4
-[2025.2.14]: https://github.com/latextemplates/generator-latex-template/compare/2015.2.12...2025.2.14
-[2025.2.12]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.31...2025.2.12
-[2025.1.31]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.24...2015.1.31
-[2025.1.24]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.23...2015.1.24
-[2025.1.23]: https://github.com/latextemplates/generator-latex-template/compare/2015.1.20...2015.1.23
-[2025.1.20]: https://github.com/latextemplates/generator-latex-template/compare/2025.1.14...2015.1.20
+[2025.10.20]: https://github.com/latextemplates/generator-latex-template/compare/2025.4.11...2025.10.20
+[2025.4.11]: https://github.com/latextemplates/generator-latex-template/compare/2025.3.4...2025.4.11
+[2025.3.4]: https://github.com/latextemplates/generator-latex-template/compare/2025.2.14...2025.3.4
+[2025.2.14]: https://github.com/latextemplates/generator-latex-template/compare/2025.2.12...2025.2.14
+[2025.2.12]: https://github.com/latextemplates/generator-latex-template/compare/2025.1.31...2025.2.12
+[2025.1.31]: https://github.com/latextemplates/generator-latex-template/compare/2025.1.24...2025.1.31
+[2025.1.24]: https://github.com/latextemplates/generator-latex-template/compare/2025.1.23...2025.1.24
+[2025.1.23]: https://github.com/latextemplates/generator-latex-template/compare/2025.1.20...2025.1.23
+[2025.1.20]: https://github.com/latextemplates/generator-latex-template/compare/2025.1.14...2025.1.20
 [2025.1.14]: https://github.com/latextemplates/generator-latex-template/compare/0.8.0...2025.1.14
 [0.8.0]: https://github.com/latextemplates/generator-latex-template/compare/0.7.0...0.8.0
 [0.7.0]: https://github.com/latextemplates/generator-latex-template/compare/0.6.0...0.7.0

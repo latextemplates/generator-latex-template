@@ -10,11 +10,11 @@ globalsingleworkflow = True
 failfast = False
 
 documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt'] # , 'scientific-thesis'
-latexcompilers = ['pdflatex', 'lualatex-dev', 'both']
+latexcompilers = ['pdflatex', 'lualatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2024, 2025]
+texlives = [2025]
 
 languages = ['en', 'de']
 
@@ -133,8 +133,8 @@ jobs:
             yml.write("""    runs-on: ubuntu-24.04
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+        uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
@@ -167,7 +167,7 @@ jobs:
           sudo mpm --admin --update-db
           sudo mpm --admin --update
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 ''')
             table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext | link |"
             yml.write("      - name: Summary table heading\n");

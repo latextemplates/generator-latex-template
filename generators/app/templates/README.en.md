@@ -31,8 +31,8 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 
 > Quick start for modern LaTeXing for an ACM conference.
 
-<% if (texlive > 2024) { -%>
-Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
+<% if (texlive > 2025) { -%>
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2025.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 
 <% } -%>
@@ -55,6 +55,13 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 - Thesis (minted) 🇺🇸: [thesis-example-example-minted-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-example-minted-en.pdf)
 - Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
 - Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
+
+## Quick start
+
+1. Download
+2. Windows: Open MiKTeX Console and install package `inconsolata`.
+3. Install Python and install minted3: `python -m pip install --force-reinstall latexminted`
+4. Start texing
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
@@ -130,7 +137,7 @@ It is configured for Windows and especially sets Sumatra PDF as default PDF view
 You can make this local configuration a global configuration, when you put it at [the right place](http://tex.stackexchange.com/a/41149/9075).
 
 If you want to add more packages, configure it there.
-For instance, for support of makeglossaries see <http://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries>.
+For instance, for support of `makeglossaries` see <http://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries>.
 
 ### Debugging LaTeX errors
 
@@ -184,7 +191,7 @@ Following features are enabled in this template:
 <% } -%>
 <% if (listings == "minted" || githubpublish) { -%>
 - <% if (githubpublish) { -%>(Optional) <% } %>Typesetting of listings using advanced highlighting powered by the [minted] package.
-  `minted` provides better output than [listings], but requires [pygments] to be installed.
+  `minted` provides better output than [listings], but requires [latexminted] to be installed.
 <% } -%>
 <% if (latexcompiler == "pdflatex" || githubpublish) { -%>
 - Generated PDF allows for copy and paste of text without getting words with [ligatures](https://en.wikipedia.org/wiki/Typographic_ligature) such as "workflow" destroyed.
@@ -282,7 +289,7 @@ The official template is available at <https://www.springer.com/gp/computer-scie
 - Edit [paper.tex](paper.tex).
 - `latexmk paper`.
 
-When using on overleaf, you have to switch Overleaf to use TeXLive 2024 (or later).
+When using on overleaf, you have to switch Overleaf to use TeXLive 2025 (or later).
 
 As you see on GitHub actions, the paper compiles out of the box.
 There is no need to adjust the packages or to remove some of them.
@@ -368,25 +375,25 @@ See [docs/latex-setup](docs/latex-setup) for refined installation instructions.
 To have minted running properly, you have to do following steps on Windows:
 
 1. Install python: `choco install python` - that uses [chocolatey](https://chocolatey.org/) to install Python
-2. Install [pygments]: `pip instal pygments` - that uses the Pyhton package manager to install the pygments library
+2. Install [latexminted]: `pip instal latexminted` - that uses the Python package manager to install the minted library
 3. When latexing, use `-shell-escape`: `pdflatex -shell-escape <%= filenames.main %>`.
    You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
 
-### VSCode configuration
+### VS Code configuration
 
 Currently, following extensions are recommended:
 
-- [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) to support LaTeX in VSCode and
+- [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) to support LaTeX in VS Code and
 - [LaTeX Utilities](https://marketplace.visualstudio.com/items?itemName=tecosaur.latex-utilities) to enhance LaTeX Workshop
 - [LTeX+] to have a nice spell checker that also identifies grammar issues
 
-Then, change the setting of LaTeX Workshop to use biber:
+Then, change the setting of LaTeX Workshop to use `biber`:
 
 Press <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd> to open the command palette.
 Then type "JSON" and select "Preferences: Open Settings (JSON)" to open `settings.json`.
 
-Update the following lines in VSCode's `settings.json` to contain:
+Update the following lines in VS Code's `settings.json` to contain:
 
 ```javascript
     "latex-workshop.latex.recipes": [
@@ -440,7 +447,7 @@ The following settings are additionally recommended:
 }
 ```
 
-Alternatively, just copy and paste the contents of the [vscode.settings.json](vscode.settings.json) file to your VSCode settings file.
+Alternatively, just copy and paste the contents of the [vscode.settings.json](vscode.settings.json) file to your VS Code settings file.
 
 You can manually trigger compilation by hitting the green button in the extension or using other methods provided by LaTeX Workshop.
 
@@ -604,18 +611,27 @@ See "How can I reformat my `.tex` files?"
 ### Q: I want to use minted, because I think its syntax highlighting seems to be better.
 
 You can re-generate the template and choose `minted` as listings environment.
-Moreover, ensure that python and [pygments](https://pygments.org/) are installed properly:
+Moreover, ensure that python and [latexminted] are installed properly:
 
 - `choco install python`
-- `pip install pygments`
+- `pip install latexminted`
 
 ### Q: I have troubles with minted on Windows.
+
+For instance, on gets following output:
+
+```text
+! Package minted Error: minted v3+ executable is not installed, is not added to
+ PATH, or is not permitted with restricted shell escape; or MiKTeX is being use
+d with -aux-directory or -output-directory without setting a TEXMF_OUTPUT_DIREC
+TORY environment variable.
+```
 
 Try out following command to update `latexminted`.
 See [minted#425](https://github.com/gpoore/minted/issues/425) for details.
 
 ```shell
-py -m pip install --force-reinstall latexminted
+python3 -m pip install --force-reinstall latexminted
 ```
 
 <% if (documentclass == 'lncs') { -%>
@@ -821,7 +837,7 @@ Any derived work can freely be relicensed and can omit original copyright and li
 [LanguageTool]: https://languagetool.org/
 [latex template generator]: https://www.npmjs.com/package/generator-latex-template
 [LTeX+]: https://marketplace.visualstudio.com/items?itemName=ltex-plus.vscode-ltex-plus
-[pygments]: https://pygments.org/
+[latexminted]: https://pypi.org/project/latexminted/
 [Sumatra PDF]: https://www.sumatrapdfreader.org/free-pdf-reader
 <% if (documentclass == 'lncs') { -%>
 
