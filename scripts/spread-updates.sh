@@ -22,8 +22,8 @@ git pull --no-edit
 echo "Updating generator-latex-template..."
 cd generator-latex-template
 git fetch --prune
-git checkout --force refine-ltg
-git reset --hard origin/refine-ltg
+git checkout --force switch-to-ltg
+git reset --hard origin/switch-to-ltg
 cd ..
 
 echo "Adding generator-latex-template..."
