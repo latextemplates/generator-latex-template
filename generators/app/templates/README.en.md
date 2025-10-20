@@ -59,7 +59,7 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 ## Quick start
 
 1. Download
-2. Windows: Install [Inconsolata font](https://fonts.google.com/specimen/Inconsolata)
+2. Windows: Open MiKTeX Console and install package `inconsolata`.
 3. Install Python and install minted3: `python -m pip install --force-reinstall latexminted`
 4. Start texing
 <% break; case "scientific-thesis": -%>
