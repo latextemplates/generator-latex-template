@@ -144,16 +144,16 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 Parameters can be set using command line
 
-- lncs: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- lncs: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2025 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 
 #### Windows
 
 Parameters can be set using command line
 
-- IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- Scientific Thesis template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
-- USTUTT template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=ustutt --papersize=a5 --latexcompiler=lualatex --bibtextool=biblatex --texlive=2024 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=todonotes --examples=true --howtotext=true` -- `todonotes` is the preferred TODO package here.
+- IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2025 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2025 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- Scientific Thesis template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=scientific-thesis --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2025 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- USTUTT template: `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=ustutt --papersize=a5 --latexcompiler=lualatex --bibtextool=biblatex --texlive=2025 --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=todonotes --examples=true --howtotext=true` -- `todonotes` is the preferred TODO package here.
 
 <!-- markdownlint-disable-next-line MD004 -->
 * Run `latexmk` to build the PDF
