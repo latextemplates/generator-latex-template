@@ -14,7 +14,7 @@ echo "Current branch is 'refine-ltg'. Continuing..."
 
 cd ..
 
-for template in *-enhanced uni-stuttgart-dissertation-template; do
+for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template; do
   echo "$template"
   cd "$template"
   git stash
@@ -44,7 +44,7 @@ done
 
 # After successful completion of preparation, create draft PRs
 
-for template in *-enhanced uni-stuttgart-dissertation-template; do
+for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template; do
   echo "$template"
   cd "$template"
   echo "Creating draft pull request..."
