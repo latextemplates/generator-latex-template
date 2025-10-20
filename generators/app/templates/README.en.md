@@ -31,8 +31,8 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 
 > Quick start for modern LaTeXing for an ACM conference.
 
-<% if (texlive > 2024) { -%>
-Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
+<% if (texlive > 2025) { -%>
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2025.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 
 <% } -%>
@@ -289,7 +289,7 @@ The official template is available at <https://www.springer.com/gp/computer-scie
 - Edit [paper.tex](paper.tex).
 - `latexmk paper`.
 
-When using on overleaf, you have to switch Overleaf to use TeXLive 2024 (or later).
+When using on overleaf, you have to switch Overleaf to use TeXLive 2025 (or later).
 
 As you see on GitHub actions, the paper compiles out of the box.
 There is no need to adjust the packages or to remove some of them.
