@@ -677,6 +677,10 @@ luaotfload | resolve : sequence of 3 lookups yielded nothing appropriate.
 
 Install the package `lm-math` manually.
 
+### Q: I get ``File `ushyphex.tex' not found.``
+
+Install package `tugboat`.
+
 <% if (isThesis) { -%>
 ### Q: I get `! Package fontspec Error: The font "LinuxLibertineO" cannot be found.`. What can I do?
 
