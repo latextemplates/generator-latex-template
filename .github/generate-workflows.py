@@ -10,11 +10,11 @@ globalsingleworkflow = True
 failfast = False
 
 documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt'] # , 'scientific-thesis'
-latexcompilers = ['pdflatex', 'lualatex-dev', 'both']
+latexcompilers = ['pdflatex', 'lualatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2024, 2025]
+texlives = [2025]
 
 languages = ['en', 'de']
 
