@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [2025.10.21]
+
+### Added
+
+- Added initial support for University of Hamburg
+
 ## [2025.10.20]
 
 ### Fixed
