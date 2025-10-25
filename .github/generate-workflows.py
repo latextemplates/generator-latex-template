@@ -194,11 +194,13 @@ jobs:
                             yml_content += "      - name: Create {}\n".format(variantShort)
                             yml_content += "        run: yo $GITHUB_WORKSPACE/generators/app/index.js"
                             yml_content += " --documentclass=%s" % documentclass
-                            if documentclass == 'ieee':
-                                yml_content += " --ieeevariant=%s" % ieeevariant
                             if documentclass == 'acmart':
                                 yml_content += " --acmformat=%s" % acmformats[0]
                                 yml_content += " --acmreview=%s" % acmreviews[0]
+                            if documentclass == 'ieee':
+                                yml_content += " --ieeevariant=%s" % ieeevariant
+                            if documentclass == 'scientific-thesis':
+                                yml_content += " --thesisvariant=ustutt"
                             yml_content += " --papersize=a4"
                             yml_content += " --latexcompiler=%s" % latexcompiler
                             yml_content += " --bibtextool=%s" % bibtextool

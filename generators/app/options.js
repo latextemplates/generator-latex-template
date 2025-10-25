@@ -96,6 +96,25 @@ export const options = [
   },
   {
     type: "list",
+    name: "thesisvariant",
+    when(response) {
+      return response.documentclass === "scientific-thesis";
+    },
+    message: "Which variant of scientific thesis?",
+    choices: [
+      {
+        name: "University of Stuttgart",
+        value: "ustutt",
+      },
+      {
+        name: "Universität Hamburg",
+        value: "university-of-hamburg",
+      }
+    ],
+    default: "ustutt",
+  },
+  {
+    type: "list",
     name: "papersize",
     message: "Which paper size to use?",
     choices: [

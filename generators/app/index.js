@@ -103,6 +103,10 @@ export default class extends Generator {
 
     isPaperHandling(props);
 
+    if (!this.props.thesisvariant) {
+      this.props.thesisvariant = "none";
+    }
+
     this.props.requiresShellEscape = this.props.isThesis || this.props.listings == "minted";
 
     if (this.props.docker == "no") {
@@ -138,7 +142,7 @@ export default class extends Generator {
         props.filenames = {
           "bib": "bibliography"
         }
-        if (props.documentclass == "ustutt") {
+        if (props.documentclass == "ustutt") { // The scientific thesis should be "main-english" and "main-german"
           props.filenames.main = "thesis-example";
         } else if (props.language == "en") {
           props.filenames.main = "main-english";

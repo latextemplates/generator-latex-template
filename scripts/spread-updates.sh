@@ -15,25 +15,7 @@ git push
 
 cd ..
 
-echo "scientific-thesis-template"
-cd scientific-thesis-template
-test -z "$(git status --porcelain)"
-git pull --no-edit
-echo "Updating generator-latex-template..."
-cd generator-latex-template
-git fetch --prune
-git checkout --force refine-ltg
-git reset --hard origin/refine-ltg
-cd ..
-
-echo "Adding generator-latex-template..."
-git add generator-latex-template
-git commit -m"Update LTG" || true
-git push
-cd ..
-echo ""
-
-for template in *-enhanced uni-stuttgart-dissertation-template; do
+for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template; do
   echo "$template"
   cd $template
 

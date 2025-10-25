@@ -14,7 +14,7 @@ fi
 
 cd ..
 
-for template in *-enhanced uni-stuttgart-dissertation-template; do
+for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template; do
   echo "$template"
   cd $template
 
