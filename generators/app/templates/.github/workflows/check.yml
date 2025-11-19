@@ -46,7 +46,7 @@ jobs:
       - name: aspell
 <% if (githubpublish && (documentclass === "scientific-thesis")) { -%>
         # Needs more adaption for scientific thesis; therefore disabled
-        if: false()
+        if: ${{ false }}
 <% } -%>
         run: |
           for tex in $(ls *.tex content/*.tex 2>/dev/null); do
@@ -72,7 +72,7 @@ jobs:
           texlogsieve <%= filenames.main %>.log | tee -a "$GITHUB_STEP_SUMMARY" || true
           echo '```' >> $GITHUB_STEP_SUMMARY
 <% } -%>
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: test-result
           path: |
