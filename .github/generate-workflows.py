@@ -133,7 +133,7 @@ jobs:
             yml.write("""    runs-on: ubuntu-24.04
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version: '22'
@@ -167,7 +167,7 @@ jobs:
           sudo mpm --admin --update-db
           sudo mpm --admin --update
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 ''')
             table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext | link |"
             yml.write("      - name: Summary table heading\n");
