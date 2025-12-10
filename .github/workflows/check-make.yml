@@ -1,0 +1,98 @@
+name: Check Makefile
+on:
+  schedule:
+    - cron: "0 6 * * 5"
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '.editorconfig'
+      - '.eslintignore'
+      - '.gitpod.dockerfile'
+      - '.gitpod.yml'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.markdownlint.yml'
+      - 'CHANGELOG.md'
+      - 'CONTRIBUTING.md'
+      - 'generate-texlivefile.sh'
+      - 'LICENSE'
+      - 'README.md'
+      - 'setup-do.sh'
+      - 'user-data.sh'
+      - 'docs/**'
+      - '.vscode/**'
+  merge_group:
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.actor_id }}
+  cancel-in-progress: true
+jobs:
+  check-make:
+    name: make
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v6
+        with:
+          path: 'code'
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: 'code/package-lock.json'
+      - run: npm ci
+        working-directory: ${{ github.workspace }}/code
+      - run: npm install -g yo
+      - run: mkdir /tmp/gen
+      - name: Create lncs-reitzig
+        run: yo ${{ github.workspace }}/code/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2024 --docker=reitzig --overleaf=no --lang=en --font=default --listings=minted --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true
+        working-directory: /tmp/gen
+      - name: Install TeX Live
+        uses: zauguin/install-texlive@v4
+        with:
+          package_file: '/tmp/gen/Texlivefile'
+          texlive_version: 2025
+      - run: make pdf
+        working-directory: /tmp/gen
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: state
+          path: /tmp/gen
+      - name: Prepare output of diff
+        working-directory: /tmp/gen
+        run: |
+          git init
+          git add .
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libyaml-tiny-perl libfile-homedir-perl
+          version: 1.0
+          execute_install_scripts: true
+      - run: make format
+        working-directory: /tmp/gen
+      # Additional check - more than the make target itself
+      - name: No changes made by latexindent
+        working-directory: /tmp/gen
+        run: git diff --exit-code
