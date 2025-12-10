@@ -1106,6 +1106,18 @@ It focuses on minimal examples, which can be directly adapted to the content
 <% if (isThesis) { -%>
 
 <%- include('varioref.example.en.tex', this); -%>
+<% if (bibtextool == 'biblatex') { -%>
+<%- include('biblatex.example.en.tex', this); %>
+<% } else { -%>
+<%= heading2 %>{Citations}
+
+<% } -%>
+
+In the bibliography, use \texttt{\textbackslash textsuperscript} for <%- bquote %>st<%- equote %>, <%- bquote %>nd<%- equote %>, \ldots:
+E.g., <%- bquote %>The 2\textsuperscript{nd} conference on examples<%- equote %>.
+When you use \href{https://www.jabref.org}{JabRef}, you can use the clean up command to achieve that.
+See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the cleanup functionality.
+
 <%- include('thesis-additions.examples.en.tex', this); -%>
 <% } -%>
 <% } -%>
@@ -1222,12 +1234,7 @@ Be specific in the sense that your arguments for future work should be based on 
 %%% Bibliography
 %%% ===============================================================================
 
-In the bibliography, use \texttt{\textbackslash textsuperscript} for <%- bquote %>st<%- equote %>, <%- bquote %>nd<%- equote %>, \ldots:
-E.g., <%- bquote %>The 2\textsuperscript{nd} conference on examples<%- equote %>.
-When you use \href{https://www.jabref.org}{JabRef}, you can use the clean up command to achieve that.
-See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the cleanup functionality.
 <% switch (documentclass) { case "lncs": -%>
-
 \renewcommand{\bibsection}{\section*{References}} % requried for natbib to have "References" printed and as section*, not chapter*
 % Use natbib compatbile splncs04nat style.
 % It does provide all features of splncs04.bst, but is developed in a clean way.
@@ -1239,11 +1246,9 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
   \bibliography{<%= filenames.bib %>}
 \endgroup
 <%  break; case "acmart": -%>
-
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{<%= filenames.bib %>}
 <%  break; case "ieee": -%>
-
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
 % adjust value as needed - may need to be readjusted if
@@ -1260,7 +1265,6 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 \bibliography{<%= filenames.bib %>}
 <% break; case "ustutt": -%>
 <% case "scientific-thesis": -%>
-
 \printbibliography
 <% break; default: -%>
 
