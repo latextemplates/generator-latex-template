@@ -202,7 +202,7 @@ export default class extends Generator {
     );
     this.fs.copyTpl(
       this.templatePath("latexmkrc"),
-      this.destinationPath(this.props.overleaf ? "_latexmkrc" : "latexmkrc"),
+      this.destinationPath(this.props.overleaf ? "_latexmkrc" : ".latexmkrc"),
       this.props
     );
     this.fs.copyTpl(

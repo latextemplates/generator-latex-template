@@ -12,6 +12,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Added biblatex example
 
+### Changed
+
+- The configuration file for latexmk is now named `.latexmkrc` instead of `latexmkrc`
+
 ## [2025.10.25]
 
 ### Added
