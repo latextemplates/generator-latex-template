@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install TeX Live
         uses: zauguin/install-texlive@v4
         with:
@@ -46,7 +46,7 @@ jobs:
       - name: aspell
 <% if (githubpublish && (documentclass === "scientific-thesis")) { -%>
         # Needs more adaption for scientific thesis; therefore disabled
-        if: false()
+        if: ${{ false }}
 <% } -%>
         run: |
           for tex in $(ls *.tex content/*.tex 2>/dev/null); do
@@ -72,7 +72,7 @@ jobs:
           texlogsieve <%= filenames.main %>.log | tee -a "$GITHUB_STEP_SUMMARY" || true
           echo '```' >> $GITHUB_STEP_SUMMARY
 <% } -%>
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: test-result
           path: |
@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install TeX Live
         uses: zauguin/install-texlive@v4
         with:
@@ -106,7 +106,7 @@ jobs:
           # echo "## TeXcount LaTeX interpretation" >> $GITHUB_STEP_SUMMARY
           # echo "" >> $GITHUB_STEP_SUMMARY
           # cat "texcount.html-body" >> $GITHUB_STEP_SUMMARY
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: word-count
           path: |
@@ -118,7 +118,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # Original action does not work well - see https://github.com/awalsh128/cache-apt-pkgs-action/pull/136
       # The action is not updated - and thus the dictionaries are not updated
@@ -163,7 +163,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: libyaml-tiny-perl libfile-homedir-perl
