@@ -233,7 +233,7 @@ jobs:
                             ymlmiktex.write("        run: {}\n".format(command))
                             ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
                             yml.write("      - id: {}_u\n".format(variantShort))
-                            yml.write('''        uses: actions/upload-artifact@v5
+                            yml.write('''        uses: actions/upload-artifact@v6
         with:
           name: ${{ env.CURRENT_VARIANT }}
           path: ${{ env.CURRENT_VARIANT_SHORT }}
@@ -248,7 +248,7 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
       - id: failing_u
         if: failure()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ env.CURRENT_VARIANT }}
           path: ${{ env.CURRENT_VARIANT_SHORT }}
