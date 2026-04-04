@@ -84,12 +84,6 @@ You can use the magic of `git` to prevent that:
 
 ## Development roadmap
 
-- [x] Create directory structure
-- [ ] Sort in examples from the [scientific-thesis-template](http://latextemplates.github.io/scientific-thesis-template/)
-- [ ] Have scientific-thesis-template generated completely.
-- [x] Have LNCS generated completely.
-- [x] Have [uni-stuttgart-dissertation-template](https://github.com/latextemplates/uni-stuttgart-dissertation-template) generated automatically.
-
 In the long run, the contents of the `paper.tex` (and similar) files in repositories of the [latextemplates](https://latextemplates.github.io/) organization should be generated automatically.
 
 ## Development hints
