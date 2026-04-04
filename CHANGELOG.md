@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Added support for TeXLive 2026.
+
 ### Fixed
 
 - The title page of the scientific thesis template shows English terms. [#174](https://github.com/latextemplates/scientific-thesis-template/pull/174)
