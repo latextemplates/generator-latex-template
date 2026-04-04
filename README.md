@@ -138,7 +138,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
 
 Parameters can be set using command line
 
-- lncs: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2026 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
+- LNCS: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2026 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 
 #### Windows
 
