@@ -14,7 +14,7 @@ latexcompilers = ['pdflatex', 'lualatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
 
-texlives = [2025]
+texlives = [2025, 2026]
 
 languages = ['en', 'de']
 
@@ -233,7 +233,7 @@ jobs:
                             ymlmiktex.write("        run: {}\n".format(command))
                             ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
                             yml.write("      - id: {}_u\n".format(variantShort))
-                            yml.write('''        uses: actions/upload-artifact@v6
+                            yml.write('''        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.CURRENT_VARIANT }}
           path: ${{ env.CURRENT_VARIANT_SHORT }}
@@ -248,7 +248,7 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
       - id: failing_u
         if: failure()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ env.CURRENT_VARIANT }}
           path: ${{ env.CURRENT_VARIANT_SHORT }}
