@@ -80,6 +80,37 @@ generation. Instead:
 3. Propagate via `spread-updates.sh`; the regenerated templates carry the bump.
 4. After `end-new-cycle.sh` + merges, **close the original Dependabot PR** (superseded).
 
+**Exception — `update-files.yml`:** this workflow is template-managed (NOT generated).
+Apply Dependabot bumps that touch it directly on each template's `main`; Dependabot then
+auto-closes. `check.yml` IS generated → handle it here in the generator.
+
+## CI: the generated `check.yml` needs a PAT to be pushed
+
+The `Update Files` bot in each template regenerates `check.yml` and pushes it. The default
+`GITHUB_TOKEN` **cannot** push `.github/workflows/**` ("refusing to allow a GitHub App to
+create or update workflow … without `workflows` permission"), so the `generatetex`
+checkout must use a PAT: `token: ${{ secrets.GH_TOKEN_WRITE }}` (org secret). All five
+templates now have this on their `generatetex` checkout. If a template ever lacks it, its
+`update-ltg` PR fails on "Push changes" — fix the token on that template's `main`, or as a
+one-off port `check.yml` to `update-ltg` by hand (human/SSH push is allowed); the exact
+diff is printed in the failing run's "Prepare files" step, canonical variant **en + minted**.
+
+## Runbook — commands
+
+- **Bootstrap a blank machine:** `generator-latex-template/scripts/bootstrap-workspace.sh`
+  (clones the org flat, **inits submodules**, `npm ci`). Node via nvm: `nvm install --lts`.
+- **Init submodules** (required before `spread-updates.sh` on fresh clones):
+  `for t in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template; do git -C "$t" submodule update --init; done`
+- **Propagate generator → templates:** from this repo on `refine-ltg`, `scripts/spread-updates.sh`
+  (pushes `refine-ltg`, repoints each template's submodule to `origin/refine-ltg`, opens/updates
+  the `update-ltg` "Update LTG" commits). Each template's working tree must be clean first
+  (`git -C <t> submodule update` to clear a dirty submodule pointer after a branch switch).
+- **Regenerate the CI matrix** (end of cycle): `cd .github && python3 generate-workflows.py`.
+- **Generate one template locally** (e.g. to inspect/port `check.yml`), from an empty dir —
+  use the *exact* flags from that template's `update-files.yml` (incl. `--texlive` and any
+  `--thesisvariant`/`--ieeevariant`): `yeoman_test=true yo <repo>/generators/app/index.js --documentclass=… --texlive=… --lang=en --listings=minted …`.
+- **Lint an EJS template:** `npx ejs-lint generators/app/templates/<file>`.
+
 ## Local LaTeX testing
 
 See README → "Test locally" / DEPP / reitzig. Quick form, from an empty target dir:
