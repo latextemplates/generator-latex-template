@@ -20,7 +20,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - The title page of the scientific thesis template shows English terms. [#174](https://github.com/latextemplates/scientific-thesis-template/pull/174)
-- Added the missing `aliascnt` package to the LNCS `Texlivefile`; `llncs.cls` requires it and TeX Live 2026 no longer pulls it in transitively.
+- Added `aliascnt` to the LNCS `Texlivefile` for TeX Live 2026+, where `llncs.cls` requires it as a separate package (it is not packaged separately on TeX Live 2025).
 
 ## [2025.12.10]
 
