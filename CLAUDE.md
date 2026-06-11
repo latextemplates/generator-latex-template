@@ -84,6 +84,23 @@ generation. Instead:
 Apply Dependabot bumps that touch it directly on each template's `main`; Dependabot then
 auto-closes. `check.yml` IS generated → handle it here in the generator.
 
+## CHANGELOG discipline — mirror generator-sourced changes
+
+When a template's `update-ltg` PR shows a bot regeneration, decide CHANGELOG entries
+**semantically** — the bot can't tell which regenerated lines are user-facing (this is a
+Claude step, not a mechanical copy). Then **mirror where appropriate**:
+
+- A change that originates **here** (in `generators/app/templates/…`) but surfaces in a
+  template (e.g. the example author name on the scientific-thesis title page) gets an entry
+  in **both** this generator's `CHANGELOG.md` (source of truth) **and** the affected
+  template's `CHANGELOG.md` (its users). Phrase each for that audience.
+- Template-only changes (template-managed files like `update-files.yml`, vendored `.sty`)
+  → only the template's CHANGELOG.
+- Generator changes not surfaced in any one template → only this CHANGELOG.
+
+Format is enforced org-wide by `check-changelog.yml` (heylogs); each repo's
+`heylogs.properties` turns off the rules that don't fit our CalVer-with-history CHANGELOGs.
+
 ## CI: the generated `check.yml` needs a PAT to be pushed
 
 The `Update Files` bot in each template regenerates `check.yml` and pushes it. The default

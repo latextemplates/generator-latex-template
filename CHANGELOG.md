@@ -14,6 +14,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
+- Use a full example author name on the scientific-thesis title page (`Bernhard Diener` instead of the abbreviated `Lars K.`).
 - Disabled the `spell-check` CI job in the generated `check.yml` for the scientific-thesis template (the example content trips too many aspell false positives to maintain).
 
 ### Fixed
