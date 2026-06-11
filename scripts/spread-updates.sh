@@ -19,7 +19,20 @@ for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation
   echo "$template"
   cd $template
 
-  test -z "$(git status --porcelain)"
+  # Abort loudly if the template has a dirty working tree (incl. a dirty submodule
+  # pointer) rather than failing silently via `set -e`.
+  if [ -n "$(git status --porcelain)" ]; then
+    echo "Error: '$template' has a dirty working tree; clean it and re-run." >&2
+    git status --short >&2
+    exit 1
+  fi
+
+  # The submodule must be initialized, otherwise the `cd generator-latex-template`
+  # below would operate on the parent repo.
+  if [ ! -e generator-latex-template/.git ]; then
+    echo "Error: '$template/generator-latex-template' submodule not initialized. Run: git -C '$template' submodule update --init" >&2
+    exit 1
+  fi
 
   # ensure update-ltg to be in line with origin/update-ltg
   echo "Force sync of update-ltg..."
