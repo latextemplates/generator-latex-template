@@ -12,9 +12,14 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Added support for TeXLive 2026.
 
+### Changed
+
+- Disabled the `spell-check` CI job in the generated `check.yml` for the scientific-thesis template (the example content trips too many aspell false positives to maintain).
+
 ### Fixed
 
 - The title page of the scientific thesis template shows English terms. [#174](https://github.com/latextemplates/scientific-thesis-template/pull/174)
+- Added the missing `aliascnt` package to the LNCS `Texlivefile`; `llncs.cls` requires it and TeX Live 2026 no longer pulls it in transitively.
 
 ## [2025.12.10]
 
