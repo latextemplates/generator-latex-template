@@ -2,9 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
+
+## [Unreleased]
+
+### Added
+
+- Added support for TeXLive 2026.
+
+### Changed
+
+- Use a full example author name on the scientific-thesis title page (`Bernhard Diener` instead of the abbreviated `Lars K.`).
+- Disabled the `spell-check` CI job in the generated `check.yml` for the scientific-thesis template (the example content trips too many aspell false positives to maintain).
+
+### Fixed
+
+- The title page of the scientific thesis template shows English terms. [#174](https://github.com/latextemplates/scientific-thesis-template/pull/174)
+- Added `aliascnt` to the LNCS `Texlivefile` for TeX Live 2026+, where `llncs.cls` requires it as a separate package (it is not packaged separately on TeX Live 2025).
 
 ## [2025.12.10]
 
@@ -285,7 +301,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Add option `howtotext` which includes the text of @dfahland's [LaTeX template for Bachelor and Master theses at Eindhoven University of Technology](https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology)
-- Added support for [Springer's LNCS](http://www.springer.com/computer/lncs)
+- Added support for [Springer's LNCS](https://www.springer.com/computer/lncs)
 - Added support for [IEEE](https://www.ieee.org/conferences/publishing/templates.html)
 - Added support for passing options through the command line
 - Added special condition for TeXLive 2021 (which offers more packages)
