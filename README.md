@@ -94,7 +94,7 @@ In the long run, the contents of the `paper.tex` (and similar) files in reposito
   - E.g., [Question](https://github.com/SBoudrias/Inquirer.js#question)
 - Add a new question
   - Also adapt `__tests__/app.js`
-  - Execute tests with `npm test` (runs ESLint, then Jest). Jest needs ESM mode, so a bare `npx jest` must be invoked as `node --experimental-vm-modules node_modules/jest/bin/jest.js`.
+  - Execute tests with `npm test` (runs ESLint, then the tests via Node's built-in test runner). A bare run is `node --test`.
 - Update NPM dependencies
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - `npx npm-check-updates -u`. [[Source](https://www.carlrippon.com/upgrading-npm-dependencies/)]

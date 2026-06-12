@@ -1,3 +1,4 @@
+import { describe, it } from "node:test";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import helpers from "yeoman-test";

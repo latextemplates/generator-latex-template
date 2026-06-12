@@ -17,7 +17,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Use a full example author name on the scientific-thesis title page (`Bernhard Diener` instead of the abbreviated `Lars K.`).
 - Disabled the `spell-check` CI job in the generated `check.yml` for the scientific-thesis template (the example content trips too many aspell false positives to maintain).
 - Updated npm dependencies: `chalk` 4 → 5, `yeoman-generator` 8.1 → 8.2, and `prettier` to 3.8.4.
-- Migrated ESLint to flat config (`eslint.config.js`) for ESLint 10 and revived the Jest test suite (now ESM, run via `npm test`).
+- Migrated ESLint to flat config (`eslint.config.js`) for ESLint 10 and revived the test suite on Node's built-in test runner (`node --test`, replacing Jest), run via `npm test` and in CI.
 
 ### Fixed
 
