@@ -1,41 +1,28 @@
-"use strict";
-const path = require("path");
-const assert = require("yeoman-assert");
-const helpers = require("yeoman-test");
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import helpers from "yeoman-test";
 
-describe("general tests", () => {
-  it("en--scientific-thesis--all-packages", async function () {
-    return helpers
-      .run(path.join(__dirname, '../generators/app'))
-      .withPrompts({
-        documentclass: "scientific-thesis",
-        latexcompiler: "pdflatex",
-        bibtextool: "bibtex",
-        lang: "en",
-        font: "arial"
-      })
-      .then(function(dir) {
-        assert.file([
-          path.join(dir, "README.md"),
-          path.join(dir, "main.tex")
-        ]);
-      });
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const generatorPath = path.join(__dirname, "../generators/app");
+
+describe("scientific-thesis", () => {
+  it("generates the English thesis files", async () => {
+    const runResult = await helpers.run(generatorPath).withAnswers({
+      documentclass: "scientific-thesis",
+      lang: "en",
+      latexcompiler: "pdflatex",
+      texlive: 2025,
+    });
+    runResult.assertFile(["README.md", "main-english.tex"]);
   });
-  it("de--scientific-thesis--all-packages", () => {
-    return helpers
-      .run(path.join(__dirname, '../generators/app'))
-      .withPrompts({
-        documentclass: "scientific-thesis",
-        latexcompiler: "pdflatex",
-        bibtextool: "bibtex",
-        lang: "de",
-        font: "arial"
-      })
-      .then(function(dir) {
-        assert.file([
-          path.join(dir, "README.md"),
-          path.join(dir, "main.tex")
-        ]);
-      });
+
+  it("generates the German thesis files", async () => {
+    const runResult = await helpers.run(generatorPath).withAnswers({
+      documentclass: "scientific-thesis",
+      lang: "de",
+      latexcompiler: "pdflatex",
+      texlive: 2025,
+    });
+    runResult.assertFile(["README.md", "main-german.tex"]);
   });
 });

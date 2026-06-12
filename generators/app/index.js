@@ -62,10 +62,13 @@ export default class extends Generator {
 
     // As of 2021-12-24 the IEEE setup does not work on TeXLive 2021 and lualatex
     //if (this.props.documentclass === "ieee") {
-      //this.props.latexcompiler = "pdflatex";
+    //this.props.latexcompiler = "pdflatex";
     //}
 
-    this.props.reallatexcompiler = (this.props.latexcompiler == "both") ? "lualatex" : this.props.latexcompiler;
+    this.props.reallatexcompiler =
+      this.props.latexcompiler == "both"
+        ? "lualatex"
+        : this.props.latexcompiler;
 
     // Convert "String" Boolean command line options
     this.props.acmreview =
@@ -107,7 +110,8 @@ export default class extends Generator {
       this.props.thesisvariant = "none";
     }
 
-    this.props.requiresShellEscape = this.props.isThesis || this.props.listings == "minted";
+    this.props.requiresShellEscape =
+      this.props.isThesis || this.props.listings == "minted";
 
     if (this.props.docker == "no") {
       // converts command-line "no" to the boolean equivalent
@@ -140,9 +144,10 @@ export default class extends Generator {
       } else {
         // isThesis
         props.filenames = {
-          "bib": "bibliography"
-        }
-        if (props.documentclass == "ustutt") { // The scientific thesis should be "main-english" and "main-german"
+          bib: "bibliography",
+        };
+        if (props.documentclass == "ustutt") {
+          // The scientific thesis should be "main-english" and "main-german"
           props.filenames.main = "thesis-example";
         } else if (props.language == "en") {
           props.filenames.main = "main-english";
@@ -188,81 +193,83 @@ export default class extends Generator {
       // Thus, we prefix it with `dot`.
       this.templatePath("dot.gitignore"),
       this.destinationPath(".gitignore"),
-      this.props
+      this.props,
     );
     this.fs.copyTpl(
       this.templatePath("dot.editorconfig"),
       this.destinationPath(".editorconfig"),
-      this.props
+      this.props,
     );
     this.fs.copyTpl(
       this.templatePath("bibliography.bib"),
       this.destinationPath(this.props.filenames.bib + ".bib"),
-      this.props
+      this.props,
     );
     this.fs.copyTpl(
       this.templatePath("latexmkrc"),
       this.destinationPath(this.props.overleaf ? "_latexmkrc" : ".latexmkrc"),
-      this.props
+      this.props,
     );
     this.fs.copyTpl(
       // This is for latexindent
       this.templatePath("localSettings.yaml"),
       this.destinationPath("localSettings.yaml"),
-      this.props
+      this.props,
     );
     this.fs.copyTpl(
       this.templatePath("LICENSE"),
       this.destinationPath("LICENSE"),
-      this.props
+      this.props,
     );
     this.fs.copyTpl(
       this.templatePath("Makefile"),
       this.destinationPath("Makefile"),
-      this.props
+      this.props,
     );
 
     this.fs.copy(
       this.templatePath("dot.aspell.conf"),
-      this.destinationPath(".aspell.conf")
+      this.destinationPath(".aspell.conf"),
     );
-    if ((this.props.language == "de") || (this.props.githubpublish)) {
+    if (this.props.language == "de" || this.props.githubpublish) {
       this.fs.copy(
         this.templatePath("dot.aspell.de.pws"),
-        this.destinationPath(".aspell.de.pws"));
+        this.destinationPath(".aspell.de.pws"),
+      );
     }
-    if ((this.props.language == "en") || (this.props.githubpublish)) {
+    if (this.props.language == "en" || this.props.githubpublish) {
       this.fs.copy(
         this.templatePath("dot.aspell.en.pws"),
-        this.destinationPath(".aspell.en.pws"));
+        this.destinationPath(".aspell.en.pws"),
+      );
     }
 
     if (this.props.documentclass === "lncs") {
       this.fs.copy(
         this.templatePath("splncs04nat.bst"),
-        this.destinationPath("splncs04nat.bst")
+        this.destinationPath("splncs04nat.bst"),
       );
     }
 
-    if ((this.props.language === "de") && (!this.props.githubpublish)) {
+    if (this.props.language === "de" && !this.props.githubpublish) {
       this.fs.copyTpl(
         this.templatePath("README.de.md"),
         this.destinationPath("README.md"),
-        this.props
+        this.props,
       );
     } else {
       // We keep the English README.md in case of GitHub publish
       this.fs.copyTpl(
         this.templatePath("README.en.md"),
         this.destinationPath("README.md"),
-        this.props
+        this.props,
       );
     }
 
     this.fs.copyTpl(
-      this.templatePath('main.' + this.props.language + '.tex'),
+      this.templatePath("main." + this.props.language + ".tex"),
       this.destinationPath(this.props.filenames.main + ".tex"),
-      this.props
+      this.props,
     );
 
     if (this.props.feature.abbreviations) {
@@ -275,11 +282,11 @@ export default class extends Generator {
     this.fs.copyTpl(
       this.templatePath("commands.tex"),
       this.destinationPath("commands.tex"),
-      this.props
+      this.props,
     );
 
     if (this.props.documentclass == "ustutt") {
-    /*
+      /*
       this.props.documentclass = "ustutt-include";
       this.fs.copyTpl(
         this.templatePath("main." + this.props.language + ".tex"),
@@ -299,90 +306,86 @@ export default class extends Generator {
       );
     }
 
-    // eslint-disable-next-line default-case
     switch (this.props.docker) {
       case false:
         this.fs.copyTpl(
           this.templatePath("Texlivefile"),
           this.destinationPath("Texlivefile"),
-          this.props
+          this.props,
         );
         break;
       case "iot":
         this.fs.copyTpl(
           this.templatePath("dot.dockerignore"),
           this.destinationPath(".dockerignore"),
-          this.props
+          this.props,
         );
         this.fs.copyTpl(
           this.templatePath("Dockerfile.iot"),
           this.destinationPath("Dockerfile"),
-          this.props
+          this.props,
         );
         this.fs.copyTpl(
           this.templatePath("Texlivefile"),
           this.destinationPath("Texlivefile"),
-          this.props
+          this.props,
         );
         break;
       case "reitzig":
         this.fs.copyTpl(
           this.templatePath("dot.dockerignore"),
           this.destinationPath(".dockerignore"),
-          this.props
+          this.props,
         );
         this.fs.copyTpl(
           this.templatePath("Dockerfile.reitzig"),
           this.destinationPath("Dockerfile"),
-          this.props
+          this.props,
         );
         this.fs.copyTpl(
           this.templatePath("Texlivefile"),
           this.destinationPath("Texlivefile"),
-          this.props
+          this.props,
         );
         break;
       case "dante":
         this.fs.copyTpl(
           this.templatePath("dot.dockerignore"),
           this.destinationPath(".dockerignore"),
-          this.props
+          this.props,
         );
         this.fs.copyTpl(
           this.templatePath("Dockerfile.dante"),
           this.destinationPath("Dockerfile"),
-          this.props
+          this.props,
         );
         break;
     }
 
     if (this.props.isThesis) {
-      this.fs.copy(
-        this.templatePath("docs/*"),
-        this.destinationPath("docs/")
-      );
+      this.fs.copy(this.templatePath("docs/*"), this.destinationPath("docs/"));
     }
 
     this.fs.copy(
       this.templatePath(".github/dependabot.yml"),
       this.destinationPath(".github/dependabot.yml"),
-      this.props
+      this.props,
     );
 
     this.fs.copyTpl(
       this.templatePath(".github/workflows/check.yml"),
       this.destinationPath(".github/workflows/check.yml"),
-      this.props
+      this.props,
     );
 
     this.fs.copy(
       this.templatePath(".vscode/extensions.json"),
-      this.destinationPath(".vscode/extensions.json")
+      this.destinationPath(".vscode/extensions.json"),
     );
     this.fs.copyTpl(
       this.templatePath("vscode.settings.json"),
       this.destinationPath("vscode.settings.json"),
-      this.props
+      this.props,
     );
   }
 
