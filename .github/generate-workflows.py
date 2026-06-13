@@ -224,6 +224,55 @@ jobs:
 ''')
                             yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
                             yml.write("          texlive_version: %s\n" % texlive)
+                            yml.write("      - name: latexmk {}\n".format(variantShort))
+                            ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
+                            filename = "paper.tex" if documentclass in ['acmart', 'lncs', 'ieee'] else "thesis-example.tex" if documentclass == 'ustutt' else "main.tex"
+                            command = "updmap -sys && texhash && tlmgr generate language --rebuild-sys && latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
+                            yml.write("        run: {}\n".format(command))
+                            yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
+                            ymlmiktex.write("        run: {}\n".format(command))
+                            ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
+                            yml.write("      - id: {}_u\n".format(variantShort))
+                            yml.write('''        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
+''')
                             yml.write("      - run: echo \"TABLE=${{TABLE}}\\n{} [link](${{{{ steps.{}_u.outputs.artifact-url }}}}) |\" >> $GITHUB_ENV\n".format(table, variantShort));
+            yml.write('''      - name: texlogsieve
+        if: always()
+        run: |
+          echo "## $CURRENT_VARIANT" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          texlogsieve $CURRENT_VARIANT_SHORT/*.log >> $GITHUB_STEP_SUMMARY || false
+          echo '```' >> $GITHUB_STEP_SUMMARY
+      - id: failing_u
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.CURRENT_VARIANT }}
+          path: ${{ env.CURRENT_VARIANT_SHORT }}
+      - run: echo "TABLE=${TABLE}\\n${CURRENT_VARIANT_TABLE_ROW} [link](${{ steps.failing_u.outputs.artifact-url }}) ❌ |" >> $GITHUB_ENV
+        if: failure()
+''')
+            yml.write("        working-directory: ${{ env.CURRENT_VARIANT_SHORT }}\n");
+            yml.write("      - name: Finish summary table\n");
+            yml.write("        if: always()\n");
+            yml.write("        run: echo -e ${TABLE} >> $GITHUB_STEP_SUMMARY\n");
+            if failfast:
+              yml.write(r'''      - name: Cancel all other workflows
+        if: failure()
+        run: |
+          gh run list -L 100 --json databaseId -s queued -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | \
+          while read -r run_id; do
+            gh run cancel "$run_id" || true
+          done
+          gh run list -L 100 --json databaseId -s in_progress -R latextemplates/generator-latex-template | jq -r '.[] | .databaseId' | \
+          while read -r run_id; do
+            gh run cancel "$run_id" || true
+          done
+        env:
+          GH_TOKEN: ${{ github.token }}
+''')
             yml.close()
             ymlmiktex.close()

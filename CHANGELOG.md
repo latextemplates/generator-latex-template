@@ -19,6 +19,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Updated npm dependencies: `chalk` 4 → 5, `yeoman-generator` 8.1 → 8.2, and `prettier` to 3.8.4.
 - Migrated ESLint to flat config (`eslint.config.js`) for ESLint 10 and revived the test suite on Node's built-in test runner (`node --test`, replacing Jest), run via `npm test` and in CI.
 - Added a generator test that runs the generator across all switch combinations and asserts it produces output: a fast pairwise subset in `npm test`, and the full matrix via `npm run test:all`. The combination matrix lives in a single shared module (`__tests__/matrix.js`).
+- Removed the committed per-variant LaTeX/MiKTeX CI matrix (the generated `check-*.yml`); variant coverage is now the generation check in `npm test`, with `check-make.yml` as the LaTeX smoke build. The matrix can still be regenerated from `.github/generate-workflows.py`.
 
 ### Fixed
 
