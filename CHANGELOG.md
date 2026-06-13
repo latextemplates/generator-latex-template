@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Changed
+
+- Fixed the indentation in the generated `.tex` files (TeXLive 2026)
+
 ## [2026.6.13]
 
 ### Added
