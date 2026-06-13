@@ -38,7 +38,7 @@ for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation
   echo "Adding generator-latex-template..."
   git add generator-latex-template
   git commit -m"Begin refinement"
-  git push -u
+  git push --set-upstream origin update-ltg
   cd ..
 done
 
