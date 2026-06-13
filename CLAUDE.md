@@ -72,15 +72,18 @@ workflow set is lean in normal state too, so it is no longer a cycle signal.)
 
 ## CI & testing in this repo
 
-The committed workflows are lean: `test.yml` (runs `npm test` = ESLint + the `node --test`
-suite), `check-make.yml` (one LaTeX **compile** smoke build), `check-changelog.yml`,
-`automerge.yml`. There is **no per-variant LaTeX/MiKTeX matrix committed** — it was removed
-in favour of a fast, LaTeX-free generation check:
+The committed workflows are lean: `test.yml` (two jobs — `npm test` = ESLint + the
+`node --test` pairwise suite, and `npm run test:all` = full matrix), `check-make.yml` (one
+LaTeX **compile** smoke build), `check-changelog.yml`, `automerge.yml`. There is **no
+per-variant LaTeX/MiKTeX matrix committed** — it was removed in favour of a fast,
+LaTeX-free generation check:
 
 - **`npm test`** runs the generator across a **pairwise** subset of the switch matrix and
-  asserts it produces output (any EJS/template error fails). Fast (~seconds).
-- **`npm run test:all`** runs the **full** matrix (`__tests__/combinations.all.js`,
-  thousands of runs); opt-in, not part of `npm test`.
+  asserts it produces output (any EJS/template error fails). Fast (~seconds). Runs as the
+  `ESLint + Tests` CI job.
+- **`npm run test:all`** runs the **full** matrix (`__tests__/combinations.all.js`, 7680
+  runs, ~1.5 min). Not part of `npm test` (named so `node --test` skips it locally), but it
+  **does** run in CI as the `Full matrix` job on every push/PR.
 - Both share `__tests__/matrix.js` (the matrix definition + a greedy all-pairs selector).
 
 This proves the generator *generates* for every combination; it does **not** prove the
