@@ -39,32 +39,60 @@ layout is a hard requirement.
 1. **Begin** — on `refine-ltg`: run `scripts/begin-new-cycle.sh`. For each template:
    reset to `main`, create `update-ltg`, point its submodule at this repo's `refine-ltg`,
    commit "Begin refinement", push, and open a **draft** PR titled "Update LTG".
-   Then **prune CI** to speed it up during the cycle: delete every workflow in
-   `.github/workflows/` **except `check-make.yml` and `automerge.yml`** (the generated
-   `check-*.yml`/`miktex-check-*.yml` matrix is huge). Work against just those two.
+   This repo's own committed workflows are already lean (`check-make.yml`,
+   `check-changelog.yml`, `test.yml`, `automerge.yml`) — the per-variant LaTeX `check-*.yml`
+   matrix is **no longer committed** (see "CI & testing in this repo" below), so there is
+   nothing heavy to prune here.
 2. **Develop + propagate** — make the change on `refine-ltg` (e.g. bump the `--texlive`
    default, edit `generators/app/templates/...`, the workflows, or `Texlivefile`). After
    each meaningful change run `scripts/spread-updates.sh` (on `refine-ltg`): pushes
    `refine-ltg` and resets every template's submodule to `origin/refine-ltg`, commits
    "Update LTG", pushes. The draft "Update LTG" PRs then show regenerated output and run
-   CI (the two kept workflows). Iterate until CI is green.
-3. **Regenerate workflows** — once the work is done, restore the full CI matrix:
-   `cd .github && python3 generate-workflows.py` (it writes `workflows/check-*.yml` and
-   `workflows/miktex-check-*.yml` relative to `.github/`; it does **not** touch
-   `check-make.yml`/`automerge.yml`). Commit, push, and confirm the full matrix is green.
+   CI (the lean committed workflows). Iterate until CI is green.
+3. **Verify generation** — the switch-combination coverage is the `npm test` generation
+   check (pairwise) and `npm run test:all` (full matrix); confirm these are green for the
+   change. The full per-variant **LaTeX compile** matrix is no longer committed — if you
+   want a real compile pass over all variants for this cycle, regenerate it on demand
+   (`cd .github && python3 generate-workflows.py`, see "CI & testing in this repo") and
+   delete it again before merging unless you intend to ship it on `main`.
 4. **End** — merge `refine-ltg` → `main`, cut the release (README → "Releasing a new
    version": `release-it`, publish to npm). Then, on `main`: run
    `scripts/end-new-cycle.sh` — repoints every template's submodule to `origin/main` and
    commits/pushes. The templates' "Update LTG" PRs are now merge-ready; merge them.
 
-The list of generated variants (documentclasses, `texlives`, fonts, …) lives at the top
-of `.github/generate-workflows.py` — e.g. adding a TeX Live year means adding it to
-`texlives` there (already `[2025, 2026]`).
+The list of variants (documentclasses, `texlives`, fonts, …) is defined in **two places
+that must be kept in sync**: the top of `.github/generate-workflows.py` (drives the LaTeX
+matrix) and `__tests__/matrix.js` (drives the `npm test` generation check). Adding e.g. a
+TeX Live year means adding it to `texlives` in **both** (already `[2025, 2026]`).
 
-**Identifying mid-cycle state:** if this repo has an open `refine-ltg` PR, the templates
-have open `update-ltg` "Update LTG" PRs, and `.github/workflows/` is pruned to just
-`check-make.yml` + `automerge.yml`, a cycle is in progress — continue on `refine-ltg`,
-propagate with `spread-updates.sh`, then regenerate workflows + release + `end-new-cycle.sh`.
+**Identifying mid-cycle state:** if this repo has an open `refine-ltg` PR and the templates
+have open `update-ltg` "Update LTG" PRs, a cycle is in progress — continue on `refine-ltg`,
+propagate with `spread-updates.sh`, then release + `end-new-cycle.sh`. (The committed
+workflow set is lean in normal state too, so it is no longer a cycle signal.)
+
+## CI & testing in this repo
+
+The committed workflows are lean: `test.yml` (two jobs — `npm test` = ESLint + the
+`node --test` pairwise suite, and `npm run test:all` = full matrix), `check-make.yml` (one
+LaTeX **compile** smoke build), `check-changelog.yml`, `automerge.yml`. There is **no
+per-variant LaTeX/MiKTeX matrix committed** — it was removed in favour of a fast,
+LaTeX-free generation check:
+
+- **`npm test`** runs the generator across a **pairwise** subset of the switch matrix and
+  asserts it produces output (any EJS/template error fails). Fast (~seconds). Runs as the
+  `ESLint + Tests` CI job.
+- **`npm run test:all`** runs the **full** matrix (`__tests__/combinations.all.js`, 7680
+  runs, ~1.5 min). Not part of `npm test` (named so `node --test` skips it locally), but it
+  **does** run in CI as the `Full matrix` job on every push/PR.
+- Both share `__tests__/matrix.js` (the matrix definition + a greedy all-pairs selector).
+
+This proves the generator *generates* for every combination; it does **not** prove the
+output *compiles* — only LaTeX does that, and `check-make.yml` is the lone compile build.
+The full LaTeX compile matrix can be regenerated on demand from
+`.github/generate-workflows.py` (kept in place): `cd .github && python3 generate-workflows.py`
+writes `workflows/check-*.yml` (tracked) and `workflows/miktex-check-*.yml` (gitignored,
+never committed). Re-running it brings the heavy matrix back; delete the `check-*.yml`
+again to return to the lean state.
 
 ## Dependabot policy — port, do not merge
 
@@ -122,7 +150,11 @@ diff is printed in the failing run's "Prepare files" step, canonical variant **e
   (pushes `refine-ltg`, repoints each template's submodule to `origin/refine-ltg`, opens/updates
   the `update-ltg` "Update LTG" commits). Each template's working tree must be clean first
   (`git -C <t> submodule update` to clear a dirty submodule pointer after a branch switch).
-- **Regenerate the CI matrix** (end of cycle): `cd .github && python3 generate-workflows.py`.
+- **Run the generation tests:** `npm test` (ESLint + pairwise combination check) and, for
+  the full matrix, `npm run test:all`. Keep `__tests__/matrix.js` in sync with
+  `generate-workflows.py`.
+- **Regenerate the LaTeX matrix** (optional/on demand — not committed by default):
+  `cd .github && python3 generate-workflows.py`.
 - **Generate one template locally** (e.g. to inspect/port `check.yml`), from an empty dir —
   use the *exact* flags from that template's `update-files.yml` (incl. `--texlive` and any
   `--thesisvariant`/`--ieeevariant`): `yeoman_test=true yo <repo>/generators/app/index.js --documentclass=… --texlive=… --lang=en --listings=minted …`.

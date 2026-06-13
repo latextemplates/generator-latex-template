@@ -109,7 +109,7 @@ export const options = [
       {
         name: "Universität Hamburg",
         value: "university-of-hamburg",
-      }
+      },
     ],
     default: "ustutt",
   },
@@ -129,7 +129,10 @@ export const options = [
     ],
     default: "a4",
     when(response) {
-      return (response.documentclass != "ustutt" && response.documentclass != "scientific-thesis");
+      return (
+        response.documentclass != "ustutt" &&
+        response.documentclass != "scientific-thesis"
+      );
     },
   },
   {
@@ -157,7 +160,7 @@ export const options = [
         {
           name: "TeXLive 2024",
           value: 2024,
-        }
+        },
       ];
       if (!state.overleaf) {
         res.push({
@@ -184,36 +187,28 @@ export const options = [
         {
           name: "pdflatex",
           value: "pdflatex",
-        }
+        },
       ];
       if (state.texlive == 2025) {
-        res.push(
-          {
-            name: "pdflatex-dev",
-            value: "pdflatex-dev",
-          }
-          );
+        res.push({
+          name: "pdflatex-dev",
+          value: "pdflatex-dev",
+        });
       }
-      res.push(
-        {
-          name: "lualatex",
-          value: "lualatex",
-        }
-      );
+      res.push({
+        name: "lualatex",
+        value: "lualatex",
+      });
       if (state.texlive == 2025) {
-        res.push(
-          {
-            name: "lualatex-dev",
-            value: "lualatex-dev",
-          }
-          );
+        res.push({
+          name: "lualatex-dev",
+          value: "lualatex-dev",
+        });
       }
-      res.push(
-        {
-          name: "lualatex and pdflatex (if switches in .tex files; default lualatex)",
-          value: "both",
-        }
-      );
+      res.push({
+        name: "lualatex and pdflatex (if switches in .tex files; default lualatex)",
+        value: "both",
+      });
       return res;
     },
     default: "both",
@@ -221,7 +216,9 @@ export const options = [
   {
     when(response) {
       return (
-        response.documentclass !== "acmart" && response.documentclass !== "ieee" && response.documentclass !== "ustutt"
+        response.documentclass !== "acmart" &&
+        response.documentclass !== "ieee" &&
+        response.documentclass !== "ustutt"
       );
     },
     type: "list",
@@ -326,7 +323,9 @@ export const options = [
     },
     default: "default",
     when(response) {
-      return (response.documentclass !== "ieee") && (response.documentclass !== "ustutt");
+      return (
+        response.documentclass !== "ieee" && response.documentclass !== "ustutt"
+      );
     },
   },
   {
@@ -410,7 +409,7 @@ export const options = [
       },
       {
         name: "Plain LaTeX (simple \\todo command is defined)",
-        value: "plainlatex"
+        value: "plainlatex",
       },
       {
         name: "None (no support)",
