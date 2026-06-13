@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Changed
+
+- Fixed the indentation in the generated `.tex` files (TeXLive 2026)
+
 ## [2026.6.13]
 
 ### Added
@@ -344,6 +350,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
+[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2026.6.13...main
 [2026.6.13]: https://github.com/latextemplates/generator-latex-template/compare/2025.12.10...2026.6.13
 [2025.12.10]: https://github.com/latextemplates/generator-latex-template/compare/2025.10.25...2025.12.10
 [2025.10.25]: https://github.com/latextemplates/generator-latex-template/compare/2025.5.20...2025.10.25
