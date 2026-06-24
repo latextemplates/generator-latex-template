@@ -14,6 +14,14 @@
 ]{amsmath}
 \SetMathAlphabet{\mathcal}{normal}{OMS}{amsa}{m}{n} %% AMS font for mathcal
 
+% Provide \mathbb (blackboard bold, e.g. for number sets) when the active math
+% font does not already define it. The thesis math fonts (mathdesign / newtxmath /
+% unicode-math) supply it -- and amssymb clashes with mathdesign -- so only load
+% amssymb as a fallback when \mathbb is still missing.
+\makeatletter
+\@ifundefined{mathbb}{\usepackage{amssymb}}{}
+\makeatother
+
 %%% Doc: http://mirror.ctan.org/tex-archive/macros/latex/contrib/mh/doc/mathtools.pdf
 % Erweitert amsmath und behebt einige Bugs
 \usepackage[fixamsmath,disallowspaces]{mathtools}
