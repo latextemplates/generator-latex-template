@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [2026.6.24]
+
+### Added
+
+- Added a German abstract (`Kurzfassung`) section to the English scientific-thesis output, for German courses of study that require both abstracts. [scientific-thesis-template#158](https://github.com/latextemplates/scientific-thesis-template/pull/158)
+- Added instructions for using VSCode with the LaTeX Workshop extension to the LaTeX setup documentation. [scientific-thesis-template#152](https://github.com/latextemplates/scientific-thesis-template/pull/152)
+
+### Fixed
+
+- Restored grammar and spelling improvements in the generated thesis files that a regeneration had overwritten (for example "two-sided printing", "Troubleshooting", and "language of the current document"). [scientific-thesis-template#154](https://github.com/latextemplates/scientific-thesis-template/pull/154), [#510](https://github.com/latextemplates/generator-latex-template/issues/510)
+
 ## [2026.6.14]
 
 ### Changed
