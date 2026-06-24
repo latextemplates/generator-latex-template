@@ -17,11 +17,21 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v7
+<% if (isThesis) { -%>
+        with:
+          # Recursive checkout brings in the tikz-uml submodule used by the UML example.
+          submodules: recursive
+<% } -%>
       - name: Install TeX Live
         uses: zauguin/install-texlive@v4
         with:
           package_file: '${{ github.workspace }}/Texlivefile'
           texlive_version: <%= texlive %>
+<% if (isThesis) { -%>
+      - name: Install PlantUML
+        # Renders the PlantUML UML example (needs Java + the plantuml tool; --shell-escape is set in latexmkrc).
+        run: sudo apt-get update && sudo apt-get install -y plantuml
+<% } -%>
       - name: Prepare latexmk
         run: |
           updmap -sys

@@ -18,6 +18,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Changed
 
 - Bumped `actions/checkout` from v6 to v7 in the generated `check.yml` (and the on-demand `generate-workflows.py` matrix).
+- Enabled `--shell-escape` unconditionally in `latexmkrc` (previously only when required) so the PlantUML example and minted work out of the box.
+- For thesis documents, the generated `check.yml` now checks out submodules recursively and installs PlantUML, and `latexmkrc` adds the `tikz-uml` submodule directory to `TEXINPUTS`, so the two UML examples render in CI once the `tikz-uml` submodule is added to the template.
 - Restored typesetting tweaks from the legacy `config.tex` that were missing from the generated output: widow/orphan control (`nowidow` + `\displaywidowpenalty`), top-alignment of floats on float-only pages (`\@fptop`/`\@fpbot`), extra table row height (`\extrarowheight`), and — for German documents — a larger `\emergencystretch` to reduce hyphenation.
 
 ### Fixed
