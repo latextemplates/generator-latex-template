@@ -129,6 +129,14 @@ export default class extends Generator {
     this.props.requiresShellEscape =
       this.props.listings == "minted" || this.props.uml == "plantuml";
 
+    // Two-column layouts (IEEE, and the ACM conference/journal formats) cannot use
+    // `longtable` ("longtable not in 1-column mode"), so the longtable example must
+    // be skipped there.
+    this.props.twocolumn =
+      this.props.documentclass === "ieee" ||
+      (this.props.documentclass === "acmart" &&
+        ["acmtog", "sigconf", "sigplan"].includes(this.props.acmformat));
+
     if (this.props.docker == "no") {
       // converts command-line "no" to the boolean equivalent
       this.props.docker = false;

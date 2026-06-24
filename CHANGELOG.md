@@ -24,6 +24,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - Restored grammar and spelling improvements in the generated thesis files that a regeneration had overwritten (for example "two-sided printing", "Troubleshooting", and "language of the current document"). [scientific-thesis-template#154](https://github.com/latextemplates/scientific-thesis-template/pull/154), [#510](https://github.com/latextemplates/generator-latex-template/issues/510)
+- The longtable example is now skipped in two-column layouts (IEEE, and the ACM `sigconf`/`sigplan`/`acmtog` formats), where `longtable` cannot be used ("longtable not in 1-column mode") — it had broken the ACM and IEEE paper builds.
 - The generated `check.yml` spell-check now picks the aspell dictionary per file by its language suffix, so the German paper variants (`paper-de*.tex`) are checked against German instead of English (previously hundreds of false positives).
 - Added the example package names introduced by the restored examples (`pgfplots`, `tikz`, `longtable`, `gnuplot`, `compat`, `programmatically`) to the English aspell dictionary (`.aspell.en.pws`) so the paper spell-check passes.
 
