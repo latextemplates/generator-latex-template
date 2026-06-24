@@ -94,6 +94,48 @@ writes `workflows/check-*.yml` (tracked) and `workflows/miktex-check-*.yml` (git
 never committed). Re-running it brings the heavy matrix back; delete the `check-*.yml`
 again to return to the lean state.
 
+## Adding a package or example (wire every place, or a variant silently drops it)
+
+The generated document is assembled from micro-templates; a new LaTeX package or
+example section has to be wired in **lockstep** across several files. Miss one and
+the feature vanishes for some switch combination without any error.
+
+1. **Content** — add/extend `generators/app/templates/<name>.example.<lang>.tex`
+   (the demo body) and/or `<name>.preamble.<lang>.tex` (the `\usepackage`). Example
+   bodies use the `<%- bexample %> … <%- eexample %>` convention (=
+   `\begin{ltgexample}…\end{ltgexample}`), which **runs the body in place and echoes
+   its own source lines** — it is *not* the old `latexdemo`/`\PrintDemo`. Most examples
+   are a single shared `.en` file included from both mains.
+2. **Wire the includes into `main.en.tex` AND `main.de.tex`.** Example includes go in
+   the `LaTeX Hints` chapter (the whole chapter is already guarded by
+   `<% if (examples) %>`); package loads go in the preamble area. Guard each with the
+   right condition (`isThesis`, a switch value, …).
+3. **`Texlivefile`** — add the TeX Live package name, guarded (usually
+   `githubpublish || <condition>`; `githubpublish` deliberately bundles everything).
+4. **Shell-escape is derived, never hardcoded.** It is the boolean
+   `requiresShellEscape` in `index.js` (`listings == "minted" || uml == "plantuml"`).
+   Extend that expression if the new package needs `\write18`; the `latexmkrc` and the
+   `main.*.tex` editor hints read the flag.
+5. **New user switch?** Add the prompt to `options.js` (scope it with `when()`, e.g.
+   thesis-only and after `examples` if it depends on it), give it a default in
+   `index.js` (`if (!this.props.x) this.props.x = "none";`), and add the axis to
+   `__tests__/matrix.js` **and** the list in `.github/generate-workflows.py` (kept in
+   sync). Model on the `todo` / `uml` options.
+6. **Not in TeX Live** (e.g. `tikz-uml`) — guard usage with
+   `\IfFileExists{<pkg>.sty}{…}{…}` so a plain `npx`/submodule-less generation still
+   compiles (it just skips the demo). Provide the package via a git submodule +
+   `TEXINPUTS` (in `latexmkrc`) and a recursive checkout in the generated `check.yml`,
+   and document the setup in `README.en.md`. External-tool packages (PlantUML needs
+   Java) also need the tool installed in `check.yml` and `--shell-escape`.
+
+**Verify (LaTeX-free first, then compile):** `npx ejs-lint <file>` on every changed
+EJS template; `npm test` (pairwise) and `npm run test:all` (full matrix); generate
+locally with the **exact** `update-files.yml` flags (a missing required option such as
+`acmformat` or `todo` drops you into an interactive prompt, which reads as a hang);
+then grep the output. Sanity-compile new `.tex` in a *minimal standalone* document
+(the full thesis pulls in packages a local TeX Live may lack); `perl -c` the generated
+`latexmkrc`; validate the generated `check.yml` as YAML.
+
 ## Dependabot policy — port, do not merge
 
 Dependabot opens PRs against the **concrete templates** (e.g. a GitHub Action bump in
