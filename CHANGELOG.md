@@ -13,6 +13,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Added a German abstract (`Kurzfassung`) section to the English scientific-thesis output, for German courses of study that require both abstracts. [scientific-thesis-template#158](https://github.com/latextemplates/scientific-thesis-template/pull/158)
 - Added instructions for using VSCode with the LaTeX Workshop extension to the LaTeX setup documentation. [scientific-thesis-template#152](https://github.com/latextemplates/scientific-thesis-template/pull/152)
 
+### Changed
+
+- Bumped `actions/checkout` from v6 to v7 in the generated `check.yml` (and the on-demand `generate-workflows.py` matrix).
+
 ### Fixed
 
 - Restored grammar and spelling improvements in the generated thesis files that a regeneration had overwritten (for example "two-sided printing", "Troubleshooting", and "language of the current document"). [scientific-thesis-template#154](https://github.com/latextemplates/scientific-thesis-template/pull/154), [#510](https://github.com/latextemplates/generator-latex-template/issues/510)
