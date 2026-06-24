@@ -161,6 +161,31 @@ standalone* document (the full thesis pulls in packages a local TeX Live may lac
 so generated output must already be latexindent-clean — column-aligned tables in
 particular (see `lookForAlignDelims` in `localSettings.yaml`).
 
+### EJS whitespace: `-%>` eats the trailing newline
+
+Almost every control tag ends with `-%>` (the EJS "newline slurp"): `<% if (…) { -%>`,
+`<% } -%>`, `<% switch/case/break … -%>`, and `<%- include('…', this); -%>`. That slurp
+is deliberate — it keeps the control flow (and the include statements themselves) from
+emitting stray blank lines into the generated `.tex`. A plain `<% } %>` (no dash) leaves
+its newline and can inject an unwanted blank line, so the convention is the dashed form;
+only use plain `%>` when you actually want that newline.
+
+The consequence (and a real footgun): **the blank-line layout of the output is not the
+layout of the source.** Because `-%>` eats one trailing newline, two adjacent
+`-%>`-terminated blocks/includes render with **no** blank line between them. To get a
+blank line between blocks you need one of:
+- the first block's file to **end with a trailing blank line** (how most
+  `*.preamble.*.tex` separate themselves — e.g. `font.preamble` ends with a blank line
+  then `<% } -%>`), **or**
+- an **explicit blank line in the source** between the two `-%>` tags (the `-%>` eats one
+  newline, the remaining one + the content's own trailing newline = a blank line).
+
+This is exactly the `nowidow` bug: it followed `microtype.preamble`, which does *not* end
+with a trailing blank, and the include `-%>` ate the source newline — so the block butted
+against microtype until an explicit blank line was added between the two includes. When a
+generated block is missing/extra a blank line, this slurp interaction is the first thing
+to check.
+
 ## Dependabot policy — port, do not merge
 
 Dependabot opens PRs against the **concrete templates** (e.g. a GitHub Action bump in
