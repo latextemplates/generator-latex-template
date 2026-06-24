@@ -148,12 +148,18 @@ the feature vanishes for some switch combination without any error.
    Java) also need the tool installed in `check.yml` and `--shell-escape`.
 
 **Verify (LaTeX-free first, then compile):** `npx ejs-lint <file>` on every changed
-EJS template; `npm test` (pairwise) and `npm run test:all` (full matrix); generate
-locally with the **exact** `update-files.yml` flags (a missing required option such as
-`acmformat` or `todo` drops you into an interactive prompt, which reads as a hang);
-then grep the output. Sanity-compile new `.tex` in a *minimal standalone* document
-(the full thesis pulls in packages a local TeX Live may lack); `perl -c` the generated
-`latexmkrc`; validate the generated `check.yml` as YAML.
+EJS template; run **`npm test`**, not `node --test` directly — `npm test`'s `pretest`
+runs `eslint .` (incl. `prettier`), which `node --test` skips, so a prettier-only nit
+in `index.js`/`options.js` passes locally but fails CI (run `npx eslint --fix .` to
+match the formatter). `npm test` is the pairwise suite; `npm run test:all` is the full
+matrix. Then generate locally with the **exact** `update-files.yml` flags (a missing
+required option such as `acmformat` or `todo` drops you into an interactive prompt,
+which reads as a hang) and grep the output. Sanity-compile new `.tex` in a *minimal
+standalone* document (the full thesis pulls in packages a local TeX Live may lack);
+`perl -c` the generated `latexmkrc`; validate the generated `check.yml` as YAML. The
+`check-make.yml` build also runs `make format` (latexindent) + `git diff --exit-code`,
+so generated output must already be latexindent-clean — column-aligned tables in
+particular (see `lookForAlignDelims` in `localSettings.yaml`).
 
 ## Dependabot policy — port, do not merge
 
