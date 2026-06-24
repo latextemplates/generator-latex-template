@@ -122,8 +122,7 @@ export default class extends Generator {
     this.props.longtable =
       this.options.longtable === undefined
         ? true
-        : this.options.longtable === true ||
-          this.options.longtable === "true";
+        : this.options.longtable === true || this.options.longtable === "true";
 
     // Only minted and the PlantUML UML example need shell-escape; tikz-uml and the
     // remaining thesis content do not.
