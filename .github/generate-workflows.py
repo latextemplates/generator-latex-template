@@ -35,6 +35,13 @@ acmreviews = ['true', 'false']
 # IEEE only
 ieeevariants = ['conference', 'journal', 'peerreview']
 
+# Thesis only (scientific-thesis / ustutt), and only when examples are enabled.
+# Kept in sync with __tests__/matrix.js. The UML examples are exercised by the
+# generation test (npm test); this heavy LaTeX compile matrix pins uml to "none"
+# on purpose -- tikz-uml/plantuml need external tooling and would only triple the
+# ustutt compile jobs for guarded demos that skip without it.
+umls = ['none']
+
 docker = "iot"
 
 # Idea: Have the same value in the workflow between generations so that the git diff is as small as possible
