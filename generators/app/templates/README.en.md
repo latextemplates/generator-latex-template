@@ -386,23 +386,27 @@ To have minted running properly, you have to do following steps on Windows:
 3. When latexing, use `-shell-escape`: `pdflatex -shell-escape <%= filenames.main %>`.
    You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
-<% if (isThesis && examples) { -%>
+<% if (uml != "none") { -%>
 
-### UML diagrams (`tikz-uml` and PlantUML)
+### UML diagram example
 
-The "LaTeX Hints" chapter contains two UML examples that need extra setup.
-Both are skipped automatically when their prerequisites are missing, so the document always compiles.
+The "LaTeX Hints" chapter contains a UML example that needs extra setup.
+It is skipped automatically when its prerequisites are missing, so the document always compiles.
+<% if (uml == "tikz-uml") { -%>
 
-- **`tikz-uml`** is not part of TeX Live.
-  Add it as a git submodule and put it on the LaTeX search path via `TEXINPUTS`:
+`tikz-uml` is not part of TeX Live.
+Add it as a git submodule and put it on the LaTeX search path via `TEXINPUTS`:
 
-  ```console
-  git submodule add https://plmlab.math.cnrs.fr/tikzuml/tikzuml.git tikz-uml
-  TEXINPUTS="./tikz-uml:$TEXINPUTS" latexmk <%= filenames.main %>
-  ```
+```console
+git submodule add https://plmlab.math.cnrs.fr/tikzuml/tikzuml.git tikz-uml
+TEXINPUTS="./tikz-uml:$TEXINPUTS" latexmk <%= filenames.main %>
+```
+<% } -%>
+<% if (uml == "plantuml") { -%>
 
-- **PlantUML** renders only with Lua​LaTeX, the `--shell-escape` flag, and a PlantUML installation (which needs Java).
-  Install PlantUML (for example `choco install plantuml` on Windows) and compile with `lualatex --shell-escape`.
+PlantUML renders only with Lua​LaTeX, the `--shell-escape` flag, and a PlantUML installation (which needs Java).
+Install PlantUML (for example `choco install plantuml` on Windows) and compile with `lualatex --shell-escape`.
+<% } -%>
 <% } -%>
 
 ### VS Code configuration

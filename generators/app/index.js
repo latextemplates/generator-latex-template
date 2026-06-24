@@ -110,8 +110,16 @@ export default class extends Generator {
       this.props.thesisvariant = "none";
     }
 
+    // The UML example is thesis-only and opt-in (see options.js). Default it to
+    // "none" for every case where it was not asked (papers, examples disabled).
+    if (!this.props.uml) {
+      this.props.uml = "none";
+    }
+
+    // Only minted and the PlantUML UML example need shell-escape; tikz-uml and the
+    // remaining thesis content do not.
     this.props.requiresShellEscape =
-      this.props.isThesis || this.props.listings == "minted";
+      this.props.listings == "minted" || this.props.uml == "plantuml";
 
     if (this.props.docker == "no") {
       // converts command-line "no" to the boolean equivalent

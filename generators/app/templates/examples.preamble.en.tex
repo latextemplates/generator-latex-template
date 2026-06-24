@@ -6,14 +6,18 @@
 %
 % longtable: tables spanning multiple pages
 \usepackage{longtable}
+<% if (uml == "tikz-uml") { -%>
 %
 % tikz-uml: UML class diagrams. NOT part of TeX Live; provided via a git submodule
 % plus TEXINPUTS (see the README). The \IfFileExists guard keeps a plain `npx`
 % generation (which has no submodule) compiling -- the demo is skipped instead.
 \IfFileExists{tikz-uml.sty}{\usepackage{tikz-uml}}{}
+<% } -%>
+<% if (uml == "plantuml") { -%>
 %
 % plantuml: UML diagrams rendered by the external PlantUML tool. Needs lualatex,
 % the --shell-escape flag, and a PlantUML installation (Java). Guarded likewise.
 \ifluatex
   \IfFileExists{plantuml.sty}{\usepackage[output=latex]{plantuml}}{}
 \fi
+<% } -%>
