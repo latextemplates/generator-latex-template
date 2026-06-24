@@ -16,6 +16,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Changed
 
 - Bumped `actions/checkout` from v6 to v7 in the generated `check.yml` (and the on-demand `generate-workflows.py` matrix).
+- Restored typesetting tweaks from the legacy `config.tex` that were missing from the generated output: widow/orphan control (`nowidow` + `\displaywidowpenalty`), top-alignment of floats on float-only pages (`\@fptop`/`\@fpbot`), extra table row height (`\extrarowheight`), and — for German documents — a larger `\emergencystretch` to reduce hyphenation.
 
 ### Fixed
 
