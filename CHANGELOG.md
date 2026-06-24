@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- Restored example sections that the reworked "LaTeX Hints" chapter had dropped: Formulas and Equations, Figures with `tikz`, Plots with `pgfplots`, and Tables spanning multiple pages (`longtable`). The packages are pulled in only when examples are enabled.
 - Added a German abstract (`Kurzfassung`) section to the English scientific-thesis output, for German courses of study that require both abstracts. [scientific-thesis-template#158](https://github.com/latextemplates/scientific-thesis-template/pull/158)
 - Added instructions for using VSCode with the LaTeX Workshop extension to the LaTeX setup documentation. [scientific-thesis-template#152](https://github.com/latextemplates/scientific-thesis-template/pull/152)
 
