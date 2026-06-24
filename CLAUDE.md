@@ -105,22 +105,41 @@ the feature vanishes for some switch combination without any error.
    bodies use the `<%- bexample %> … <%- eexample %>` convention (=
    `\begin{ltgexample}…\end{ltgexample}`), which **runs the body in place and echoes
    its own source lines** — it is *not* the old `latexdemo`/`\PrintDemo`. Most examples
-   are a single shared `.en` file included from both mains.
+   are a single shared `.en` file included from both mains. Give each feature its **own**
+   `<feature>.preamble.<lang>.tex` (one concern per file — e.g. `tikz.preamble`,
+   `longtable.preamble`, `uml.plantuml.preamble`), **not** a catch-all "examples" preamble.
+   **Config vs. demo:** a package a feature needs to *work* belongs in that feature's
+   config preamble and is loaded wherever the feature is on; a package that only *renders
+   a demo* is the example's own concern. So `\mathbb` (a real feature) is provided by
+   `math.preamble.en.tex` — `\@ifundefined{mathbb}{\usepackage{amssymb}}{}`, guarded
+   because `amssymb` clashes with `mathdesign`/`newtxmath`/`unicode-math` — and the math
+   *example* is then gated to where `math.preamble` is included (`isThesis ||
+   feature.abbreviations`), so LNCS etc. don't reference an undefined `\mathbb`.
 2. **Wire the includes into `main.en.tex` AND `main.de.tex`.** Example includes go in
    the `LaTeX Hints` chapter (the whole chapter is already guarded by
    `<% if (examples) %>`); package loads go in the preamble area. Guard each with the
-   right condition (`isThesis`, a switch value, …).
+   right condition (`isThesis`, a switch value, …) — and gate an example to where the
+   config that makes it compile is present.
 3. **`Texlivefile`** — add the TeX Live package name, guarded (usually
    `githubpublish || <condition>`; `githubpublish` deliberately bundles everything).
 4. **Shell-escape is derived, never hardcoded.** It is the boolean
    `requiresShellEscape` in `index.js` (`listings == "minted" || uml == "plantuml"`).
    Extend that expression if the new package needs `\write18`; the `latexmkrc` and the
    `main.*.tex` editor hints read the flag.
-5. **New user switch?** Add the prompt to `options.js` (scope it with `when()`, e.g.
-   thesis-only and after `examples` if it depends on it), give it a default in
-   `index.js` (`if (!this.props.x) this.props.x = "none";`), and add the axis to
+5. **New user switch?** Decide **prompt vs. plain flag** first:
+   - A **prompt** in `options.js` (scope with `when()`, give a `default`) is interactive
+     and nice for discovery — but **every** template's `update-files.yml` that satisfies
+     its `when()` must pass the flag (like `--todo`), or the non-interactive `yo` run in CI
+     blocks on the prompt and fails. So a thesis-only prompt (e.g. `uml`) means
+     `scientific-thesis-template` *and* `uni-stuttgart-dissertation-template` need
+     `--uml=…` added to their (template-managed) `update-files.yml`.
+   - A **plain CLI flag** read from `this.options` in `index.js` with a default (e.g.
+     `longtable`) never prompts, so it never breaks CI and needs no `update-files.yml`
+     change — at the cost of interactive discovery.
+   Either way default it in `index.js` (prompt: `if (!this.props.x) this.props.x = "none";`
+   / flag: read `this.options.x` with a fallback), and if it's a prompt add the axis to
    `__tests__/matrix.js` **and** the list in `.github/generate-workflows.py` (kept in
-   sync). Model on the `todo` / `uml` options.
+   sync). Model on the `todo` / `uml` (prompt) and `longtable` (flag) options.
 6. **Not in TeX Live** (e.g. `tikz-uml`) — guard usage with
    `\IfFileExists{<pkg>.sty}{…}{…}` so a plain `npx`/submodule-less generation still
    compiles (it just skips the demo). Provide the package via a git submodule +
