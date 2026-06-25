@@ -782,7 +782,6 @@ Just answer "(a) allow for this document" and it will work.
 Google for the name of the `sty` and upload it to overleaf.
 As of 2018-02-17, these are:
 
-- `lccaps.sty` - can be downloaded from <https://latextemplates.github.io/stys-for-overleaf/>.
 - `scientific-thesis-cover.sty` - can be downloaded from <https://raw.githubusercontent.com/latextemplates/scientific-thesis-cover/master/scientific-thesis-cover.sty>.
 
 ### Q: My Paderborn title page is strange. The boxes seem to be located arbitrarily.

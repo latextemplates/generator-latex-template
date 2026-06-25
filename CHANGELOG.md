@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Fixed
+
+- English `\initialism` (used by `\OMG`, `\BPEL`, `\BPMN`, `\UML`) now works: the `lccaps` package providing `\textlcc` is loaded and bundled via `Texlivefile`. Previously `\textlcc` was undefined whenever those macros were used. [#328](https://github.com/latextemplates/generator-latex-template/issues/328)
+- German spell-checking: the generated `.aspell.de.pws` personal dictionary is now tagged with language `de` (was `en`), so `aspell -l de_DE` no longer aborts with "Expected language de but got en". [#369](https://github.com/latextemplates/generator-latex-template/issues/369)
+
 ## [2026.6.26]
 
 ### Added
