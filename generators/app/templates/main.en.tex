@@ -65,7 +65,7 @@
   numbers=noenddot,
   english,  % English as main language; this parameter is passed to other packages (e.g., selnolig in the case of lualatex)
   a4paper,  % KOMAScript allows for both paper=a4 and (standard) a4paper - https://tex.stackexchange.com/a/61044/9075
-  twoside,  % We are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
+  twoside,  % We are optimizing for both screen and two-sided printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
   bibliography=totoc,
   % idxtotoc,   % Index ins Inhaltsverzeichnis
   % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
@@ -83,7 +83,7 @@
   numbers=noenddot,
   english,  % English as main language; this parameter is passed to other packages (e.g., selnolig in the case of lualatex)
   paper=a5,
-  twoside,  % we are optimizing for both screen and two-side printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
+  twoside,  % we are optimizing for both screen and two-sided printing. So the page numbers will jump, but the content is configured to stay in the middle (by using the geometry package)
   DIV=calc,
   headings=small,
   bibliography=totoc,
@@ -115,7 +115,7 @@
 <% } -%>
 
 % backticks (`) are rendered as such in verbatim environments.
-% See following links for details:
+% See the following links for details:
 %   - https://tex.stackexchange.com/a/341057/9075
 %   - https://tex.stackexchange.com/a/47451/9075
 %   - https://tex.stackexchange.com/a/166791/9075
@@ -131,6 +131,8 @@
 <% } -%>
 <%- include('font.preamble.en.tex', this); -%>
 <%- include('microtype.preamble.en.tex', this); -%>
+
+<%- include('nowidow.preamble.en.tex', this); -%>
 
 <% if (documentclass == 'ustutt') { -%>
 <%- include('ustutt-pagestyle.preamble.en.tex', this); %>
@@ -209,6 +211,22 @@
 <% break; } -%>
 
 <%- include('tables.preamble.de.tex', this); -%>
+<% if (examples) { -%>
+
+<%- include('tikz.preamble.en.tex', this); -%>
+<% } -%>
+<% if (longtable) { -%>
+
+<%- include('longtable.preamble.en.tex', this); -%>
+<% } -%>
+<% if (uml == "tikz-uml") { -%>
+
+<%- include('uml.tikzuml.preamble.en.tex', this); -%>
+<% } -%>
+<% if (uml == "plantuml") { -%>
+
+<%- include('uml.plantuml.preamble.en.tex', this); -%>
+<% } -%>
 
 <%- include('footnotes.preamble.en.tex', this); -%>
 
@@ -324,10 +342,10 @@
 <%= indent %>% Enable copy and paste of text from the PDF
 <%= indent %>% Only required for pdflatex. It "just works" in the case of lualatex.
 <%= indent %>% Alternative: cmap or mmap package
-<%= indent %>% mmap enables mathematical symbols, but does not work with the newtx font set
+<%= indent %>% mmap enables mathematical symbols but does not work with the newtx font set
 <%= indent %>% See: https://tex.stackexchange.com/a/64457/9075
 <%= indent %>% Other solutions outlined at http://goemonx.blogspot.de/2012/01/pdflatex-ligaturen-und-copynpaste.html and http://tex.stackexchange.com/questions/4397/make-ligatures-in-linux-libertine-copyable-and-searchable
-<%= indent %>% Trouble shooting outlined at https://tex.stackexchange.com/a/100618/9075
+<%= indent %>% Troubleshooting outlined at https://tex.stackexchange.com/a/100618/9075
 <%= indent %>%
 <%= indent %>% According to https://tex.stackexchange.com/q/451235/9075 this is the way to go
 <%= indent %>\input{glyphtounicode}
@@ -578,6 +596,17 @@ What can they do with your research.
 
 <% } else { -%>
 \lipsum[1]
+
+<% } -%>
+<% if (documentclass == "scientific-thesis") { -%>
+
+% Solely for German courses of study, which require a German abstract (Kurzfassung) in addition to the English one.
+% Remove this section if your course of study does not require it.
+\section*{Kurzfassung}
+\begin{otherlanguage}{ngerman}
+  %Silbentrennung Deutsch
+  Kurzfassung der Arbeit.
+\end{otherlanguage}
 
 <% } -%>
 <%# Now, the abstract is started and some content exists. We need now to close the abstract. -%>
@@ -1086,12 +1115,33 @@ It focuses on minimal examples, which can be directly adapted to the content
 <% if (enquotes == 'plainlatex') { %><%- include('plainlatex.enquotes.example.en.tex', this); %>
 <% } -%>
 <%- include('cleveref.example.en.tex', this); -%>
+<% if (isThesis || feature.abbreviations) { -%>
+
+<%# The math example uses \mathbb etc.; only show it where math.preamble.en.tex (its config) is loaded. -%>
+<%- include('math.example.en.tex', this); -%>
+<% } -%>
 
 <%- include('floats.example.en.tex', this); -%>
 
 <%- include('subfig.example.en.tex', this); -%>
 
+<%- include('tikz.example.en.tex', this); -%>
+
+<%- include('pgfplots.example.en.tex', this); -%>
+<% if (uml == "tikz-uml") { -%>
+
+<%- include('tikzuml.example.en.tex', this); -%>
+<% } -%>
+<% if (uml == "plantuml") { -%>
+
+<%- include('plantuml.example.en.tex', this); -%>
+<% } -%>
+
 <%- include('tables.example.en.tex', this); -%>
+<% if (longtable && !twocolumn) { -%>
+
+<%- include('longtable.example.en.tex', this); -%>
+<% } -%>
 
 <% if (listings == 'listings') { -%>
 <%- include('listings.example.en.tex', this); %>

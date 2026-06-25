@@ -1,4 +1,11 @@
 $pdflatex = '<%= reallatexcompiler %> <% if (requiresShellEscape) { %>--shell-escape <% } %>--file-line-error --synctex=-1 %O %S';
+<% if (uml == "tikz-uml") { -%>
+
+# Make the tikz-uml package visible. It is not part of TeX Live and is provided
+# as a git submodule in the "tikz-uml" directory (see the README). The recursive
+# "//" lets kpathsea find tikz-uml.sty wherever it lives inside that submodule.
+$ENV{'TEXINPUTS'} = './tikz-uml//:' . ($ENV{'TEXINPUTS'} // '');
+<% } -%>
 
 #Use SumatraPDF instead of the default PDF viewer
 $pdf_previewer = 'start "C:\Program Files\SumatraPDF\SumatraPDF.exe"';

@@ -430,4 +430,31 @@ export const options = [
     message: "Include minimal LaTeX examples?",
     default: true,
   },
+  {
+    type: "list",
+    name: "uml",
+    when(response) {
+      return (
+        (response.documentclass === "scientific-thesis" ||
+          response.documentclass === "ustutt") &&
+        (response.examples === true || response.examples === "true")
+      );
+    },
+    message: "Which package for the UML diagram example?",
+    choices: [
+      {
+        name: "None (no UML example)",
+        value: "none",
+      },
+      {
+        name: "tikz-uml (not in TeX Live; added as a git submodule)",
+        value: "tikz-uml",
+      },
+      {
+        name: "PlantUML (needs LuaLaTeX, --shell-escape, and a PlantUML/Java install)",
+        value: "plantuml",
+      },
+    ],
+    default: "none",
+  },
 ];

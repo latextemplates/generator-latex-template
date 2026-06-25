@@ -1,0 +1,27 @@
+<%= heading2 %>{UML diagrams using PlantUML}
+
+In case \lualatex{} is used and PlantUML is installed, UML diagrams can be defined using \href{https://plantuml.com}{PlantUML}.
+This requires the \texttt{--shell-escape} compiler flag and the external PlantUML tool (which needs Java); see the \texttt{README}.
+When these prerequisites are missing, the following demo is skipped automatically.
+
+\ifluatex
+\IfFileExists{plantuml.sty}{%
+<%- bexample %>
+\begin{figure}
+  \centering
+  \begin{plantuml}
+  @startuml
+    class Car
+    Driver - Car : drives >
+    Car *- Wheel : have 4 >
+    Car -- Person : < owns
+  @enduml
+  \end{plantuml}
+  \caption{Simple PlantUML diagram}
+  \label{fig:umlcar}
+\end{figure}
+<%- eexample %>
+}{%
+  \emph{The \texttt{plantuml} package is not available, so this diagram is not rendered. See the \texttt{README} on how to enable it.}
+}
+\fi

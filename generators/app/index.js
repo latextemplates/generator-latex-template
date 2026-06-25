@@ -110,8 +110,32 @@ export default class extends Generator {
       this.props.thesisvariant = "none";
     }
 
+    // The UML example is thesis-only and opt-in (see options.js). Default it to
+    // "none" for every case where it was not asked (papers, examples disabled).
+    if (!this.props.uml) {
+      this.props.uml = "none";
+    }
+
+    // `longtable` is a plain CLI flag (no prompt), so it never blocks
+    // non-interactive generation. It toggles the longtable package and its
+    // example; default on.
+    this.props.longtable =
+      this.options.longtable === undefined
+        ? true
+        : this.options.longtable === true || this.options.longtable === "true";
+
+    // Only minted and the PlantUML UML example need shell-escape; tikz-uml and the
+    // remaining thesis content do not.
     this.props.requiresShellEscape =
-      this.props.isThesis || this.props.listings == "minted";
+      this.props.listings == "minted" || this.props.uml == "plantuml";
+
+    // Two-column layouts (IEEE, and the ACM conference/journal formats) cannot use
+    // `longtable` ("longtable not in 1-column mode"), so the longtable example must
+    // be skipped there.
+    this.props.twocolumn =
+      this.props.documentclass === "ieee" ||
+      (this.props.documentclass === "acmart" &&
+        ["acmtog", "sigconf", "sigplan"].includes(this.props.acmformat));
 
     if (this.props.docker == "no") {
       // converts command-line "no" to the boolean equivalent

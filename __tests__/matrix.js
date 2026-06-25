@@ -17,10 +17,13 @@ export const todos = ["pdfcomment", "none"];
 export const examples = ["true", "false"];
 export const howtotexts = ["true", "false"];
 export const ieeevariants = ["conference", "journal", "peerreview"];
+export const umls = ["none", "tikz-uml", "plantuml"];
 
 // The axes used for pairwise coverage. `ieeevariant` is only meaningful for
 // the ieee document class; for every other class the full matrix pins it to
-// "conference", so no cross-class pair involving it is ever required.
+// "conference", so no cross-class pair involving it is ever required. `uml` is
+// likewise only meaningful for the ustutt thesis with examples enabled; it is
+// pinned to "none" everywhere else.
 const PAIR_AXES = [
   "documentclass",
   "latexcompiler",
@@ -28,6 +31,7 @@ const PAIR_AXES = [
   "texlive",
   "example",
   "ieeevariant",
+  "uml",
   "howtotext",
   "language",
   "font",
@@ -67,6 +71,7 @@ export function toOptions(combo) {
   }
   if (combo.documentclass === "ustutt") {
     options.thesisvariant = "ustutt";
+    options.uml = combo.uml;
   }
   return options;
 }
@@ -82,6 +87,7 @@ export function label(combo) {
   return [
     combo.documentclass,
     combo.documentclass === "ieee" ? combo.ieeevariant : null,
+    combo.uml && combo.uml !== "none" ? `uml-${combo.uml}` : null,
     combo.latexcompiler,
     combo.bibtextool,
     combo.texlive,
@@ -130,21 +136,35 @@ export function fullMatrix() {
                       for (const enquote of enquotes) {
                         for (const tweakouterquote of tweakouterquotes) {
                           for (const todo of todos) {
-                            combos.push({
-                              documentclass,
-                              latexcompiler,
-                              bibtextool,
-                              texlive,
-                              example,
-                              ieeevariant,
-                              howtotext,
-                              language,
-                              font,
-                              listing,
-                              enquote,
-                              tweakouterquote,
-                              todo,
-                            });
+                            for (const uml of umls) {
+                              // `uml` is only offered for the ustutt thesis with
+                              // examples enabled; pin it to "none" otherwise.
+                              if (
+                                uml !== "none" &&
+                                !(
+                                  documentclass === "ustutt" &&
+                                  example === "true"
+                                )
+                              ) {
+                                continue;
+                              }
+                              combos.push({
+                                documentclass,
+                                latexcompiler,
+                                bibtextool,
+                                texlive,
+                                example,
+                                ieeevariant,
+                                uml,
+                                howtotext,
+                                language,
+                                font,
+                                listing,
+                                enquote,
+                                tweakouterquote,
+                                todo,
+                              });
+                            }
                           }
                         }
                       }

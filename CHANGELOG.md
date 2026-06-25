@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [2026.6.25]
+
+### Added
+
+- Restored example sections that the reworked "LaTeX Hints" chapter had dropped: Formulas and Equations, Figures with `tikz`, Plots with `pgfplots`, and Tables spanning multiple pages (`longtable`). The packages are pulled in only when examples are enabled.
+- Added a UML diagram example, selectable for theses via a new `uml` option (`none` (default), `tikz-uml`, or `PlantUML`), analogous to the TODO-package choice. The chosen example is wrapped in `\IfFileExists` guards so a plain generation still compiles (the demo is skipped with a note), and the README explains how to enable it (`tikz-uml` via git submodule + `TEXINPUTS`; PlantUML via Lua​LaTeX + `--shell-escape` + a PlantUML install).
+- Added a German abstract (`Kurzfassung`) section to the English scientific-thesis output, for German courses of study that require both abstracts. [scientific-thesis-template#158](https://github.com/latextemplates/scientific-thesis-template/pull/158)
+- Added instructions for using VSCode with the LaTeX Workshop extension to the LaTeX setup documentation. [scientific-thesis-template#152](https://github.com/latextemplates/scientific-thesis-template/pull/152)
+
+### Changed
+
+- Bumped `actions/checkout` from v6 to v7 in the generated `check.yml` (and the on-demand `generate-workflows.py` matrix).
+- The UML example's prerequisites are derived from the `uml` choice: with `uml=tikz-uml` the generated `check.yml` checks out submodules recursively and `latexmkrc` adds the `tikz-uml` submodule directory to `TEXINPUTS`; with `uml=plantuml` the workflow installs PlantUML and `--shell-escape` is enabled (`requiresShellEscape` now derives from `listings == "minted" || uml == "plantuml"` instead of the blanket `isThesis`).
+- Restored typesetting tweaks from the legacy `config.tex` that were missing from the generated output: widow/orphan control (`nowidow` + `\displaywidowpenalty`), top-alignment of floats on float-only pages (`\@fptop`/`\@fpbot`), extra table row height (`\extrarowheight`), and — for German documents — a larger `\emergencystretch` to reduce hyphenation.
+
+### Fixed
+
+- Restored grammar and spelling improvements in the generated thesis files that a regeneration had overwritten (for example "two-sided printing", "Troubleshooting", and "language of the current document"). [scientific-thesis-template#154](https://github.com/latextemplates/scientific-thesis-template/pull/154), [#510](https://github.com/latextemplates/generator-latex-template/issues/510)
+- The longtable example is now skipped in two-column layouts (IEEE, and the ACM `sigconf`/`sigplan`/`acmtog` formats), where `longtable` cannot be used ("longtable not in 1-column mode") — it had broken the ACM and IEEE paper builds.
+- The generated `check.yml` spell-check now picks the aspell dictionary per file by its language suffix, so the German paper variants (`paper-de*.tex`) are checked against German instead of English (previously hundreds of false positives).
+- Added the example package names introduced by the restored examples (`pgfplots`, `tikz`, `longtable`, `gnuplot`, `compat`, `programmatically`) to the English aspell dictionary (`.aspell.en.pws`) so the paper spell-check passes.
+
 ## [2026.6.14]
 
 ### Changed
