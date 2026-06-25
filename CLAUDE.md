@@ -55,10 +55,15 @@ layout is a hard requirement.
    want a real compile pass over all variants for this cycle, regenerate it on demand
    (`cd .github && python3 generate-workflows.py`, see "CI & testing in this repo") and
    delete it again before merging unless you intend to ship it on `main`.
-4. **End** — merge `refine-ltg` → `main`, cut the release (README → "Releasing a new
-   version": `release-it`, publish to npm). Then, on `main`: run
+4. **End** — once this repo's `refine-ltg` PR is green, **squash-merge** it into `main`.
+   Then cut the release (README → "Releasing a new version": `release-it` +
+   `github-release-from-changelog` — version bump, npm publish, tag, GitHub release; this is
+   the only step that needs an interactive npm login + 2FA). Then, on `main`, run
    `scripts/end-new-cycle.sh` — repoints every template's submodule to `origin/main` and
-   commits/pushes. The templates' "Update LTG" PRs are now merge-ready; merge them.
+   commits/pushes. Finally, wait for each template's "Update LTG" PR to go green and
+   **squash-merge** it. (Squash-merge throughout: it keeps `main` — and each template's
+   history — to one commit per cycle; `release-it`/`end-new-cycle.sh` are unaffected since the
+   generated content is identical regardless of how the branch was merged.)
 
 The list of variants (documentclasses, `texlives`, fonts, …) is defined in **two places
 that must be kept in sync**: the top of `.github/generate-workflows.py` (drives the LaTeX
