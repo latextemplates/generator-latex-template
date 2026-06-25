@@ -186,6 +186,26 @@ against microtype until an explicit blank line was added between the two include
 generated block is missing/extra a blank line, this slurp interaction is the first thing
 to check.
 
+### Compile gotchas the single-variant local test misses
+
+`npm test` only checks that the generator *generates*; the **multi-variant template
+builds** (each `update-ltg` PR compiles every `main*.tex` for both languages and several
+formats) catch things a single local `yo` + compile does not. Two that have bitten:
+
+- **Two-column layouts can't use `longtable`** ("longtable not in 1-column mode"). IEEE and
+  the ACM `sigconf`/`sigplan`/`acmtog` formats are two-column, so any `longtable` (or other
+  one-column-only) example must be gated on `!twocolumn` (a derived prop in `index.js`:
+  `documentclass == "ieee" || (acmart && acmformat ∈ {acmtog,sigconf,sigplan})`). Single-column
+  figures (`figure`, not `figure*`) are fine in two columns.
+- **A template repo ships ONE shared `abbreviations.tex`** — the `update-files.yml` "Prepare
+  files" step keeps only one variant's copy (e.g. the `en`+minted one), and **every** main
+  file (English *and* German) does `\input{abbreviations}`. So a glossary entry used by any
+  language's example must be defined in **both** `abbreviations.en.tex` and
+  `abbreviations.de.tex` (the unused one just never appears in that document's list). Making
+  `\gls` entries language-exclusive breaks the other language's variant with
+  "Glossary entry `…' has not been defined". The same single-shared-file logic applies to
+  other `this.fs.copy`'d siblings (`commands.tex`, …).
+
 ## Dependabot policy — port, do not merge
 
 Dependabot opens PRs against the **concrete templates** (e.g. a GitHub Action bump in
