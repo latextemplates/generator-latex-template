@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- The generated README now has a FAQ entry explaining how to render the `tikz-uml` UML example on Overleaf: because Overleaf does not fetch the git submodule that provides the package, upload `tikz-uml.sty` into the project. Shown only when `uml=tikz-uml`.
+
 ### Fixed
 
 - English `\initialism` (used by `\OMG`, `\BPEL`, `\BPMN`, `\UML`) now works: the `lccaps` package providing `\textlcc` is loaded and bundled via `Texlivefile`. Previously `\textlcc` was undefined whenever those macros were used. An example in the "Other Features" hints section now demonstrates `\initialism`. [#328](https://github.com/latextemplates/generator-latex-template/issues/328)

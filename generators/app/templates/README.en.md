@@ -776,14 +776,16 @@ Just answer "(a) allow for this document" and it will work.
 4. Use [pdfscissors](https://sites.google.com/site/pdfscissors) to crop the borders and title (maybe you have to allow <https://sites.google.com> in the Java security center in the control panel).
 5. Include the PDF in LaTeX via `\includegraphics{chart_cropped.pdf}`.
 
+<% if (uml == "tikz-uml") { -%>
+### Q: Overleaf complains about a missing `tikz-uml.sty`.
+
+`tikz-uml` is not part of TeX Live; locally it is provided as a git submodule placed on the `TEXINPUTS` search path (see "UML diagram example" above).
+Overleaf does not fetch git submodules, so `tikz-uml.sty` is unavailable there.
+Download `tikz-uml.sty` from the [tikz-uml repository](https://plmlab.math.cnrs.fr/tikzuml/tikzuml) and upload it into your Overleaf project, next to your main `.tex` file; the UML example then compiles.
+Without it, the example is skipped automatically and the rest of the document still builds.
+
+<% } -%>
 <%#
-### Q: Overleaf complains about missing `.sty` files.
-
-Google for the name of the `sty` and upload it to overleaf.
-As of 2018-02-17, these are:
-
-- `scientific-thesis-cover.sty` - can be downloaded from <https://raw.githubusercontent.com/latextemplates/scientific-thesis-cover/master/scientific-thesis-cover.sty>.
-
 ### Q: My Paderborn title page is strange. The boxes seem to be located arbitrarily.
 
 Just run pdflatex again.
