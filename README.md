@@ -201,16 +201,23 @@ ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generato
 
 ### Releasing a new version
 
-1. Once the `refine-ltg` PR is green, **squash-merge** it into `main`
-2. **important** check `main` out and pull
-3. **ensure that on main** Update `CHANGELOG.md` (change `h2` heading etc.)
-4. **ensure that on main** Update `package.json`, publish to [npmjs](https://www.npmjs.com/package/generator-latex-template), create GitHub release.
+> **Cut the release from `main`, never from `refine-ltg`.**
+> Releasing from the dev branch publishes an unmerged tree with a not-yet-finalized CHANGELOG — that is what broke the 2026.6.26 release (a stale `## [2026.6.25]` heading, a missing `[2026.6.26]:` compare link, and an `[Unreleased]:` link that was never bumped).
+> So after the squash-merge, `git switch main && git pull` and confirm `git branch --show-current` prints `main` before doing anything below.
+
+1. Once the `refine-ltg` PR is green, **squash-merge** it into `main`, then `git switch main && git pull` (confirm you are on `main`).
+2. Update `CHANGELOG.md`: rename the top `## [Unreleased]` heading to `## [<version>]`, add the matching `[<version>]: …/compare/<prev>...<version>` link definition, and bump `[Unreleased]: …/compare/<version>...main`.
+3. **Verify the CHANGELOG before publishing:**
+   - Run heylogs (the same check as CI's `check-changelog.yml`) and get **0 problems**:
+     `jbang com.github.nbbrd.heylogs:heylogs-cli:0.18.1:bin check CHANGELOG.md`
+   - heylogs **cannot** validate the version links here: our CalVer headings omit the date, so `linkable`/`date-displayed`/`all-h2-contain-a-version` are off in `heylogs.properties` and heylogs skips link-checking a dateless heading. So **also check the links by hand** — the top `## [<version>]` must equal the version `release-it` will publish, and both the `[<version>]:` and the bumped `[Unreleased]:` definitions must be present and point at the right tags. Quick grep:
+     `grep -nE '^## \[|^\[Unreleased\]:|^\[<version>\]:' CHANGELOG.md`
+4. Update `package.json`, publish to [npmjs](https://www.npmjs.com/package/generator-latex-template), create GitHub release.
    Use [release-it](https://www.npmjs.com/package/release-it) (do not create a release on GitHub) and [github-release-from-changelog](https://www.npmjs.com/package/github-release-from-changelog).
 
    - `npx release-it`
    - `npx github-release-from-changelog`
-5. **ensure that on main** , run `scripts/end-new-cycle.sh`
-6. **squash-merge** each template's "Update LTG" PR once it is green.
+5. On `main`, run `scripts/end-new-cycle.sh`, then **squash-merge** each template's "Update LTG" PR once it is green.
 
 ## License
 

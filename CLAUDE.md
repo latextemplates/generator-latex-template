@@ -56,6 +56,20 @@ layout is a hard requirement.
    (`cd .github && python3 generate-workflows.py`, see "CI & testing in this repo") and
    delete it again before merging unless you intend to ship it on `main`.
 4. **End** — once this repo's `refine-ltg` PR is green, **squash-merge** it into `main`.
+   **Cut the release from `main`, never from `refine-ltg`.** The squash-merge is what
+   carries the cycle onto `main`; releasing from `refine-ltg` publishes an unmerged tree
+   with a not-yet-finalized CHANGELOG — exactly what broke the 2026.6.26 release (a stale
+   `## [2026.6.25]` heading, a missing `[2026.6.26]:` compare link, and an `[Unreleased]:`
+   link that was never bumped). So `git switch main && git pull` and confirm
+   `git branch --show-current` prints `main` **before** touching the CHANGELOG or running
+   `release-it`. Then **verify the CHANGELOG before publishing** (details and the exact
+   heylogs command in README → "Releasing a new version"): run heylogs for **0 problems**
+   (same check as `check-changelog.yml`) **and** eyeball the links by hand — heylogs
+   **cannot** validate version links here, because our CalVer headings omit the date so
+   `linkable`/`date-displayed`/`all-h2-contain-a-version` are off and heylogs skips
+   link-checking a dateless heading. Confirm the top `## [<version>]` equals the version
+   `release-it` will publish, and that both the `[<version>]:` and the bumped
+   `[Unreleased]:` link definitions are present and point at the right tags.
    Then cut the release (README → "Releasing a new version": `release-it` +
    `github-release-from-changelog` — version bump, npm publish, tag, GitHub release; this is
    the only step that needs an interactive npm login + 2FA). Then, on `main`, run
@@ -276,6 +290,10 @@ diff is printed in the failing run's "Prepare files" step, canonical variant **e
   use the *exact* flags from that template's `update-files.yml` (incl. `--texlive` and any
   `--thesisvariant`/`--ieeevariant`): `yeoman_test=true yo <repo>/generators/app/index.js --documentclass=… --texlive=… --lang=en --listings=minted …`.
 - **Lint an EJS template:** `npx ejs-lint generators/app/templates/<file>`.
+- **Check the CHANGELOG locally** (same check as `check-changelog.yml`; run before any
+  release): `jbang com.github.nbbrd.heylogs:heylogs-cli:0.18.1:bin check CHANGELOG.md`
+  (keep the version in sync with `check-changelog.yml`). 0 problems is necessary but **not
+  sufficient** — also verify the version links by hand (see release step 4 above).
 
 ## Local LaTeX testing
 
