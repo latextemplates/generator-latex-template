@@ -3,15 +3,15 @@ latexindent
 latexmk
 texlogsieve
 
-amsmath
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 acmart
 <% } -%>
 <% if (githubpublish || isThesis) { -%>
-algorithms
 algorithmicx<%# required by algpseudocodex%>
+algorithms
 algpseudocodex
 <% } -%>
+amsmath
 <% if (githubpublish || (lang == "de")) { -%>
 autotype
 <% } -%>
@@ -21,8 +21,8 @@ babel-english
 <%# german needed for some TeX source code input hacks -%>
 babel-german
 <% if (githubpublish || (bibtextool == "biblatex")) { -%>
-biblatex
 biber
+biblatex
 <% } -%>
 <% if (githubpublish || isThesis) { -%>
 bigfoot<%# provides perpage%>
@@ -51,13 +51,13 @@ comment<%# required by at least acm%>
 csquotes
 ctablestack
 currfile
-datetime2
-<% if (githubpublish || (lang == "de")) { -%>
-datetime2-german
-<% } -%>
-datetime2-english
 <% if (githubpublish || isThesis) { -%>
 datatool
+<% } -%>
+datetime2
+datetime2-english
+<% if (githubpublish || (lang == "de")) { -%>
+datetime2-german
 <% } -%>
 <% if (githubpublish || (lang == "de")) { -%>
 dehyph-exptl
@@ -101,20 +101,18 @@ footmisc
 gettitlestring
 <% if (githubpublish || (documentclass == 'ustutt') || (documentclass == 'scientific-thesis')) { -%>
 glossaries
-<% if (githubpublish || (lang == "de")) { -%>
-glossaries-german
-<% } -%>
 <% if (githubpublish || (lang == "en")) { -%>
 glossaries-english
 <% } -%>
 glossaries-extra
+<% if (githubpublish || (lang == "de")) { -%>
+glossaries-german
+<% } -%>
 <% } -%>
 graphics
 <% if (githubpublish || isThesis) { -%>
 helvetic
 <% } -%>
-hyphenex
-inconsolata<%# required by ustutt, scientific-thesis, acm%>
 hycolor
 hypcap
 hyperref
@@ -124,6 +122,7 @@ hyphen-english
 <% if (githubpublish || (lang == "de")) { -%>
 hyphen-german
 <% } -%>
+hyphenex
 <% if (documentclass == 'ieee') { -%>
 ieeetran
 <% } -%>
@@ -132,6 +131,7 @@ ifmtarg<%# required by acmart at least %>
 ifplatform
 <% } -%>
 iftex
+inconsolata<%# required by ustutt, scientific-thesis, acm%>
 infwarerr
 intcalc
 <% if (githubpublish || isThesis) { -%>
@@ -145,7 +145,6 @@ latex-bin-dev
 latex-bin-dev.x86_64-linux
 <% } -%>
 lccaps
-textcase<%# required by lccaps %>
 letltxmacro
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 libertine
@@ -160,10 +159,10 @@ aliascnt<%# llncs.cls requires it from TeX Live 2026 on; not a separate package 
 <% } -%>
 llncs
 <% } -%>
-ltxcmds
 <% if (githubpublish || isThesis) { -%>
 lscapeenhanced
 <% } -%>
+ltxcmds
 <% if (githubpublish || (reallatexcompiler.startsWith("lualatex"))) { -%>
 luacode
 lualatex-math
@@ -210,30 +209,28 @@ newtx
 newtxtt
 nfssext-cfr
 <% } -%>
+nowidow
 <% if (githubpublish || isThesis) { -%>
 ntheorem
 <% } -%>
-nowidow
 paralist
 pdfcomment
 pdfescape
 <% if (githubpublish || isThesis) { -%>
 pdflscape
-<% } -%>
-pdftexcmds
-<% if (githubpublish || isThesis) { -%>
 pdfpages
 <% } -%>
+pdftexcmds
 <% if (githubpublish || examples) { -%>
 pgf
 pgfplots<%# used by the pgfplots example; also provides pgfplotstable %>
 <% } -%>
-<% if (githubpublish || (uml == "plantuml")) { -%>
-plantuml<%# plantuml.sty for the PlantUML UML example; the diagram also needs an external PlantUML install %>
-<% } -%>
 pict2e
 <% if (githubpublish || (documentclass == "ustutt")) { -%>
 placeins
+<% } -%>
+<% if (githubpublish || (uml == "plantuml")) { -%>
+plantuml<%# plantuml.sty for the PlantUML UML example; the diagram also needs an external PlantUML install %>
 <% } -%>
 <% if ((documentclass == 'acmart') || (documentclass == 'ieee')) { -%>
 preprint<%# this includes balance%>
@@ -279,9 +276,10 @@ svn-prov<%# at least required by acmart, ustutt, scientific-thesis%>
 tabto-ltx
 <% } -%>
 tcolorbox
+tex-gyre<%# at least required by acm, ieee, font config "times"; provides ts1-qtmr %>
 texcount
 texlogsieve
-tex-gyre<%# at least required by acm, ieee, font config "times"; provides ts1-qtmr %>
+textcase<%# required by lccaps %>
 <% if (githubpublish || isThesis) { -%>
 tikzmark
 <% } -%>
@@ -315,8 +313,8 @@ xcharter
 <% } -%>
 xcolor
 <% if (githubpublish || isThesis) { -%>
-xifthen
 xfor
+xifthen
 <% } -%>
 xkeyval
 <% if (githubpublish || (documentclass == "ieee") || (font == "times")) { -%>
