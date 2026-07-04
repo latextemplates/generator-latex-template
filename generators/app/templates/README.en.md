@@ -172,6 +172,17 @@ On the command line, there are additional features:
 - `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
 - `make mrproper`: Cleans up and removes also editor backup files.
+<% if (documentclass == "mwe") { -%>
+
+### Linting your Markdown (Vale)
+
+The `check-markdown` workflow lints the Markdown you write with [Vale](https://vale.sh) and posts the findings as inline annotations on `<%= filenames.main %>.tex`. To lint locally, install Vale (`brew install vale`, `choco install vale`, or see <https://vale.sh/docs>) and run it on the extracted Markdown body:
+
+```bash
+sed -n '/\\begin{markdown}/,/\\end{markdown}/p' <%= filenames.main %>.tex | sed '1d;$d' > body.md
+vale body.md
+```
+<% } -%>
 
 <% if (documentclass != "mwe") { -%>
 ## Benefits
