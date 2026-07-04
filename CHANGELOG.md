@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- Added a minimal Markdown quick start, selectable as the `mwe` document class (write content in Markdown, compile with LuaLaTeX + biber). See the README for details.
+
 ## [2026.6.30]
 
 ### Added

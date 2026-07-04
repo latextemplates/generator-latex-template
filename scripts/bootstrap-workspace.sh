@@ -42,7 +42,7 @@ gh repo list latextemplates --limit 200 --json sshUrl -q '.[].sshUrl' \
     done
 
 echo "==> Initializing the generator submodule in the consuming templates"
-for t in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template; do
+for t in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
   [ -d "$t" ] || continue
   echo "   $t"
   git -C "$t" submodule update --init --recursive

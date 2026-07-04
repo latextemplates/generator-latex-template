@@ -9,7 +9,7 @@ globalsingleworkflow = True
 # If enabled, a failing workflow cancels all other workflows
 failfast = False
 
-documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt'] # , 'scientific-thesis'
+documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt', 'mwe'] # , 'scientific-thesis'
 latexcompilers = ['pdflatex', 'lualatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
@@ -65,10 +65,16 @@ for documentclass in documentclasses:
         continue
       if ((bibtextool == 'bibtex') and (documentclass == 'scientific-thesis')):
         continue
+      # The mwe quick start is LuaLaTeX + biblatex only (forced in index.js).
+      if (documentclass == 'mwe') and ((latexcompiler != 'lualatex') or (bibtextool != 'biblatex')):
+        continue
       for texlive in texlives:
         if (texlive < 2025) and latexcompiler.endswith("-dev"):
           continue
         for example in examples:
+          # The mwe quick start ships no LaTeX-hints examples.
+          if (documentclass == 'mwe') and (example != 'false'):
+            continue
           for ieeevariant in ieeevariants:
             if ((documentclass != 'ieee') and (ieeevariant != 'conference')):
               # we just go on for one IEEE specific element to enable this part being executed exactly ones for the "example" outer loop for non-IEEE
@@ -191,6 +197,9 @@ jobs:
                     for enquote in enquotes:
                       for tweakouterquote in tweakouterquotes:
                         for todo in todos:
+                            # The mwe quick start pins these switches; vary only language and texlive.
+                            if (documentclass == 'mwe') and ((howtotext != 'false') or (font != 'default') or (listing != 'listings') or (enquote != 'csquotes') or (tweakouterquote != 'babel') or (todo != 'none')):
+                                continue
                             variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                             variantShort = "var_" + stable_id(documentclass, ieeevariant, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                             table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)

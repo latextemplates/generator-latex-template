@@ -24,6 +24,10 @@ export const options = [
         name: "PhD Thesis Template (University of Stuttgart)",
         value: "ustutt",
       },
+      {
+        name: "Minimal quick start — write your content in Markdown (LuaLaTeX + biber)",
+        value: "mwe",
+      },
     ],
     default: "acmart",
   },
@@ -181,6 +185,10 @@ export const options = [
   {
     type: "list",
     name: "latexcompiler",
+    when(response) {
+      // The mwe quick start is Markdown + fontspec, hence LuaLaTeX-only (forced in index.js).
+      return response.documentclass !== "mwe";
+    },
     message: "Which latex compiler should be used?",
     choices(state) {
       const res = [
@@ -218,7 +226,8 @@ export const options = [
       return (
         response.documentclass !== "acmart" &&
         response.documentclass !== "ieee" &&
-        response.documentclass !== "ustutt"
+        response.documentclass !== "ustutt" &&
+        response.documentclass !== "mwe"
       );
     },
     type: "list",
@@ -324,13 +333,19 @@ export const options = [
     default: "default",
     when(response) {
       return (
-        response.documentclass !== "ieee" && response.documentclass !== "ustutt"
+        response.documentclass !== "ieee" &&
+        response.documentclass !== "ustutt" &&
+        response.documentclass !== "mwe"
       );
     },
   },
   {
     type: "list",
     name: "listings",
+    when(response) {
+      // The mwe quick start has no code listings.
+      return response.documentclass !== "mwe";
+    },
     message: "Which package to typeset listings?",
     choices: [
       {
@@ -347,6 +362,10 @@ export const options = [
   {
     type: "list",
     name: "enquotes",
+    when(response) {
+      // The mwe quick start fixes csquotes (forced in index.js).
+      return response.documentclass !== "mwe";
+    },
     message: 'Which package to use to "enquote" text?',
     choices(state) {
       const res = [];
@@ -380,6 +399,9 @@ export const options = [
   {
     type: "list",
     name: "tweakouterquote",
+    when(response) {
+      return response.documentclass !== "mwe";
+    },
     message:
       'Enable hyphenation tweak (e.g., application"=specific for app-lication-specific at a linebreak) or enable easy quotation (e.g., "application"; not common in default latex setups)?',
     choices: [
@@ -397,6 +419,10 @@ export const options = [
   {
     type: "list",
     name: "todo",
+    when(response) {
+      // The mwe quick start has no TODO markers.
+      return response.documentclass !== "mwe";
+    },
     message: "Which package to mark TODOs?",
     choices: [
       {
@@ -421,12 +447,19 @@ export const options = [
   {
     type: "confirm",
     name: "howtotext",
+    when(response) {
+      return response.documentclass !== "mwe";
+    },
     message: "Include hints on text (e.g., how to write an abstract)?",
     default: true,
   },
   {
     type: "confirm",
     name: "examples",
+    when(response) {
+      // The mwe document *is* the example; the LaTeX-hints chapter does not apply.
+      return response.documentclass !== "mwe";
+    },
     message: "Include minimal LaTeX examples?",
     default: true,
   },

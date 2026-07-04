@@ -1,0 +1,142 @@
+% !TeX program = lualatex
+% !TeX encoding = utf8
+% !TeX spellcheck = de-DE
+% LTeX: language=de-DE
+% -*- coding:utf-8 mod:LaTeX -*-
+%
+% Minimale Schnellstart-Vorlage: Inhalt in Markdown schreiben und ein LaTeX-PDF
+% erhalten. Kein Thesis-Ballast, nur das Wesentliche. Übersetzt mit LuaLaTeX +
+% biber -- eine fertige latexmkrc liegt bei, ein einfaches "latexmk" genügt.
+
+\documentclass[
+  fontsize=11pt,
+  paper=<%= papersize %>,
+  twoside,
+  open=right,
+  parskip=half,
+  numbers=noenddot,
+]{scrbook}
+
+% --- LuaLaTeX-Schrift-/Typografie-Setup ---
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage[ngerman]{babel}
+\usepackage{csquotes}   % empfohlener Begleiter für babel + biblatex
+
+% Backticks (`) werden in verbatim-Umgebungen als solche dargestellt
+% (siehe https://tex.stackexchange.com/a/341057/9075)
+\usepackage{upquote}
+
+% --- Markdown als Texteingabe, großzügiger Funktionsumfang ---
+% Die Optionsnamen folgen dem markdown-Paket v3.x.
+\usepackage[
+  citations,          % [@key] Zitationssyntax
+  hybrid,             % rohes LaTeX durchreichen (z. B. \zcref unten)
+  notes,              % [^label] referenzierte Fußnoten
+  inlineNotes,        % ^[Inline-Fußnotentext]
+  pipeTables,         % | a | b | Tabellen
+  tableCaptions,      % : Beschriftungstext unter einer Tabelle
+  tableAttributes,    % {#id} Bezeichner an einer Tabellenbeschriftung
+  hashEnumerators,    % 1) 2) 3) Aufzählungen
+  taskLists,          % - [ ] / - [x] Checkbox-Listen
+  headerAttributes,   % {#id} Bezeichner an einer Überschrift
+  linkAttributes,     % {#id} Attribute an Links/Bildern
+  relativeReferences, % <#id> zum Referenzieren einer via {#id} definierten Id
+]{markdown}
+
+% --- Literatur: Autor-Jahr über biblatex/biber ---
+\usepackage[
+  style=authoryear,
+  backend=biber,
+  autolang=hyphen,
+  sorting=nyt,
+]{biblatex}
+\addbibresource{<%= filenames.bib %>.bib}
+
+% --- Abbildungen + intelligente Querverweise ---
+\usepackage{graphicx}
+\usepackage{zref-clever}
+\zcsetup{cap = true}    % Typnamen groß schreiben: "Kapitel", "Abbildung", "Tabelle"
+
+% Wie die Marken funktionieren (Antwort auf "Können wir nicht die Markdown-Marken nutzen?"):
+% Das markdown-Paket macht aus `{#id}` (an Überschriften, Bildern und Tabellen) ein
+% *reguläres* \label{id}. Der `labelhook` von zref-clever (standardmäßig an) macht
+% jedes \label zusätzlich zu einer zref-Marke, sodass \zcref{id} direkt mit
+% Markdowns eigenen Bezeichnern funktioniert -- ohne rohes \zlabel oder Handarbeit.
+
+% --- Alles anklickbar: hyperref ZULETZT laden -----------------------------
+% Macht Inhaltsverzeichnis, \zcref, native <#id>-Verweise, [@Zitate] und Fußnoten
+% anklickbar. zref-clever lädt zref-hyperref selbst, sobald es hyperref sieht, sodass
+% \zcref-Links kein weiteres Setup brauchen. `hidelinks` hält Links anklickbar, ohne
+% farbige Kästen (statt dessen `colorlinks=true` für sichtbare farbige Links am Bildschirm).
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{Mein Buch}
+\author{Martha Mildenhall}
+\date{\today}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+
+\begin{markdown}
+# Einleitung {#cha:einleitung}
+
+Dieser gesamte Buchinhalt ist in **Markdown** geschrieben. Überschriften
+der obersten Ebene (`#`) werden automatisch zu Kapiteln, `##` zu
+Abschnitten, passend zur `scrbook`-Dokumentklasse. Diese Überschrift trägt
+die Markdown-Id `{#cha:einleitung}`, aus der das Paket ein `\label` erzeugt.
+
+Ein Zitat sieht so aus [@mwe], und hier eine Fußnote.^[Dies
+ist eine Inline-Fußnote.] Referenzierte Fußnoten funktionieren
+ebenfalls[^detail].
+
+[^detail]: Dies ist eine ausführlichere Fußnote am Ende des Abschnitts.
+
+## Motivation
+
+- erster Punkt
+- zweiter Punkt
+  - Unterpunkt
+1) erstens
+2) zweitens
+
+Auch Aufgabenlisten (`taskLists`) sind möglich:
+
+- [ ] noch offener Punkt
+- [x] bereits erledigter Punkt
+
+Wie in \zcref{fig:example} gezeigt, lassen sich Bilder direkt in Markdown
+referenzieren. Die reine Markdown-Referenz `<#fig:example>` liefert dagegen
+nur die nackte Nummer (<#fig:example>), ohne den Typnamen Abbildung.
+
+![Ein Beispielbild](example-image "Ein Beispielbild"){#fig:example}
+
+## Eine Tabelle
+
+\zcref{tbl:beispiel} zeigt die vier Ausrichtungsvarianten von `pipeTables`.
+
+| Rechts | Links | Standard | Zentriert |
+|-------:|:------|----------|:---------:|
+|     12 | 12    | 12       |    12     |
+|    123 | 123   | 123      |    123    |
+
+: Beispieltabelle mit Ausrichtungen {#tbl:beispiel}
+
+# Ein weiteres Kapitel
+
+Text mit Verweis auf das vorige Kapitel: \zcref{cha:einleitung}. Weil die
+Überschrift die Markdown-Id `{#cha:einleitung}` trägt und jede `\label`
+zusätzlich ein `\zlabel` erzeugt, funktioniert `\zcref` hier ganz ohne rohes
+\LaTeX{} zum Setzen der Marke -- z.\,B. auch auf \zcref{tbl:beispiel}.
+\end{markdown}
+
+\backmatter
+
+\printbibliography
+
+\end{document}

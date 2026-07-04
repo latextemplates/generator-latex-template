@@ -176,6 +176,13 @@ luaxml<%# required by spelling %>
 ly1<%# required by mathdesign-font %>
 <% } -%>
 marginnote
+<% if (githubpublish || (documentclass == "mwe")) { -%>
+markdown<%# markdown-as-input quick-start (mwe documentclass) %>
+<%# markdown's default LaTeX theme pulls these in (else e.g. "csvsimple.sty not found") %>
+csvsimple
+fancyvrb
+verse<%# used when a Markdown blockquote/verse is present %>
+<% } -%>
 <% if (githubpublish || isThesis) { -%>
 mathdesign
 <% } -%>
@@ -322,3 +329,6 @@ xpatch
 <% } -%>
 xstring<%# this includes stfloats; required by textcomp %>
 zref
+<% if (githubpublish || (documentclass == "mwe")) { -%>
+zref-clever<%# smart \zcref cross-references in the mwe quick-start %>
+<% } -%>

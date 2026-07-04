@@ -102,8 +102,14 @@ See [docs/overleaf](docs/overleaf/).
 <%  break; default: -%>
 # LaTeX Document
 <% break; }
-} else { -%>
+} else if (documentclass == "mwe") { -%>
+# LaTeX Document — Markdown Quick Start
+<% } else { -%>
 # LaTeX Document
+<% } -%>
+<% if (documentclass == "mwe") { -%>
+
+This is a **minimal Markdown quick start**. Write your content in Markdown inside the `\begin{markdown} … \end{markdown}` block in [`<%= filenames.main %>.tex`](<%= filenames.main %>.tex); LaTeX turns it into a PDF — no thesis scaffolding, just the essentials: headings, citations, footnotes, tables, figures, and smart cross-references (`\zcref`).
 <% } -%>
 
 ## Usage
@@ -163,10 +169,11 @@ On the command line, there are additional features:
 - `latexmk -C` or `make clean` for cleaning up
 - `make format` to reformat the `.tex` files (one sentence per line and indent)
 - `make aspell` for interactive spell checking
-- `make stand`: Creates a new PDF with the current status of the thesis.
+- `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
 - `make mrproper`: Cleans up and removes also editor backup files.
 
+<% if (documentclass != "mwe") { -%>
 ## Benefits
 
 Following features are enabled in this template:
@@ -275,6 +282,7 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 
 <% break; default: -%>
 <% break; } -%>
+<% } -%>
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
@@ -480,7 +488,7 @@ Alternatively, just copy and paste the contents of the [vscode.settings.json](vs
 
 You can manually trigger compilation by hitting the green button in the extension or using other methods provided by LaTeX Workshop.
 
-Please remove the magic comments (`% !TeX program ...`) at the top of the `main-....tex` file.
+Please remove the magic comments (`% !TeX program ...`) at the top of the `<%= filenames.main %>.tex` file.
 Although [LaTeX-Workshop supports magic comments](https://github.com/James-Yu/LaTeX-Workshop/blob/master/README.md#magic-comments), it currently does not work reliably.
 Without the magic comments, compilation works.
 
@@ -536,6 +544,7 @@ docker build -t ltg .
 
 <% break; default: -%>
 <% break; } -%>
+<% if (documentclass != "mwe") { -%>
 ## Contained Directories and Files
 
 ### Directories
@@ -816,6 +825,7 @@ We are collecting alternatives at the issue [#25](https://github.com/latextempla
 You did not setup the [plantuml package](https://www.ctan.org/pkg/plantuml) correctly.
 Please head to <https://koppor.github.io/plantuml/> for installation instructions.
 
+<% } -%>
 <% } -%>
 ## Further information
 

@@ -1,4 +1,8 @@
 # LaTeX Dokument
+<% if (documentclass == "mwe") { -%>
+
+Ein **minimaler Markdown-Schnellstart**: Schreibe deinen Inhalt in Markdown im `\begin{markdown} … \end{markdown}`-Block in `<%= filenames.main %>.tex`. LaTeX macht daraus ein PDF.
+<% } -%>
 
 Kompiliere es mittels
 <% if (latexcompiler == "pdflatex")  { %>

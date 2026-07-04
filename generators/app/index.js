@@ -53,6 +53,22 @@ export default class extends Generator {
       this.props.font = "default";
     }
 
+    if (this.props.documentclass === "mwe") {
+      // Minimal Markdown quick start: a fixed, self-contained feature set. The
+      // matching prompts are hidden in options.js, so pin every value here (this
+      // also makes non-interactive `yo --documentclass=mwe` robust regardless of
+      // any flags that leak through).
+      this.props.bibtextool = "biblatex";
+      this.props.font = "default";
+      this.props.latexcompiler = "lualatex"; // Markdown + fontspec need LuaLaTeX
+      this.props.listings = "listings";
+      this.props.enquotes = "csquotes";
+      this.props.tweakouterquote = "babel";
+      this.props.todo = "none";
+      this.props.howtotext = false;
+      this.props.examples = false;
+    }
+
     // --language does not work properly, therefore, we used "lang" above. The templates still use "language"
     this.props.language = this.props.lang;
 
@@ -152,6 +168,14 @@ export default class extends Generator {
     }
 
     function isPaperHandling(props) {
+      if (props.documentclass === "mwe") {
+        // The mwe quick start is neither a paper nor a thesis; it uses its own
+        // minimal main template (mwe-main.<lang>.tex -> main.tex).
+        props.isPaper = false;
+        props.isThesis = false;
+        props.filenames = { main: "main", bib: "bibliography" };
+        return;
+      }
       props.isPaper =
         props.documentclass === "acmart" ||
         props.documentclass === "ieee" ||
@@ -290,8 +314,12 @@ export default class extends Generator {
       );
     }
 
+    // The mwe quick start has its own minimal Markdown main; every other class
+    // shares the big main.<lang>.tex.
+    const mainTemplate =
+      this.props.documentclass === "mwe" ? "mwe-main." : "main.";
     this.fs.copyTpl(
-      this.templatePath("main." + this.props.language + ".tex"),
+      this.templatePath(mainTemplate + this.props.language + ".tex"),
       this.destinationPath(this.props.filenames.main + ".tex"),
       this.props,
     );
@@ -303,11 +331,14 @@ export default class extends Generator {
       );
     }
 
-    this.fs.copyTpl(
-      this.templatePath("commands.tex"),
-      this.destinationPath("commands.tex"),
-      this.props,
-    );
+    // mwe-main does not \input{commands}; keep the quick start minimal.
+    if (this.props.documentclass !== "mwe") {
+      this.fs.copyTpl(
+        this.templatePath("commands.tex"),
+        this.destinationPath("commands.tex"),
+        this.props,
+      );
+    }
 
     if (this.props.documentclass == "ustutt") {
       /*

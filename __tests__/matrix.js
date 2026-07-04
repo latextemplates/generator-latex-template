@@ -4,7 +4,7 @@
 // .github/generate-workflows.py, so the tests exercise exactly the
 // combinations the CI matrix used to cover.
 
-export const documentclasses = ["acmart", "ieee", "lncs", "ustutt"];
+export const documentclasses = ["acmart", "ieee", "lncs", "ustutt", "mwe"];
 export const latexcompilers = ["pdflatex", "lualatex", "both"];
 export const bibtextools = ["bibtex", "biblatex"];
 export const texlives = [2025, 2026];
@@ -77,9 +77,12 @@ export function toOptions(combo) {
 }
 
 // The primary document file the generator emits for a document class
-// (`paper.tex` for the paper classes, `thesis-example.tex` for ustutt).
+// (`paper.tex` for the paper classes, `thesis-example.tex` for ustutt,
+// `main.tex` for the mwe quick start).
 export function mainFile(documentclass) {
-  return documentclass === "ustutt" ? "thesis-example.tex" : "paper.tex";
+  if (documentclass === "ustutt") return "thesis-example.tex";
+  if (documentclass === "mwe") return "main.tex";
+  return "paper.tex";
 }
 
 // A short, stable label identifying a combination in test output.
@@ -144,6 +147,25 @@ export function fullMatrix() {
                                 !(
                                   documentclass === "ustutt" &&
                                   example === "true"
+                                )
+                              ) {
+                                continue;
+                              }
+                              // The mwe quick start forces every switch except
+                              // language and texlive (see index.js); skip the
+                              // redundant combinations so it contributes 4 combos.
+                              if (
+                                documentclass === "mwe" &&
+                                !(
+                                  latexcompiler === "lualatex" &&
+                                  bibtextool === "biblatex" &&
+                                  font === "default" &&
+                                  listing === "listings" &&
+                                  enquote === "csquotes" &&
+                                  tweakouterquote === "babel" &&
+                                  todo === "none" &&
+                                  example === "false" &&
+                                  howtotext === "false"
                                 )
                               ) {
                                 continue;
