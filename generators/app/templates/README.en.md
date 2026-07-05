@@ -176,16 +176,19 @@ On the command line, there are additional features:
 
 ### Linting your Markdown
 
-Two workflows lint the Markdown you write and post inline annotations on `<%= filenames.main %>.tex`: `check-markdown` runs [Vale](https://vale.sh) (spelling, repetition), and `check-textlint` runs [textlint](https://github.com/textlint/textlint) (`write-good` + `terminology`). To lint locally, extract the Markdown body first, then run either tool on it:
+Two workflows lint the Markdown you write and post inline annotations on `<%= filenames.main %>.tex`: `check-markdown` runs [Vale](https://vale.sh) (spelling, repetition), and `check-textlint` runs [textlint](https://github.com/textlint/textlint) (`write-good` + `terminology`).
+
+Run textlint locally with the bundled `lint.sh` — it extracts the Markdown body, lints it, and maps the findings back to `<%= filenames.main %>.tex` line numbers, e.g. `<%= filenames.main %>.tex:89:26: …` (needs `npx` and `jq`):
+
+```bash
+./lint.sh
+```
+
+For Vale, install it (`brew install vale` / `choco install vale`, or see <https://vale.sh/docs>) and lint the extracted body:
 
 ```bash
 sed -n '/\\begin{markdown}/,/\\end{markdown}/p' <%= filenames.main %>.tex | sed '1d;$d' > body.md
-
-# Vale (install: `brew install vale` / `choco install vale`, or see <https://vale.sh/docs>)
 vale body.md
-
-# textlint (no install — npx fetches it on demand)
-npx --package textlint --package textlint-rule-terminology --package textlint-rule-write-good textlint body.md
 ```
 <% } -%>
 
