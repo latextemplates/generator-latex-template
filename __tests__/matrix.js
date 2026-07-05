@@ -76,12 +76,14 @@ export function toOptions(combo) {
   return options;
 }
 
-// The primary document file the generator emits for a document class
+// The primary document file the generator emits for a combination
 // (`paper.tex` for the paper classes, `thesis-example.tex` for ustutt,
-// `main.tex` for the mwe quick start).
-export function mainFile(documentclass) {
-  if (documentclass === "ustutt") return "thesis-example.tex";
-  if (documentclass === "mwe") return "main.tex";
+// `main.tex` / `main-de.tex` for the mwe quick start -- the German wrapper
+// gets a -de suffix so both languages can coexist in one repo).
+export function mainFile(combo) {
+  if (combo.documentclass === "ustutt") return "thesis-example.tex";
+  if (combo.documentclass === "mwe")
+    return combo.language === "en" ? "main.tex" : "main-de.tex";
   return "paper.tex";
 }
 

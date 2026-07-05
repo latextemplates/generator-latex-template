@@ -18,7 +18,14 @@ describe(`generator runs for all switch combinations (pairwise, ${combos.length}
       const runResult = await helpers
         .run(generatorPath)
         .withOptions(toOptions(combo));
-      runResult.assertFile(["README.md", mainFile(combo.documentclass)]);
+      runResult.assertFile(["README.md", mainFile(combo)]);
+      // The mwe wrapper pulls its prose from an external Markdown manuscript;
+      // make sure that file is emitted too.
+      if (combo.documentclass === "mwe") {
+        runResult.assertFile(
+          combo.language === "en" ? "manuscript.md" : "manuscript-de.md",
+        );
+      }
       runResult.cleanup();
     });
   }

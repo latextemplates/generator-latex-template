@@ -242,7 +242,17 @@ jobs:
                             yml.write("          texlive_version: %s\n" % texlive)
                             yml.write("      - name: latexmk {}\n".format(variantShort))
                             ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
-                            filename = "paper.tex" if documentclass in ['acmart', 'lncs', 'ieee'] else "thesis-example.tex" if documentclass == 'ustutt' else "main.tex"
+                            # Keep in sync with mainFile() in __tests__/matrix.js:
+                            # mwe's German wrapper is main-de.tex so both languages
+                            # can coexist in one repo.
+                            if documentclass in ['acmart', 'lncs', 'ieee']:
+                                filename = "paper.tex"
+                            elif documentclass == 'ustutt':
+                                filename = "thesis-example.tex"
+                            elif documentclass == 'mwe':
+                                filename = "main.tex" if language == 'en' else "main-de.tex"
+                            else:
+                                filename = "main.tex"
                             command = "updmap -sys && texhash && tlmgr generate language --rebuild-sys && latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
                             yml.write("        run: {}\n".format(command))
                             yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))

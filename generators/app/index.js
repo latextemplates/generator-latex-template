@@ -169,11 +169,19 @@ export default class extends Generator {
 
     function isPaperHandling(props) {
       if (props.documentclass === "mwe") {
-        // The mwe quick start is neither a paper nor a thesis; it uses its own
-        // minimal main template (mwe-main.<lang>.tex -> main.tex).
+        // The mwe quick start is neither a paper nor a thesis. Its wrapper main
+        // (mwe-main.<lang>.tex) pulls the prose from an external Markdown file
+        // (mwe-manuscript.<lang>.md) via \markdownInput. English keeps the plain
+        // names main.tex / manuscript.md; German gets a -de suffix so both
+        // languages can coexist in one repo (like scientific-thesis below) with
+        // each wrapper referencing its own manuscript -- no rename needed.
         props.isPaper = false;
         props.isThesis = false;
-        props.filenames = { main: "main", bib: "bibliography" };
+        props.filenames = {
+          main: props.language === "en" ? "main" : "main-de",
+          manuscript: props.language === "en" ? "manuscript" : "manuscript-de",
+          bib: "bibliography",
+        };
         return;
       }
       props.isPaper =
@@ -323,6 +331,16 @@ export default class extends Generator {
       this.destinationPath(this.props.filenames.main + ".tex"),
       this.props,
     );
+
+    // The mwe wrapper main pulls its prose from an external Markdown file so it
+    // can be edited and linted as plain Markdown (see mwe-main.<lang>.tex).
+    if (this.props.documentclass === "mwe") {
+      this.fs.copyTpl(
+        this.templatePath("mwe-manuscript." + this.props.language + ".md"),
+        this.destinationPath(this.props.filenames.manuscript + ".md"),
+        this.props,
+      );
+    }
 
     if (this.props.feature.abbreviations) {
       this.fs.copy(
