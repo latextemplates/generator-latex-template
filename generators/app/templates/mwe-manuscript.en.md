@@ -1,8 +1,8 @@
 # Introduction {#cha:introduction}
 
-This entire book content is written in **Markdown**. Top-level headings (`#`)
+You write this entire book in **Markdown**. Top-level headings (`#`)
 automatically become chapters, `##` become sections, matching the `scrbook`
-document class. This heading carries the Markdown id `{#cha:introduction}`,
+document class. This heading carries the Markdown identifier `{#cha:introduction}`,
 from which the package generates a `\label`.
 
 A citation looks like this [@mwe], and here is a footnote.^[This is an inline
@@ -23,8 +23,8 @@ Task lists (`taskLists`) are possible too:
 - [ ] a still-open item
 - [x] an already-completed item
 
-As shown in \zcref{fig:example}, images can be referenced directly from
-Markdown. The plain Markdown reference `<#fig:example>` yields only the bare
+As \zcref{fig:example} shows, you can reference images directly from
+Markdown. The plain Markdown reference `<#fig:example>` yields the bare
 number (<#fig:example>), without the type name Figure.
 
 ![An example image](example-image "An example image"){#fig:example}
@@ -43,6 +43,6 @@ number (<#fig:example>), without the type name Figure.
 # Another Chapter
 
 Text referring to the previous chapter: \zcref{cha:introduction}. Because the
-heading carries the Markdown id `{#cha:introduction}` and every `\label`
-additionally becomes a `\zlabel`, `\zcref` works here without any raw \LaTeX{}
+heading carries the Markdown identifier `{#cha:introduction}` and every `\label`
+also becomes a `\zlabel`, `\zcref` works here without any raw \LaTeX{}
 to set the mark -- e.g. also on \zcref{tbl:example}.
