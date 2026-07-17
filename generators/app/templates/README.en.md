@@ -384,6 +384,14 @@ Statement from IEEE:
 <% break; }
 } else { -%>
 <% } -%>
+<% if (isPaper) { -%>
+## Final submission
+
+The compiled PDF embeds the `<%= filenames.bib %>.bib` file (via the [embedfile](https://ctan.org/pkg/embedfile) package), so readers can extract the reference data from the PDF, e.g., with JabRef via "Import into library".
+Some publishers' final-submission checks (e.g., IEEE PDF eXpress or PDF/A validation) reject PDFs containing file attachments.
+If your submission system complains, comment out the `\embedfile` line in `<%= filenames.main %>.tex` for the camera-ready version.
+
+<% } -%>
 ## Tool hints
 
 ### Prerequisites
