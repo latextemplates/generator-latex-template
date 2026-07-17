@@ -42,6 +42,7 @@
   headerAttributes,   % {#id} Bezeichner an einer Überschrift
   linkAttributes,     % {#id} Attribute an Links/Bildern
   relativeReferences, % <#id> zum Referenzieren einer via {#id} definierten Id
+  bracketedSpans,     % [Text]{.klasse} Spans, z. B. explizite Akronym-Auszeichnung
 ]{markdown}
 
 % --- Literatur: Autor-Jahr über biblatex/biber ---
@@ -71,6 +72,23 @@
 % farbige Kästen (statt dessen `colorlinks=true` für sichtbare farbige Links am Bildschirm).
 \usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
 
+% --- Akronyme: einmal definieren, überall im Markdown-Text nutzen ---------
+% glossaries ist die klassische Ausnahme von "hyperref zuletzt": NACH hyperref
+% laden, damit Akronym-Verwendungen und das Abkürzungsverzeichnis verlinkt sind.
+\usepackage[acronym, nopostdot]{glossaries}
+\makeglossaries
+\setacronymstyle{long-short}    % erste Verwendung: "HyperText Markup Language (HTML)"
+\newacronym{html}{HTML}{HyperText Markup Language}
+\newacronym{yaml}{YAML}{YAML Ain't Markup Language}
+% Das markdown-Paket erkennt die oben definierten Akronyme direkt im laufenden
+% Markdown-Text -- keine \gls-Aufrufe im Manuskript nötig. Explizite Auszeichnung
+% wie [JSON]{.acronym} funktioniert ebenfalls, auch für nicht definierte Akronyme.
+% Hintergrund: https://github.com/Witiko/markdown/issues/615
+\markdownSetup{
+  import  = witiko/glossaries@v1,
+  snippet = witiko/glossaries/import-acronyms,
+}
+
 \title{Mein Buch}
 \author{Martha Mildenhall}
 \date{\today}
@@ -90,6 +108,8 @@
 \markdownInput{<%= filenames.manuscript %>.md}
 
 \backmatter
+
+\printacronyms
 
 \printbibliography
 

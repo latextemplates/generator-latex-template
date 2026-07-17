@@ -40,6 +40,14 @@ number (<#fig:example>), without the type name Figure.
 
 : Example table with alignments {#tbl:example}
 
+## Acronyms
+
+Acronyms defined once in the wrapper `.tex` file are recognized automatically
+in the running text: the first use of HTML is expanded, later uses of HTML
+stay short, and every use lands in the acronym list at the end. YAML works
+the same way. Explicit markup is also possible: [JSON]{.acronym} is typeset
+as an acronym although it has not been defined anywhere.
+
 # Another Chapter
 
 Text referring to the previous chapter: \zcref{cha:introduction}. Because the

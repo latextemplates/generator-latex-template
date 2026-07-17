@@ -42,6 +42,7 @@
   headerAttributes,   % {#id} identifier on a heading
   linkAttributes,     % {#id} attributes on links/images
   relativeReferences, % <#id> to reference an id defined via {#id}
+  bracketedSpans,     % [text]{.class} spans, e.g. explicit acronym markup
 ]{markdown}
 
 % --- Bibliography: author-year via biblatex/biber ---
@@ -71,6 +72,23 @@
 % (swap for `colorlinks=true` if you prefer visible coloured links on screen).
 \usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
 
+% --- Acronyms: define once, use anywhere in the Markdown text -------------
+% glossaries is the classic exception to "hyperref last": load it AFTER
+% hyperref so acronym uses and the acronym list are hyperlinked.
+\usepackage[acronym, nopostdot]{glossaries}
+\makeglossaries
+\setacronymstyle{long-short}    % first use: "HyperText Markup Language (HTML)"
+\newacronym{html}{HTML}{HyperText Markup Language}
+\newacronym{yaml}{YAML}{YAML Ain't Markup Language}
+% Make the markdown package recognize the acronyms defined above right in the
+% running Markdown text -- no \gls calls needed in the manuscript. Explicit
+% markup like [JSON]{.acronym} also works, even for undefined acronyms.
+% See https://github.com/Witiko/markdown/issues/615 for background.
+\markdownSetup{
+  import  = witiko/glossaries@v1,
+  snippet = witiko/glossaries/import-acronyms,
+}
+
 \title{My Book}
 \author{Martha Mildenhall}
 \date{\today}
@@ -89,6 +107,8 @@
 \markdownInput{<%= filenames.manuscript %>.md}
 
 \backmatter
+
+\printacronyms
 
 \printbibliography
 

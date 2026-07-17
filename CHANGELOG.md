@@ -11,6 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Added a minimal Markdown quick start, selectable as the `mwe` document class (write content in Markdown, compile with LuaLaTeX + biber). See the README for details.
+- The Markdown quick start demonstrates acronyms via the `glossaries` package: define once in the wrapper `.tex`, and the `markdown` package recognizes them automatically in the running Markdown text (`witiko/glossaries` theme); explicit `[X]{.acronym}` markup works too. [markdown-latex-quickstart#4](https://github.com/latextemplates/markdown-latex-quickstart/issues/4)
 - Generated documents (`scientific-thesis`, `ustutt`, `acmart`, `ieee`, and `lncs`) now embed the `.bib` file into the generated PDF (via the `embedfile` package), so readers can extract the bibliography data, e.g., with JabRef. The paper READMEs got a "Final submission" section explaining how to remove the attachment if a publisher's submission check rejects it.
 
 ## [2026.6.30]
