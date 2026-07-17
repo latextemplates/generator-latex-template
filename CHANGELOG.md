@@ -19,6 +19,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - Generated papers now start with `\ifdefined\pdfoutput\pdfoutput=1\fi`, so arXiv processes them with `pdflatex` instead of falling back to DVI-producing `latex`, which failed with errors such as `! I can't find file 'clmr28t10+20'`. The README's "Final submission" section explains the line. [lncs-enhanced#44](https://github.com/latextemplates/lncs-enhanced/issues/44)
+- The LNCS README no longer links the never-generated `llncs-dem.pdf`/`llncs-doc.pdf`: the documentation link now points to the CTAN-hosted `llncsdoc.pdf`, and the retired `llncs.dem` demonstration is replaced by a pointer to `samplepaper.tex` in Springer's proceedings-templates zip. [lncs-enhanced#29](https://github.com/latextemplates/lncs-enhanced/issues/29)
 
 ## [2026.6.30]
 

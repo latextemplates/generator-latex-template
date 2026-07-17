@@ -865,10 +865,7 @@ Please head to <https://koppor.github.io/plantuml/> for installation instruction
 
 <% if (documentclass == 'lncs') { -%>
 - tex.stackexchange.com questions regarding LNCS: <https://tex.stackexchange.com/questions/tagged/lncs>
-<% if (githubpublish) { -%>
-- Original LNCS demonstration (without the improvements): [llncs-dem.pdf](llncs-dem.pdf)
-- Original LNCS documentation (without the improvements): [llncs-doc.pdf](llncs-doc.pdf)
-<% } -%>
+- Original LNCS documentation (without the improvements): [llncsdoc.pdf](https://mirrors.ctan.org/macros/latex/contrib/llncs/llncsdoc.pdf) from the [llncs CTAN package](https://ctan.org/pkg/llncs). The old `llncs.dem` demonstration is no longer part of that package; the official sample paper (`samplepaper.tex`) is contained in Springer's [LaTeX2e Proceedings Templates (zip)](https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines).
 <% } -%>
 - Other templates: <https://latextemplates.github.io/>
 - For German users, go to <https://texfragen.de/>.
