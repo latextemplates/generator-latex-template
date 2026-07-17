@@ -43,10 +43,10 @@ number (<#fig:example>), without the type name Figure.
 ## Acronyms
 
 Acronyms defined once in the wrapper `.tex` file are recognized automatically
-in the running text: the first use of HTML is expanded, later uses of HTML
-stay short, and every use lands in the acronym list at the end. YAML works
-the same way. Explicit markup is also possible: [JSON]{.acronym} is typeset
-as an acronym although it has not been defined anywhere.
+in the running text and typeset as acronyms -- like HTML and YAML right here --
+and every use lands in the acronym list at the end, where the long form is
+spelled out. Explicit markup is also possible: [JSON]{.acronym} is typeset as
+an acronym although it has not been defined anywhere.
 
 # Another Chapter
 

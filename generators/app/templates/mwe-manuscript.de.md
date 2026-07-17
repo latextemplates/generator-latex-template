@@ -44,11 +44,10 @@ nur die nackte Nummer (<#fig:example>), ohne den Typnamen Abbildung.
 ## Akronyme
 
 Einmal in der `.tex`-Hülle definierte Akronyme werden im laufenden Text
-automatisch erkannt: Die erste Verwendung von HTML wird ausgeschrieben,
-spätere Verwendungen von HTML bleiben kurz, und jede Verwendung landet im
-Abkürzungsverzeichnis am Ende. YAML funktioniert genauso. Explizite
-Auszeichnung geht auch: [JSON]{.acronym} wird als Akronym gesetzt, obwohl es
-nirgends definiert ist.
+automatisch erkannt und als Akronyme gesetzt -- wie HTML und YAML genau hier --
+und jede Verwendung landet im Abkürzungsverzeichnis am Ende, wo die Langform
+ausgeschrieben ist. Explizite Auszeichnung geht auch: [JSON]{.acronym} wird
+als Akronym gesetzt, obwohl es nirgends definiert ist.
 
 # Ein weiteres Kapitel
 
