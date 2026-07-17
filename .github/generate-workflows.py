@@ -61,7 +61,7 @@ def stable_id(documentclass, ieeevariant, latexcompiler, bibtextool, texlive, la
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
-      if ((bibtextool == 'biblatex') and ((documentclass == 'acmart') or (documentclass == 'ieee') or (documentclass == 'lncs'))):
+      if ((bibtextool == 'biblatex') and ((documentclass == 'acmart') or (documentclass == 'ieee'))):
         continue
       if ((bibtextool == 'bibtex') and (documentclass == 'scientific-thesis')):
         continue

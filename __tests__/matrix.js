@@ -117,7 +117,7 @@ export function fullMatrix() {
       for (const bibtextool of bibtextools) {
         if (
           bibtextool === "biblatex" &&
-          ["acmart", "ieee", "lncs"].includes(documentclass)
+          ["acmart", "ieee"].includes(documentclass)
         ) {
           continue;
         }

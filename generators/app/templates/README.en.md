@@ -291,8 +291,9 @@ Congratulations. You chose to use all available features.
 <% } -%>
 
 <% switch (documentclass) { case "lncs": -%>
-There is currently no official biblatex support.
-A first step towards that is done at [biblatex-lncs](https://ctan.org/pkg/biblatex-lncs).
+Besides the default BibTeX setup (natbib + `splncs04nat`), biblatex is supported: generate with `--bibtextool=biblatex` to use the [biblatex-lncs](https://ctan.org/pkg/biblatex-lncs) style (numeric, mimicking Springer's `splncs04` look, processed with biber).
+
+For **author-year citations** (this template's answer to `llncs`'s `citeauthoryear` option, whose Springer `.bst` files are not part of TeX Live), generate with `--authoryear=true`: this switches to biblatex with the `authoryear` style, so `\citep{key}` renders as "(Author, year)" and `\citet{key}` as "Author (year)".
 
 <% break; case "ieee": -%>
 There is currently no official biblatex support.

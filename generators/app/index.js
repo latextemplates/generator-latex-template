@@ -140,6 +140,23 @@ export default class extends Generator {
         ? true
         : this.options.longtable === true || this.options.longtable === "true";
 
+    // `authoryear` is a plain CLI flag (no prompt): switch citations to
+    // author-year globally. Maps to biblatex's authoryear style (theses, lncs)
+    // and \citestyle{acmauthoryear} (acmart); the mwe quick start is
+    // author-year already. IEEE mandates numeric citations, so it is forced
+    // off there.
+    this.props.authoryear =
+      this.options.authoryear === true || this.options.authoryear === "true";
+    if (this.props.documentclass === "ieee") {
+      this.props.authoryear = false;
+    }
+    if (this.props.documentclass === "lncs" && this.props.authoryear) {
+      // natbib + splncs04nat is numeric-only; author-year for LNCS goes
+      // through biblatex (llncs's own citeauthoryear option needs Springer
+      // .bst files that are not in TeX Live)
+      this.props.bibtextool = "biblatex";
+    }
+
     // Only minted and the PlantUML UML example need shell-escape; tikz-uml and the
     // remaining thesis content do not.
     this.props.requiresShellEscape =
