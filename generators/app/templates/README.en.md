@@ -391,6 +391,13 @@ The compiled PDF embeds the `<%= filenames.bib %>.bib` file (via the [embedfile]
 Some publishers' final-submission checks (e.g., IEEE PDF eXpress or PDF/A validation) reject PDFs containing file attachments.
 If your submission system complains, comment out the `\embedfile` line in `<%= filenames.main %>.tex` for the camera-ready version.
 
+### arXiv
+
+The first line of `<%= filenames.main %>.tex` is `\ifdefined\pdfoutput\pdfoutput=1\fi`.
+Keep it when uploading to arXiv: arXiv scans the first lines for `\pdfoutput=1` to decide between `pdflatex` and DVI-producing `latex`.
+Without the line, arXiv falls back to `latex`, which cannot build the modern fonts (they ship without Metafont sources) and aborts with an error such as `! I can't find file 'clmr28t10+20'`.
+See [this question on TeX.SE](https://tex.stackexchange.com/q/584702/9075) for details.
+
 <% } -%>
 ## Tool hints
 

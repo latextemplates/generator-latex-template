@@ -14,6 +14,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The Markdown quick start demonstrates acronyms via the `glossaries` package: define once in the wrapper `.tex`, and the `markdown` package recognizes them automatically in the running Markdown text (`witiko/glossaries` theme); explicit `[X]{.acronym}` markup works too. [markdown-latex-quickstart#4](https://github.com/latextemplates/markdown-latex-quickstart/issues/4)
 - Generated documents (`scientific-thesis`, `ustutt`, `acmart`, `ieee`, and `lncs`) now embed the `.bib` file into the generated PDF (via the `embedfile` package), so readers can extract the bibliography data, e.g., with JabRef. The paper READMEs got a "Final submission" section explaining how to remove the attachment if a publisher's submission check rejects it.
 
+### Fixed
+
+- Generated papers now start with `\ifdefined\pdfoutput\pdfoutput=1\fi`, so arXiv processes them with `pdflatex` instead of falling back to DVI-producing `latex`, which failed with errors such as `! I can't find file 'clmr28t10+20'`. The README's "Final submission" section explains the line. [lncs-enhanced#44](https://github.com/latextemplates/lncs-enhanced/issues/44)
+
 ## [2026.6.30]
 
 ### Added
