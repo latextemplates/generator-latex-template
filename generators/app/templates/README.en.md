@@ -111,6 +111,28 @@ See [docs/overleaf](docs/overleaf/).
 
 This is a **minimal Markdown quick start**. Write your content as plain Markdown in [`<%= filenames.manuscript %>.md`](<%= filenames.manuscript %>.md); the thin wrapper [`<%= filenames.main %>.tex`](<%= filenames.main %>.tex) pulls it in with `\markdownInput` and LaTeX turns it into a PDF — no thesis scaffolding, just the essentials: headings, citations, footnotes, tables, figures, smart cross-references (`\zcref`), and acronyms (defined once in the wrapper, recognized automatically in the running text and collected in an acronym list). Keeping the prose in a real `.md` file means your editor treats it as Markdown and the spell-/prose-checkers below lint it directly.
 <% } -%>
+<% if (githubpublish) { switch (documentclass) { case "lncs": -%>
+
+## Examples
+
+- [paper.pdf](https://latextemplates.github.io/lncs-enhanced/paper.pdf) - normal paper.
+- [paper-minted.pdf](https://latextemplates.github.io/lncs-enhanced/paper-minted.pdf) - paper showing minted in action.
+- [paper-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
+- [paper-minted-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-minted-newtx.pdf) - paper typeset in Times Roman to save some space.
+<% break; case "ieee": -%>
+
+## Examples
+
+- [paper.pdf](https://latextemplates.github.io/ieee-enhanced/paper.pdf) - regular conference paper.
+- [paper-minted.pdf](https://latextemplates.github.io/ieee-enhanced/paper-minted.pdf) - conference paper showing minted in action.
+<% break; case "acmart": -%>
+
+## Examples
+
+- [paper.pdf](https://latextemplates.github.io/acm-enhanced/paper.pdf) - regular conference paper.
+- [paper-minted.pdf](https://latextemplates.github.io/acm-enhanced/paper-minted.pdf) - conference paper showing minted in action.
+<% break; default: -%>
+<% break; } } -%>
 
 ## Usage
 
@@ -305,13 +327,6 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
-## Examples
-
-- [paper.pdf](https://latextemplates.github.io/lncs-enhanced/paper.pdf) - normal paper.
-- [paper-minted.pdf](https://latextemplates.github.io/lncs-enhanced/paper-minted.pdf) - paper showing minted in action.
-- [paper-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
-- [paper-minted-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-minted-newtx.pdf) - paper typeset in Times Roman to save some space.
-
 ## Background
 
 The official template is available at <https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines> --> "Templates, samples files & useful links" --> "LaTeX2e Proceedings Templates (zip)"
@@ -331,11 +346,6 @@ This might lead to undesired results such as hyperlinks not working any more or 
 In case you think, a package needs to be altered or added, feel free to open an issue.
 
 <% break; case "ieee": -%>
-## Examples
-
-- [paper.pdf](https://latextemplates.github.io/ieee-enhanced/paper.pdf) - regular conference paper.
-- [paper-minted.pdf](https://latextemplates.github.io/ieee-enhanced/paper-minted.pdf) - conference paper showing minted in action.
-
 ## Quick start
 
 - Click on `Download ZIP` or [here](https://github.com/latextemplates/IEEE/archive/main.zip).

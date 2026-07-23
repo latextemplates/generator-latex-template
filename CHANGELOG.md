@@ -19,6 +19,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The LNCS example content now demonstrates the class's theorem-like environments (`definition`, `proposition`, `lemma`, `theorem`, `proof`, `corollary`, `example`) with a displayed, referenced equation — covering what the retired upstream `llncs.dem` demonstration showed, so the template's example is a superset of it. [lncs-enhanced#29](https://github.com/latextemplates/lncs-enhanced/issues/29)
 - New global `--authoryear` CLI flag for author-year citations: `lncs` switches to biblatex with the `authoryear` style (llncs's `citeauthoryear` needs Springer `.bst` files not in TeX Live), `acmart` uses `\citestyle{acmauthoryear}`, and the theses switch their biblatex style from `alphabetic` to `authoryear`. Ignored for `ieee` (IEEE mandates numeric citations); the `mwe` quick start is author-year already. [lncs-enhanced#23](https://github.com/latextemplates/lncs-enhanced/issues/23)
 
+### Changed
+
+- The paper READMEs (`acmart`, `ieee`, `lncs`) now show the "Examples" section with the rendered PDF links right below the title, before "Usage", so readers see the output first. `acmart` gained an "Examples" section (it publishes example PDFs but previously listed none).
+
 ### Fixed
 
 - Generated papers now start with `\ifdefined\pdfoutput\pdfoutput=1\fi`, so arXiv processes them with `pdflatex` instead of falling back to DVI-producing `latex`, which failed with errors such as `! I can't find file 'clmr28t10+20'`. The README's "Final submission" section explains the line. [lncs-enhanced#44](https://github.com/latextemplates/lncs-enhanced/issues/44)
