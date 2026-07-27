@@ -147,7 +147,7 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: 'npm'
