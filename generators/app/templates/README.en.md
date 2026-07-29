@@ -111,6 +111,8 @@ See [docs/overleaf](docs/overleaf/).
 
 This is a **minimal Markdown quick start**. Write your content as plain Markdown in [`<%= filenames.manuscript %>.md`](<%= filenames.manuscript %>.md); the thin wrapper [`<%= filenames.main %>.tex`](<%= filenames.main %>.tex) pulls it in with `\markdownInput` and LaTeX turns it into a PDF — no thesis scaffolding, just the essentials: headings, citations, footnotes, tables, figures, smart cross-references (`\zcref`), and acronyms (defined once in the wrapper, recognized automatically in the running text and collected in an acronym list). Keeping the prose in a real `.md` file means your editor treats it as Markdown and the spell-/prose-checkers below lint it directly.
 <% } -%>
+
+The LaTeX snippets this template is assembled from can be inspected at <https://latextemplates.github.io/latex-snippets/>.
 <% if (githubpublish) { switch (documentclass) { case "lncs": -%>
 
 ## Examples

@@ -23,6 +23,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Changed
 
 - The paper READMEs (`acmart`, `ieee`, `lncs`) now show the "Examples" section with the rendered PDF links right below the title, before "Usage", so readers see the output first. `acmart` gained an "Examples" section (it publishes example PDFs but previously listed none).
+- Every generated README now links the [latex-snippets site](https://latextemplates.github.io/latex-snippets/) near the top, so readers can inspect the source snippets the template is assembled from.
 
 ### Fixed
 
