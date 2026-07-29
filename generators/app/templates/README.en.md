@@ -4,9 +4,9 @@
 # Enhanced LNCS Template
 
 > Quick start for modern LaTeXing with [LNCS](http://www.springer.com/computer/lncs).
-<% if (texlive > 2024) { -%>
+<% if (texlive > 2025) { -%>
 
-Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2025.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 <% } -%>
 <% break; case "ieee": -%>
@@ -14,8 +14,8 @@ In case you are running a later TeXLive version (or use MiKTeX), please regenera
 
 > Quick start for modern LaTeXing for an IEEE conference, based on the [Manuscript Template for Conference Proceedings](https://www.ieee.org/conferences_events/conferences/publishing/templates.html).
 
-<% if (texlive > 2024) { -%>
-Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
+<% if (texlive > 2025) { -%>
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2025.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 
 <% } -%>

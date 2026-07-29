@@ -24,6 +24,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - The paper READMEs (`acmart`, `ieee`, `lncs`) now show the "Examples" section with the rendered PDF links right below the title, before "Usage", so readers see the output first. `acmart` gained an "Examples" section (it publishes example PDFs but previously listed none).
 - Every generated README now links the [latex-snippets site](https://latextemplates.github.io/latex-snippets/) near the top, so readers can inspect the source snippets the template is assembled from.
+- The LNCS and IEEE README Overleaf note now states the template is based on TeX Live 2025 (was 2024) and only shows for TeX Live 2026+ generations, because Overleaf now provides TeX Live 2025 (and the generator no longer tests 2024).
 
 ### Fixed
 
