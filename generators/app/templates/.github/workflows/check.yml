@@ -122,11 +122,13 @@ jobs:
           path: |
             texcount.txt
             texcount.html
+<%# The mwe class writes Markdown, which aspell cannot parse; the check-markdown (Vale) workflow lints its prose instead, so the aspell spell-check job is omitted here. -%>
+<% if (documentclass !== "mwe") { -%>
   spell-check:
     # This is based on https://github.com/mh61503891/action-paper-aspell/tree/master
     #
 <% if (documentclass === "scientific-thesis") { -%>
-    # Disabled for scientific-thesis: the example content trips too many aspell false positives to maintain
+    # Disabled: the example content trips too many aspell false positives to maintain
     if: false
 <% } -%>
     runs-on: ubuntu-latest
@@ -180,6 +182,7 @@ jobs:
              echo 'If you want to ignore words, add them to `.aspell.<%= language %>.pws` (your personal aspell dictionary)' >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
+<% } -%>
   indent:
     runs-on: ubuntu-latest
     steps:

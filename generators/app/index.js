@@ -53,6 +53,22 @@ export default class extends Generator {
       this.props.font = "default";
     }
 
+    if (this.props.documentclass === "mwe") {
+      // Minimal Markdown quick start: a fixed, self-contained feature set. The
+      // matching prompts are hidden in options.js, so pin every value here (this
+      // also makes non-interactive `yo --documentclass=mwe` robust regardless of
+      // any flags that leak through).
+      this.props.bibtextool = "biblatex";
+      this.props.font = "default";
+      this.props.latexcompiler = "lualatex"; // Markdown + fontspec need LuaLaTeX
+      this.props.listings = "listings";
+      this.props.enquotes = "csquotes";
+      this.props.tweakouterquote = "babel";
+      this.props.todo = "none";
+      this.props.howtotext = false;
+      this.props.examples = false;
+    }
+
     // --language does not work properly, therefore, we used "lang" above. The templates still use "language"
     this.props.language = this.props.lang;
 
@@ -124,6 +140,23 @@ export default class extends Generator {
         ? true
         : this.options.longtable === true || this.options.longtable === "true";
 
+    // `authoryear` is a plain CLI flag (no prompt): switch citations to
+    // author-year globally. Maps to biblatex's authoryear style (theses, lncs)
+    // and \citestyle{acmauthoryear} (acmart); the mwe quick start is
+    // author-year already. IEEE mandates numeric citations, so it is forced
+    // off there.
+    this.props.authoryear =
+      this.options.authoryear === true || this.options.authoryear === "true";
+    if (this.props.documentclass === "ieee") {
+      this.props.authoryear = false;
+    }
+    if (this.props.documentclass === "lncs" && this.props.authoryear) {
+      // natbib + splncs04nat is numeric-only; author-year for LNCS goes
+      // through biblatex (llncs's own citeauthoryear option needs Springer
+      // .bst files that are not in TeX Live)
+      this.props.bibtextool = "biblatex";
+    }
+
     // Only minted and the PlantUML UML example need shell-escape; tikz-uml and the
     // remaining thesis content do not.
     this.props.requiresShellEscape =
@@ -152,6 +185,22 @@ export default class extends Generator {
     }
 
     function isPaperHandling(props) {
+      if (props.documentclass === "mwe") {
+        // The mwe quick start is neither a paper nor a thesis. Its wrapper main
+        // (mwe-main.<lang>.tex) pulls the prose from an external Markdown file
+        // (mwe-manuscript.<lang>.md) via \markdownInput. English keeps the plain
+        // names main.tex / manuscript.md; German gets a -de suffix so both
+        // languages can coexist in one repo (like scientific-thesis below) with
+        // each wrapper referencing its own manuscript -- no rename needed.
+        props.isPaper = false;
+        props.isThesis = false;
+        props.filenames = {
+          main: props.language === "en" ? "main" : "main-de",
+          manuscript: props.language === "en" ? "manuscript" : "manuscript-de",
+          bib: "bibliography",
+        };
+        return;
+      }
       props.isPaper =
         props.documentclass === "acmart" ||
         props.documentclass === "ieee" ||
@@ -290,11 +339,25 @@ export default class extends Generator {
       );
     }
 
+    // The mwe quick start has its own minimal Markdown main; every other class
+    // shares the big main.<lang>.tex.
+    const mainTemplate =
+      this.props.documentclass === "mwe" ? "mwe-main." : "main.";
     this.fs.copyTpl(
-      this.templatePath("main." + this.props.language + ".tex"),
+      this.templatePath(mainTemplate + this.props.language + ".tex"),
       this.destinationPath(this.props.filenames.main + ".tex"),
       this.props,
     );
+
+    // The mwe wrapper main pulls its prose from an external Markdown file so it
+    // can be edited and linted as plain Markdown (see mwe-main.<lang>.tex).
+    if (this.props.documentclass === "mwe") {
+      this.fs.copyTpl(
+        this.templatePath("mwe-manuscript." + this.props.language + ".md"),
+        this.destinationPath(this.props.filenames.manuscript + ".md"),
+        this.props,
+      );
+    }
 
     if (this.props.feature.abbreviations) {
       this.fs.copy(
@@ -303,11 +366,14 @@ export default class extends Generator {
       );
     }
 
-    this.fs.copyTpl(
-      this.templatePath("commands.tex"),
-      this.destinationPath("commands.tex"),
-      this.props,
-    );
+    // mwe-main does not \input{commands}; keep the quick start minimal.
+    if (this.props.documentclass !== "mwe") {
+      this.fs.copyTpl(
+        this.templatePath("commands.tex"),
+        this.destinationPath("commands.tex"),
+        this.props,
+      );
+    }
 
     if (this.props.documentclass == "ustutt") {
       /*

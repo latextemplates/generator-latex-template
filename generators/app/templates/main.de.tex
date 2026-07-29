@@ -1,3 +1,6 @@
+<% if (isPaper) { -%>
+\ifdefined\pdfoutput\pdfoutput=1\fi % zwingt arXiv, diese Datei mit pdflatex statt dem DVI-erzeugenden "latex" zu übersetzen; siehe README-Abschnitt "Final submission"
+<% } -%>
 <% if (preparereitzig) { -%>
 \RequirePackage{snapshot}
 \RequirePackage[dependency-file=Texlivefile]{depp}
@@ -141,6 +144,12 @@
 <%- include('microtype.preamble.de.tex', this); -%>
 
 <%- include('nowidow.preamble.en.tex', this); -%>
+<% if (isPaper) { -%>
+
+<%- include('impnattypo.preamble.en.tex', this); -%>
+
+<%- include('rectangularparagraphs.preamble.en.tex', this); -%>
+<% } -%>
 
 % Fuer deutsche Texte: Weniger Silbentrennung durch mehr frei Raum zwischen den Worten
 \setlength{\emergencystretch}{3em}
@@ -197,16 +206,24 @@
 <%- include('paralist.preamble.en.tex', this); -%>
 <% switch (documentclass) {
   case "acmart":
-  case "ieee":
-  case "lncs": -%>
+  case "ieee": -%>
 
 <%- include('natbib.preamble.en.tex', this); -%>
+<% break; case "lncs": -%>
+<% if (bibtextool == 'biblatex') { -%>
+<%- include('biblatex.preamble.en.tex', this); -%>
+<% } else { -%>
+
+<%- include('natbib.preamble.en.tex', this); -%>
+<% } -%>
 <% break; case "scientific-thesis": case "ustutt": -%>
 <%- include('biblatex.preamble.en.tex', this); -%>
 <% break; } -%>
+
+<%- include('embedfile.preamble.en.tex', this); -%>
 <% switch (documentclass) { case "acmart": -%>
 
-\citestyle{acmnumeric} % alternative: acmauthoryear
+\citestyle{<%= authoryear ? "acmauthoryear" : "acmnumeric" %>} % alternative: <%= authoryear ? "acmnumeric" : "acmauthoryear" %>
 <% break; case "lncs": -%>
 
 % Prepare more space-saving rendering of the bibliography
@@ -1075,7 +1092,7 @@ Schließlich fasst \cref{sec:outlook} die Ergebnisse der Arbeit zusammen und ste
 Eine Beschreibung relevanter wissenschaftlicher Arbeiten mit Bezug zur eigenen Arbeit.
 Der Abschnitt kann je nach Kontext auch an anderer Stelle stehen.
 
-Winery~\cite{Winery} is a graphical \textcomment{modeling}{modeling with one ``l'', because of American English} tool.
+Winery~\citep{Winery} is a graphical \textcomment{modeling}{modeling with one ``l'', because of American English} tool.
 The whole idea of TOSCA is explained by <% if (available.citet) { %>\citet<% } else { %>Binz et al.~\cite<% } %>{Binz2009}.
 <% } -%>
 <% if (examples) { -%>
@@ -1151,6 +1168,10 @@ Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiel
 
 <%# The math example uses \mathbb etc.; only show it where math.preamble.en.tex (its config) is loaded. -%>
 <%- include('math.example.en.tex', this); -%>
+<% } -%>
+<% if (documentclass == 'lncs') { -%>
+
+<%- include('theorems.example.en.tex', this); -%>
 <% } -%>
 
 <%- include('floats.example.de.tex', this); -%>
@@ -1317,6 +1338,12 @@ Hier bitte einen kurzen Durchgang durch die Arbeit.
 %%% ===============================================================================
 
 <% switch (documentclass) { case "lncs": -%>
+<% if (bibtextool == 'biblatex') { -%>
+\begingroup
+  \microtypecontext{expansion=sloppy}
+  \printbibliography
+\endgroup
+<% } else { -%>
 \renewcommand{\bibsection}{\section*{Literatur}} % requried for natbib to have "References" printed and as section*, not chapter*
 % Use natbib compatbile splncs04nat style.
 % It does provide all features of splncs03, but is developed in a clean way.
@@ -1327,6 +1354,7 @@ Hier bitte einen kurzen Durchgang durch die Arbeit.
   \small % ensure correct font size for the bibliography
   \bibliography{<%= filenames.bib %>}
 \endgroup
+<% } -%>
 <%  break; case "acmart": -%>
 
 \bibliographystyle{ACM-Reference-Format}

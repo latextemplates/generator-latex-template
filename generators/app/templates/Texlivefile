@@ -3,6 +3,9 @@ latexindent
 latexmk
 texlogsieve
 
+<% if (githubpublish || (listings == 'listings')) { -%>
+accsupp<%# gray hook marker on soft-wrapped listings lines %>
+<% } -%>
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 acmart
 <% } -%>
@@ -23,6 +26,9 @@ babel-german
 <% if (githubpublish || (bibtextool == "biblatex")) { -%>
 biber
 biblatex
+<% } -%>
+<% if (githubpublish || ((documentclass == "lncs") && (bibtextool == "biblatex") && !authoryear)) { -%>
+biblatex-lncs
 <% } -%>
 <% if (githubpublish || isThesis) { -%>
 bigfoot<%# provides perpage%>
@@ -63,6 +69,9 @@ datetime2-german
 dehyph-exptl
 <% } -%>
 diagbox
+<% if (githubpublish || (documentclass != "mwe")) { -%>
+embedfile
+<% } -%>
 <% if (githubpublish || isThesis) { -%>
 enumitem
 <% } -%>
@@ -99,7 +108,7 @@ fontspec
 footmisc
 <% } -%>
 gettitlestring
-<% if (githubpublish || (documentclass == 'ustutt') || (documentclass == 'scientific-thesis')) { -%>
+<% if (githubpublish || (documentclass == 'ustutt') || (documentclass == 'scientific-thesis') || (documentclass == 'mwe')) { -%>
 glossaries
 <% if (githubpublish || (lang == "en")) { -%>
 glossaries-english
@@ -131,6 +140,9 @@ ifmtarg<%# required by acmart at least %>
 ifplatform
 <% } -%>
 iftex
+<% if (githubpublish || (isPaper && reallatexcompiler.startsWith("lualatex"))) { -%>
+impnattypo
+<% } -%>
 inconsolata<%# required by ustutt, scientific-thesis, acm%>
 infwarerr
 intcalc
@@ -176,6 +188,13 @@ luaxml<%# required by spelling %>
 ly1<%# required by mathdesign-font %>
 <% } -%>
 marginnote
+<% if (githubpublish || (documentclass == "mwe")) { -%>
+markdown<%# markdown-as-input quick-start (mwe documentclass) %>
+<%# markdown's default LaTeX theme pulls these in (else e.g. "csvsimple.sty not found") %>
+csvsimple
+fancyvrb
+verse<%# used when a Markdown blockquote/verse is present %>
+<% } -%>
 <% if (githubpublish || isThesis) { -%>
 mathdesign
 <% } -%>
@@ -322,3 +341,6 @@ xpatch
 <% } -%>
 xstring<%# this includes stfloats; required by textcomp %>
 zref
+<% if (githubpublish || (documentclass == "mwe")) { -%>
+zref-clever<%# smart \zcref cross-references in the mwe quick-start %>
+<% } -%>

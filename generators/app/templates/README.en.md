@@ -4,9 +4,9 @@
 # Enhanced LNCS Template
 
 > Quick start for modern LaTeXing with [LNCS](http://www.springer.com/computer/lncs).
-<% if (texlive > 2024) { -%>
+<% if (texlive > 2025) { -%>
 
-Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2025.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 <% } -%>
 <% break; case "ieee": -%>
@@ -14,8 +14,8 @@ In case you are running a later TeXLive version (or use MiKTeX), please regenera
 
 > Quick start for modern LaTeXing for an IEEE conference, based on the [Manuscript Template for Conference Proceedings](https://www.ieee.org/conferences_events/conferences/publishing/templates.html).
 
-<% if (texlive > 2024) { -%>
-Please be aware that this template is optimized for overleaf, which is based on TeXLive 2024.
+<% if (texlive > 2025) { -%>
+Please be aware that this template is optimized for overleaf, which is based on TeXLive 2025.
 In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
 
 <% } -%>
@@ -102,9 +102,39 @@ See [docs/overleaf](docs/overleaf/).
 <%  break; default: -%>
 # LaTeX Document
 <% break; }
-} else { -%>
+} else if (documentclass == "mwe") { -%>
+# LaTeX Document — Markdown Quick Start
+<% } else { -%>
 # LaTeX Document
 <% } -%>
+<% if (documentclass == "mwe") { -%>
+
+This is a **minimal Markdown quick start**. Write your content as plain Markdown in [`<%= filenames.manuscript %>.md`](<%= filenames.manuscript %>.md); the thin wrapper [`<%= filenames.main %>.tex`](<%= filenames.main %>.tex) pulls it in with `\markdownInput` and LaTeX turns it into a PDF — no thesis scaffolding, just the essentials: headings, citations, footnotes, tables, figures, smart cross-references (`\zcref`), and acronyms (defined once in the wrapper, recognized automatically in the running text and collected in an acronym list). Keeping the prose in a real `.md` file means your editor treats it as Markdown and the spell-/prose-checkers below lint it directly.
+<% } -%>
+
+The LaTeX snippets this template is assembled from can be inspected at <https://latextemplates.github.io/latex-snippets/>.
+<% if (githubpublish) { switch (documentclass) { case "lncs": -%>
+
+## Examples
+
+- [paper.pdf](https://latextemplates.github.io/lncs-enhanced/paper.pdf) - normal paper.
+- [paper-minted.pdf](https://latextemplates.github.io/lncs-enhanced/paper-minted.pdf) - paper showing minted in action.
+- [paper-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
+- [paper-minted-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-minted-newtx.pdf) - paper typeset in Times Roman to save some space.
+<% break; case "ieee": -%>
+
+## Examples
+
+- [paper.pdf](https://latextemplates.github.io/ieee-enhanced/paper.pdf) - regular conference paper.
+- [paper-minted.pdf](https://latextemplates.github.io/ieee-enhanced/paper-minted.pdf) - conference paper showing minted in action.
+<% break; case "acmart": -%>
+
+## Examples
+
+- [paper.pdf](https://latextemplates.github.io/acm-enhanced/paper.pdf) - regular conference paper.
+- [paper-minted.pdf](https://latextemplates.github.io/acm-enhanced/paper-minted.pdf) - conference paper showing minted in action.
+<% break; default: -%>
+<% break; } } -%>
 
 ## Usage
 
@@ -163,10 +193,29 @@ On the command line, there are additional features:
 - `latexmk -C` or `make clean` for cleaning up
 - `make format` to reformat the `.tex` files (one sentence per line and indent)
 - `make aspell` for interactive spell checking
-- `make stand`: Creates a new PDF with the current status of the thesis.
+- `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
 - `make mrproper`: Cleans up and removes also editor backup files.
+<% if (documentclass == "mwe") { -%>
 
+### Linting your Markdown
+
+Because the prose is a plain Markdown file, the text linters run on it directly — no extraction, and the reported line numbers point straight at `<%= filenames.manuscript %>.md`. Two workflows lint it and post inline annotations: `check-markdown` runs [Vale](https://vale.sh) (spelling, repetition), and `check-textlint` runs [textlint](https://github.com/textlint/textlint) (`write-good` + `terminology`).
+
+Run textlint locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
+
+```bash
+npx --yes --package textlint --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.manuscript %>.md
+```
+
+For Vale, install it (`brew install vale` / `choco install vale`, or see <https://vale.sh/docs>) and point it at the file:
+
+```bash
+vale <%= filenames.manuscript %>.md
+```
+<% } -%>
+
+<% if (documentclass != "mwe") { -%>
 ## Benefits
 
 Following features are enabled in this template:
@@ -266,8 +315,9 @@ Congratulations. You chose to use all available features.
 <% } -%>
 
 <% switch (documentclass) { case "lncs": -%>
-There is currently no official biblatex support.
-A first step towards that is done at [biblatex-lncs](https://ctan.org/pkg/biblatex-lncs).
+Besides the default BibTeX setup (natbib + `splncs04nat`), biblatex is supported: generate with `--bibtextool=biblatex` to use the [biblatex-lncs](https://ctan.org/pkg/biblatex-lncs) style (numeric, mimicking Springer's `splncs04` look, processed with biber).
+
+For **author-year citations** (this template's answer to `llncs`'s `citeauthoryear` option, whose Springer `.bst` files are not part of TeX Live), generate with `--authoryear=true`: this switches to biblatex with the `authoryear` style, so `\citep{key}` renders as "(Author, year)" and `\citet{key}` as "Author (year)".
 
 <% break; case "ieee": -%>
 There is currently no official biblatex support.
@@ -275,16 +325,10 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 
 <% break; default: -%>
 <% break; } -%>
+<% } -%>
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
-## Examples
-
-- [paper.pdf](https://latextemplates.github.io/lncs-enhanced/paper.pdf) - normal paper.
-- [paper-minted.pdf](https://latextemplates.github.io/lncs-enhanced/paper-minted.pdf) - paper showing minted in action.
-- [paper-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
-- [paper-minted-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-minted-newtx.pdf) - paper typeset in Times Roman to save some space.
-
 ## Background
 
 The official template is available at <https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines> --> "Templates, samples files & useful links" --> "LaTeX2e Proceedings Templates (zip)"
@@ -304,11 +348,6 @@ This might lead to undesired results such as hyperlinks not working any more or 
 In case you think, a package needs to be altered or added, feel free to open an issue.
 
 <% break; case "ieee": -%>
-## Examples
-
-- [paper.pdf](https://latextemplates.github.io/ieee-enhanced/paper.pdf) - regular conference paper.
-- [paper-minted.pdf](https://latextemplates.github.io/ieee-enhanced/paper-minted.pdf) - conference paper showing minted in action.
-
 ## Quick start
 
 - Click on `Download ZIP` or [here](https://github.com/latextemplates/IEEE/archive/main.zip).
@@ -357,6 +396,21 @@ Statement from IEEE:
 <% break; default: -%>
 <% break; }
 } else { -%>
+<% } -%>
+<% if (isPaper) { -%>
+## Final submission
+
+The compiled PDF embeds the `<%= filenames.bib %>.bib` file (via the [embedfile](https://ctan.org/pkg/embedfile) package), so readers can extract the reference data from the PDF, e.g., with JabRef via "Import into library".
+Some publishers' final-submission checks (e.g., IEEE PDF eXpress or PDF/A validation) reject PDFs containing file attachments.
+If your submission system complains, comment out the `\embedfile` line in `<%= filenames.main %>.tex` for the camera-ready version.
+
+### arXiv
+
+The first line of `<%= filenames.main %>.tex` is `\ifdefined\pdfoutput\pdfoutput=1\fi`.
+Keep it when uploading to arXiv: arXiv scans the first lines for `\pdfoutput=1` to decide between `pdflatex` and DVI-producing `latex`.
+Without the line, arXiv falls back to `latex`, which cannot build the modern fonts (they ship without Metafont sources) and aborts with an error such as `! I can't find file 'clmr28t10+20'`.
+See [this question on TeX.SE](https://tex.stackexchange.com/q/584702/9075) for details.
+
 <% } -%>
 ## Tool hints
 
@@ -480,7 +534,7 @@ Alternatively, just copy and paste the contents of the [vscode.settings.json](vs
 
 You can manually trigger compilation by hitting the green button in the extension or using other methods provided by LaTeX Workshop.
 
-Please remove the magic comments (`% !TeX program ...`) at the top of the `main-....tex` file.
+Please remove the magic comments (`% !TeX program ...`) at the top of the `<%= filenames.main %>.tex` file.
 Although [LaTeX-Workshop supports magic comments](https://github.com/James-Yu/LaTeX-Workshop/blob/master/README.md#magic-comments), it currently does not work reliably.
 Without the magic comments, compilation works.
 
@@ -536,6 +590,7 @@ docker build -t ltg .
 
 <% break; default: -%>
 <% break; } -%>
+<% if (documentclass != "mwe") { -%>
 ## Contained Directories and Files
 
 ### Directories
@@ -817,14 +872,12 @@ You did not setup the [plantuml package](https://www.ctan.org/pkg/plantuml) corr
 Please head to <https://koppor.github.io/plantuml/> for installation instructions.
 
 <% } -%>
+<% } -%>
 ## Further information
 
 <% if (documentclass == 'lncs') { -%>
 - tex.stackexchange.com questions regarding LNCS: <https://tex.stackexchange.com/questions/tagged/lncs>
-<% if (githubpublish) { -%>
-- Original LNCS demonstration (without the improvements): [llncs-dem.pdf](llncs-dem.pdf)
-- Original LNCS documentation (without the improvements): [llncs-doc.pdf](llncs-doc.pdf)
-<% } -%>
+- Original LNCS documentation (without the improvements): [llncsdoc.pdf](https://mirrors.ctan.org/macros/latex/contrib/llncs/llncsdoc.pdf) from the [llncs CTAN package](https://ctan.org/pkg/llncs). The old `llncs.dem` demonstration is no longer part of that package; the official sample paper (`samplepaper.tex`) is contained in Springer's [LaTeX2e Proceedings Templates (zip)](https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines).
 <% } -%>
 - Other templates: <https://latextemplates.github.io/>
 - For German users, go to <https://texfragen.de/>.

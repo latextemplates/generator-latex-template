@@ -26,6 +26,21 @@ and a generation into templates:
 2. Support for separate documents which require `--shell-escape` and not.
 3. Support for integrated pdflatex and lualatex documents
 
+### Markdown quick start (`mwe`)
+
+Besides the paper and thesis document classes, the generator offers a **minimal Markdown quick start**, selectable as the `mwe` document class — for people who want a fast start with writing rather than a full thesis with all the tricks.
+
+- Content is written in **Markdown** inside a `\begin{markdown} … \end{markdown}` block in `main.tex` (via the [`markdown`](https://ctan.org/pkg/markdown) package): `#` becomes a chapter, `##` a section; citations (`[@key]`), footnotes, task lists, pipe tables, and images work out of the box.
+- It compiles with **LuaLaTeX + biber** (the `markdown` package needs Lua; the bibliography uses biblatex).
+- [`zref-clever`](https://ctan.org/pkg/zref-clever) turns the Markdown `{#id}` identifiers into smart `\zcref` cross-references that print the type name (e.g. "Figure 1.1" / "Abbildung 1.1").
+- It generates a single minimal `main.tex` — no thesis scaffolding, abbreviations, or `commands.tex` — hides the paper/thesis-only prompts, and ships a trimmed, quick-start README.
+
+Generate it non-interactively with:
+
+```bash
+yo latex-template --documentclass=mwe --lang=en
+```
+
 ### Precondition for the generator
 
 One has to install [Node.js](https://nodejs.org/en/) version 18 (or later) to get this generator running.

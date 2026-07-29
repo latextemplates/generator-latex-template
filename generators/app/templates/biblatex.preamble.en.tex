@@ -1,13 +1,17 @@
+<%# style axis: authoryear (global --authoryear flag) > lncs (biblatex-lncs) > alphabetic (theses default) -%>
+<% var blxstyle = authoryear ? "authoryear" : (documentclass == "lncs" ? "lncs" : "alphabetic"); -%>
 \usepackage[
   backend       = biber, %biber does not work with 64x versions alternative: bibtex8; minalphanames only works with biber backend
   sortcites     = true,
-  bibstyle      = alphabetic,
-  citestyle     = alphabetic,
+  bibstyle      = <%= blxstyle %>,
+  citestyle     = <%= blxstyle %>,
   giveninits    = true,
   useprefix     = false, %"von, van, etc." will be printed, too. See below.
   minnames      = 1,
+<% if (blxstyle == "alphabetic") { -%>
   minalphanames = 3,
   maxalphanames = 4,
+<% } -%>
   maxbibnames   = 99,
   maxcitenames  = 2,
   natbib        = true,
@@ -66,4 +70,9 @@
 
 % Reduce size of bib font: http://tex.stackexchange.com/questions/329/how-to-change-font-size-for-bibliography
 \renewcommand{\bibfont}{\normalfont\small}
+<% } -%>
+<% if (documentclass == "lncs" && authoryear) { -%>
+
+% Match the LNCS bibliography font size (the biblatex-lncs style sets this itself)
+\renewcommand{\bibfont}{\normalfont\footnotesize}
 <% } -%>

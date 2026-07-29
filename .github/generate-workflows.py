@@ -9,7 +9,7 @@ globalsingleworkflow = True
 # If enabled, a failing workflow cancels all other workflows
 failfast = False
 
-documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt'] # , 'scientific-thesis'
+documentclasses = ['acmart', 'ieee', 'lncs', 'ustutt', 'mwe'] # , 'scientific-thesis'
 latexcompilers = ['pdflatex', 'lualatex', 'both']
 
 bibtextools = ['bibtex', 'biblatex']
@@ -61,14 +61,20 @@ def stable_id(documentclass, ieeevariant, latexcompiler, bibtextool, texlive, la
 for documentclass in documentclasses:
   for latexcompiler in latexcompilers:
     for bibtextool in bibtextools:
-      if ((bibtextool == 'biblatex') and ((documentclass == 'acmart') or (documentclass == 'ieee') or (documentclass == 'lncs'))):
+      if ((bibtextool == 'biblatex') and ((documentclass == 'acmart') or (documentclass == 'ieee'))):
         continue
       if ((bibtextool == 'bibtex') and (documentclass == 'scientific-thesis')):
+        continue
+      # The mwe quick start is LuaLaTeX + biblatex only (forced in index.js).
+      if (documentclass == 'mwe') and ((latexcompiler != 'lualatex') or (bibtextool != 'biblatex')):
         continue
       for texlive in texlives:
         if (texlive < 2025) and latexcompiler.endswith("-dev"):
           continue
         for example in examples:
+          # The mwe quick start ships no LaTeX-hints examples.
+          if (documentclass == 'mwe') and (example != 'false'):
+            continue
           for ieeevariant in ieeevariants:
             if ((documentclass != 'ieee') and (ieeevariant != 'conference')):
               # we just go on for one IEEE specific element to enable this part being executed exactly ones for the "example" outer loop for non-IEEE
@@ -141,7 +147,7 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: 'npm'
@@ -191,6 +197,9 @@ jobs:
                     for enquote in enquotes:
                       for tweakouterquote in tweakouterquotes:
                         for todo in todos:
+                            # The mwe quick start pins these switches; vary only language and texlive.
+                            if (documentclass == 'mwe') and ((howtotext != 'false') or (font != 'default') or (listing != 'listings') or (enquote != 'csquotes') or (tweakouterquote != 'babel') or (todo != 'none')):
+                                continue
                             variantName = "{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}_{}".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                             variantShort = "var_" + stable_id(documentclass, ieeevariant, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
                             table = "| {:<13} | {:<13} | {:<10} | {:<7} | {:<4} | {:<7} | {:<8} | {:10} | {:<15} | {:<10} | {:<7} | {:<8} |".format(documentclass, latexcompiler, bibtextool, texlive, language, font, listing, enquote, tweakouterquote, todo, example, howtotext)
@@ -233,7 +242,17 @@ jobs:
                             yml.write("          texlive_version: %s\n" % texlive)
                             yml.write("      - name: latexmk {}\n".format(variantShort))
                             ymlmiktex.write("      - name: latexmk {}\n".format(variantShort))
-                            filename = "paper.tex" if documentclass in ['acmart', 'lncs', 'ieee'] else "thesis-example.tex" if documentclass == 'ustutt' else "main.tex"
+                            # Keep in sync with mainFile() in __tests__/matrix.js:
+                            # mwe's German wrapper is main-de.tex so both languages
+                            # can coexist in one repo.
+                            if documentclass in ['acmart', 'lncs', 'ieee']:
+                                filename = "paper.tex"
+                            elif documentclass == 'ustutt':
+                                filename = "thesis-example.tex"
+                            elif documentclass == 'mwe':
+                                filename = "main.tex" if language == 'en' else "main-de.tex"
+                            else:
+                                filename = "main.tex"
                             command = "updmap -sys && texhash && tlmgr generate language --rebuild-sys && latexmk {}".format(filename) if (docker != 'reitzig') else "work latexmk {}".format(filename)
                             yml.write("        run: {}\n".format(command))
                             yml.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))

@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- Added a minimal Markdown quick start, selectable as the `mwe` document class (write content in Markdown, compile with LuaLaTeX + biber). See the README for details.
+- The Markdown quick start demonstrates acronyms via the `glossaries` package: define once in the wrapper `.tex`, and the `markdown` package recognizes them automatically in the running Markdown text (`witiko/glossaries` theme); explicit `[X]{.acronym}` markup works too. [markdown-latex-quickstart#4](https://github.com/latextemplates/markdown-latex-quickstart/issues/4)
+- Generated documents (`scientific-thesis`, `ustutt`, `acmart`, `ieee`, and `lncs`) now embed the `.bib` file into the generated PDF (via the `embedfile` package), so readers can extract the bibliography data, e.g., with JabRef. The paper READMEs got a "Final submission" section explaining how to remove the attachment if a publisher's submission check rejects it.
+- `lncs` now really supports `--bibtextool=biblatex`: the document uses the [biblatex-lncs](https://ctan.org/pkg/biblatex-lncs) style (numeric, `splncs04` look) with biber instead of natbib + `splncs04nat`. Previously the choice existed but had no effect. [lncs-enhanced#3](https://github.com/latextemplates/lncs-enhanced/issues/3)
+- Papers carry an opt-in boolean for rectangular ("block") paragraphs directly in the preamble: uncomment `\rectangularparagraphstrue` to stretch every paragraph's last line to the full column width (`\parfillskip=0pt`). Off by default — the comment explains that good results need copy fitting.
+- Papers (`acmart`, `ieee`, `lncs`) avoid a lone short word as a paragraph's last line: `impnattypo` (v1.8) with only its `lastparline` feature, loaded under LuaTeX only — there it vetoes the offending line break per paragraph instead of stretching `\parfillskip` globally (the side effect that got the package reverted in 2018). pdfTeX builds are untouched. [lncs-enhanced#16](https://github.com/latextemplates/lncs-enhanced/issues/16)
+- The LNCS example content now demonstrates the class's theorem-like environments (`definition`, `proposition`, `lemma`, `theorem`, `proof`, `corollary`, `example`) with a displayed, referenced equation — covering what the retired upstream `llncs.dem` demonstration showed, so the template's example is a superset of it. [lncs-enhanced#29](https://github.com/latextemplates/lncs-enhanced/issues/29)
+- Soft-wrapped `listings` code lines are now marked with a gray hook arrow (↪) at the start of each continuation line, so wrapped lines are distinguishable from real line breaks. The arrow is kept out of copied/extracted text via `accsupp` (`ActualText`). Applies to the non-minted `listings` variants. [Source](https://tex.stackexchange.com/a/649475/9075)
+- New global `--authoryear` CLI flag for author-year citations: `lncs` switches to biblatex with the `authoryear` style (llncs's `citeauthoryear` needs Springer `.bst` files not in TeX Live), `acmart` uses `\citestyle{acmauthoryear}`, and the theses switch their biblatex style from `alphabetic` to `authoryear`. Ignored for `ieee` (IEEE mandates numeric citations); the `mwe` quick start is author-year already. [lncs-enhanced#23](https://github.com/latextemplates/lncs-enhanced/issues/23)
+
+### Changed
+
+- The paper READMEs (`acmart`, `ieee`, `lncs`) now show the "Examples" section with the rendered PDF links right below the title, before "Usage", so readers see the output first. `acmart` gained an "Examples" section (it publishes example PDFs but previously listed none).
+- Every generated README now links the [latex-snippets site](https://latextemplates.github.io/latex-snippets/) near the top, so readers can inspect the source snippets the template is assembled from.
+- The LNCS and IEEE README Overleaf note now states the template is based on TeX Live 2025 (was 2024) and only shows for TeX Live 2026+ generations, because Overleaf now provides TeX Live 2025 (and the generator no longer tests 2024).
+
+### Fixed
+
+- Generated papers now start with `\ifdefined\pdfoutput\pdfoutput=1\fi`, so arXiv processes them with `pdflatex` instead of falling back to DVI-producing `latex`, which failed with errors such as `! I can't find file 'clmr28t10+20'`. The README's "Final submission" section explains the line. [lncs-enhanced#44](https://github.com/latextemplates/lncs-enhanced/issues/44)
+- The LNCS README no longer links the never-generated `llncs-dem.pdf`/`llncs-doc.pdf`: the documentation link now points to the CTAN-hosted `llncsdoc.pdf`, and the retired `llncs.dem` demonstration is replaced by a pointer to `samplepaper.tex` in Springer's proceedings-templates zip. [lncs-enhanced#29](https://github.com/latextemplates/lncs-enhanced/issues/29)
+
 ## [2026.6.30]
 
 ### Added

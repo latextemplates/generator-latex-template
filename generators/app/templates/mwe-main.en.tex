@@ -1,0 +1,115 @@
+% !TeX program = lualatex
+% !TeX encoding = utf8
+% !TeX spellcheck = en-US
+% LTeX: language=en-US
+% -*- coding:utf-8 mod:LaTeX -*-
+%
+% Minimal quick-start template: write your content in Markdown and get a LaTeX
+% PDF. No thesis scaffolding, just the essentials. Compile with LuaLaTeX + biber
+% -- a ready-made latexmkrc is included, so a plain "latexmk" does everything.
+
+\documentclass[
+  fontsize=11pt,
+  paper=<%= papersize %>,
+  twoside,
+  open=right,
+  parskip=half,
+  numbers=noenddot,
+]{scrbook}
+
+% --- LuaLaTeX font/typography setup ---
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage[english]{babel}
+\usepackage{csquotes}   % recommended companion for babel + biblatex
+
+% backticks (`) are rendered as such in verbatim environments
+% (see https://tex.stackexchange.com/a/341057/9075)
+\usepackage{upquote}
+
+% --- Markdown as text input, generous feature set ---
+% Option names follow the markdown package v3.x.
+\usepackage[
+  citations,          % [@key] citation syntax
+  hybrid,             % pass raw LaTeX through (e.g. \zcref in the manuscript)
+  notes,              % [^label] referenced footnotes
+  inlineNotes,        % ^[inline footnote text]
+  pipeTables,         % | a | b | style tables
+  tableCaptions,      % : Caption text below a table
+  tableAttributes,    % {#id} identifier on a table caption
+  hashEnumerators,    % 1) 2) 3) style enumerators
+  taskLists,          % - [ ] / - [x] checkbox lists
+  headerAttributes,   % {#id} identifier on a heading
+  linkAttributes,     % {#id} attributes on links/images
+  relativeReferences, % <#id> to reference an id defined via {#id}
+  bracketedSpans,     % [text]{.class} spans, e.g. explicit acronym markup
+]{markdown}
+
+% --- Bibliography: author-year via biblatex/biber ---
+\usepackage[
+  style=authoryear,
+  backend=biber,
+  autolang=hyphen,
+  sorting=nyt,
+]{biblatex}
+\addbibresource{<%= filenames.bib %>.bib}
+
+% --- Figures + smart cross-references ---
+\usepackage{graphicx}
+\usepackage{zref-clever}
+\zcsetup{cap = true}    % capitalise type names: "Chapter", "Figure", "Table"
+
+% How the labels work (answer to "can't we use the markdown labels?"):
+% The markdown package turns `{#id}` (on headings, images and tables) into a
+% *standard* \label{id}. zref-clever's `labelhook` (on by default) makes every
+% \label additionally a zref label, so \zcref{id} works out of the box with
+% markdown's own identifiers -- no raw-LaTeX \zlabel or manual bridge needed.
+
+% --- Clickable everything: load hyperref LAST -----------------------------
+% Makes the TOC, \zcref, native <#id> refs, [@citations] and footnotes clickable.
+% zref-clever auto-loads zref-hyperref once it sees hyperref, so \zcref links
+% need no extra setup. `hidelinks` keeps links clickable without coloured boxes
+% (swap for `colorlinks=true` if you prefer visible coloured links on screen).
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+% --- Acronyms: define once, use anywhere in the Markdown text -------------
+% glossaries is the classic exception to "hyperref last": load it AFTER
+% hyperref so acronym uses and the acronym list are hyperlinked.
+\usepackage[acronym, nopostdot]{glossaries}
+\makeglossaries
+\setacronymstyle{long-short}    % how \gls renders entries; the markdown theme itself always prints the short form
+\newacronym{html}{HTML}{HyperText Markup Language}
+\newacronym{yaml}{YAML}{YAML Ain't Markup Language}
+% Make the markdown package recognize the acronyms defined above right in the
+% running Markdown text -- no \gls calls needed in the manuscript. Explicit
+% markup like [JSON]{.acronym} also works, even for undefined acronyms.
+% See https://github.com/Witiko/markdown/issues/615 for background.
+\markdownSetup{
+  import  = witiko/glossaries@v1,
+  snippet = witiko/glossaries/import-acronyms,
+}
+
+\title{My Book}
+\author{Martha Mildenhall}
+\date{\today}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+\tableofcontents
+
+\mainmatter
+
+% The prose lives in a separate, pure-Markdown file so your editor sees Markdown
+% (not LaTeX) and the spell-/prose-checkers (Vale, textlint) lint it directly.
+% `hybrid` (set above) still lets the file pass raw LaTeX such as \zcref through.
+\markdownInput{<%= filenames.manuscript %>.md}
+
+\backmatter
+
+\printacronyms
+
+\printbibliography
+
+\end{document}
