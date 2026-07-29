@@ -46,6 +46,17 @@ Node ≥18).
   separate preview environment). `check.yml` (build-only, on `pull_request`) plus
   `automerge.yml` (Dependabot auto-merge, copied from this repo's) were added so Dependabot
   PRs there get a status check and can auto-merge like the other repos.
+- **`gadr-latex-packages`** — problem-space ADRs (MADR format: *Context and Problem
+  Statement* → *Considered Options* → *Pros and Cons*, one file per problem — see
+  `todo-package.md`) recording **why** a package was picked for a problem. Standalone re: the
+  cycle (also listed above), but **paired with `latex-snippets` by convention**: when a
+  snippet lands here (a new entry in `latex-snippets/snippets.config.mjs`), also add or
+  update the matching GADR there. The entry's `category` is the problem (e.g. "Comments &
+  TODOs" → *How to mark TODOs*); the candidate packages are the *Considered Options* — the
+  one showcased plus the alternatives weighed against it (the option set is broader than the
+  catalog: the TODO GADR compares `pdfcomment`/`pdfmarginpar`, not the showcased
+  `todonotes`). Kept **semi-manual on purpose** — the pros/cons are a judgement call, so
+  there is no generator; this hint *is* the mechanism.
 
 ## The update cycle (e.g. "support TeX Live 2026", or any generator change)
 
