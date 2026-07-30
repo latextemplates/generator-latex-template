@@ -37,9 +37,13 @@ Node ≥18).
 - **`latex-snippets`** — a Docusaurus site; embeds this repo as a submodule at path
   `generator-latex-template` (tracking `main`) but has **no** `update-files.yml` and isn't
   globbed by the cycle scripts (`begin-new-cycle.sh` / `spread-updates.sh` /
-  `end-new-cycle.sh`), so during a cycle its `generator-latex-template` submodule pointer
-  and any refinements to the site itself must be pushed **manually** to its own
-  `update-ltg` branch (created by hand, not by `begin-new-cycle.sh`) alongside the cycle.
+  `end-new-cycle.sh`), so it is **not** touched by them. **The post-release submodule bump
+  needs no manual step:** because the submodule tracks `main`, Dependabot opens a bump PR to
+  the new release tag and `automerge.yml` merges it on its own (confirmed for 2026.7.29 —
+  Dependabot auto-merged the bump to `2cc27a2`). A **manual** push to its own `update-ltg`
+  branch (created by hand, not by `begin-new-cycle.sh`) is only needed for a *mid-cycle
+  preview* (pointing the submodule at `refine-ltg` before release) or for refinements to the
+  site itself.
   `.github/workflows/deploy.yml` builds+deploys on push to both `main` and `update-ltg` —
   to the same GitHub Pages environment, so an `update-ltg` push temporarily replaces the
   live site until `main` is pushed again (accepted trade-off, chosen for simplicity over a
@@ -106,6 +110,9 @@ layout is a hard requirement.
    **squash-merge** it. (Squash-merge throughout: it keeps `main` — and each template's
    history — to one commit per cycle; `release-it`/`end-new-cycle.sh` are unaffected since the
    generated content is identical regardless of how the branch was merged.)
+   **`latex-snippets` needs no action here** — it is outside the cycle scripts, and Dependabot
+   + `automerge.yml` bump its `generator-latex-template` submodule to the new release tag on
+   their own (see the `latex-snippets` bullet under "Repo roles"). Just confirm it landed.
 
 The list of variants (documentclasses, `texlives`, fonts, …) is defined in **two places
 that must be kept in sync**: the top of `.github/generate-workflows.py` (drives the LaTeX
