@@ -321,6 +321,13 @@ export default class extends Generator {
       this.templatePath("dot.aspell.conf"),
       this.destinationPath(".aspell.conf"),
     );
+    // The mwe quick start lints Markdown with its own (template-managed) config
+    if (this.props.documentclass !== "mwe") {
+      this.fs.copy(
+        this.templatePath("dot.textlintrc.json"),
+        this.destinationPath(".textlintrc.json"),
+      );
+    }
     if (this.props.language == "de" || this.props.githubpublish) {
       this.fs.copy(
         this.templatePath("dot.aspell.de.pws"),

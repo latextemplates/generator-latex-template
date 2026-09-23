@@ -204,6 +204,15 @@ On the command line, there are additional features:
 - `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
 - `make mrproper`: Cleans up and removes also editor backup files.
+<% if (documentclass != "mwe") { -%>
+
+The `textlint` job of the `Check` workflow reports weakening words (e.g., "clearly", "just") in the English `.tex` files as annotations.
+Run it locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
+
+```bash
+npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex
+```
+<% } -%>
 <% if (documentclass == "mwe") { -%>
 
 ### Linting your Markdown
