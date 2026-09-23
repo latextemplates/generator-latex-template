@@ -48,7 +48,9 @@ cfr-lm
 <% if (githubpublish || (documentclass == "ustutt")) { -%>
 charter<%# required by mathdesign-charter%>
 <% } -%>
+<% if (githubpublish || (crossref == "cleveref")) { -%>
 cleveref
+<% } -%>
 cm-super
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 cmap
@@ -341,6 +343,9 @@ xpatch
 <% } -%>
 xstring<%# this includes stfloats; required by textcomp %>
 zref
-<% if (githubpublish || (documentclass == "mwe")) { -%>
-zref-clever<%# smart \zcref cross-references in the mwe quick-start %>
+<% if (githubpublish || (documentclass == "mwe") || (crossref == "zref-clever")) { -%>
+zref-clever
+<% } -%>
+<% if (githubpublish || (isThesis && (crossref == "zref-clever"))) { -%>
+zref-vario
 <% } -%>

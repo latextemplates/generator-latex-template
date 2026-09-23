@@ -157,6 +157,23 @@ export default class extends Generator {
       this.props.bibtextool = "biblatex";
     }
 
+    // `crossref` is a plain CLI flag (no prompt): zref-clever (default, works
+    // with PDF tagging) or the legacy cleveref. Templates write references as
+    // <%- cref %>{…} / <%- Cref %>{…} (sentence start) and <%- vref %>/<%- Vref %>.
+    this.props.crossref =
+      this.options.crossref === "cleveref" ? "cleveref" : "zref-clever";
+    if (this.props.crossref === "cleveref") {
+      this.props.cref = "\\cref";
+      this.props.Cref = "\\Cref";
+      this.props.vref = "\\vref";
+      this.props.Vref = "\\Vref";
+    } else {
+      this.props.cref = "\\zcref";
+      this.props.Cref = "\\zcref[S]";
+      this.props.vref = "\\zvref";
+      this.props.Vref = "\\zvref[S]";
+    }
+
     // Only minted and the PlantUML UML example need shell-escape; tikz-uml and the
     // remaining thesis content do not.
     this.props.requiresShellEscape =
