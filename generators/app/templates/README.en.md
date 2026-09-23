@@ -135,6 +135,14 @@ The LaTeX snippets this template is assembled from can be inspected at <https://
 - [paper-minted.pdf](https://latextemplates.github.io/acm-enhanced/paper-minted.pdf) - conference paper showing minted in action.
 <% break; default: -%>
 <% break; } } -%>
+<% if (isThesis) { -%>
+
+## Writing your thesis
+
+- Read [Student Thesis Projects](https://vdf.ch/product/student-thesis-projects-en.html) by Lichter, Ludewig, Deininger, and Schneider.
+  The open-access book explains how to organize, conduct, write, and present a thesis.
+- Before handing in, work through the [thesis checklist](docs/thesis-checklist.md).
+<% } -%>
 
 ## Usage
 
@@ -196,6 +204,15 @@ On the command line, there are additional features:
 - `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
 - `make mrproper`: Cleans up and removes also editor backup files.
+<% if (documentclass != "mwe") { -%>
+
+The `textlint` job of the `Check` workflow reports weakening words (e.g., "clearly", "just") in the English `.tex` files as annotations.
+Run it locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
+
+```bash
+npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-filter-rule-allowlist --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex
+```
+<% } -%>
 <% if (documentclass == "mwe") { -%>
 
 ### Linting your Markdown
@@ -239,8 +256,8 @@ Following features are enabled in this template:
   See <https://tex.stackexchange.com/a/441701/9075> for details.
 <% } -%>
 - Automatic setting of "Fig." and "Section"/"Sect." according to the LNCS style.
-  Just use `\Cref{sec:xy}` at the beginning of a sentence and `\cref{sec:xy}` in the middle of a sentence.
-  Thanx to [cleveref].
+  Just use `<%- Cref %>{sec:xy}` at the beginning of a sentence and `<%- cref %>{sec:xy}` in the middle of a sentence.
+  Thanx to [<%= crossref %>].
 <% if (font == "default" || githubpublish) { -%>
 - Sharper font (still compatible with Springer's requirements).
 <% } -%>
@@ -264,7 +281,7 @@ Following features are enabled in this template:
 - <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
 <% } -%>
 - [microtypographic extensions](https://www.ctan.org/pkg/microtype) for a better look of the paper.
-- Modern packages such as [microtype], [cleveref]<% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
+- Modern packages such as [microtype], [<%= crossref %>]<% if (enquotes == "csquotes" || githubpublish) { %>, [csquotes]<% } %><% if (documentclass != 'lncs') { %>, [paralist]<% } %>, [hyperref], [hypcap], [upquote]<% if (documentclass == 'lncs') { %>, [natbib]<% } %>, [booktabs].
 <% if ((reallatexcompiler.startsWith("lualatex")) || githubpublish) { -%>
 - <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>LaTeX compilation using the modern [lualatex] compiler.
   For older systems, [pdflatex](https://en.wikipedia.org/wiki/PdfTeX) is still supported.
@@ -901,7 +918,7 @@ Any derived work can freely be relicensed and can omit original copyright and li
 [biblatex]: http://tex.stackexchange.com/tags/biblatex/info
 [bibtex]: https://www.ctan.org/pkg/bibtex
 [booktabs]: https://ctan.org/pkg/booktabs
-[cleveref]: https://ctan.org/pkg/cleveref
+[<%= crossref %>]: https://ctan.org/pkg/<%= crossref %>
 [csquotes]: https://www.ctan.org/pkg/csquotes
 [hypcap]: https://www.ctan.org/pkg/hypcap
 [hyperref]: https://ctan.org/pkg/hyperref

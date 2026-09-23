@@ -1,0 +1,21 @@
+% Extensions for references inside the document (\zcref{fig:sample}, ...)
+% Use \zcref{...} (and \Zcref{...} at the beginning of a sentence) instead of \ref: Type of reference included in the link
+% That means, "Figure 5" is a full link instead of just "5".
+% The names follow the document language (babel); zref-clever is compatible with tagged PDFs.
+% Each \label also sets a zref label, so \zcref works with standard \label.
+\usepackage{zref-clever}
+\zcsetup{cap, nameinlink=true<% if (documentclass == 'lncs') { %>, abbrev<% } %>}
+% \Zcref{...} is short for \zcref[S]{...}: capitalized, unabbreviated name at the beginning of a sentence
+\NewDocumentCommand{\Zcref}{s O{} m}{\IfBooleanTF{#1}{\zcref*[S,#2]{#3}}{\zcref[S,#2]{#3}}}
+<% if (documentclass == 'lncs') { -%>
+\zcLanguageSetup{english}{
+  type=section, Name-sg-ab=Sect., Name-pl-ab=Sect.,
+  type=listing, Name-sg-ab=List., Name-pl-ab=List.,
+}
+<% } -%>
+<% if (isThesis) { -%>
+
+% Page-aware references: \zvref{...} (and \zvref[S]{...}) reads like "Figure 5 on the next page"
+\usepackage{zref-vario}
+\zcLanguageSetup{english}{type=page, Name-sg=page, Name-pl=pages} % "on page 5", not "on Page 5"
+<% } -%>

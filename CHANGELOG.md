@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- New `--crossref` CLI flag: `zref-clever` (default) or `cleveref` (the previous behavior).
+- The generated `check.yml` of the LaTeX templates has a report-only `textlint` job ([write-good](https://github.com/btford/write-good) and terminology rules) that annotates weakening words in the English `.tex` files ("only" is allowed); the configuration is in `.textlintrc.json`. The example and writing-hint texts were revised accordingly.
+- Theses (`scientific-thesis`, `ustutt`) come with a hand-in checklist (`docs/thesis-checklist.md`), and their README and writing hints recommend the open-access book [Student Thesis Projects](https://vdf.ch/product/student-thesis-projects-en.html). The writing hints now also explain how to serve both readers who read from beginning to end and readers who open the thesis anywhere.
+
+### Changed
+
+- Cross-references now use [zref-clever](https://ctan.org/pkg/zref-clever) (`\zcref`, and `\Zcref` at the start of a sentence, a template-defined short form of `\zcref[S]`) instead of [cleveref](https://ctan.org/pkg/cleveref), because zref-clever works with tagged (accessible) PDFs and cleveref does not fully. Theses use [zref-vario](https://ctan.org/pkg/zref-vario) (`\zvref`) for page-aware references. Type names follow the document language, so the German `\crefname` block is gone.
+
 ## [2026.7.29]
 
 ### Added
