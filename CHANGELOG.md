@@ -11,7 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - New `--crossref` CLI flag: `zref-clever` (default) or `cleveref` (the previous behavior).
-- The generated `check.yml` of the LaTeX templates has a report-only `textlint` job ([write-good](https://github.com/btford/write-good) and terminology rules) that annotates weakening words in the English `.tex` files; the configuration is in `.textlintrc.json`. The example and writing-hint texts were revised accordingly.
+- The generated `check.yml` of the LaTeX templates has a report-only `textlint` job ([write-good](https://github.com/btford/write-good) and terminology rules) that annotates weakening words in the English `.tex` files ("only" is allowed); the configuration is in `.textlintrc.json`. The example and writing-hint texts were revised accordingly.
 - Theses (`scientific-thesis`, `ustutt`) come with a hand-in checklist (`docs/thesis-checklist.md`), and their README and writing hints recommend the open-access book [Student Thesis Projects](https://vdf.ch/product/student-thesis-projects-en.html). The writing hints now also explain how to serve both readers who read from beginning to end and readers who open the thesis anywhere.
 
 ### Changed
