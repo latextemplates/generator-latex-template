@@ -169,7 +169,7 @@ export default class extends Generator {
       this.props.Vref = "\\Vref";
     } else {
       this.props.cref = "\\zcref";
-      this.props.Cref = "\\zcref[S]";
+      this.props.Cref = "\\Zcref";
       this.props.vref = "\\zvref";
       this.props.Vref = "\\zvref[S]";
     }

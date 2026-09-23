@@ -15,7 +15,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- Cross-references now use [zref-clever](https://ctan.org/pkg/zref-clever) (`\zcref`, `\zcref[S]` at the start of a sentence) instead of [cleveref](https://ctan.org/pkg/cleveref), because zref-clever works with tagged (accessible) PDFs and cleveref does not fully. Theses use [zref-vario](https://ctan.org/pkg/zref-vario) (`\zvref`) for page-aware references. Type names follow the document language, so the German `\crefname` block is gone.
+- Cross-references now use [zref-clever](https://ctan.org/pkg/zref-clever) (`\zcref`, and `\Zcref` at the start of a sentence, a template-defined short form of `\zcref[S]`) instead of [cleveref](https://ctan.org/pkg/cleveref), because zref-clever works with tagged (accessible) PDFs and cleveref does not fully. Theses use [zref-vario](https://ctan.org/pkg/zref-vario) (`\zvref`) for page-aware references. Type names follow the document language, so the German `\crefname` block is gone.
 
 ## [2026.7.29]
 
