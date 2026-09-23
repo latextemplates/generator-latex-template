@@ -11,6 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - New `--crossref` CLI flag: `zref-clever` (default) or `cleveref` (the previous behavior).
+- Theses (`scientific-thesis`, `ustutt`) come with a hand-in checklist (`docs/thesis-checklist.md`), and their README and writing hints recommend the open-access book [Student Thesis Projects](https://vdf.ch/product/student-thesis-projects-en.html). The writing hints now also explain how to serve both readers who read from beginning to end and readers who open the thesis anywhere.
 
 ### Changed
 
