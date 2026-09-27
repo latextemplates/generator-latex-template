@@ -241,6 +241,7 @@ See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomme
 
 - `generators/app/templates/splncs04nat.bst` is taken from [tpavlic/splncs04nat](https://github.com/tpavlic/splncs04nat) and is MIT-licensed.
 - `generators/app/templates/logos/`: This directory contains logos, which have special licenses.
+- `generators/app/templates/figures/ulm-minster.jpg` is [Landappbw 79389 1820 Ulmer Münster Ulm.jpg](https://commons.wikimedia.org/w/index.php?curid=131463041) by wkrauth, dedicated to the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
 
 [hyperref]: https://ctan.org/pkg/hyperref
 [listings]: https://ctan.org/pkg/listings
