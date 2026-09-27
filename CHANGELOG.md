@@ -13,7 +13,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - IEEE: a commented-out `\pagestyle{plain}` after `\maketitle` for page numbers in submissions, reviews, and non-IEEE use; the IEEE camera-ready version stays without page numbers.
 - IEEE: the README explains how to use the template for a term paper at Technische Hochschule Ulm (THU).
 - The figure examples show how to include a JPEG photo (`figures/ulm-minster.jpg`, CC0 from Wikimedia Commons).
-- Papers: the "Related Work" section links [ScienceOS](https://www.scienceos.ai/) (EU-hosted) for searching related work, and writing hints ([Student Thesis Projects](https://vdf.ch/product/student-thesis-projects-en.html) and [Writing for Computer Science](https://doi.org/10.1007/978-1-4471-6639-9)).
+- Papers: the "Related Work" section points to [ScienceOS](https://www.scienceos.ai/) (EU-hosted) for searching related work and to writing hints in [Student Thesis Projects](https://vdf.ch/product/student-thesis-projects-en.html) and [Writing for Computer Science](https://doi.org/10.1007/978-1-4471-6639-9). Each title is a clickable link, and its URL is also given in a footnote.
 
 ### Fixed
 
