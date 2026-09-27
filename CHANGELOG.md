@@ -13,6 +13,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - IEEE: a commented-out `\pagestyle{plain}` after `\maketitle` for page numbers in submissions, reviews, and non-IEEE use; the IEEE camera-ready version stays without page numbers.
 - IEEE: the README explains how to use the template for a term paper at Technische Hochschule Ulm (THU).
 
+### Fixed
+
+- With `listings`, long code lines without spaces (e.g., `\includegraphics[width=.4\linewidth]{example-image-a}`) in the "Corresponding LaTeX code" boxes are now wrapped instead of running out of the box.
+
 ## [2026.9.23]
 
 ### Added
