@@ -18,6 +18,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - With `listings`, long code lines without spaces (e.g., `\includegraphics[width=.4\linewidth]{example-image-a}`) in the "Corresponding LaTeX code" boxes are now wrapped instead of running out of the box.
+- Fixed typos in the example and writing-hint texts ("been solved", "Three", "Parameter", "gleitende", "Absätze").
 
 ## [2026.9.23]
 
