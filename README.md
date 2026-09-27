@@ -231,7 +231,7 @@ ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generato
    Use [release-it](https://www.npmjs.com/package/release-it) (do not create a release on GitHub) and [github-release-from-changelog](https://www.npmjs.com/package/github-release-from-changelog).
 
    - `npx release-it`
-   - `npx github-release-from-changelog`
+   - `GITHUB_TOKEN=$(gh auth token) npx github-release-from-changelog` (Git Bash; it needs a GitHub token, which the logged-in `gh` CLI provides)
 5. On `main`, run `scripts/end-new-cycle.sh`, then **squash-merge** each template's "Update LTG" PR once it is green.
 
 ## License
