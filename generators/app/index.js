@@ -348,6 +348,14 @@ export default class extends Generator {
       );
     }
 
+    // Photo for the JPEG example in floats.example.*.tex (CC0, see README)
+    if (this.props.examples) {
+      this.fs.copy(
+        this.templatePath("figures/ulm-minster.jpg"),
+        this.destinationPath("figures/ulm-minster.jpg"),
+      );
+    }
+
     if (this.props.language === "de" && !this.props.githubpublish) {
       this.fs.copyTpl(
         this.templatePath("README.de.md"),
