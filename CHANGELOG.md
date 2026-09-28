@@ -12,8 +12,13 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Theses (`scientific-thesis`, `ustutt`) have an appendix "Use of AI Tools" with the example table from the [layout requirements of the CS department of the University of Stuttgart](https://www.f05.uni-stuttgart.de/informatik/dokumente/Formulare/Formvorgaben-Abschlussarbeiten_en.pdf), as required by its new declaration. [scientific-thesis-template#191](https://github.com/latextemplates/scientific-thesis-template/issues/191)
 
+### Changed
+
+- `latexmkrc` is organized in sections and lists commented alternatives for continuous preview (`-pvc`), the job name, and the PDF viewer (e.g., evince).
+
 ### Fixed
 
+- `latexmk -pv` opens the PDF on Linux and macOS: the SumatraPDF viewer is only configured on Windows.
 - German `scientific-thesis` documents use the German title page and declaration (they used the English ones).
 
 ## [2026.9.28]
