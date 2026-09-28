@@ -14,7 +14,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- `latexmkrc` is organized in sections and lists commented alternatives for continuous preview (`-pvc`), the job name, and the PDF viewer (e.g., evince).
+- The generated `latexmkrc` is organized in sections and lists commented-out alternatives for continuous preview (`-pvc`), the job name, and the PDF viewer (e.g., evince). [#141](https://github.com/latextemplates/scientific-thesis-template/issues/141)
 
 ### Fixed
 
