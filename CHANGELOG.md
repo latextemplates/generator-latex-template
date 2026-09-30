@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- Theses (`scientific-thesis`, `ustutt`) have an appendix "Use of AI Tools" with the example table from the [layout requirements of the CS department of the University of Stuttgart](https://www.f05.uni-stuttgart.de/informatik/dokumente/Formulare/Formvorgaben-Abschlussarbeiten_en.pdf), as required by its new declaration. [scientific-thesis-template#191](https://github.com/latextemplates/scientific-thesis-template/issues/191)
+
+### Changed
+
+- The generated `latexmkrc` is organized in sections and lists commented-out alternatives for continuous preview (`-pvc`), the job name, and the PDF viewer (e.g., evince). [#141](https://github.com/latextemplates/scientific-thesis-template/issues/141)
+
+### Fixed
+
+- `latexmk -pv` opens the PDF on Linux and macOS: the SumatraPDF viewer is only configured on Windows.
+- German `scientific-thesis` documents use the German title page and declaration (they used the English ones).
+
 ## [2026.9.28]
 
 ### Added
