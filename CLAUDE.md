@@ -113,6 +113,17 @@ layout is a hard requirement.
    **`latex-snippets` needs no action here** — it is outside the cycle scripts, and Dependabot
    + `automerge.yml` bump its `generator-latex-template` submodule to the new release tag on
    their own (see the `latex-snippets` bullet under "Repo roles"). Just confirm it landed.
+5. **Release the templates** — **the cycle is not done until this step ran**; it was
+   forgotten after 2026.9.28 and 2026.10.1, leaving the templates' `## [Unreleased]`
+   unreleased since 2026-07-30. After the "Update LTG" PRs are merged, for **every**
+   consuming template whose `main` CHANGELOG has a non-empty `## [Unreleased]`, on its
+   `main` (pulled): rename `## [Unreleased]` to `## [<YYYY-MM-DD>]` (today; templates use
+   dashed dates, unlike the generator's dotted CalVer), bump
+   `[Unreleased]: …/compare/<date>...HEAD`, add
+   `[<date>]: …/compare/<prev>...<date>`, run heylogs, commit "Release <date>", tag
+   `<date>`, push commit + tag, and create the GitHub release with that CHANGELOG section
+   as body (`gh release create <date> --title <date> --notes-file <section.md>`).
+   See tag `2026-07-30` in any template for the reference commit.
 
 The list of variants (documentclasses, `texlives`, fonts, …) is defined in **two places
 that must be kept in sync**: the top of `.github/generate-workflows.py` (drives the LaTeX
@@ -121,7 +132,9 @@ TeX Live year means adding it to `texlives` in **both** (already `[2025, 2026]`)
 
 **Identifying mid-cycle state:** if this repo has an open `refine-ltg` PR and the templates
 have open `update-ltg` "Update LTG" PRs, a cycle is in progress — continue on `refine-ltg`,
-propagate with `spread-updates.sh`, then release + `end-new-cycle.sh`. (The committed
+propagate with `spread-updates.sh`, then release + `end-new-cycle.sh` + template releases
+(step 5). If no cycle is in progress but a template's `main` CHANGELOG has entries under
+`## [Unreleased]` from merged "Update LTG" PRs, step 5 was skipped — do it first. (The committed
 workflow set is lean in normal state too, so it is no longer a cycle signal.)
 
 ## CI & testing in this repo
