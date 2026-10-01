@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- Theses show a listing spanning multiple pages (`listings` and `minted`), demonstrating that only non-floating listings can break across pages. [scientific-thesis-template#96](https://github.com/latextemplates/scientific-thesis-template/issues/96)
+
 ## [2026.10.1]
 
 ### Added
