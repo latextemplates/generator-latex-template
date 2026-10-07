@@ -291,7 +291,7 @@
 <% if (useExampleEnvironment) { -%>
 \usepackage[realmainfile]{currfile}
 \usepackage{tcolorbox}
-\tcbuselibrary{<%= listings %>}
+\tcbuselibrary{<%= listings %><% if (twocolumn) { %>,breakable<% } %>}
 <% } -%>
 <% } -%>
 
@@ -1129,6 +1129,10 @@ Weitere Hinweise gibt \href{https://doi.org/10.1007/978-1-4471-6639-9}{\emph{Wri
 {\LTGendlineexample=\numexpr\inputlineno-1\relax%
   \tcbinputlisting{%
     listing only,
+<% if (twocolumn) { -%>
+    % Über Spalten und Seiten umbrechen. Eine nicht umbrechbare Box ragt in die Gleitobjekte oder den unteren Rand, wenn die Gleitobjekte einer Seite den schmalen Spalten zu wenig Platz lassen
+    breakable,
+<% } -%>
     listing file=\currfilepath,
     colback=green!5!white,
     colframe=green!25,

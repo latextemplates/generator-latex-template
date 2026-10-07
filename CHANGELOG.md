@@ -12,6 +12,11 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Theses show a listing spanning multiple pages (`listings` and `minted`), demonstrating that only non-floating listings can break across pages. [scientific-thesis-template#96](https://github.com/latextemplates/scientific-thesis-template/issues/96)
 
+### Fixed
+
+- In two-column documents (IEEE, ACM `sigconf`/`sigplan`/`acmtog`), the "Corresponding LaTeX code" boxes of the examples break across columns and pages. An unbreakable box overflowed into the floats or the bottom margin when the floats of a page left the narrow columns too little room, which overlapped the sub-figure examples in the IEEE `minted` variant.
+- IEEE: the sub-figure examples place their `figure*` at the top of the page (`[!t]`, as in IEEEtran's `bare_conf.tex`) instead of the bottom (`[!b]`). With `[!b]`, `stfloats` placed both figures at the bottom of a page whose top already held the 16x9 figure, leaving the columns almost no room for text.
+
 ## [2026.10.1]
 
 ### Added
