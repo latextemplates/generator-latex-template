@@ -21,6 +21,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - In two-column documents (IEEE, ACM `sigconf`/`sigplan`/`acmtog`), the "Corresponding LaTeX code" boxes of the examples break across columns and pages. An unbreakable box overflowed into the floats or the bottom margin when the floats of a page left the narrow columns too little room, which overlapped the sub-figure examples in the IEEE `minted` variant.
 - IEEE: the sub-figure examples place their `figure*` at the top of the page (`[!t]`, as in IEEEtran's `bare_conf.tex`) instead of the bottom (`[!b]`). With `[!b]`, `stfloats` placed both figures at the bottom of a page whose top already held the 16x9 figure, leaving the columns almost no room for text.
+- IEEE: the two columns of the last page are balanced by the [flushend](https://ctan.org/pkg/flushend) package, also when the text ends in the first column. The `balance` package was loaded but never used, and a `\balance` added by hand failed with "You have called `\balance` in second column" whenever the text reached the second column; `pbalance` does not work together with `stfloats`. [ieee-enhanced#24](https://github.com/latextemplates/ieee-enhanced/issues/24)
 
 ## [2026.10.1]
 
