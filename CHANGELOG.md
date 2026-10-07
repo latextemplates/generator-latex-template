@@ -15,6 +15,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Changed
 
 - The example and paper-structure texts avoid words that textlint's `write-good` rule flags (`Finally`, `rarely`, `a few`, `just`, `several`), so a fresh paper has no textlint annotations. A sentence-initial `Finally,` is allowed in `.textlintrc.json`, because it marks a sequence rather than weakening a statement.
+- The writing hints of the theses (the abstract guide and the chapter-structure hints) avoid the words `write-good` flags (`usually`, `various`, `likely`, `quickly`, …), so a fresh thesis has no textlint annotations either.
 
 ### Fixed
 
