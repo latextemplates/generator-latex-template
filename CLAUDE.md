@@ -70,7 +70,9 @@ layout is a hard requirement.
 
 1. **Begin** — on `refine-ltg`: run `scripts/begin-new-cycle.sh`. For each template:
    reset to `main`, create `update-ltg`, point its submodule at this repo's `refine-ltg`,
-   commit "Begin refinement", push, and open a **draft** PR titled "Update LTG".
+   commit "Begin refinement", push, and open a **draft** PR titled "Update LTG" whose
+   description links this repo's open `refine-ltg` PR ("Based on …"); if that PR does not
+   exist yet, `spread-updates.sh` adds the link later.
    This repo's own committed workflows are already lean (`check-make.yml`,
    `check-changelog.yml`, `test.yml`, `automerge.yml`) — the per-variant LaTeX `check-*.yml`
    matrix is **no longer committed** (see "CI & testing in this repo" below), so there is
@@ -79,7 +81,9 @@ layout is a hard requirement.
    default, edit `generators/app/templates/...`, the workflows, or `Texlivefile`). After
    each meaningful change run `scripts/spread-updates.sh` (on `refine-ltg`): pushes
    `refine-ltg` and resets every template's submodule to `origin/refine-ltg`, commits
-   "Update LTG", pushes. The draft "Update LTG" PRs then show regenerated output and run
+   "Update LTG", pushes, and makes sure each template's "Update LTG" PR description links
+   this repo's open `refine-ltg` PR (idempotent — so open that PR early, or re-run the
+   script after opening it). The draft "Update LTG" PRs then show regenerated output and run
    CI (the lean committed workflows). Iterate until CI is green.
 3. **Verify generation** — the switch-combination coverage is the `npm test` generation
    check (pairwise) and `npm run test:all` (full matrix); confirm these are green for the

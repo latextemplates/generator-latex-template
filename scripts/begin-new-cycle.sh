@@ -12,6 +12,16 @@ fi
 
 echo "Current branch is 'refine-ltg'. Continuing..."
 
+# The description of each template's "Update LTG" pull request links the generator's
+# refine-ltg pull request (if it is open already; otherwise spread-updates.sh adds the link).
+generator_pr_url=$(gh pr list --head refine-ltg --state open --json url --jq '.[0].url // empty')
+if [ -z "$generator_pr_url" ]; then
+  echo "Note: generator-latex-template has no open pull request for refine-ltg yet; scripts/spread-updates.sh links it in the template PRs once it exists." >&2
+  pr_body=""
+else
+  pr_body="Based on $generator_pr_url (generator-latex-template, branch refine-ltg)."
+fi
+
 cd ..
 
 for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
@@ -48,7 +58,7 @@ for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation
   echo "$template"
   cd "$template"
   echo "Creating draft pull request..."
-  gh pr create --draft --title "Update LTG" --body ""
+  gh pr create --draft --title "Update LTG" --body "$pr_body"
   cd ..
   echo ""
 done
