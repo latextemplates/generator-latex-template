@@ -12,6 +12,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Theses show a listing spanning multiple pages (`listings` and `minted`), demonstrating that only non-floating listings can break across pages. [scientific-thesis-template#96](https://github.com/latextemplates/scientific-thesis-template/issues/96)
 
+### Changed
+
+- The example and paper-structure texts avoid words that textlint's `write-good` rule flags (`Finally`, `rarely`, `a few`, `just`, `several`), so a fresh paper has no textlint annotations. A sentence-initial `Finally,` is allowed in `.textlintrc.json`, because it marks a sequence rather than weakening a statement.
+
 ### Fixed
 
 - In two-column documents (IEEE, ACM `sigconf`/`sigplan`/`acmtog`), the "Corresponding LaTeX code" boxes of the examples break across columns and pages. An unbreakable box overflowed into the floats or the bottom margin when the floats of a page left the narrow columns too little room, which overlapped the sub-figure examples in the IEEE `minted` variant.
