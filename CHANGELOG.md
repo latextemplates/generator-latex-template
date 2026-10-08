@@ -23,6 +23,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - IEEE: the sub-figure examples place their `figure*` at the top of the page (`[!t]`, as in IEEEtran's `bare_conf.tex`) instead of the bottom (`[!b]`). With `[!b]`, `stfloats` placed both figures at the bottom of a page whose top already held the 16x9 figure, leaving the columns almost no room for text.
 - IEEE: the two columns of the last page are balanced by the [flushend](https://ctan.org/pkg/flushend) package, also when the text ends in the first column. The `balance` package was loaded but never used, and a `\balance` added by hand failed with "You have called `\balance` in second column" whenever the text reached the second column; `pbalance` does not work together with `stfloats`. [ieee-enhanced#24](https://github.com/latextemplates/ieee-enhanced/issues/24)
 - IEEE, ACM: the code listing of the diagonal-table example (`diagbox`) no longer runs out of the column. The table has a short first cell now; before, latexindent's column alignment put 71 spaces of padding in front of `& foo & bar`, and minted repeated them on every wrapped line of the listing.
+- ACM: the paragraph and hyphenation examples no longer run out of the column. The link to Andrew Stacey's *Document Revision System* is a clickable title with the URL in a footnote (a line holding only a URL cannot stretch, so TeX let it stick out), and the `\verb` snippets are short (`\allowbreak{}`, `"=`), because verbatim text cannot break.
 
 ## [2026.10.1]
 
