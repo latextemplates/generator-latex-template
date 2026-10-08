@@ -70,7 +70,9 @@ layout is a hard requirement.
 
 1. **Begin** — on `refine-ltg`: run `scripts/begin-new-cycle.sh`. For each template:
    reset to `main`, create `update-ltg`, point its submodule at this repo's `refine-ltg`,
-   commit "Begin refinement", push, and open a **draft** PR titled "Update LTG".
+   commit "Begin refinement", push, and open a **draft** PR titled "Update LTG" whose
+   description links this repo's open `refine-ltg` PR ("Based on …"); if that PR does not
+   exist yet, `spread-updates.sh` adds the link later.
    This repo's own committed workflows are already lean (`check-make.yml`,
    `check-changelog.yml`, `test.yml`, `automerge.yml`) — the per-variant LaTeX `check-*.yml`
    matrix is **no longer committed** (see "CI & testing in this repo" below), so there is
@@ -79,8 +81,13 @@ layout is a hard requirement.
    default, edit `generators/app/templates/...`, the workflows, or `Texlivefile`). After
    each meaningful change run `scripts/spread-updates.sh` (on `refine-ltg`): pushes
    `refine-ltg` and resets every template's submodule to `origin/refine-ltg`, commits
-   "Update LTG", pushes. The draft "Update LTG" PRs then show regenerated output and run
+   "Update LTG", pushes, and makes sure each template's "Update LTG" PR description links
+   this repo's open `refine-ltg` PR (idempotent — so open that PR early, or re-run the
+   script after opening it). The draft "Update LTG" PRs then show regenerated output and run
    CI (the lean committed workflows). Iterate until CI is green.
+   Keep this repo's `refine-ltg` PR description current: it summarizes the cycle and
+   **links every issue the cycle fixes** (the same `[repo#N]` references as the CHANGELOG),
+   so the PR shows what it resolves without reading the CHANGELOG.
 3. **Verify generation** — the switch-combination coverage is the `npm test` generation
    check (pairwise) and `npm run test:all` (full matrix); confirm these are green for the
    change. The full per-variant **LaTeX compile** matrix is no longer committed — if you
@@ -113,6 +120,17 @@ layout is a hard requirement.
    **`latex-snippets` needs no action here** — it is outside the cycle scripts, and Dependabot
    + `automerge.yml` bump its `generator-latex-template` submodule to the new release tag on
    their own (see the `latex-snippets` bullet under "Repo roles"). Just confirm it landed.
+5. **Release the templates** — **the cycle is not done until this step ran**; it was
+   forgotten after 2026.9.28 and 2026.10.1, leaving the templates' `## [Unreleased]`
+   unreleased since 2026-07-30. After the "Update LTG" PRs are merged, for **every**
+   consuming template whose `main` CHANGELOG has a non-empty `## [Unreleased]`, on its
+   `main` (pulled): rename `## [Unreleased]` to `## [<YYYY-MM-DD>]` (today; templates use
+   dashed dates, unlike the generator's dotted CalVer), bump
+   `[Unreleased]: …/compare/<date>...HEAD`, add
+   `[<date>]: …/compare/<prev>...<date>`, run heylogs, commit "Release <date>", tag
+   `<date>`, push commit + tag, and create the GitHub release with that CHANGELOG section
+   as body (`gh release create <date> --title <date> --notes-file <section.md>`).
+   See tag `2026-07-30` in any template for the reference commit.
 
 The list of variants (documentclasses, `texlives`, fonts, …) is defined in **two places
 that must be kept in sync**: the top of `.github/generate-workflows.py` (drives the LaTeX
@@ -121,7 +139,9 @@ TeX Live year means adding it to `texlives` in **both** (already `[2025, 2026]`)
 
 **Identifying mid-cycle state:** if this repo has an open `refine-ltg` PR and the templates
 have open `update-ltg` "Update LTG" PRs, a cycle is in progress — continue on `refine-ltg`,
-propagate with `spread-updates.sh`, then release + `end-new-cycle.sh`. (The committed
+propagate with `spread-updates.sh`, then release + `end-new-cycle.sh` + template releases
+(step 5). If no cycle is in progress but a template's `main` CHANGELOG has entries under
+`## [Unreleased]` from merged "Update LTG" PRs, step 5 was skipped — do it first. (The committed
 workflow set is lean in normal state too, so it is no longer a cycle signal.)
 
 ## CI & testing in this repo

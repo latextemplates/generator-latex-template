@@ -13,6 +13,33 @@ fi
 
 git push
 
+# The description of each template's "Update LTG" pull request links the generator's
+# refine-ltg pull request, so that reviewers find the changes of the cycle.
+generator_pr_url=$(gh pr list --head refine-ltg --state open --json url --jq '.[0].url // empty')
+if [ -z "$generator_pr_url" ]; then
+  echo "Warning: generator-latex-template has no open pull request for refine-ltg; the template PRs will not link it. Re-run this script after opening it." >&2
+fi
+
+# Add the link to the generator PR to the description of the current template's open
+# "Update LTG" pull request, unless the description contains it already.
+link_generator_pr() {
+  local number body
+  number=$(gh pr list --head update-ltg --state open --json number --jq '.[0].number // empty')
+  if [ -z "$number" ]; then
+    echo "Warning: no open pull request for update-ltg; cannot link $generator_pr_url" >&2
+    return 0
+  fi
+  body=$(gh pr view "$number" --json body --jq '.body')
+  case "$body" in
+    *"$generator_pr_url"*) return 0 ;;
+  esac
+  if [ -n "$body" ]; then
+    body="$body"$'\n\n'
+  fi
+  gh pr edit "$number" --body "${body}Based on $generator_pr_url (generator-latex-template, branch refine-ltg)."
+  echo "Linked $generator_pr_url in pull request #$number"
+}
+
 cd ..
 
 for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
@@ -52,6 +79,9 @@ for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation
   git add generator-latex-template
   git commit -m"Update LTG" || true
   git push
+  if [ -n "$generator_pr_url" ]; then
+    link_generator_pr
+  fi
   cd ..
   echo ""
 done

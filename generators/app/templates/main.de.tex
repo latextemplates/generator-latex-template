@@ -56,9 +56,18 @@
 % For the final version, replace "draftcls" by "final"
 \documentclass[<%= ieeevariant %>,<%= papersize %>paper,ngerman]{IEEEtran}[2015/08/26]
 
-% Balance the last page using the balance package (see https://ctan.org/pkg/balance)
-% Alternative to balance is the pbalance package (see https://ctan.org/pkg/pbalance), which sometimes works better
-\usepackage{balance}
+% Balance the columns on the last page using the flushend package (see https://ctan.org/pkg/flushend).
+% It needs no command in the text.
+% The balance package (see https://ctan.org/pkg/balance) needs \balance in the first column of the last page, otherwise it warns "You have called \balance in second column".
+% The pbalance package (see https://ctan.org/pkg/pbalance) does not work together with stfloats, which is loaded for \fnbelowfloat.
+% IEEEtran's own way is \IEEEtriggeratref, see the bibliography section at the end of this file.
+\usepackage{flushend}
+% flushend activates its balancing output routine only right before the final \clearpage, which is too late in some documents (e.g., the German example paper under LuaLaTeX): the last page is shipped out before. Thus, \flushcolsend activates it already here.
+% flushend only balances when the text of the last page reaches the second column.
+% If the text ends in the first column, end that column and put an empty box into the second one, so that flushend distributes the text over both columns.
+\makeatletter
+\AtEndDocument{\flushcolsend\if@firstcolumn\ifdim\pagetotal>\z@\newpage\hbox to\columnwidth{}\fi\fi}
+\makeatother
 
 <% break; case "scientific-thesis": -%>
 
@@ -291,7 +300,7 @@
 <% if (useExampleEnvironment) { -%>
 \usepackage[realmainfile]{currfile}
 \usepackage{tcolorbox}
-\tcbuselibrary{<%= listings %>}
+\tcbuselibrary{<%= listings %><% if (twocolumn) { %>,breakable<% } %>}
 <% } -%>
 <% } -%>
 
@@ -609,7 +618,7 @@ Kurzfassung der Arbeit.
   In one sentence, what’s the topic?
   Phrase it in a way that your reader will understand.
   If you’re writing a PhD thesis, your readers are the examiners – assume they are familiar with the general field of research, so you need to tell them specifically what topic your thesis addresses.
-  Same advice works for scientific papers – the readers are the peer reviewers, and eventually others in your field interested in your research, so again they know the background work, but want to know specifically what topic your paper covers.
+  Same advice works for scientific papers – the readers are the peer reviewers, and later others in your field interested in your research, so again they know the background work, but want to know specifically what topic your paper covers.
 
   \emph{State the problem you tackle.}
   What’s the key research question?
@@ -620,12 +629,12 @@ Kurzfassung der Arbeit.
   Keep working at this step until you have a single, concise (and understandable) question.
 
   \emph{Summarize (in one sentence) why nobody else has adequately answered the research question yet.}
-  For a PhD thesis, you’ll have an entire chapter, covering what’s been done previously in the literature.
+  For a PhD thesis, you’ll have an entire chapter, covering the prior work in the literature.
   Here you have to boil that down to one sentence.
-  But remember, the trick is not to try and cover all the various ways in which people have tried and failed; the trick is to explain that there’s this one particular approach that nobody else tried yet (hint: it’s the thing that your research does).
+  But remember, the trick is not to try and cover all the ways in which people have tried and failed; the trick is to explain that there’s this one particular approach that nobody else tried yet (hint: it’s the thing that your research does).
   But here you’re phrasing it in such a way that it’s clear it’s a gap in the literature.
   So use a phrase such as “previous work has failed to address…”.
-  (if you’re writing a more general essay, you still need to summarize the source material you’re drawing on, so you can pull the same trick – explain in a few words what the general message in the source material is, but expressed in terms of what’s missing)
+  (if you’re writing a more general essay, you still need to summarize the source material you’re drawing on, so you can pull the same trick – explain in one sentence what the general message in the source material is, but expressed in terms of what’s missing)
 
   \emph{Explain, in one sentence, how you tackled the research question.}
   What’s your big new idea?
@@ -636,11 +645,11 @@ Kurzfassung der Arbeit.
   Did you run experiments?
   Build a piece of software?
   Carry out case studies?
-  This is likely to be the longest sentence, especially if it’s a PhD thesis – after all you’re probably covering several years worth of research.
+  This tends to be the longest sentence, above all in a PhD thesis, which covers years of research.
   But don’t overdo it – we’re still looking for a sentence that you could read aloud without having to stop for breath.
   Remember, the word ‘abstract’ means a summary of the main ideas with most of the detail left out.
   So feel free to omit detail!
-  (For those of you who got this far and are still insisting on writing an essay rather than signing up for a PhD, this sentence is really an elaboration of sentence 4 – explore the consequences of your new perspective).
+  (For those of you who got this far and are still insisting on writing an essay rather than signing up for a PhD, this sentence elaborates on sentence 4 – explore the consequences of your new perspective).
 
   \emph{As a single sentence, what’s the key impact of your research?
     Here we’re not looking for the outcome of an experiment.
@@ -776,7 +785,7 @@ A scientific argument always has the following steps that all must come in this 
   \item[SM6] \emph{Now interpret your results} by contextualizing the measurements and drawing conclusion that lead to answering your research problem or defining further follow-up research problems.
 \end{itemize}
 %
-This template will mark various parts of the structure with SM1-SM6 to recall to you which step of a scientific argument is used and where.
+This template marks the parts of the structure with SM1-SM6 to recall to you which step of a scientific argument is used and where.
 
 \emph{Purpose and scope of <%- cref %>{sec:introduction}}.
 The introduction chapter is a summary of your work and your scientific argument that must be understandable to anyone in your scientific field, e.g., anyone in Data Science.
@@ -789,14 +798,14 @@ Section~\ref{sec:introduction:results} then presents the results and their inter
 A reader should need to read further only if they are not convinced or need more details to reproduce your study.
 The individual chapters and sections provide the details for each of the steps in your scientific argument.
 
-You usually write the introduction chapter \emph{after} you wrote all other chapters, but you should keep on making notes for each of the sections as you write the later chapters.
+Write the introduction chapter \emph{after} you wrote all other chapters, but you should keep on making notes for each of the sections as you write the later chapters.
 .
 
 \emph{Purpose and scope of the introduction paragraph to a chapter}.
 The paragraph you are reading above is a typical introductory paragraph to a chapter.
 It is a high-level summary of the chapters' topic (SM1 and SM2).
 It gives the reader some guidance by breaking down the chapter topic into subtopics that are named (SM3) in the right order with forward references to the corresponding sections (SM4).
-It may close with announcing the result you obtain (SM6) but this is usually not done in the opening paragraph of the introduction.
+It may close with announcing the result you obtain (SM6) but the opening paragraph of the introduction is not the place for it.
 
 \emph{Zwei Arten von Lesenden}.
 Die Arbeit soll sich von vorne bis hinten lesen lassen: Jeder Begriff wird eingeführt, bevor er verwendet wird.
@@ -832,7 +841,7 @@ This introduction has to
 \end{itemize}
 
 You have to provide citations/literature references for each of the statements and claims you are making.
-This section is usually a summary of the related work discussion in <%- cref %>{sec:background}.
+This section summarizes the related work discussion in <%- cref %>{sec:background}.
 
 At the end of this section, you have established a \emph{knowledge gap} between the state of the art and the general objective you developed in <%- cref %>{sec:introduction:topic}.
 \emph{Stating a (knowledge) gap between a status quo and a desired situation is the \emph{first step} of a writing scientific argument.}
@@ -843,7 +852,7 @@ At the end of this section, you have established a \emph{knowledge gap} between 
 
 \emph{Purpose and scope}.
 In this section you state in which way you will address the knowledge gap you identified at the end of <%- cref %>{sec:introduction:state-of-art}.
-You usually cannot address and resolve the entire knowledge gap in your work.
+One work cannot address and resolve the entire knowledge gap.
 The purpose of this section is to detail the specific part of the knowledge that you will address.
 You thereby make all the assumptions explicit that underlie your work (``in this report we focus on genomes of female giraffes who lived in the years 1950-2000 in South Africa'').
 
@@ -854,7 +863,7 @@ Your general research question states
   \item and the evaluation criteria that will determine whether you are successful (``...that are present in at least 75\% of the studied giraffes'')
 \end{itemize}
 
-You will usually break your general research question down into sub-research questions.
+Break your general research question down into sub-research questions.
 You may do this here.
 The sub-research questions have to form a chain that take you in smaller steps from the starting point/assumptions of your general research question to your final objective and evaluation.
 
@@ -876,7 +885,7 @@ In each paragraph you first briefly explain the concept of the step in your meth
 
 \emph{Purpose and scope}.
 You close the introduction by stating the evaluation setup you designed to evaluate the success of your study regarding the research objective, which comes in two steps.
-It is most likely a summary of your evaluation in <%- cref %>{sec:evaluation}.
+It summarizes your evaluation in <%- cref %>{sec:evaluation}.
 
 <%= heading2 %>*{Results (SM5)}
 
@@ -885,9 +894,9 @@ You state the evaluation method that is in line with your research question from
 <%= heading2 %>*{Interpretation (SM6)}
 
 You summarize your interpretation of the results and draw conclusions.
-State whether and to which degree the research question from <%- cref %>{sec:introduction:research-question} has been answered successfully or not.
+State whether, and to which degree, the research question from <%- cref %>{sec:introduction:research-question} has been answered.
 
-Finally state briefly how much closer society and science have come in answering the general objective you outlined in <%- cref %>{sec:introduction:topic}.
+Close by stating how much closer society and science have come in answering the general objective you outlined in <%- cref %>{sec:introduction:topic}.
 
 %%% ===============================================================================
 \section{Background (SM1)}\label{sec:background}
@@ -952,7 +961,7 @@ provide details based on <%- cref %>{sec:problem-exposition:context-understandin
 
 \emph{Purpose and scope}.
 After you stated research context (SM1), research problem (SM2), and research method (SM3) in <%- cref %>{sec:introduction} and possibly <%- cref %>{sec:problem-exposition}, the remainder of your entire report addresses execution (SM4), results (SM5), and interpretation (SM6).
-You usually do this by addressing various sub-problems again through scientific arguments following the 6 steps SM1-SM6.
+Do this by addressing the sub-problems through scientific arguments that follow the 6 steps SM1-SM6.
 
 Have a short chapter introduction that recalls and explains the first research problem of your thesis.
 The problem has to show up in the introduction in <%- cref %>{sec:introduction:research-question} or in <%- cref %>{sec:problem-exposition:research-problems} already.
@@ -980,7 +989,7 @@ if certain details take too much space.
 
 \emph{The third, fourth, and following paragraph provides details on applying the method or developing a new approach, i.e., execution (SM4) and may explain results (SM5)}, i.e. details on the steps needed to reproduce the results.
 
-Results (SM5) can come in many forms, e.g., conceptual diagrams, algorithms, tables, charts, a list of articles from a literature research etc. You must reference them (``<%- cref %>{fig:my_label} shows.
+Results (SM5) come in different forms, e.g., conceptual diagrams, algorithms, tables, charts, a list of articles from a literature research etc. You must reference them (``<%- cref %>{fig:my_label} shows.
 ..'') and describe the results in text.
 If you use diagrams, tables, or charts, you cannot expect the reader to know what to you expect them to see in a diagram, table or chart.
 Describe to them how to read these, explain the meaning of particular elements, point out special observations.
@@ -998,7 +1007,7 @@ Make use of appendices if certain details take too much space.
 Here you can infer what a particular observation means (for you), how it can be applied, or what others can do with it.
 Do not interpret your results before you have described all of them.
 This is a common mistake done by most beginner writers.
-You want to quickly get to the point, which is the final finding or interpretation.
+Get to the point: the final finding or interpretation.
 But you forget that your reader does not understand yet what you are interpreting - they do not know yet what you do know.
 Interpret the results only after describing all of them.
 The interpretation must be based on the written description only.
@@ -1129,6 +1138,10 @@ Weitere Hinweise gibt \href{https://doi.org/10.1007/978-1-4471-6639-9}{\emph{Wri
 {\LTGendlineexample=\numexpr\inputlineno-1\relax%
   \tcbinputlisting{%
     listing only,
+<% if (twocolumn) { -%>
+    % Über Spalten und Seiten umbrechen. Eine nicht umbrechbare Box ragt in die Gleitobjekte oder den unteren Rand, wenn die Gleitobjekte einer Seite den schmalen Spalten zu wenig Platz lassen
+    breakable,
+<% } -%>
     listing file=\currfilepath,
     colback=green!5!white,
     colframe=green!25,
@@ -1251,7 +1264,7 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 <%= heading1 %>{Zusammenfassung und Ausblick}\label{sec:conclusion}
 %%% ===============================================================================
 
-Your conclusions are not just a factual summary of your work, but they position, interpret, and defend your findings against the state of the art that you discussed in <%- cref %>{sec:introduction:state-of-art}.
+Your conclusions are more than a factual summary of your work: they position, interpret, and defend your findings against the state of the art that you discussed in <%- cref %>{sec:introduction:state-of-art}.
 You specifically outline which concrete findings or methodological contributions advance our knowledge towards the general objective you introduced in <%- cref %>{sec:introduction:topic}.
 Objectively discuss which parts you solved and in which parts you failed.
 
@@ -1343,7 +1356,7 @@ Hier bitte einen kurzen Durchgang durch die Arbeit.
 <% break; default: -%>
 <% break; } -%>
 <% if (isPaper) { -%>
-<%= indent %>Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which is placed just before the reference section in your document \cite{acmart}.
+<%= indent %>Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which comes right before the reference section in your document \cite{acmart}.
 <% if (howtotext) { -%>
 
 <%= indent %>The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology}{LaTeX template for Bachelor and Master theses at Eindhoven University of Technology}.

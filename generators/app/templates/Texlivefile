@@ -235,6 +235,9 @@ nowidow
 ntheorem
 <% } -%>
 paralist
+<% if (githubpublish || twocolumn) { -%>
+pdfcol<%# required by the tcolorbox library "breakable" (example boxes in two-column documents) %>
+<% } -%>
 pdfcomment
 pdfescape
 <% if (githubpublish || isThesis) { -%>
@@ -253,8 +256,8 @@ placeins
 <% if (githubpublish || (uml == "plantuml")) { -%>
 plantuml<%# plantuml.sty for the PlantUML UML example; the diagram also needs an external PlantUML install %>
 <% } -%>
-<% if ((documentclass == 'acmart') || (documentclass == 'ieee')) { -%>
-preprint<%# this includes balance%>
+<% if (documentclass == 'acmart') { -%>
+preprint<%# this includes balance, used by the acmart option "balance"%>
 <% } -%>
 <% if (githubpublish || isThesis) { -%>
 psnfss<%# provides pifont%>
@@ -290,7 +293,7 @@ soulpos
 spelling
 <% } -%>
 stringenc
-sttools<%# this includes stfloats; at least required by acmart, ieee, lncs, ustutt, scientific-thesis %>
+sttools<%# this includes stfloats (at least required by acmart, ieee, lncs, ustutt, scientific-thesis) and flushend (ieee: balances the columns on the last page) %>
 subfig
 svn-prov<%# at least required by acmart, ustutt, scientific-thesis%>
 <% if (githubpublish || isThesis) { -%>

@@ -1,10 +1,11 @@
 <%# \subfloat is defined by the subfig package -%>
+<%# IEEE: figure* at the top ([!t]) as in IEEEtran's bare_conf.tex. LaTeX cannot place a figure* at the bottom; stfloats (loaded for \fnbelowfloat) can, but with "!" it may leave the columns too little room. -%>
 <%= heading2 %>{Sub Figures}
 
 An example of two sub figures is shown in <%- cref %>{fig:two_sub_figures}.
 
 <%- bexample %>
-\begin{figure<% if (documentclass == 'ieee') { %>*<% } %>}[!b]
+\begin{figure<% if (documentclass == 'ieee') { %>*<% } %>}[<%= documentclass == 'ieee' ? '!t' : '!b' %>]
   \centering
   \subfloat[Case I]{\includegraphics[width=.4\linewidth]{example-image-a}%
     \label{fig:first_case}}
@@ -27,7 +28,7 @@ e.g., \verb+\subfloat[]+.
 An example is shown in <%- cref %>{fig:two_sub_figures_ieee}.
 
 <%- bexample %>
-\begin{figure*}[!b]
+\begin{figure*}[!t]
   \centering
   \subfloat[]{\includegraphics[width=.4\linewidth]{example-image-a}%
     \label{fig:first_case_ieee}}
