@@ -85,6 +85,9 @@ layout is a hard requirement.
    this repo's open `refine-ltg` PR (idempotent — so open that PR early, or re-run the
    script after opening it). The draft "Update LTG" PRs then show regenerated output and run
    CI (the lean committed workflows). Iterate until CI is green.
+   Keep this repo's `refine-ltg` PR description current: it summarizes the cycle and
+   **links every issue the cycle fixes** (the same `[repo#N]` references as the CHANGELOG),
+   so the PR shows what it resolves without reading the CHANGELOG.
 3. **Verify generation** — the switch-combination coverage is the `npm test` generation
    check (pairwise) and `npm run test:all` (full matrix); confirm these are green for the
    change. The full per-variant **LaTeX compile** matrix is no longer committed — if you
