@@ -111,7 +111,9 @@ layout is a hard requirement.
    `[Unreleased]:` link definitions are present and point at the right tags.
    Then cut the release (README → "Releasing a new version": `release-it` +
    `github-release-from-changelog` — version bump, npm publish, tag, GitHub release; this is
-   the only step that needs an interactive npm login + 2FA). Then, on `main`, run
+   the only step that needs an interactive npm login + 2FA). Confirm the publish with
+   `npm view generator-latex-template version`: 2026.10.1 was tagged and released on GitHub
+   but never reached npm. Then, on `main`, run
    `scripts/end-new-cycle.sh` — repoints every template's submodule to `origin/main` and
    commits/pushes. Finally, wait for each template's "Update LTG" PR to go green and
    **squash-merge** it. (Squash-merge throughout: it keeps `main` — and each template's
@@ -131,6 +133,8 @@ layout is a hard requirement.
    `<date>`, push commit + tag, and create the GitHub release with that CHANGELOG section
    as body (`gh release create <date> --title <date> --notes-file <section.md>`).
    See tag `2026-07-30` in any template for the reference commit.
+   `scripts/release-templates.sh <YYYY-MM-DD>` does all of this for every template with unreleased
+   entries; `--dry-run` shows the CHANGELOG diffs and the release notes first.
 
 The list of variants (documentclasses, `texlives`, fonts, …) is defined in **two places
 that must be kept in sync**: the top of `.github/generate-workflows.py` (drives the LaTeX

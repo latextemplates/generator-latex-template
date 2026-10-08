@@ -232,8 +232,10 @@ ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generato
    Use [release-it](https://www.npmjs.com/package/release-it) (do not create a release on GitHub) and [github-release-from-changelog](https://www.npmjs.com/package/github-release-from-changelog).
 
    - `npx release-it`
+   - Confirm the publish: `npm view generator-latex-template version` must print the new version (2026.10.1 was tagged and released on GitHub but never published to npm).
    - `GITHUB_TOKEN=$(gh auth token) npx github-release-from-changelog` (Git Bash; it needs a GitHub token, which the logged-in `gh` CLI provides)
 5. On `main`, run `scripts/end-new-cycle.sh`, then **squash-merge** each template's "Update LTG" PR once it is green.
+6. Release the templates: `scripts/release-templates.sh <YYYY-MM-DD>` (try `--dry-run` first) finalizes the CHANGELOG of every template with unreleased entries, commits "Release <date>", tags, pushes, and creates the GitHub release with the CHANGELOG section as notes.
 
 ## License
 
