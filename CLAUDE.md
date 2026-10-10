@@ -73,6 +73,11 @@ layout is a hard requirement.
    commit "Begin refinement", push, and open a **draft** PR titled "Update LTG" whose
    description links this repo's open `refine-ltg` PR ("Based on …"); if that PR does not
    exist yet, `spread-updates.sh` adds the link later.
+   The squash-merge of the previous cycle deletes `refine-ltg` on GitHub, so recreate it
+   first: `git switch -c refine-ltg main`, make and commit the first change, `git push -u
+   origin refine-ltg`, open the draft "Refine LTG" PR, **then** run the script — it checks
+   out `origin/refine-ltg` inside each template's submodule and needs the PR to exist to
+   link it.
    This repo's own committed workflows are already lean (`check-make.yml`,
    `check-changelog.yml`, `test.yml`, `automerge.yml`) — the per-variant LaTeX `check-*.yml`
    matrix is **no longer committed** (see "CI & testing in this repo" below), so there is
@@ -190,6 +195,13 @@ generation. Instead:
 3. Propagate via `spread-updates.sh`; the regenerated templates carry the bump.
 4. After `end-new-cycle.sh` + merges, **close the original Dependabot PR** (superseded).
 
+**Dependabot PRs against this repo's own `main`** (npm deps, our workflows) auto-merge
+when green (`automerge.yml` arms squash auto-merge). When one is red, reproduce it in a
+scratch worktree of the Dependabot branch (`npm ci && npm test`), push the fix as a commit
+to that branch (auto-merge stays armed), and let it merge; `refine-ltg` picks it up at the
+next squash-merge. Known case: yeoman-environment 7 no longer hoists `@yeoman/adapter`,
+which `yeoman-test` declares as a peer dependency, so it is an explicit devDependency.
+
 **Exception — `update-files.yml`:** this workflow is template-managed (NOT generated).
 Apply Dependabot bumps that touch it directly on each template's `main`; Dependabot then
 auto-closes. `check.yml` IS generated → handle it here in the generator.
@@ -198,7 +210,11 @@ auto-closes. `check.yml` IS generated → handle it here in the generator.
 
 When a template's `update-ltg` PR shows a bot regeneration, decide CHANGELOG entries
 **semantically** — the bot can't tell which regenerated lines are user-facing (this is a
-Claude step, not a mechanical copy). Then **mirror where appropriate**:
+Claude step, not a mechanical copy). Add the entries **after** the `Update Files` bot pushed
+its regeneration commit, and `git pull --rebase` first — the bot pushes on every push to
+`update-ltg`, so a push that races it is rejected. A release renames `## [Unreleased]`
+without adding an empty one, so the first entry of a cycle re-adds the heading above the
+latest version. Then **mirror where appropriate**:
 
 - A change that originates **here** (in `generators/app/templates/…`) but surfaces in a
   template (e.g. the example author name on the scientific-thesis title page) gets an entry
