@@ -1,0 +1,19 @@
+<% const mdRefIndent = (latexcompiler == "both") ? '  ' : ''; -%>
+<%= mdRefIndent %>% Markdown's own reference syntax <#id> typesets the bare number (\ref).
+<%= mdRefIndent %>% Typeset it with <%- cref %> instead, so that "<#tbl:example> shows" reads "Table 1 shows".
+<%= mdRefIndent %>% Other links are rendered as before.
+<%= mdRefIndent %>\ExplSyntaxOn
+<%= mdRefIndent %>\cs_new_protected:Npn \ltg_markdown_link:nnnn #1#2#3#4
+<%= mdRefIndent %>{
+<%= mdRefIndent %>  \tl_set:Nx \l_tmpa_tl { \tl_range:nnn {#3} { 1 } { 1 } }
+<%= mdRefIndent %>  \bool_lazy_all:nTF
+<%= mdRefIndent %>  {
+<%= mdRefIndent %>    { \str_if_eq_p:nn {#1} {#2} }
+<%= mdRefIndent %>    { \str_if_eq_p:VV \l_tmpa_tl \c_hash_str }
+<%= mdRefIndent %>    { \tl_if_empty_p:n {#4} }
+<%= mdRefIndent %>  }
+<%= mdRefIndent %>  { \exp_args:Nx <%- cref %> { \tl_range:nnn {#3} { 2 } { -1 } } }
+<%= mdRefIndent %>  { \markdownRendererLinkPrototype {#1} {#2} {#3} {#4} }
+<%= mdRefIndent %>}
+<%= mdRefIndent %>\markdownSetup{ renderers = { link = { \ltg_markdown_link:nnnn {#1} {#2} {#3} {#4} } } }
+<%= mdRefIndent %>\ExplSyntaxOff

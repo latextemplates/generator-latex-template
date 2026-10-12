@@ -23,15 +23,14 @@ Task lists (`taskLists`) are possible too:
 - [ ] a still-open item
 - [x] an already-completed item
 
-As \zcref{fig:example} shows, you can reference images directly from
-Markdown. The plain Markdown reference `<#fig:example>` yields the bare
-number (<#fig:example>), without the type name Figure.
+As <#fig:example> shows, you can reference images directly from Markdown:
+the reference `<#fig:example>` yields the type name and the number.
 
 ![An example image](example-image "An example image"){#fig:example}
 
 ## A Table
 
-\zcref{tbl:example} shows the four alignment variants of `pipeTables`.
+<#tbl:example> shows the four alignment variants of `pipeTables`.
 
 | Right | Left | Default | Centred |
 |------:|:-----|---------|:-------:|
@@ -50,7 +49,7 @@ an acronym although it has not been defined anywhere.
 
 # Another Chapter
 
-Text referring to the previous chapter: \zcref{cha:introduction}. Because the
-heading carries the Markdown identifier `{#cha:introduction}` and every `\label`
-also becomes a `\zlabel`, `\zcref` works here without any raw \LaTeX{}
-to set the mark -- e.g. also on \zcref{tbl:example}.
+Text referring to the previous chapter: <#cha:introduction>. Because the
+heading carries the Markdown identifier `{#cha:introduction}`, the reference
+needs no raw \LaTeX{}. Raw \LaTeX{} works as well: \zcref{tbl:example} is the
+same as `<#tbl:example>`.
