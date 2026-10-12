@@ -381,6 +381,28 @@ export default class extends Generator {
       this.props,
     );
 
+    // The big main's preamble is long, so its header tells readers in which
+    // line the content starts. The line numbers are only known after
+    // rendering, so the template carries placeholders that are filled here.
+    if (this.props.documentclass !== "mwe") {
+      const mainPath = this.destinationPath(this.props.filenames.main + ".tex");
+      const lines = this.fs.read(mainPath).split("\n");
+      const contentIndex = lines.indexOf("\\begin{document}");
+      const headingIndex = lines.findIndex(
+        (line, index) =>
+          index > contentIndex && /^\\(chapter|section)\{/.test(line),
+      );
+      const heading = lines[headingIndex].replace(/\\label\{.*$/, "");
+      this.fs.write(
+        mainPath,
+        lines
+          .join("\n")
+          .replace("@@CONTENTLINE@@", contentIndex + 1)
+          .replace("@@HEADINGLINE@@", headingIndex + 1)
+          .replace("@@FIRSTHEADING@@", heading),
+      );
+    }
+
     // The mwe wrapper main pulls its prose from an external Markdown file so it
     // can be edited and linted as plain Markdown (see mwe-main.<lang>.tex).
     if (this.props.documentclass === "mwe") {
