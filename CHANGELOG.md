@@ -8,7 +8,14 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- The LaTeX hints show how to write text in Markdown using the [markdown](https://ctan.org/pkg/markdown) package (emphasis, lists, a table with caption and label, a citation, a footnote, and a reference from Markdown to LaTeX). This eases the start for LaTeX newcomers. The example is shown under LuaLaTeX only, because the package needs `--shell-escape` under pdfLaTeX; a pdfLaTeX build prints a hint instead. The markdown package's cache directory (`_markdown_*/`) is ignored by git.
+- The header of the main file states in which lines `\begin{document}` and the first heading are, so the content is found without scrolling through the long preamble.
+
 ### Changed
+
+- The how-to text of the theses references sections via `\Zcref`/`\zcref` (or `\Cref`/`\cref` with `--crossref=cleveref`) instead of a hardcoded `Section~\ref`.
 
 - The README's tool hints distinguish a Docker-based setup (recommended) from a traditional installation: the [TeX Live image by the Island of TeX](https://gitlab.com/islandoftex/images/texlive) works the same on Windows, macOS, and Linux and makes `minted` work without a separate Python setup. The theses' `docs/latex-setup.md` is structured the same way, and the VS Code hints show how LaTeX Workshop compiles in the container.
 

@@ -106,6 +106,11 @@ export default class extends Generator {
       this.props.eexample = "";
     }
 
+    // The Markdown example needs LuaLaTeX: under pdfLaTeX, the markdown package
+    // runs texlua via --shell-escape, which the listings variants do not enable.
+    this.props.markdown =
+      this.props.examples && this.props.latexcompiler !== "pdflatex";
+
     if (this.props.tweakouterquote === "outerquote") {
       this.props.bquote = '"';
       this.props.equote = '"';

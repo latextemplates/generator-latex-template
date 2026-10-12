@@ -1,0 +1,22 @@
+<% const markdownIndent = (latexcompiler == "both") ? '  ' : ''; -%>
+% Write text in Markdown instead of LaTeX: \begin{markdown} ... \end{markdown}, or \markdownInput{chapter.md} for a whole file.
+% Doc: https://ctan.org/pkg/markdown
+% LuaLaTeX only: under pdfLaTeX, the package needs --shell-escape.
+<% if (latexcompiler == "both") { -%>
+\ifluatex
+<% } -%>
+<%= markdownIndent %>\usepackage[
+<%= markdownIndent %>  citations,          % [@key] citation syntax
+<%= markdownIndent %>  hybrid,             % pass raw LaTeX through (e.g., <%- cref %>)
+<%= markdownIndent %>  notes,              % [^label] referenced footnotes
+<%= markdownIndent %>  inlineNotes,        % ^[inline footnote text]
+<%= markdownIndent %>  pipeTables,         % | a | b | style tables
+<%= markdownIndent %>  tableCaptions,      % : Caption text below a table
+<%= markdownIndent %>  tableAttributes,    % {#id} identifier on a table caption
+<%= markdownIndent %>  headerAttributes,   % {#id} identifier on a heading
+<%= markdownIndent %>  relativeReferences, % <#id> to reference an id defined via {#id}
+<%= markdownIndent %>  hashEnumerators,    % 1) 2) 3) style enumerators
+<%= markdownIndent %>]{markdown}
+<% if (latexcompiler == "both") { -%>
+\fi
+<% } -%>
