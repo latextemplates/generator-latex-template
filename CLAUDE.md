@@ -21,8 +21,8 @@ Node ≥18).
 - **Consuming templates** — embed this repo as a **git submodule** at path
   `generator-latex-template`, and have branches `main` + `update-ltg` (per-template dev
   branch where the submodule pointer is bumped). These are exactly the dirs the scripts
-  glob as `*-enhanced scientific-thesis-template uni-stuttgart-dissertation-template
-  markdown-latex-quickstart`:
+  list explicitly (not as a `*-enhanced` glob: `LNI-enhanced` and `svjour-enhanced` are
+  standalone and have no generator submodule):
   - `acm-enhanced`, `ieee-enhanced`, `lncs-enhanced`
   - `scientific-thesis-template`
   - `uni-stuttgart-dissertation-template`
@@ -30,7 +30,7 @@ Node ≥18).
     Special-cased: its submodule tracks `refine-ltg` until the cycle that introduced
     `mwe` merges to `main` (generator `main` has no `mwe` before then), and its
     `update-ltg` starts equal to `main` (empty PR) until `end-new-cycle` bumps it.
-- **Everything else in the org** (`latextemplates.github.io`, `svjour`, `LNI`,
+- **Everything else in the org** (`latextemplates.github.io`, `svjour`, `svjour-enhanced`, `LNI`, `LNI-enhanced`,
   `LNI-archive`, `SAGP`, `gadr-latex-packages`, `stys-for-overleaf`,
   `Handin-LaTeX-template`, `scientific-thesis-cover`, `uni-stuttgart-dissertation-cover`)
   is standalone — not part of the generator cycle.
@@ -243,7 +243,7 @@ diff is printed in the failing run's "Prepare files" step, canonical variant **e
 - **Bootstrap a blank machine:** `generator-latex-template/scripts/bootstrap-workspace.sh`
   (clones the org flat, **inits submodules**, `npm ci`). Node via nvm: `nvm install --lts`.
 - **Init submodules** (required before `spread-updates.sh` on fresh clones):
-  `for t in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do git -C "$t" submodule update --init; done`
+  `for t in acm-enhanced ieee-enhanced lncs-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do git -C "$t" submodule update --init; done`
 - **Propagate generator → templates:** from this repo on `refine-ltg`, `scripts/spread-updates.sh`
   (pushes `refine-ltg`, repoints each template's submodule to `origin/refine-ltg`, opens/updates
   the `update-ltg` "Update LTG" commits). Each template's working tree must be clean first
