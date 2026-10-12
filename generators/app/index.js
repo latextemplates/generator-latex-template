@@ -197,6 +197,14 @@ export default class extends Generator {
       this.props.docker = false;
     }
 
+    // The Island of TeX image matching the TeX Live version of the template:
+    // the current release is "latest", earlier ones are "TL<year>-historic".
+    this.props.iotImage =
+      "registry.gitlab.com/islandoftex/images/texlive:" +
+      (this.props.texlive >= 2026
+        ? "latest"
+        : `TL${this.props.texlive}-historic`);
+
     createFeatures(props);
     createHeadingCommands(props);
     createAvailable(props);

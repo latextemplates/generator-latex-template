@@ -10,14 +10,15 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
-- The LaTeX hints show how to write text in Markdown using the [markdown](https://ctan.org/pkg/markdown) package (emphasis, lists, a table with caption and label, a citation, a footnote, and a reference from Markdown to LaTeX). This eases the start for LaTeX newcomers. The example is shown under LuaLaTeX only, because the package needs `--shell-escape` under pdfLaTeX; a pdfLaTeX build prints a hint instead. The markdown package's cache directory (`_markdown_*/`) is ignored by git.
+- The LaTeX hints show how to write text in Markdown using the [markdown](https://ctan.org/pkg/markdown) package (emphasis, lists, a table with caption and label, a citation, a footnote, and references). This eases the start for LaTeX newcomers. The example is shown under LuaLaTeX only, because the package needs `--shell-escape` under pdfLaTeX; a pdfLaTeX build prints a hint instead. The markdown package's cache directory (`_markdown_*/`) is ignored by git.
+- Markdown's own reference syntax `<#id>` typesets the type name and the number ("Table 1") via `\zcref` (or `\cref` with `--crossref=cleveref`) instead of the bare number. This applies to the Markdown example and to the `mwe` quick start, whose manuscript now uses `<#id>` instead of raw `\zcref`.
 - The header of the main file states in which lines `\begin{document}` and the first heading are, so the content is found without scrolling through the long preamble.
 
 ### Changed
 
 - The how-to text of the theses references sections via `\Zcref`/`\zcref` (or `\Cref`/`\cref` with `--crossref=cleveref`) instead of a hardcoded `Section~\ref`.
-
 - The README's tool hints distinguish a Docker-based setup (recommended) from a traditional installation: the [TeX Live image by the Island of TeX](https://gitlab.com/islandoftex/images/texlive) works the same on Windows, macOS, and Linux and makes `minted` work without a separate Python setup. The theses' `docs/latex-setup.md` is structured the same way, and the VS Code hints show how LaTeX Workshop compiles in the container.
+- The README uses the TeX Live image of the Island of TeX directly, with the tag matching the template's TeX Live version (also in the VS Code setting `latex-workshop.docker.image.latex`), instead of an own image `ltg` built from the generated `Dockerfile`. Building an own image remains an option for adding tools. The commands to compile in the container are copy-and-paste ready for Windows (PowerShell and Command Prompt), Linux, and macOS.
 
 ## [2026.10.8]
 
