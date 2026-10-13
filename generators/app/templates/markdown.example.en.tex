@@ -1,0 +1,43 @@
+<%= heading2 %>{Writing in Markdown}\label{sec:markdown}
+
+<%# latexindent indents the \ifluatex branch, except for the verbatim Markdown body and \end{markdown} -%>
+<% const mdIndent = (latexcompiler == "both") ? '  ' : ''; -%>
+<% if (latexcompiler == "both") { -%>
+\ifluatex
+<% } -%>
+<%= mdIndent %>If you are new to \LaTeX{}, you can start by writing your text in Markdown using the \href{https://ctan.org/pkg/markdown}{markdown} package.
+<%= mdIndent %>\LaTeX{} then takes care of the typesetting.
+<%= mdIndent %>Markdown and \LaTeX{} can be mixed:
+<%= mdIndent %><%- Cref %>{tbl:markdown} is written in Markdown and referenced from \LaTeX{}.
+<%= mdIndent %>A longer part, such as a whole <% if (heading1 == "\\chapter") { %>chapter<% } else { %>section<% } %>, can be placed in a separate file included by \verb|\markdownInput{introduction.md}|.
+<%= mdIndent %>The \href{https://github.com/latextemplates/markdown-latex-quickstart}{markdown-latex-quickstart} shows a complete document written in Markdown.
+
+<%= mdIndent %><%- bexample %>
+<%= mdIndent %>\begin{markdown}
+Text can be *emphasized* or **bold**, and `code` is set in a monospaced font.
+A citation looks like this [@mwe], and here is a footnote.^[This is an inline footnote.]
+
+- first point
+- second point
+  - sub-point
+
+1) firstly
+2) secondly
+
+| Right | Left | Centered |
+|------:|:-----|:--------:|
+|    12 | 12   |    12    |
+|   123 | 123  |   123    |
+
+: A table written in Markdown {#tbl:markdown}
+
+<#tbl:markdown> shows a table with caption.
+Its identifier `{#tbl:markdown}` is referenced by `<#tbl:markdown>`.
+\end{markdown}
+<%= mdIndent %><%- eexample %>
+<% if (latexcompiler == "both") { -%>
+\else
+  This example requires \hologo{LuaLaTeX}.
+  Compile the document with \hologo{LuaLaTeX} to see it.
+\fi
+<% } -%>

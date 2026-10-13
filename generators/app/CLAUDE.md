@@ -65,7 +65,9 @@ standalone* document (the full thesis pulls in packages a local TeX Live may lac
 `perl -c` the generated `latexmkrc`; validate the generated `check.yml` as YAML. The
 `check-make.yml` build also runs `make format` (latexindent) + `git diff --exit-code`,
 so generated output must already be latexindent-clean — column-aligned tables in
-particular (see `lookForAlignDelims` in `localSettings.yaml`).
+particular (see `lookForAlignDelims` in `localSettings.yaml`) and the body of an
+`\ifluatex … \else … \fi` (latexindent indents it by two spaces, except verbatim bodies
+such as `markdown` and their `\end{…}` line — see `markdown.example.en.tex`).
 
 ### EJS whitespace: `-%>` eats the trailing newline
 

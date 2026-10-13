@@ -24,7 +24,7 @@ fi
 
 cd ..
 
-for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
+for template in acm-enhanced ieee-enhanced lncs-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
   echo "$template"
   cd "$template"
   git stash
@@ -54,7 +54,7 @@ done
 
 # After successful completion of preparation, create draft PRs
 
-for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
+for template in acm-enhanced ieee-enhanced lncs-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
   echo "$template"
   cd "$template"
   echo "Creating draft pull request..."

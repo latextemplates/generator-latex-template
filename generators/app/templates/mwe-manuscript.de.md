@@ -24,15 +24,14 @@ Auch Aufgabenlisten (`taskLists`) sind möglich:
 - [ ] noch offener Punkt
 - [x] bereits erledigter Punkt
 
-Wie in \zcref{fig:example} gezeigt, lassen sich Bilder direkt in Markdown
-referenzieren. Die reine Markdown-Referenz `<#fig:example>` liefert dagegen
-nur die nackte Nummer (<#fig:example>), ohne den Typnamen Abbildung.
+Wie in <#fig:example> gezeigt, lassen sich Bilder direkt in Markdown
+referenzieren: Die Referenz `<#fig:example>` liefert den Typnamen und die Nummer.
 
 ![Ein Beispielbild](example-image "Ein Beispielbild"){#fig:example}
 
 ## Eine Tabelle
 
-\zcref{tbl:beispiel} zeigt die vier Ausrichtungsvarianten von `pipeTables`.
+<#tbl:beispiel> zeigt die vier Ausrichtungsvarianten von `pipeTables`.
 
 | Rechts | Links | Standard | Zentriert |
 |-------:|:------|----------|:---------:|
@@ -51,7 +50,7 @@ als Akronym gesetzt, obwohl es nirgends definiert ist.
 
 # Ein weiteres Kapitel
 
-Text mit Verweis auf das vorige Kapitel: \zcref{cha:einleitung}. Weil die
-Überschrift die Markdown-Id `{#cha:einleitung}` trägt und jede `\label`
-zusätzlich ein `\zlabel` erzeugt, funktioniert `\zcref` hier ganz ohne rohes
-\LaTeX{} zum Setzen der Marke -- z.\,B. auch auf \zcref{tbl:beispiel}.
+Text mit Verweis auf das vorige Kapitel: <#cha:einleitung>. Weil die
+Überschrift die Markdown-Id `{#cha:einleitung}` trägt, braucht der Verweis kein
+rohes \LaTeX{}. Rohes \LaTeX{} geht aber auch: \zcref{tbl:beispiel} ist
+dasselbe wie `<#tbl:beispiel>`.

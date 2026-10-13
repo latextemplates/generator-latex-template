@@ -13,7 +13,7 @@ date="$1"
 dry="${2:-}"
 notes_dir=$(mktemp -d)
 cd ..
-for t in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
+for t in acm-enhanced ieee-enhanced lncs-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
   echo "== $t"
   cd "$t"
   if [ -n "$(git status --porcelain)" ]; then echo "   working tree not clean, skipping" >&2; cd ..; continue; fi

@@ -42,7 +42,7 @@ link_generator_pr() {
 
 cd ..
 
-for template in *-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
+for template in acm-enhanced ieee-enhanced lncs-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
   echo "$template"
   cd $template
 
