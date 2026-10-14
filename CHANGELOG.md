@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- The `.markdown.in` file written by the [markdown](https://ctan.org/pkg/markdown) package is ignored by git and removed by `latexmk -c`.
 - The generated `.dockerignore` and README's "Directories" section reference `figures/` (instead of `graphics/`) matching `.gitignore`.
 
 ## [2026.10.13]
