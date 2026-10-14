@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- The list of abbreviations is generated when building with `latexmk`. Previously, it showed "This document is incomplete" instead: `glossaries-extra`'s `abbreviations` option writes `.glo-abr` files, for which `latexmkrc` had no rule, so `makeglossaries-lite` was never run.
 - The generated `.dockerignore` and README's "Directories" section reference `figures/` (instead of `graphics/`) matching `.gitignore`.
 
 ## [2026.10.13]
