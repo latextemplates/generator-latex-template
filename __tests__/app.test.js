@@ -41,6 +41,30 @@ describe("scientific-thesis", () => {
       });
       runResult.assertFile(["main-english.tex", logo]);
       runResult.assertFileContent("main-english.tex", logo);
+      // The title page starts with \frontmatter, so the text needs \mainmatter.
+      runResult.assertFileContent("main-english.tex", "\\mainmatter");
     });
   }
+});
+
+describe("ustutt dissertation", () => {
+  // The flags of the template's update-files.yml: no --thesisvariant, so it is "none".
+  it("does not emit \\mainmatter", async () => {
+    const runResult = await helpers.run(generatorPath).withOptions({
+      documentclass: "ustutt",
+      latexcompiler: "both",
+      texlive: 2026,
+      lang: "en",
+      listings: "minted",
+      enquotes: "csquotes",
+      tweakouterquote: "babel",
+      todo: "pdfcomment",
+      examples: true,
+      howtotext: true,
+      uml: "none",
+    });
+    runResult.assertFile("thesis-example.tex");
+    // The template keeps a commented-out "%\\mainmatter"; only an active one is wrong.
+    runResult.assertNoFileContent("thesis-example.tex", /^\\mainmatter/m);
+  });
 });

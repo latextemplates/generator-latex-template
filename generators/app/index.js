@@ -12,7 +12,11 @@ export default class extends Generator {
     this.log(yosay(`Welcome to the ${chalk.red("latex-template")} generator!`));
 
     // See "Development hints" in README.md for help on Inquirer.js
-    const props = await this._optionOrPrompt(options);
+    // yeoman-option-or-prompt mutates the prompts (deletes `when`, replaces `choices`/`default`
+    // functions by their result); pass copies so that runs in one process (the tests) stay independent.
+    const props = await this._optionOrPrompt(
+      options.map((prompt) => ({ ...prompt })),
+    );
 
     // To access props later use this.props.someAnswer;
     this.props = props;
