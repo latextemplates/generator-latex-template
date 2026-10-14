@@ -606,7 +606,7 @@ The following settings are additionally recommended:
     "editor.wordWrap": "on",                                          // enable soft line breaks
     "latex-workshop.view.pdf.viewer": "tab",                          // display the generated PDF in a separate tab
     "latex-workshop.view.pdf.color.light.backgroundColor": "#cccccc", // light theme: use a darker background in the PDF viewer to lift the pages off it
-    "latex-workshop.view.pdf.color.dark.backgroundColor": "#cccccc",  // dark theme: same, with a dark gray matching the editor
+    "latex-workshop.view.pdf.color.dark.backgroundColor": "#121314",  // dark theme: same, with a dark gray matching the editor
     "latex-workshop.latex.autoBuild.run": "never",                    // never automatically build; alternative: "onSave" (on saving .tex files)
     "editor.renderWhitespace": "all",                                 // display all whitespaces
 }
