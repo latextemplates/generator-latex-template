@@ -11,6 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - The scientific thesis has a variant for the Technische Hochschule Ulm (`--thesisvariant=thu`): a title page with the THU logo ([CC BY-SA 4.0 by Hochschule Ulm](https://commons.wikimedia.org/wiki/File:THU_Logo_Subline_deutsch_RGB.png)) and the declaration signed in Ulm.
+- The table examples show how to color rows and cells (`\rowcolor`, `\cellcolor` from [colortbl](https://ctan.org/pkg/colortbl), loaded by `xcolor` with the option `table`). [scientific-thesis-template#87](https://github.com/latextemplates/scientific-thesis-template/pull/87)
 
 ### Changed
 
