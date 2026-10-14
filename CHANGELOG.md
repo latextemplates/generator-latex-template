@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Changed
+
+- The scientific thesis is laid out single-sided (`twoside=false`, `open=any`), because theses are read on screen: every page has the same margins, the page number stays at the bottom right, and there are no blank pages before chapters or after the cover. The header shows the chapter on the left and the current section on the right. A comment at the document class options shows how to switch back for two-sided printing. The uni-stuttgart dissertation stays two-sided, because it is printed as a book.
+
 ## [2026.10.13]
 
 ### Added
