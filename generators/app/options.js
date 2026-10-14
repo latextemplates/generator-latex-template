@@ -114,6 +114,10 @@ export const options = [
         name: "Universität Hamburg",
         value: "university-of-hamburg",
       },
+      {
+        name: "Technische Hochschule Ulm",
+        value: "thu",
+      },
     ],
     default: "ustutt",
   },

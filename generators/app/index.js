@@ -442,6 +442,20 @@ export default class extends Generator {
       );
     }
 
+    if (this.props.documentclass == "scientific-thesis") {
+      const logos = {
+        "university-of-hamburg": "uhh-logo.pdf",
+        thu: "thu-logo.png",
+      };
+      const logo = logos[this.props.thesisvariant];
+      if (logo) {
+        this.fs.copy(
+          this.templatePath("logos/" + logo),
+          this.destinationPath("figures/" + logo),
+        );
+      }
+    }
+
     if (this.props.documentclass == "ustutt") {
       /*
       this.props.documentclass = "ustutt-include";

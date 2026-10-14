@@ -75,10 +75,18 @@ Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, an
 
   - 🇺🇸 [English example](https://latextemplates.github.io/scientific-thesis-template/main-english.pdf)
   - 🇺🇸 [English example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-english.pdf)
-  - 🇺🇸 [English example with minted and PlantUML (University of Hamburg)](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-university-of-hamburg.pdf)
   - 🇩🇪 [German example](https://latextemplates.github.io/scientific-thesis-template/main-german.pdf)
   - 🇩🇪 [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german.pdf)
-  - 🇩🇪 [German example with minted and PlantUML (Universität Hamburg)](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-university-of-hamburg.pdf)
+
+- Universität Hamburg
+
+  - 🇺🇸 [English example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-university-of-hamburg.pdf)
+  - 🇩🇪 [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-university-of-hamburg.pdf)
+
+- Technische Hochschule Ulm (THU)
+
+  - 🇺🇸 [English example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-thu.pdf)
+  - 🇩🇪 [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-thu.pdf)
 
 The template will be extended to support theses from different institutions.
 
@@ -984,6 +992,15 @@ Any derived work can freely be relicensed and can omit original copyright and li
 ### Exceptions
 
 - `ustutt-logo.pdf` is restricted. See section "Verwendung des Logos bei Abschlussarbeiten wie Dissertationen, Bachelor- und Masterarbeiten sowie Hausarbeiten" at <https://www.beschaeftigte.uni-stuttgart.de/uni-services/oeffentlichkeitsarbeit/corporate-design/logo-und-schrift/> for details.
+<% } -%>
+<% if (documentclass == "scientific-thesis") { -%>
+
+### Exceptions
+
+The logos are trademarks of the universities: use them only on the title page of a thesis submitted there, so that the thesis is not mistaken for a publication of the university.
+
+- `figures/uhh-logo.pdf` is the logo of the Universität Hamburg, converted from [UHH Universität Hamburg Logo mit Schrift 2010 Farbe CMYK.svg](https://commons.wikimedia.org/wiki/File:UHH_Universit%C3%A4t_Hamburg_Logo_mit_Schrift_2010_Farbe_CMYK.svg) (public domain, via Wikimedia Commons).
+- `figures/thu-logo.png` is [THU Logo Subline deutsch RGB.png](https://commons.wikimedia.org/wiki/File:THU_Logo_Subline_deutsch_RGB.png) by Hochschule Ulm, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), via Wikimedia Commons.
 <% } -%>
 
 [biber]: https://www.ctan.org/pkg/biber
