@@ -19,6 +19,10 @@ describe(`generator runs for all switch combinations (pairwise, ${combos.length}
         .run(generatorPath)
         .withOptions(toOptions(combo));
       runResult.assertFile(["README.md", mainFile(combo)]);
+      // \mainmatter belongs to the book classes; acmart and IEEEtran do not define it.
+      if (["acmart", "ieee", "lncs"].includes(combo.documentclass)) {
+        runResult.assertNoFileContent(mainFile(combo), "\\mainmatter");
+      }
       // The mwe wrapper pulls its prose from an external Markdown manuscript;
       // make sure that file is emitted too.
       if (combo.documentclass === "mwe") {
