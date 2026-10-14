@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- The title page and the declaration of the University of Hamburg thesis variant are indented as `latexindent` formats them. Previously, the `latexindent` check of the generated CI failed as soon as a University of Hamburg main file was used as `MASTER_TEX`.
 - The generated `.dockerignore` and README's "Directories" section reference `figures/` (instead of `graphics/`) matching `.gitignore`.
 
 ## [2026.10.13]
