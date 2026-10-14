@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Changed
+
+- The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
+
 ### Fixed
 
 - The generated `.dockerignore` and README's "Directories" section reference `figures/` (instead of `graphics/`) matching `.gitignore`.
