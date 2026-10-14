@@ -9,8 +9,15 @@
 #   the GitHub release with the CHANGELOG section as notes.
 #   --dry-run shows the CHANGELOG diff and the notes, then reverts; nothing is committed or pushed.
 set -euo pipefail
-date="$1"
+usage="Usage: $0 <YYYY-MM-DD> [--dry-run]"
+date="${1:-}"
 dry="${2:-}"
+if ! [[ "$date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+  echo "Not a date: '$date'" >&2; echo "$usage" >&2; exit 1
+fi
+if [ -n "$dry" ] && [ "$dry" != "--dry-run" ]; then
+  echo "Unknown option: '$dry'" >&2; echo "$usage" >&2; exit 1
+fi
 notes_dir=$(mktemp -d)
 cd ..
 for t in acm-enhanced ieee-enhanced lncs-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
