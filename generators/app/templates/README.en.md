@@ -214,7 +214,7 @@ Following features are enabled in this template:
 <% } -%>
 <% if (latexcompiler == "pdflatex" || githubpublish) { -%>
 - Generated PDF allows for copy and paste of text without getting words with [ligatures](https://en.wikipedia.org/wiki/Typographic_ligature) such as "workflow" destroyed.
-  This is enabled by `glyphtounicode`, which encodes ligatures (such as fl) using unicode characters.
+  With pdfLaTeX, this is enabled by `glyphtounicode`, which encodes ligatures (such as fl) using unicode characters; LuaLaTeX does this by itself.
 <% } -%>
 <% if ((reallatexcompiler.startsWith("lualatex")) || githubpublish) { -%>
 - Ligatures are removed if they are typeset at the wrong place.
@@ -587,7 +587,7 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 
 Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
 
-### Q: How do I check a passage in another language?
+### Q: How do I spell check a passage in another language?
 
 Use the `\foreignlanguage{language}{text}` command.
 LTeX+ will detect these elements and automatically switch the spell checker's language.
@@ -874,7 +874,7 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 
 Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
 
-### Q: How do I check a passage in another language?
+### Q: How do I spell check a passage in another language?
 
 Use the `\foreignlanguage{language}{text}` command.
 LTeX+ will detect these elements and automatically switch the spell checker's language.
