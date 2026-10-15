@@ -404,6 +404,26 @@ export default class extends Generator {
       );
     }
 
+    // TeXtidote (spelling, grammar, and style; CI job "textidote") reads its options from .textidote.
+    // Its dictionary is the aspell word list without the aspell header line.
+    if (this.props.documentclass !== "mwe") {
+      this.fs.copyTpl(
+        this.templatePath("dot.textidote"),
+        this.destinationPath(".textidote"),
+        this.props,
+      );
+      this.fs.copy(
+        this.templatePath("dot.textidote.replacements"),
+        this.destinationPath(".textidote.replacements"),
+      );
+      const words = this.fs
+        .read(this.templatePath(`dot.aspell.${this.props.language}.pws`))
+        .split("\n")
+        .slice(1)
+        .join("\n");
+      this.fs.write(this.destinationPath(".textidote.dict"), words);
+    }
+
     if (this.props.documentclass === "lncs") {
       this.fs.copy(
         this.templatePath("splncs04nat.bst"),
