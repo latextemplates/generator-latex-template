@@ -4,19 +4,19 @@
 # Enhanced LNCS Template
 
 > Quick start for modern LaTeXing with [LNCS](http://www.springer.com/computer/lncs).
-<% if (texlive > 2025) { -%>
+<% if (overleaf) { -%>
 
-Please be aware that this template is optimized for overleaf, which is based on TeXLive 2025.
-In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
+This template is made for TeX Live <%= texlive %>.
+On Overleaf, select TeX Live <%= texlive %> in the project settings (Menu → Settings → Compiler → TeX Live version).
 <% } -%>
 <% break; case "ieee": -%>
 # Enhanced IEEE Template
 
 > Quick start for modern LaTeXing for an IEEE conference, based on the [Manuscript Template for Conference Proceedings](https://www.ieee.org/conferences_events/conferences/publishing/templates.html).
 
-<% if (texlive > 2025) { -%>
-Please be aware that this template is optimized for overleaf, which is based on TeXLive 2025.
-In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
+<% if (overleaf) { -%>
+This template is made for TeX Live <%= texlive %>.
+On Overleaf, select TeX Live <%= texlive %> in the project settings (Menu → Settings → Compiler → TeX Live version).
 
 <% } -%>
 The official template is distributed via CTAN as the [IEEEtran package](https://ctan.org/pkg/ieeetran), which is actively maintained.
@@ -31,9 +31,9 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 
 > Quick start for modern LaTeXing for an ACM conference.
 
-<% if (texlive > 2025) { -%>
-Please be aware that this template is optimized for overleaf, which is based on TeXLive 2025.
-In case you are running a later TeXLive version (or use MiKTeX), please regenerate the template with the help of the [latex template generator].
+<% if (overleaf) { -%>
+This template is made for TeX Live <%= texlive %>.
+On Overleaf, select TeX Live <%= texlive %> in the project settings (Menu → Settings → Compiler → TeX Live version).
 
 <% } -%>
 The official template is distributed via CTAN as the [acmart package](https://ctan.org/pkg/acmart), which is actively maintained.
@@ -162,8 +162,6 @@ The LaTeX snippets this template is assembled from can be inspected at <https://
 <% } -%>
 - Compile with "<%= reallatexcompiler %> + <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 <% if (githubpublish && (documentclass == "lncs")) { -%>
-
-When using on overleaf, you have to switch Overleaf to use TeXLive 2025 (or later).
 
 As you see on GitHub actions, the paper compiles out of the box.
 There is no need to adjust the packages or to remove some of them.
@@ -403,7 +401,7 @@ To have `minted` running with a traditional installation, you have to do followi
 [latexmk] runs the LaTeX tools (e.g., <%= reallatexcompiler %> and <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>) as often as needed to get the final PDF ([why `latexmk` is great](https://tex.stackexchange.com/a/249243/9075)).
 It reads its configuration from `.latexmkrc` in the directory of the document.
 <% if (overleaf) { -%>
-Overleaf reads `.latexmkrc`, too, so the "Compiler" setting of the Overleaf project does not matter.
+Overleaf reads `.latexmkrc`, too, so the "Compiler" setting of the Overleaf project does not matter; select TeX Live <%= texlive %> there.
 <% } -%>
 To use the configuration for all your documents, put it at [the right place](http://tex.stackexchange.com/a/41149/9075).
 

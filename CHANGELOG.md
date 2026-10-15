@@ -25,6 +25,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
 - The generated `check.yml` pins all GitHub Actions to commit SHAs.
 - README.md: sections reordered.
+- README.md: the Overleaf hint names the TeX Live version of the template.
 - README.md: passages in another language are an FAQ.
 - README.md: compilation hints consolidated in "LaTeX compilation".
 - The generated `.latexmkrc` replaces `_latexmkrc` (also with `--overleaf`).
