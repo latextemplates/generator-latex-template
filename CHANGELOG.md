@@ -49,6 +49,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - German documents configure `autotype` with `ligatures=selective` instead of the outdated `ligbreak`.
 - TeX Gyre Heros (the sans-serif font with `--font=times`) is available in bold.
 - `kvoptions-patch` is loaded only up to TeX Live 2025; LaTeX 2026-06-01 aborts loading it.
+- README.md: the self-archiving FAQ appears in all paper templates.
 
 ## [2026.10.13]
 

@@ -714,10 +714,10 @@ Activate the `llncsconf` package.
 The possible options are listed in `<%= filenames.main %>.tex`.
 
 <% } -%>
-<% if ((documentclass == 'acm') || (documentclass == 'ieee')) { -%>
+<% if (isPaper) { -%>
 ### Q: Is it possible produce a self-archiving version?
 
-Use the [`authorarchive` package](https://ctan.org/pkg/authorarchive).
+Use the [`authorarchive` package](https://ctan.org/pkg/authorarchive) with the layout `<%= ({ acmart: "ACM", ieee: "IEEE", lncs: "LNCS" })[documentclass] %>`.
 
 <% } -%>
 ### Q: Can I also write in German?
