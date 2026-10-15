@@ -11,6 +11,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Changed
 
 - The VS Code settings (`vscode.settings.json` and the README hints) provide a dark-mode-respective color (`#121314` instead of `#cccccc`), based on the [Dark 2026 `editor.background` from VS Code default theme](https://github.com/microsoft/vscode/blob/1.141.2/extensions/theme-defaults/themes/2026-dark.json#L108).
+- Recommend the `james-yu.latex-workshop` VS Code extension, replacing `manhen.latex-workshop-2` since it is unmaintained and has been removed from the stores.
+- The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
 
 ### Fixed
 
