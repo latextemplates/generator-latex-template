@@ -31,7 +31,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - README.md: compilation hints consolidated in "LaTeX compilation".
 - The generated `.latexmkrc` replaces `_latexmkrc` (also with `--overleaf`).
 - The generated `Makefile` runs the LaTeX tools in the Docker image (`make LOCAL=1` runs them locally).
-- The generated `vscode.settings.json` compiles with `latexmk` in the Docker image.
+- The generated `vscode.settings.json` contains the Docker settings of LaTeX Workshop and does not build on save.
 - README.md: links the decision records of the generator.
 - The decision records of the scientific-thesis-template moved to `docs/decisions`.
 - README.md: "Usage with docker" merged into "Docker-based (recommended)".
