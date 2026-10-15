@@ -336,11 +336,16 @@ Compile either in a Docker container (recommended) or with a LaTeX distribution 
 
 ### Docker-based (recommended)
 
+<% if (docker == "dante") { -%>
+The [TeX Live docker image by DANTE e.V.](https://github.com/dante-ev/docker-texlive) works the same on Windows, macOS, and Linux.
+It ships a complete TeX Live including `latexmk`, `biber`, `latexindent`, Python, and [latexminted], and additionally PlantUML (with Java and Graphviz) and the Mermaid CLI for UML diagrams.
+<% } else { -%>
 The [TeX Live docker image by the Island of TeX](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image) works the same on Windows, macOS, and Linux.
 It ships a complete TeX Live including `latexmk`, `biber`, `latexindent`, Python, and [latexminted].
+<% } -%>
 Thus, `minted` works out of the box - also on Windows, without a separate Python setup.
-<% if (uml == "plantuml") { -%>
-The image does not contain PlantUML, so the PlantUML example is skipped when compiling in the container.
+<% if (((uml == "plantuml") || (uml == "mermaid")) && (docker != "dante")) { -%>
+The image does not contain <%= (uml == "plantuml") ? "PlantUML" : "the Mermaid CLI" %>; the [image by DANTE e.V.](https://github.com/dante-ev/docker-texlive) (`<%= danteImage %>`) does. Use it instead in the commands below.
 <% } -%>
 
 1. Install [Docker](https://docs.docker.com/get-started/get-docker/) ([Docker Desktop](https://docs.docker.com/desktop/) on Windows and macOS).
@@ -350,19 +355,19 @@ The image does not contain PlantUML, so the PlantUML example is skipped when com
    Windows (PowerShell):
 
    ```powershell
-   docker run --rm -v "${PWD}:/workdir" <%= iotImage %> latexmk <%= filenames.main %>
+   docker run --rm -v "${PWD}:/workdir" <%= dockerImage %> latexmk <%= filenames.main %>
    ```
 
    Windows (Command Prompt):
 
    ```cmd
-   docker run --rm -v "%cd%:/workdir" <%= iotImage %> latexmk <%= filenames.main %>
+   docker run --rm -v "%cd%:/workdir" <%= dockerImage %> latexmk <%= filenames.main %>
    ```
 
    Linux and macOS:
 
    ```shell
-   docker run --rm -v "$PWD:/workdir" <%= iotImage %> latexmk <%= filenames.main %>
+   docker run --rm -v "$PWD:/workdir" <%= dockerImage %> latexmk <%= filenames.main %>
    ```
 
 1. Optional: Let VS Code compile in the container, see ["VS Code configuration"](#vs-code-configuration).
@@ -375,9 +380,9 @@ Build the image once with `docker build -t ltg .` and then compile:
 ```cmd
 docker run --rm -v "c:\users\example\latex-document:/work/src" -v "c:\users\example\latex-document\out:/work/out" ltg work latexmk
 ```
-<% break; case "iot": -%>
+<% break; case "iot": case "dante": -%>
 
-If you need additional tools in the image (for instance, PlantUML), extend the generated `Dockerfile`, build it with `docker build -t ltg .`, and use `ltg` instead of the image name.
+If you need additional tools in the image, extend the generated `Dockerfile`, build it with `docker build -t ltg .`, and use `ltg` instead of the image name.
 <% break; default: -%>
 <% break; } -%>
 
@@ -447,7 +452,7 @@ Independent of the chosen setup:
 
 On the command line, there are additional features:
 
-<% if (docker == "iot") { -%>
+<% if (dockerCompile) { -%>
 - `make` builds the PDF in the Docker container; `make LOCAL=1` uses your local LaTeX distribution (this works for all `make` targets)
 <% } else { -%>
 - `make` builds the PDF
@@ -504,8 +509,16 @@ TEXINPUTS="./tikz-uml:$TEXINPUTS" latexmk <%= filenames.main %>
 <% } -%>
 <% if (uml == "plantuml") { -%>
 
-PlantUML renders only with Lua​LaTeX, the `--shell-escape` flag, and a PlantUML installation (which needs Java).
-Install PlantUML (for example `choco install plantuml` on Windows) and compile with `lualatex --shell-escape`.
+PlantUML renders only with LuaLaTeX, the `--shell-escape` flag, and a PlantUML installation (which needs Java and Graphviz).
+The [Docker image by DANTE e.V.](https://github.com/dante-ev/docker-texlive) (`<%= danteImage %>`) contains all of this.
+For a local installation, install PlantUML (for example `choco install plantuml` on Windows); `.latexmkrc` sets `--shell-escape`.
+<% } -%>
+<% if (uml == "mermaid") { -%>
+
+Mermaid diagrams render only with LuaLaTeX, the `--shell-escape` flag, and the [Mermaid CLI](https://github.com/mermaid-js/mermaid-cli) (`mmdc`, which needs Node.js and Chromium).
+The [Docker image by DANTE e.V.](https://github.com/dante-ev/docker-texlive) (`<%= danteImage %>`) contains all of this.
+For a local installation, run `npm install -g @mermaid-js/mermaid-cli`; `.latexmkrc` sets `--shell-escape`.
+`puppeteer.json` lets the headless Chromium run without sandbox, which is needed in Docker.
 <% } -%>
 <% } -%>
 
@@ -518,12 +531,12 @@ Currently, following extensions are recommended:
 - [LTeX+] to have a nice spell checker that also identifies grammar issues
 
 With the settings below, LaTeX Workshop compiles with the recipe "lualatex ➞ <%= bibrunner %> ➞ lualatex × 2".
-<% if (docker == "iot") { -%>
+<% if (dockerCompile) { -%>
 To compile in the Docker container (see ["Docker-based (recommended)"](#docker-based-recommended)), add the following lines to VS Code's `settings.json` (<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd>, then "Preferences: Open Settings (JSON)"):
 
 ```javascript
     "latex-workshop.docker.enabled": true,
-    "latex-workshop.docker.image.latex": "<%= iotImage %>",
+    "latex-workshop.docker.image.latex": "<%= dockerImage %>",
 ```
 
 <% } -%>

@@ -1,27 +1,83 @@
 <%= heading2 %>{UML diagrams using PlantUML}
 
-In case \texttt{lualatex} is used and PlantUML is installed, UML diagrams can be defined using \href{https://plantuml.com}{PlantUML}.
-This requires the \texttt{--shell-escape} compiler flag and the external PlantUML tool (which needs Java); see the \texttt{README}.
-When these prerequisites are missing, the following demo is skipped automatically.
+\href{https://plantuml.com}{PlantUML} lays out UML diagrams automatically; a relation is a single arrow such as \texttt{Car *- Wheel}.
+It needs \texttt{lualatex}, the \texttt{--shell-escape} compiler flag, and the external PlantUML tool (which needs Java); the Docker image by DANTE e.V.\ contains all of this (see the \texttt{README}).
+When these prerequisites are missing, the following demos are skipped automatically.
 
 \ifluatex
-\IfFileExists{plantuml.sty}{%
-<%- bexample %>
-\begin{figure}
-  \centering
-  \begin{plantuml}
-  @startuml
-    class Car
-    Driver - Car : drives >
-    Car *- Wheel : have 4 >
-    Car -- Person : < owns
-  @enduml
-  \end{plantuml}
-  \caption{Simple PlantUML diagram}
-  \label{fig:umlcar}
-\end{figure}
-<%- eexample %>
-}{%
-  \emph{The \texttt{plantuml} package is not available, so this diagram is not rendered. See the \texttt{README} on how to enable it.}
+  \ifnum\directlua{tex.sprint(ltg_uml_available and 1 or 0)}=1
+    <%- bexample %>
+    \begin{figure}
+      \centering
+      \begin{plantuml}
+@startuml
+Alice -> Bob: test
+@enduml
+\end{plantuml}
+      \caption{Sequence diagram drawn with PlantUML}
+      \label{fig:plantuml-sequence}
+    \end{figure}
+    <%- eexample %>
+
+    <%- bexample %>
+    \begin{figure}
+      \centering
+      \begin{plantuml}
+@startuml
+hide empty members
+class Car
+Driver - Car : drives >
+Car *- Wheel : have 4 >
+Car -- Person : < owns
+@enduml
+\end{plantuml}
+      \caption{Class diagram drawn with PlantUML}
+      \label{fig:plantuml-class-relations}
+    \end{figure}
+    <%- eexample %>
+
+    <%- bexample %>
+    \begin{figure}
+      \centering
+      \begin{plantuml}
+@startuml
+class BankAccount {
+  +owner : String
+  #balance : double
+  -pin : int
+  ~auditTrail : List
+  +deposit(amount : double)
+  #applyInterest()
+  -validatePin(pin : int)
 }
+@enduml
+\end{plantuml}
+      \caption{Class with visibilities drawn with PlantUML}
+      \label{fig:plantuml-class-visibility}
+    \end{figure}
+    <%- eexample %>
+
+    <%- bexample %>
+    \begin{figure}
+      \centering
+      \begin{plantuml}
+@startuml
+() "Interface 2" as I2
+() "Interface 3" as I3
+[component 1] as c1
+[component 2] as c2
+[component 3] as c3
+c1 -- I2
+c1 -- I3
+I2 )-- c2
+I3 )-- c3
+@enduml
+\end{plantuml}
+      \caption{Component diagram drawn with PlantUML}
+      \label{fig:plantuml-component}
+    \end{figure}
+    <%- eexample %>
+  \else
+    \emph{PlantUML or \texttt{--shell-escape} is not available, so these diagrams are not rendered. See the \texttt{README} on how to enable it.}
+  \fi
 \fi

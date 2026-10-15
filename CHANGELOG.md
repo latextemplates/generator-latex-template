@@ -11,15 +11,20 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Theses show UML diagrams without further tools: MetaUML class and component diagrams (LuaLaTeX) and a pgf-umlsd sequence diagram.
+- `--uml=mermaid`: Mermaid diagrams via ltmermaid.
 
 ### Changed
 
 - The template repositories use minted in their main files; the variants using the listings package are named `*-basic-listings*`.
+- The tikz-uml, PlantUML, and Mermaid examples show the same four diagrams (sequence, class relations, class visibility, components).
+- The Docker question comes after the UML question; with PlantUML or Mermaid, it offers the DANTE e.V. image (default), which contains these tools.
+- With `--docker=dante`, the README, the `Makefile`, and the VS Code settings use the DANTE e.V. image.
 
 ### Fixed
 
 - The interactive generator offers TeX Live 2025 and 2026 (default), also for Overleaf.
 - The PlantUML example no longer uses the undefined command `\lualatex`.
+- The PlantUML example is skipped if PlantUML or `--shell-escape` is missing.
 
 ## [2026.10.15]
 

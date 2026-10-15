@@ -250,30 +250,6 @@ export const options = [
   },
   {
     type: "list",
-    name: "docker",
-    message: "Should a Dockerfile be generated?",
-    choices: [
-      {
-        name: "no",
-        value: false,
-      },
-      {
-        name: "yes (Island of TeX)",
-        value: "iot",
-      },
-      {
-        name: "yes (Reiztig)",
-        value: "reitzig",
-      },
-      {
-        name: "yes (DANTE e.V.)",
-        value: "dante",
-      },
-    ],
-    default: false,
-  },
-  {
-    type: "list",
     name: "lang",
     message: "Which language to use in the document?",
     choices: [
@@ -478,10 +454,53 @@ export const options = [
         value: "tikz-uml",
       },
       {
-        name: "PlantUML (needs LuaLaTeX, --shell-escape, and a PlantUML/Java install)",
+        name: "PlantUML (needs --shell-escape, Java, and PlantUML; contained in the Docker image by DANTE e.V.)",
         value: "plantuml",
+      },
+      {
+        name: "Mermaid (needs --shell-escape and the Mermaid CLI; contained in the Docker image by DANTE e.V.)",
+        value: "mermaid",
       },
     ],
     default: "none",
+  },
+  {
+    type: "list",
+    name: "docker",
+    message: "Should a Dockerfile be generated?",
+    // PlantUML and the Mermaid CLI are contained only in the image by DANTE e.V.
+    choices(state) {
+      const needsDante = state.uml === "plantuml" || state.uml === "mermaid";
+      const res = [
+        {
+          name: "no",
+          value: false,
+        },
+      ];
+      if (!needsDante) {
+        res.push(
+          {
+            name: "yes (Island of TeX)",
+            value: "iot",
+          },
+          {
+            name: "yes (Reiztig)",
+            value: "reitzig",
+          },
+        );
+      }
+      res.push({
+        name: needsDante
+          ? "yes (DANTE e.V.; contains PlantUML and the Mermaid CLI)"
+          : "yes (DANTE e.V.)",
+        value: "dante",
+      });
+      return res;
+    },
+    default(state) {
+      return state.uml === "plantuml" || state.uml === "mermaid"
+        ? "dante"
+        : false;
+    },
   },
 ];

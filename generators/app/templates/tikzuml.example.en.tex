@@ -1,46 +1,82 @@
 <%= heading2 %>{UML diagrams using tikz-uml}
 
-UML class diagrams can be typeset with the \href{https://tikzuml.pages.math.cnrs.fr}{tikz-uml} package.
+UML diagrams can be typeset with the \href{https://tikzuml.pages.math.cnrs.fr}{tikz-uml} package.
 It is \emph{not} part of TeX Live; this template wires it in as a git submodule and points \texttt{TEXINPUTS} at it (see the \texttt{README}).
-When \texttt{tikz-uml.sty} is not available (for example a plain \texttt{npx} generation), the following demo is skipped automatically.
+When \texttt{tikz-uml.sty} is not available (for example a plain \texttt{npx} generation), the following demos are skipped automatically.
 
 \IfFileExists{tikz-uml.sty}{%
-<%- bexample %>
-\begin{figure}
-  \centering
-  \begin{tikzpicture}
-    \begin{umlpackage}{p}
-      \begin{umlpackage}{sp1}
-        \umlclass[template=T]{A}{
-          n : uint \\ t : float
-        }{}
-        \umlclass[y=-3]{B}{
-          d : double
-        }{
-          \umlvirt{setB(b : B) : void} \\ getB() : B}
-      \end{umlpackage}
-      \begin{umlpackage}[x=10,y=-6]{sp2}
-        \umlinterface{C}{
-          n : uint \\ s : string
-        }{}
-      \end{umlpackage}
-      \umlclass[x=2,y=-10]{D}{
-        n : uint
-      }{}
-    \end{umlpackage}
+  <%- bexample %>
+  \begin{figure}
+    \centering
+    \sffamily
+    \begin{tikzpicture}
+      \begin{umlseqdiag}
+        \umlobject{Alice}
+        \umlobject[x=4]{Bob}
+        \begin{umlcall}[op=test]{Alice}{Bob}
+        \end{umlcall}
+      \end{umlseqdiag}
+    \end{tikzpicture}
+    \caption{Sequence diagram drawn with tikz-uml}
+    \label{fig:tikzuml-sequence}
+  \end{figure}
+  <%- eexample %>
 
-    \umlassoc[geometry=-|-, arg1=tata, mult1=*, pos1=0.3, arg2=toto, mult2=1, pos2=2.9, align2=left]{C}{B}
-    \umlunicompo[geometry=-|, arg=titi, mult=*, pos=1.7, stereo=vector]{D}{C}
-    \umlimport[geometry=|-, anchors=90 and 50, name=import]{sp2}{sp1}
-    \umlaggreg[arg=tutu, mult=1, pos=0.8, angle1=30, angle2=60, loopsize=2cm]{D}{D}
-    \umlinherit[geometry=-|]{D}{B}
-    \umlnote[x=2.5,y=-6, width=3cm]{B}{A note with respect to class B}
-    \umlnote[x=7.5,y=-2]{import-2}{A anotation}
-  \end{tikzpicture}
-  \caption{Class diagram generated with tikz-uml. Example adapted from Nicolas Kielbasiewicz.}
-  \label{fig:uml}
-\end{figure}
-<%- eexample %>
+  <%- bexample %>
+  \begin{figure}
+    \centering
+    \sffamily
+    \begin{tikzpicture}
+      % \umlsimpleclass shows the class name only; \umlemptyclass also shows the empty compartments
+      \umlsimpleclass{Driver}
+      \umlsimpleclass[x=4]{Car}
+      \umlsimpleclass[x=8]{Wheel}
+      \umlsimpleclass[x=4, y=-3]{Person}
+      \umlassoc[arg1={drives $>$}, pos1=0.5]{Driver}{Car}
+      % the diamond is drawn at the first class
+      \umlcompo[arg={have 4 $>$}, pos=0.5]{Car}{Wheel}
+      \umlassoc[arg2={$<$ owns}, pos2=0.5]{Car}{Person}
+    \end{tikzpicture}
+    \caption{Class diagram drawn with tikz-uml}
+    \label{fig:tikzuml-class-relations}
+  \end{figure}
+  <%- eexample %>
+
+  <%- bexample %>
+  \begin{figure}
+    \centering
+    \sffamily
+    \begin{tikzpicture}
+      \umlclass{BankAccount}{
+        + owner : String \\ \# balance : double \\ - pin : int \\ \textasciitilde{} auditTrail : List
+      }{
+        + deposit(amount : double) \\ \# applyInterest() \\ - validatePin(pin : int)
+      }
+    \end{tikzpicture}
+    \caption{Class with visibilities drawn with tikz-uml}
+    \label{fig:tikzuml-class-visibility}
+  \end{figure}
+  <%- eexample %>
+
+  <%- bexample %>
+  \begin{figure}
+    \centering
+    \sffamily
+    \begin{tikzpicture}
+      \begin{umlcomponent}{component 1}
+      \end{umlcomponent}
+      \begin{umlcomponent}[x=7, y=1.5]{component 2}
+      \end{umlcomponent}
+      \begin{umlcomponent}[x=7, y=-1.5]{component 3}
+      \end{umlcomponent}
+      % the first component requires the interface (socket), the second one provides it (ball)
+      \umlassemblyconnector[interface=Interface 2]{component 2}{component 1}
+      \umlassemblyconnector[interface=Interface 3]{component 3}{component 1}
+    \end{tikzpicture}
+    \caption{Component diagram drawn with tikz-uml}
+    \label{fig:tikzuml-component}
+  \end{figure}
+  <%- eexample %>
 }{%
-  \emph{The \texttt{tikz-uml} package is not installed, so this diagram is not rendered. See the \texttt{README} on how to enable it.}
+  \emph{The \texttt{tikz-uml} package is not installed, so these diagrams are not rendered. See the \texttt{README} on how to enable it.}
 }

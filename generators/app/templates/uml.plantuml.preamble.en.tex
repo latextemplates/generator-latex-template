@@ -1,6 +1,26 @@
-% plantuml: UML diagrams rendered by the external PlantUML tool. Needs lualatex,
-% the --shell-escape flag, and a PlantUML installation (Java). Guarded so a plain
-% generation without the tool still compiles.
+% PlantUML: UML diagrams rendered by the external PlantUML tool. Needs lualatex, --shell-escape,
+% and PlantUML (the plantuml command or $PLANTUML_JAR; both contained in the Docker image by DANTE e.V.).
+% Without these prerequisites, the PlantUML example is skipped.
 \ifluatex
-  \IfFileExists{plantuml.sty}{\usepackage[output=latex]{plantuml}}{}
+  % Checks whether --shell-escape is enabled and whether one of the given programs is on the PATH
+  \usepackage{luacode}
+  \begin{luacode*}
+    function ltg_on_path(names)
+      for dir in string.gmatch(os.getenv("PATH") or "", "[^:;]+") do
+        for _, name in ipairs(names) do
+          local file = io.open(dir .. "/" .. name, "r")
+          if file then
+            file:close()
+            return true
+          end
+        end
+      end
+      return false
+    end
+    ltg_uml_available = status.shell_escape == 1 and (os.getenv("PLANTUML_JAR") or ltg_on_path({"plantuml", "plantuml.bat", "plantuml.cmd"}))
+  \end{luacode*}
+  \ifnum\directlua{tex.sprint(ltg_uml_available and 1 or 0)}=1
+    % output=latex: PlantUML generates TikZ code, so the diagrams use the fonts of the document
+    \usepackage[output=latex]{plantuml}
+  \fi
 \fi

@@ -32,6 +32,11 @@ jobs:
         # Renders the PlantUML UML example (needs Java + the plantuml tool; --shell-escape is set in latexmkrc).
         run: sudo apt-get update && sudo apt-get install -y plantuml
 <% } -%>
+<% if (uml == "mermaid") { -%>
+      - name: Install the Mermaid CLI
+        # Renders the Mermaid UML example (Node.js and Chrome are preinstalled on the runner; --shell-escape is set in latexmkrc).
+        run: npm install -g @mermaid-js/mermaid-cli
+<% } -%>
       - name: Prepare latexmk
         run: |
           updmap -sys

@@ -38,7 +38,7 @@ ieeevariants = ['conference', 'journal', 'peerreview']
 # Thesis only (scientific-thesis / ustutt), and only when examples are enabled.
 # Kept in sync with __tests__/matrix.js. The UML examples are exercised by the
 # generation test (npm test); this heavy LaTeX compile matrix pins uml to "none"
-# on purpose -- tikz-uml/plantuml need external tooling and would only triple the
+# on purpose -- tikz-uml/plantuml/mermaid need external tooling and would only multiply the
 # ustutt compile jobs for guarded demos that skip without it.
 umls = ['none']
 

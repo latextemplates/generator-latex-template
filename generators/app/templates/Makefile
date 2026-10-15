@@ -11,14 +11,14 @@ viewer = open
 else
 viewer = xdg-open
 endif
-<% if (docker == "iot") { -%>
+<% if (dockerCompile) { -%>
 
 ## The LaTeX tools run in the TeX Live Docker image (see README.md); "make LOCAL=1" uses the local LaTeX distribution
 ifeq ($(LOCAL),)
 ifeq ($(OS),Windows_NT)
-RUN = docker run --rm -v "$(CURDIR):/workdir" -w /workdir <%= iotImage %>
+RUN = docker run --rm -v "$(CURDIR):/workdir" -w /workdir <%= dockerImage %>
 else
-RUN = docker run --rm -u $(shell id -u):$(shell id -g) -e HOME=/tmp -v "$(CURDIR):/workdir" -w /workdir <%= iotImage %>
+RUN = docker run --rm -u $(shell id -u):$(shell id -g) -e HOME=/tmp -v "$(CURDIR):/workdir" -w /workdir <%= dockerImage %>
 endif
 endif
 <% } -%>

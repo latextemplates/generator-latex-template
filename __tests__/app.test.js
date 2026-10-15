@@ -111,3 +111,37 @@ describe("published README is the same for English and German", () => {
     });
   }
 });
+
+// PlantUML and the Mermaid CLI are contained only in the Docker image by DANTE e.V.
+describe("Docker image for UML tools", () => {
+  for (const uml of ["plantuml", "mermaid"]) {
+    it(`uses the DANTE image by default for uml=${uml}`, async () => {
+      const runResult = await helpers.run(generatorPath).withAnswers({
+        documentclass: "scientific-thesis",
+        lang: "en",
+        latexcompiler: "lualatex",
+        texlive: 2026,
+        examples: true,
+        uml,
+      });
+      assert.strictEqual(runResult.generator.props.docker, "dante");
+      runResult.assertFileContent("README.md", "danteev/texlive:edge latexmk");
+      runResult.assertFileContent("Dockerfile", "FROM danteev/texlive:edge");
+    });
+  }
+  it("keeps the Island of TeX image without UML tools", async () => {
+    const runResult = await helpers.run(generatorPath).withAnswers({
+      documentclass: "scientific-thesis",
+      lang: "en",
+      latexcompiler: "lualatex",
+      texlive: 2026,
+      examples: true,
+      uml: "none",
+      docker: "iot",
+    });
+    runResult.assertFileContent(
+      "README.md",
+      "registry.gitlab.com/islandoftex/images/texlive:latest latexmk",
+    );
+  });
+});
