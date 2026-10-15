@@ -395,6 +395,20 @@ The image does not contain PlantUML, so the PlantUML example is skipped when com
    ```
 
 1. Optional: Let VS Code compile in the container, see ["VS Code configuration"](#vs-code-configuration).
+<% switch (docker) { case "reitzig": -%>
+
+Alternatively, use the generated `Dockerfile`, which is based on the [Dockerfile by reitzig](https://github.com/reitzig/texlive-docker).
+It keeps the document sources separate from the output directory.
+Build the image once with `docker build -t ltg .` and then compile:
+
+```cmd
+docker run --rm -v "c:\users\example\latex-document:/work/src" -v "c:\users\example\latex-document\out:/work/out" ltg work latexmk
+```
+<% break; case "iot": -%>
+
+If you need additional tools in the image (for instance, PlantUML), extend the generated `Dockerfile`, build it with `docker build -t ltg .`, and use `ltg` instead of the image name.
+<% break; default: -%>
+<% break; } -%>
 
 #### Traditional
 
@@ -625,34 +639,6 @@ For example:
 ```latex
 \foreignlanguage{english}{Therefore, our proposed approach will change the world.}
 ```
-<% switch (docker) { case "reitzig": -%>
-
-## Usage with docker
-
-The generated `Dockerfile` is based on the [Dockerfile by reitzig](https://github.com/reitzig/texlive-docker).
-The idea of that system is to host the document sources in a directory separated from the output directory.
-
-```cmd
-docker run --rm -v "c:\users\example\latex-document:/work/src" -v "c:\users\example\latex-document\out:/work/out" ltg work latexmk
-```
-
-Following one-time setup is required:
-
-```cmd
-docker build -t ltg .
-```
-
-<% break; case "iot": -%>
-
-## Usage with docker
-
-The [TeX Live image by the Island of TeX](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image) is used as is - there is no need to build an own image.
-See ["Docker-based (recommended)"](#docker-based-recommended) for the installation of Docker and the commands to compile on Windows, Linux, and macOS.
-
-If you need additional tools in the image (for instance, PlantUML), extend the generated `Dockerfile`, build it with `docker build -t ltg .`, and use `ltg` instead of the image name.
-
-<% break; default: -%>
-<% break; } -%>
 <% if (documentclass != "mwe") { -%>
 ## FAQs
 
