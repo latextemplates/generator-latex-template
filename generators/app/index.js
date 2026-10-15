@@ -421,7 +421,13 @@ export default class extends Generator {
         .split("\n")
         .slice(1)
         .join("\n");
-      this.fs.write(this.destinationPath(".textidote.dict"), words);
+      // aspell word lists cannot contain hyphenated words
+      const hyphenated =
+        "zref-clever\nZref-clever\nzref-vario\nZref-vario\npgf-umlsd\nmarkdown-latex-quickstart\n";
+      this.fs.write(
+        this.destinationPath(".textidote.dict"),
+        words + hyphenated,
+      );
     }
 
     if (this.props.documentclass === "lncs") {

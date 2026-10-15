@@ -28,6 +28,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The interactive generator offers TeX Live 2025 and 2026 (default), also for Overleaf.
 - The PlantUML example no longer uses the undefined command `\lualatex`.
 - The PlantUML example is skipped if PlantUML or `--shell-escape` is missing.
+- Example texts: spelling and grammar fixed.
 
 ## [2026.10.15]
 
