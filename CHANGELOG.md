@@ -24,6 +24,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
 - The generated `check.yml` pins all GitHub Actions to commit SHAs.
 - README.md: sections reordered.
+- Only theses embed the `.bib` file into the PDF.
 
 ### Fixed
 

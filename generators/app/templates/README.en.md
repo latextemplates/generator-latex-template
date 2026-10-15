@@ -348,10 +348,6 @@ Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN`, `\ci
 <% if (isPaper) { -%>
 ## Final submission
 
-The compiled PDF embeds the `<%= filenames.bib %>.bib` file (via the [embedfile](https://ctan.org/pkg/embedfile) package), so readers can extract the reference data from the PDF, e.g., with JabRef via "Import into library".
-Some publishers' final-submission checks (e.g., IEEE PDF eXpress or PDF/A validation) reject PDFs containing file attachments.
-If your submission system complains, comment out the `\embedfile` line in `<%= filenames.main %>.tex` for the camera-ready version.
-
 ### arXiv
 
 The first line of `<%= filenames.main %>.tex` is `\ifdefined\pdfoutput\pdfoutput=1\fi`.
