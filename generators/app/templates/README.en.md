@@ -323,37 +323,9 @@ Following additional files are included, which do not need to be adapted:
 The official template is available at <https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines> --> "Templates, samples files & useful links" --> "LaTeX2e Proceedings Templates (zip)"
 
 <% break; case "ieee": -%>
-## Using the template for a THU term paper
-
-If your seminar at the Technische Hochschule Ulm (THU) requires the IEEE conference format, adapt the template as follows (double check the requirements with your supervisor):
-
-- Enable page numbers: uncomment `\pagestyle{plain}` after `\maketitle`.
-- Use the THU affiliation in the author block:
-
-  ```latex
-  \author{\IEEEauthorblockN{Given Name Surname}
-  \IEEEauthorblockA{\textit{Department of Computer Science} \\
-  \textit{Ulm University of Applied Sciences (THU)}\\
-  Ulm, Germany \\
-  youremail@thu.de}}
-  ```
-
-Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN`, `\citet`, links without colored boxes) is already set up.
-
 <% break; default: -%>
 <% break; }
 } else { -%>
-<% } -%>
-<% if (isPaper) { -%>
-## Final submission
-
-### arXiv
-
-The first line of `<%= filenames.main %>.tex` is `\ifdefined\pdfoutput\pdfoutput=1\fi`.
-Keep it when uploading to arXiv: arXiv scans the first lines for `\pdfoutput=1` to decide between `pdflatex` and DVI-producing `latex`.
-Without the line, arXiv falls back to `latex`, which cannot build the modern fonts (they ship without Metafont sources) and aborts with an error such as `! I can't find file 'clmr28t10+20'`.
-See [this question on TeX.SE](https://tex.stackexchange.com/q/584702/9075) for details.
-
 <% } -%>
 ## LaTeX compilation
 
@@ -571,19 +543,39 @@ You can manually trigger compilation by hitting the green button in the extensio
 
 [LTeX+] is an offline grammar and spell checker with support for LaTeX and Markdown.
 
-Add a magic comment to your files to tell LTeX+ which language to use:
+The main file starts with a magic comment that tells LTeX+ the language of the document: `% LTeX: language=<%= (language == "de") ? "de-DE" : "en-US" %>`.
+Add the same comment to further `.tex` files.
 
-```latex
-% LTeX: language=de-DE
-```
+<% if (githubpublish && (documentclass == "ieee")) { -%>
+## Using the template for a THU term paper
 
-If you want to use different languages in the text, use the `\foreignlanguage{language}{text}` command.
-LTeX+ will detect these elements and automatically switch the spell checker's language.
-For example:
+If your seminar at the Technische Hochschule Ulm (THU) requires the IEEE conference format, adapt the template as follows (double check the requirements with your supervisor):
 
-```latex
-\foreignlanguage{english}{Therefore, our proposed approach will change the world.}
-```
+- Enable page numbers: uncomment `\pagestyle{plain}` after `\maketitle`.
+- Use the THU affiliation in the author block:
+
+  ```latex
+  \author{\IEEEauthorblockN{Given Name Surname}
+  \IEEEauthorblockA{\textit{Department of Computer Science} \\
+  \textit{Ulm University of Applied Sciences (THU)}\\
+  Ulm, Germany \\
+  youremail@thu.de}}
+  ```
+
+Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN`, `\citet`, links without colored boxes) is already set up.
+
+<% } -%>
+<% if (isPaper) { -%>
+## Final submission
+
+### arXiv
+
+The first line of `<%= filenames.main %>.tex` is `\ifdefined\pdfoutput\pdfoutput=1\fi`.
+Keep it when uploading to arXiv: arXiv scans the first lines for `\pdfoutput=1` to decide between `pdflatex` and DVI-producing `latex`.
+Without the line, arXiv falls back to `latex`, which cannot build the modern fonts (they ship without Metafont sources) and aborts with an error such as `! I can't find file 'clmr28t10+20'`.
+See [this question on TeX.SE](https://tex.stackexchange.com/q/584702/9075) for details.
+
+<% } -%>
 <% if (documentclass != "mwe") { -%>
 ## FAQs
 
@@ -596,6 +588,16 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 ```
 
 Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
+
+### Q: How do I check a passage in another language?
+
+Use the `\foreignlanguage{language}{text}` command.
+LTeX+ will detect these elements and automatically switch the spell checker's language.
+For example:
+
+```latex
+\foreignlanguage{english}{Therefore, our proposed approach will change the world.}
+```
 <% switch (documentclass) { case "lncs": -%>
 
 ### Q: Overleaf outputs a warning regarding the llncs class
@@ -873,6 +875,16 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 ```
 
 Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
+
+### Q: How do I check a passage in another language?
+
+Use the `\foreignlanguage{language}{text}` command.
+LTeX+ will detect these elements and automatically switch the spell checker's language.
+For example:
+
+```latex
+\foreignlanguage{english}{Therefore, our proposed approach will change the world.}
+```
 
 <% } -%>
 <% if (githubpublish && (documentclass == "ieee")) { -%>
