@@ -23,7 +23,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Recommend the `james-yu.latex-workshop` VS Code extension, replacing `manhen.latex-workshop-2` since it is unmaintained and has been removed from the stores.
 - The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
 - The generated `check.yml` pins all GitHub Actions to commit SHAs.
-- README: "Quick start" (merged with "Usage") comes before "Benefits"; "Using `latexmk`", "Debugging LaTeX errors", and "Advanced usage" moved to "Tool hints".
+- README: "Quick start" (merged with "Usage") comes before "Benefits"; "Using `latexmk`" and "Advanced usage" moved to "Tool hints"; "Debugging LaTeX errors" is the first FAQ.
 
 ### Fixed
 

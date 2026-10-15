@@ -483,16 +483,6 @@ You can make this local configuration a global configuration, when you put it at
 If you want to add more packages, configure it there.
 For instance, for support of `makeglossaries` see <http://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries>.
 
-### Debugging LaTeX errors
-
-In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
-
-```bash
-<%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
-```
-
-Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
-
 ### Advanced usage
 
 On the command line, there are additional features:
@@ -706,6 +696,16 @@ Following additional files are included, which do not need to be adapted:
 - [Texlivefile](Texlivefile) - List of packages required for a minimal TeXLive installation.
 
 ## FAQs
+
+### Q: How do I find the cause of a LaTeX error?
+
+In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
+
+```bash
+<%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
+```
+
+Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
 <% switch (documentclass) { case "lncs": -%>
 
 ### Q: Overleaf outputs a warning regarding the llncs class
@@ -971,6 +971,20 @@ You did not setup the [plantuml package](https://www.ctan.org/pkg/plantuml) corr
 Please head to <https://koppor.github.io/plantuml/> for installation instructions.
 
 <% } -%>
+<% } -%>
+<% if (documentclass == "mwe") { -%>
+## FAQs
+
+### Q: How do I find the cause of a LaTeX error?
+
+In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
+
+```bash
+<%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
+```
+
+Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
+
 <% } -%>
 ## Further information
 
