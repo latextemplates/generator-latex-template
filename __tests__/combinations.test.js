@@ -26,10 +26,10 @@ describe(`generator runs for all switch combinations (pairwise, ${combos.length}
       if (["acmart", "ieee", "lncs"].includes(combo.documentclass)) {
         runResult.assertNoFileContent(mainFile(combo), "\\mainmatter");
       }
-      // Embedding the .bib file into the PDF is opt-in: the lines are commented out.
+      // Embedding the .bib file and the self-archiving version are opt-in: the lines are commented out.
       runResult.assertNoFileContent(
         mainFile(combo),
-        /^\\(usepackage\{embedfile\}|embedfile\[)/m,
+        /^\\(usepackage\{embedfile\}|embedfile\[|usepackage\[\w+\]\{authorarchive\})/m,
       );
       // The mwe wrapper pulls its prose from an external Markdown manuscript;
       // make sure that file is emitted too.

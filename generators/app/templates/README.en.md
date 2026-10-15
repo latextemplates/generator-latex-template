@@ -717,7 +717,11 @@ The possible options are listed in `<%= filenames.main %>.tex`.
 <% if (isPaper) { -%>
 ### Q: Is it possible produce a self-archiving version?
 
-Use the [`authorarchive` package](https://ctan.org/pkg/authorarchive) with the layout `<%= ({ acmart: "ACM", ieee: "IEEE", lncs: "LNCS" })[documentclass] %>`.
+<% if (documentclass == "acmart") { -%>
+Add the class option `authorversion` (see the comment at `\documentclass` in `<%= filenames.main %>.tex`).
+<% } else { -%>
+Use the [`authorarchive` package](https://ctan.org/pkg/authorarchive); `<%= filenames.main %>.tex` contains a commented example.
+<% } -%>
 
 <% } -%>
 ### Q: Can I also write in German?

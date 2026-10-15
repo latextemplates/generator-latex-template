@@ -13,6 +13,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The scientific thesis has a variant for the Technische Hochschule Ulm (`--thesisvariant=thu`).
 - The table examples show colored rows and cells. [scientific-thesis-template#87](https://github.com/latextemplates/scientific-thesis-template/pull/87)
 - `make log` shows the relevant messages of the LaTeX log (texlogsieve).
+- Paper templates contain a commented example for a self-archiving version (`authorarchive` for IEEE and LNCS, class option `authorversion` for ACM).
 
 ### Changed
 
@@ -49,7 +50,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - German documents configure `autotype` with `ligatures=selective` instead of the outdated `ligbreak`.
 - TeX Gyre Heros (the sans-serif font with `--font=times`) is available in bold.
 - `kvoptions-patch` is loaded only up to TeX Live 2025; LaTeX 2026-06-01 aborts loading it.
-- README.md: the self-archiving FAQ appears in all paper templates.
+- README.md: the self-archiving FAQ appears in all paper templates; ACM uses `authorversion` instead of `authorarchive`.
 
 ## [2026.10.13]
 

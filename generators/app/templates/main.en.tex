@@ -53,6 +53,7 @@
 <% break; case "acmart": -%>
 
 % Alternative to balance is the pbalance package (see https://ctan.org/pkg/pbalance), which sometimes works better
+% For a self-archiving version (e.g., for your homepage), add the class option authorversion
 \documentclass[<%= acmformat %>,<% if (acmreview) { %>review,<% } %>balance]{acmart}
 <% break; case "ieee": -%>
 
@@ -226,6 +227,10 @@
 <% break; } -%>
 
 <%- include('embedfile.preamble.en.tex', this); -%>
+<% if ((documentclass == "ieee") || (documentclass == "lncs")) { -%>
+
+<%- include('authorarchive.preamble.en.tex', this); -%>
+<% } -%>
 <% switch (documentclass) { case "acmart": -%>
 
 \citestyle{<%= authoryear ? "acmauthoryear" : "acmnumeric" %>} % alternative: <%= authoryear ? "acmnumeric" : "acmauthoryear" %>
