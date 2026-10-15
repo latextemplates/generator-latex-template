@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
+- Recommend the `james-yu.latex-workshop` VS Code extension, replacing `manhen.latex-workshop-2` since it is unmaintained and has been removed from the stores.
 - The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
 
 ### Fixed
