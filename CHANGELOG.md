@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Theses show UML diagrams without further tools: MetaUML class and component diagrams (LuaLaTeX) and a pgf-umlsd sequence diagram.
+
 ### Changed
 
 - The template repositories use minted in their main files; the variants using the listings package are named `*-basic-listings*`.
@@ -15,6 +19,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - The interactive generator offers TeX Live 2025 and 2026 (default), also for Overleaf.
+- The PlantUML example no longer uses the undefined command `\lualatex`.
 
 ## [2026.10.15]
 

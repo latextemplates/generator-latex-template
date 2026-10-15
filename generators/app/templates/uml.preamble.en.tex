@@ -1,0 +1,14 @@
+% UML diagrams without external tools (see the "UML diagrams" section in the LaTeX hints):
+% - MetaUML (class and component diagrams) is MetaPost code, which lualatex runs itself via luamplib
+% - pgf-umlsd (sequence diagrams) is TikZ code, which works with every engine
+\ifluatex
+  \usepackage{luamplib}
+  % Typeset the labels of MetaUML with TeX, i.e., in the fonts of the document
+  \mplibtextextlabel{enable}
+  % luamplib calls \tag_mc_reset_box:N also when PDF tagging is off; the LaTeX kernel provides no
+  % no-op for it (in contrast to the other tagging commands), which leads to "Undefined control sequence"
+  \ExplSyntaxOn
+  \cs_if_exist:NF \tag_mc_reset_box:N { \cs_new_protected:Npn \tag_mc_reset_box:N #1 { } }
+  \ExplSyntaxOff
+\fi
+\usepackage{pgf-umlsd}

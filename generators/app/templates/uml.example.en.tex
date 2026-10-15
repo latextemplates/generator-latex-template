@@ -1,0 +1,78 @@
+<%= heading2 %>{UML diagrams}
+
+UML diagrams can be written as text next to the \LaTeX{} source and are typeset in the fonts of the document.
+\href{https://ctan.org/pkg/metauml}{MetaUML} draws class, component, and further diagrams.
+It is MetaPost code, which \texttt{lualatex} runs itself via the \href{https://ctan.org/pkg/luamplib}{luamplib} package; no further tools are needed.
+Thus, the MetaUML diagrams are shown only when compiling with \texttt{lualatex}.
+\href{https://ctan.org/pkg/pgf-umlsd}{pgf-umlsd} draws sequence diagrams with TikZ and works with every engine.
+A comparison of the packages for UML diagrams is given at \url{https://github.com/latextemplates/gadr-latex-packages/blob/main/uml-diagrams.md}.
+
+\ifluatex
+  <%- bexample %>
+  \begin{figure}
+    \centering
+    \sffamily
+    \begin{mplibcode}
+      input metauml;
+      beginfig(1);
+      Class.Driver("Driver")()();
+      Class.Car("Car")("+model: String")("+drive()");
+      Class.Wheel("Wheel")()();
+      Class.Person("Person")()();
+      % distances between the boxes in PostScript points (1/72 inch)
+      leftToRight(70)(Driver, Car, Wheel);
+      topToBottom(50)(Car, Person);
+      drawObjects(Driver, Car, Wheel, Person);
+      link(association)(Driver.e -- Car.w);
+      item(iAssoc)("drives >")(obj.s = .5[Driver.e, Car.w]);
+      % the diamond is drawn at the end of the path
+      link(composition)(Wheel.w -- Car.e);
+      item(iAssoc)("have 4 >")(obj.s = .5[Car.e, Wheel.w]);
+      link(association)(Car.s -- Person.n);
+      item(iAssoc)("< owns")(obj.w = .5[Car.s, Person.n] + (5, 0));
+      endfig;
+    \end{mplibcode}
+    \caption{Class diagram drawn with MetaUML}
+    \label{fig:uml-class}
+  \end{figure}
+  <%- eexample %>
+
+  <%- bexample %>
+  \begin{figure}
+    \centering
+    \sffamily
+    \begin{mplibcode}
+      input metauml;
+      beginfig(1);
+      Component.Client("Client")();
+      Component.Server("Server")();
+      Server.w = Client.e + (140, 0);
+      drawObjects(Client, Server);
+      % the interface: Server provides it (ball), Client requires it (socket)
+      pair api;
+      api = .5[Client.e, Server.w];
+      link(providedInterface)(Server.w -- api);
+      link(requiredInterface)(Client.e -- api);
+      item(iAssoc)("API")(obj.s = api + (0, 8));
+      endfig;
+    \end{mplibcode}
+    \caption{Component diagram drawn with MetaUML}
+    \label{fig:uml-component}
+  \end{figure}
+  <%- eexample %>
+\fi
+
+<%- bexample %>
+\begin{figure}
+  \centering
+  \sffamily
+  \begin{sequencediagram}
+    \newthread{client}{Client}
+    \newinst[3]{server}{Server}
+    \begin{call}{client}{request()}{server}{response}
+    \end{call}
+  \end{sequencediagram}
+  \caption{Sequence diagram drawn with pgf-umlsd}
+  \label{fig:uml-sequence}
+\end{figure}
+<%- eexample %>
