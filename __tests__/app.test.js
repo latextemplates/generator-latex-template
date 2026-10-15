@@ -71,10 +71,16 @@ describe("ustutt dissertation", () => {
   });
 });
 
-// The "Update files" workflows of lncs-enhanced and uni-stuttgart-dissertation-template
-// generate both languages into one repository. A README that differs between the
-// languages makes the bot commit in a loop.
-describe("published README is the same for English and German", () => {
+// The "Update files" workflows of lncs-enhanced, scientific-thesis-template, and
+// uni-stuttgart-dissertation-template generate both languages into one repository.
+// A shared file that differs between the languages makes the bot commit in a loop.
+// (scientific-thesis-template keeps the README of the English variant only.)
+const textidoteFiles = [
+  ".textidote",
+  ".textidote.dict",
+  ".textidote.replacements",
+];
+describe("published shared files are the same for English and German", () => {
   const common = {
     githubpublish: true,
     docker: "iot",
@@ -87,7 +93,7 @@ describe("published README is the same for English and German", () => {
     todo: "pdfcomment",
     examples: true,
   };
-  for (const [name, options] of [
+  for (const [name, options, sharedFiles] of [
     [
       "lncs",
       {
@@ -97,17 +103,31 @@ describe("published README is the same for English and German", () => {
         font: "default",
         howtotext: false,
       },
+      ["README.md", ...textidoteFiles],
     ],
-    ["ustutt", { documentclass: "ustutt", howtotext: true, uml: "none" }],
+    [
+      "ustutt",
+      { documentclass: "ustutt", howtotext: true, uml: "none" },
+      ["README.md", ...textidoteFiles],
+    ],
+    [
+      "scientific-thesis",
+      { documentclass: "scientific-thesis", howtotext: true, uml: "none" },
+      textidoteFiles,
+    ],
   ]) {
     it(name, async () => {
-      const readme = async (lang) => {
+      const generate = async (lang) => {
         const runResult = await helpers
           .run(generatorPath)
           .withOptions({ ...common, ...options, lang });
-        return fs.readFileSync(path.join(runResult.cwd, "README.md"), "utf8");
+        return sharedFiles.map((file) =>
+          fs.readFileSync(path.join(runResult.cwd, file), "utf8"),
+        );
       };
-      assert.strictEqual(await readme("de"), await readme("en"));
+      const de = await generate("de");
+      const en = await generate("en");
+      sharedFiles.forEach((file, i) => assert.strictEqual(de[i], en[i], file));
     });
   }
 });

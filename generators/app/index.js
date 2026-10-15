@@ -405,28 +405,36 @@ export default class extends Generator {
     }
 
     // TeXtidote (spelling, grammar, and style; CI job "textidote") reads its options from .textidote.
-    // Its dictionary is the aspell word list without the aspell header line.
+    // Its dictionary contains the words of both aspell word lists (without their header lines).
+    // Both files must not depend on the language: some templates publish both languages into one repository.
     if (this.props.documentclass !== "mwe") {
-      this.fs.copyTpl(
+      this.fs.copy(
         this.templatePath("dot.textidote"),
         this.destinationPath(".textidote"),
-        this.props,
       );
       this.fs.copy(
         this.templatePath("dot.textidote.replacements"),
         this.destinationPath(".textidote.replacements"),
       );
-      const words = this.fs
-        .read(this.templatePath(`dot.aspell.${this.props.language}.pws`))
-        .split("\n")
-        .slice(1)
+      const words = [
+        ...new Set(
+          ["en", "de"].flatMap((lang) =>
+            this.fs
+              .read(this.templatePath(`dot.aspell.${lang}.pws`))
+              .split("\n")
+              .slice(1)
+              .filter((word) => word !== ""),
+          ),
+        ),
+      ]
+        .sort((a, b) => a.localeCompare(b, "en"))
         .join("\n");
       // aspell word lists cannot contain hyphenated words
       const hyphenated =
         "zref-clever\nZref-clever\nzref-vario\nZref-vario\npgf-umlsd\nmarkdown-latex-quickstart\n";
       this.fs.write(
         this.destinationPath(".textidote.dict"),
-        words + hyphenated,
+        words + "\n" + hyphenated,
       );
     }
 
