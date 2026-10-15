@@ -111,6 +111,10 @@ aspell:
 			aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.en.pws -c $$tex;
 		done
 
+## Show only the relevant messages of the last LaTeX run
+log:
+	$(RUN) texlogsieve --no-heartbeat $(SRC).log
+
 showundef:
 	grep undefined $(LOG)
 

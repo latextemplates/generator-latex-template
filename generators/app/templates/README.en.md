@@ -476,6 +476,7 @@ On the command line, there are additional features:
 - `make` builds the PDF
 <% } -%>
 - `latexmk -C` or `make clean` for cleaning up
+- `make log` shows only the relevant messages of the last LaTeX run (using [texlogsieve](https://ctan.org/pkg/texlogsieve))
 - `make format` to reformat the `.tex` files (one sentence per line and indent)
 - `make aspell` for interactive spell checking
 - `make stand`: Creates a new PDF with the current status of the document.
