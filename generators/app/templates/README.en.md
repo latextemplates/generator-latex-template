@@ -292,6 +292,30 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 <% break; default: -%>
 <% break; } -%>
 <% } -%>
+<% if (documentclass != "mwe") { -%>
+## Contained Directories and Files
+
+### Directories
+
+- [figures](figures/) Directory containing the figures.
+  By using LuaLaTex/PDFLaTeX it is possible to use PDFs, JPGs, PNGs, ... We recommend to use PDFs to enable smooth scaling.
+
+### Files
+
+- `<%= filenames.main %>.tex` - The main `.tex` file loading all LaTeX packages and their configurations.
+  - Add text here
+  - Adjust title etc. here
+- [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
+- [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
+- [commands.tex](commands.tex) - Example LaTeX macros.
+
+Following additional files are included, which do not need to be adapted:
+
+- [localSettings.yaml](localSettings.yaml) - Settings for [latexindent](https://ctan.org/pkg/latexindent)
+- [Makefile](Makefile) - The Makefile. Builds on latexmk.
+- [Texlivefile](Texlivefile) - List of packages required for a minimal TeXLive installation.
+
+<% } -%>
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
@@ -316,44 +340,6 @@ If your seminar at the Technische Hochschule Ulm (THU) requires the IEEE confere
   ```
 
 Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN`, `\citet`, links without colored boxes) is already set up.
-
-## Attention regarding `compsocconf`
-
-Some conferences distribute a `IEEEtran.cls` V1.7a dated 2007 and a parameter `compsocconf`.
-**The parameter `compsocconf` was NEVER included in Michael Shell's `IEEEtran.cls` file. It is unclear, who did this patch and why it is around in the wild.**
-
-The most recent version is V1.8b and automatically distributed over CTAN, because it is actively maintained by Michael Shell at <http://www.michaelshell.org/tex/ieeetran/>.
-A full changelog is available at <http://mirror.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/changelog.txt>.
-
-```text
- 2014/09/17 V1.8a (MDS) changes:
-
- 1) Extensive rework of the compsoc mode to comply with the latest standards
-    of the IEEE Computer Society.
-```
-
-The class parameter `compsocconf` never existed officially.
-One has to use `conference, compsoc`, because the parameters are "orthogonal": Either "conference" or "journal", either "compsoc" or not.
-With a modern IEEEtran.cls, you'll get
-
-```text
-LaTeX Warning: Unused global option(s):
-    [compsocconf].
-```
-
-## `compsoc` option is not needed any more
-
-IEEE distributes their templates at <https://www.ieee.org/conferences_events/conferences/publishing/templates.html>.
-With the update of July 2017, the archive <https://www.ieee.org/documents/ieee-latex-conference-template.zip> contains both `bare_conf.tex` and `bare_conf_compsoc.tex`.
-Thus, the conference should state which option to use.
-
-All in all, the distributions of IEEEtran from 2007 are roughly equivalent to `\documentclass[conference]{IEEEtran}` (and version V1.8b), which **does not comply** with IEEE's rules for computer science conferences, because the `compsoc` option is missing.
-
-Hence, **double check with your conference whether you have to use `compsoc` or not.**
-
-Statement from IEEE:
-
-> Please note that, as stated on the webpage <https://www.ieee.org/conferences_events/conferences/publishing/templates.html>. "IEEE does not require a specific format for their conference articles". Thus, we dot not purport that the "compsoc" is a requirement for publishing conference papers with us.
 
 <% break; default: -%>
 <% break; }
@@ -672,28 +658,6 @@ If you need additional tools in the image (for instance, PlantUML), extend the g
 <% break; default: -%>
 <% break; } -%>
 <% if (documentclass != "mwe") { -%>
-## Contained Directories and Files
-
-### Directories
-
-- [figures](figures/) Directory containing the figures.
-  By using LuaLaTex/PDFLaTeX it is possible to use PDFs, JPGs, PNGs, ... We recommend to use PDFs to enable smooth scaling.
-
-### Files
-
-- `<%= filenames.main %>.tex` - The main `.tex` file loading all LaTeX packages and their configurations.
-  - Add text here
-  - Adjust title etc. here
-- [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
-- [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
-- [commands.tex](commands.tex) - Example LaTeX macros.
-
-Following additional files are included, which do not need to be adapted:
-
-- [localSettings.yaml](localSettings.yaml) - Settings for [latexindent](https://ctan.org/pkg/latexindent)
-- [Makefile](Makefile) - The Makefile. Builds on latexmk.
-- [Texlivefile](Texlivefile) - List of packages required for a minimal TeXLive installation.
-
 ## FAQs
 
 ### Q: How do I find the cause of a LaTeX error?
@@ -983,6 +947,46 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 ```
 
 Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
+
+<% } -%>
+<% if (githubpublish && (documentclass == "ieee")) { -%>
+## Attention regarding `compsocconf`
+
+Some conferences distribute a `IEEEtran.cls` V1.7a dated 2007 and a parameter `compsocconf`.
+**The parameter `compsocconf` was NEVER included in Michael Shell's `IEEEtran.cls` file. It is unclear, who did this patch and why it is around in the wild.**
+
+The most recent version is V1.8b and automatically distributed over CTAN, because it is actively maintained by Michael Shell at <http://www.michaelshell.org/tex/ieeetran/>.
+A full changelog is available at <http://mirror.ctan.org/tex-archive/macros/latex/contrib/IEEEtran/changelog.txt>.
+
+```text
+ 2014/09/17 V1.8a (MDS) changes:
+
+ 1) Extensive rework of the compsoc mode to comply with the latest standards
+    of the IEEE Computer Society.
+```
+
+The class parameter `compsocconf` never existed officially.
+One has to use `conference, compsoc`, because the parameters are "orthogonal": Either "conference" or "journal", either "compsoc" or not.
+With a modern IEEEtran.cls, you'll get
+
+```text
+LaTeX Warning: Unused global option(s):
+    [compsocconf].
+```
+
+## `compsoc` option is not needed any more
+
+IEEE distributes their templates at <https://www.ieee.org/conferences_events/conferences/publishing/templates.html>.
+With the update of July 2017, the archive <https://www.ieee.org/documents/ieee-latex-conference-template.zip> contains both `bare_conf.tex` and `bare_conf_compsoc.tex`.
+Thus, the conference should state which option to use.
+
+All in all, the distributions of IEEEtran from 2007 are roughly equivalent to `\documentclass[conference]{IEEEtran}` (and version V1.8b), which **does not comply** with IEEE's rules for computer science conferences, because the `compsoc` option is missing.
+
+Hence, **double check with your conference whether you have to use `compsoc` or not.**
+
+Statement from IEEE:
+
+> Please note that, as stated on the webpage <https://www.ieee.org/conferences_events/conferences/publishing/templates.html>. "IEEE does not require a specific format for their conference articles". Thus, we dot not purport that the "compsoc" is a requirement for publishing conference papers with us.
 
 <% } -%>
 ## Further information
