@@ -1,4 +1,6 @@
 import { describe, it } from "node:test";
+import assert from "node:assert";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import helpers from "yeoman-test";
@@ -67,4 +69,45 @@ describe("ustutt dissertation", () => {
     // The template keeps a commented-out "%\\mainmatter"; only an active one is wrong.
     runResult.assertNoFileContent("thesis-example.tex", /^\\mainmatter/m);
   });
+});
+
+// The "Update files" workflows of lncs-enhanced and uni-stuttgart-dissertation-template
+// generate both languages into one repository. A README that differs between the
+// languages makes the bot commit in a loop.
+describe("published README is the same for English and German", () => {
+  const common = {
+    githubpublish: true,
+    docker: "iot",
+    latexcompiler: "both",
+    overleaf: true,
+    texlive: 2026,
+    listings: "minted",
+    enquotes: "csquotes",
+    tweakouterquote: "babel",
+    todo: "pdfcomment",
+    examples: true,
+  };
+  for (const [name, options] of [
+    [
+      "lncs",
+      {
+        documentclass: "lncs",
+        papersize: "a4",
+        bibtextool: "bibtex",
+        font: "default",
+        howtotext: false,
+      },
+    ],
+    ["ustutt", { documentclass: "ustutt", howtotext: true, uml: "none" }],
+  ]) {
+    it(name, async () => {
+      const readme = async (lang) => {
+        const runResult = await helpers
+          .run(generatorPath)
+          .withOptions({ ...common, ...options, lang });
+        return fs.readFileSync(path.join(runResult.cwd, "README.md"), "utf8");
+      };
+      assert.strictEqual(await readme("de"), await readme("en"));
+    });
+  }
 });
