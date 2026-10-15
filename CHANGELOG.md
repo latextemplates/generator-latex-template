@@ -10,7 +10,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- The generated `check.yml` pins every GitHub Action to a commit SHA with the version as a trailing comment (e.g. `actions/checkout@<sha> # v7.0.1`), so a moved tag cannot change what runs. Dependabot keeps SHA and comment up to date. `awalsh128/cache-apt-pkgs-action` is pinned to v1.6.3 instead of the floating `latest`, and `zauguin/install-texlive` moves from v4.3.0 (the `v4` tag) to v4.4.0.
+- The generated `check.yml` pins all GitHub Actions to commit SHAs.
+
 ### Fixed
 
 - The generated `.dockerignore` and README's "Directories" section reference `figures/` (instead of `graphics/`) matching `.gitignore`.
