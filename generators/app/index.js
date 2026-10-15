@@ -218,7 +218,13 @@ export default class extends Generator {
 
     // The DANTE e.V. image additionally contains PlantUML (and the Mermaid CLI), needed by
     // --uml=plantuml and --uml=mermaid. Its tags: https://hub.docker.com/r/danteev/texlive/tags
-    const danteTags = { 2021: "2021-D", 2023: "2023-A", 2024: "2024-B" };
+    const danteTags = {
+      2021: "2021-D",
+      2023: "2023-A",
+      2024: "2024-B",
+      2025: "2026-B",
+      2026: "2026-B",
+    };
     this.props.danteImage =
       "danteev/texlive:" + (danteTags[this.props.texlive] ?? "edge");
 
@@ -229,6 +235,25 @@ export default class extends Generator {
         : this.props.iotImage;
     this.props.dockerCompile =
       this.props.docker === "iot" || this.props.docker === "dante";
+
+    // The generator options of this template, used in the README to tell how to generate an own
+    // copy (e.g., with PlantUML). The options that distinguish the main files of a published
+    // template (thesis variant, language, package for source code) are left open, so that the
+    // generator asks for them.
+    this.props.regenerateOptions = [
+      "documentclass",
+      "latexcompiler",
+      "overleaf",
+      "texlive",
+      "enquotes",
+      "tweakouterquote",
+      "todo",
+      "examples",
+      "howtotext",
+    ]
+      .filter((name) => this.props[name] !== undefined)
+      .map((name) => `--${name}=${this.props[name]}`)
+      .join(" ");
 
     createFeatures(props);
     createHeadingCommands(props);

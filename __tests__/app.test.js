@@ -125,8 +125,11 @@ describe("Docker image for UML tools", () => {
         uml,
       });
       assert.strictEqual(runResult.generator.props.docker, "dante");
-      runResult.assertFileContent("README.md", "danteev/texlive:edge latexmk");
-      runResult.assertFileContent("Dockerfile", "FROM danteev/texlive:edge");
+      runResult.assertFileContent(
+        "README.md",
+        "danteev/texlive:2026-B latexmk",
+      );
+      runResult.assertFileContent("Dockerfile", "FROM danteev/texlive:2026-B");
     });
   }
   it("keeps the Island of TeX image without UML tools", async () => {
@@ -142,6 +145,34 @@ describe("Docker image for UML tools", () => {
     runResult.assertFileContent(
       "README.md",
       "registry.gitlab.com/islandoftex/images/texlive:latest latexmk",
+    );
+  });
+});
+
+// The README of a published thesis tells how to generate an own copy with PlantUML or Mermaid;
+// the options that distinguish its main files are left open.
+describe("README hint on PlantUML and Mermaid", () => {
+  it("contains the generator call without thesis variant, language, and listings", async () => {
+    const runResult = await helpers.run(generatorPath).withOptions({
+      githubpublish: true,
+      documentclass: "scientific-thesis",
+      thesisvariant: "ustutt",
+      latexcompiler: "both",
+      overleaf: true,
+      texlive: 2026,
+      lang: "en",
+      listings: "minted",
+      enquotes: "csquotes",
+      tweakouterquote: "babel",
+      todo: "pdfcomment",
+      examples: true,
+      howtotext: true,
+      uml: "none",
+      docker: "iot",
+    });
+    runResult.assertFileContent(
+      "README.md",
+      "yo latex-template --documentclass=scientific-thesis --latexcompiler=both --overleaf=true --texlive=2026 --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true --uml=plantuml --docker=dante",
     );
   });
 });

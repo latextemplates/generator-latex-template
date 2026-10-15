@@ -12,6 +12,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Theses show UML diagrams without further tools: MetaUML class and component diagrams (LuaLaTeX) and a pgf-umlsd sequence diagram.
 - `--uml=mermaid`: Mermaid diagrams via ltmermaid.
+- README.md of published theses: how to generate an own copy with PlantUML or Mermaid.
 
 ### Changed
 
@@ -19,6 +20,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The tikz-uml, PlantUML, and Mermaid examples show the same four diagrams (sequence, class relations, class visibility, components).
 - The Docker question comes after the UML question; with PlantUML or Mermaid, it offers the DANTE e.V. image (default), which contains these tools.
 - With `--docker=dante`, the README, the `Makefile`, and the VS Code settings use the DANTE e.V. image.
+- The DANTE e.V. image is pinned to `2026-B` for TeX Live 2025 and 2026 (instead of `edge`).
 
 ### Fixed
 

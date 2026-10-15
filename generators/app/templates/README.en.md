@@ -522,6 +522,21 @@ For a local installation, run `npm install -g @mermaid-js/mermaid-cli`; `.latexm
 <% } -%>
 <% } -%>
 
+<% if (githubpublish && isThesis && examples && (uml == "none")) { -%>
+### UML diagrams with PlantUML or Mermaid
+
+The "LaTeX Hints" chapter shows UML diagrams drawn with MetaUML and pgf-umlsd, which need no further tools.
+PlantUML and Mermaid offer a more compact syntax and lay out the diagrams automatically, but need further tools: they are contained in the [Docker image by DANTE e.V.](https://github.com/dante-ev/docker-texlive).
+To use them, generate an own copy of this template with the [latex template generator]:
+
+```bash
+npx -p yo -p generator-latex-template -c 'yo latex-template <%= regenerateOptions %> --uml=plantuml --docker=dante'
+```
+
+Use `--uml=mermaid` for Mermaid.
+The generator asks for the remaining options<% if (documentclass == "scientific-thesis") { %> (institution, language, and package for source code)<% } else { %> (language and package for source code)<% } %>, which distinguish the `<%= filenames.main.replace(/-(english|german)$/, "") %>*.tex` files of this template.
+
+<% } -%>
 ### VS Code configuration
 
 Currently, following extensions are recommended:
