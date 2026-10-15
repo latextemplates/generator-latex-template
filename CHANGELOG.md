@@ -43,6 +43,9 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - textlint ignores expl3 function names, Markdown reference IDs, and the name of the markdown package.
 - German documents load only `autotype` (not additionally `selnolig`) for correct ligatures.
 - `make view` opens the PDF on Linux and macOS.
+- German documents configure `autotype` with `ligatures=selective` instead of the outdated `ligbreak`.
+- TeX Gyre Heros (the sans-serif font with `--font=times`) is available in bold.
+- `kvoptions-patch` is loaded only up to TeX Live 2025; LaTeX 2026-06-01 aborts loading it.
 
 ## [2026.10.13]
 
