@@ -24,6 +24,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
 - The generated `check.yml` pins all GitHub Actions to commit SHAs.
 - README.md: sections reordered.
+- README.md: compilation hints consolidated in "LaTeX compilation".
+- The generated `.latexmkrc` replaces `_latexmkrc` (also with `--overleaf`).
+- The generated `Makefile` runs the LaTeX tools in the Docker image (`make LOCAL=1` runs them locally).
+- The generated `vscode.settings.json` compiles with `latexmk` in the Docker image.
 - README.md: links the decision records of the generator.
 - The decision records of the scientific-thesis-template moved to `docs/decisions`.
 - README.md: "Usage with docker" merged into "Docker-based (recommended)".
@@ -38,6 +42,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - README.md: the download links of the IEEE and LNCS templates point to the current repositories.
 - textlint ignores expl3 function names, Markdown reference IDs, and the name of the markdown package.
 - German documents load only `autotype` (not additionally `selnolig`) for correct ligatures.
+- `make view` opens the PDF on Linux and macOS.
 
 ## [2026.10.13]
 

@@ -65,12 +65,12 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 5. Start texing: edit `<%= filenames.main %>.tex`.
 6. Compile with "<%= reallatexcompiler %> + <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
-With the Docker-based setup (see ["Tool hints"](#tool-hints)), steps 2 to 4 are not needed: the image contains the font and `latexminted`.
+With the Docker-based setup (see ["Docker-based (recommended)"](#docker-based-recommended)), steps 2 to 4 are not needed: the image contains the font and `latexminted`.
 <% break; case "scientific-thesis": -%>
 # LaTeX Template for a Scientific Thesis
 
 This template is a general template for scientific theses.
-Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, and Student Theses at the institutions listed below, each with example PDFs.
+Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, and Student Theses at the computer science departments listed below, each with example PDFs; other departments are untested.
 The template will be extended to support theses from more institutions.
 
 ## Supported institutions
@@ -82,12 +82,12 @@ The template will be extended to support theses from more institutions.
 - 🇩🇪 [German example](https://latextemplates.github.io/scientific-thesis-template/main-german.pdf)
 - 🇩🇪 [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german.pdf)
 
-### Universität Hamburg
+### Universität Hamburg, Computer Science
 
 - 🇺🇸 [English example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-university-of-hamburg.pdf)
 - 🇩🇪 [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-university-of-hamburg.pdf)
 
-### Technische Hochschule Ulm (THU)
+### Technische Hochschule Ulm (THU), Computer Science
 
 - 🇺🇸 [English example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-thu.pdf)
 - 🇩🇪 [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-thu.pdf)
@@ -355,14 +355,11 @@ Without the line, arXiv falls back to `latex`, which cannot build the modern fon
 See [this question on TeX.SE](https://tex.stackexchange.com/q/584702/9075) for details.
 
 <% } -%>
-## Tool hints
+## LaTeX compilation
 
-### Prerequisites
+Compile either in a Docker container (recommended) or with a LaTeX distribution installed on your machine.
 
-You need a LaTeX distribution.
-Choose one of the two setups.
-
-#### Docker-based (recommended)
+### Docker-based (recommended)
 
 The [TeX Live docker image by the Island of TeX](https://gitlab.com/islandoftex/images/texlive#tex-live-docker-image) works the same on Windows, macOS, and Linux.
 It ships a complete TeX Live including `latexmk`, `biber`, `latexindent`, Python, and [latexminted].
@@ -409,7 +406,7 @@ If you need additional tools in the image (for instance, PlantUML), extend the g
 <% break; default: -%>
 <% break; } -%>
 
-#### Traditional
+### Traditional
 
 Install a LaTeX distribution on your machine:
 
@@ -429,9 +426,33 @@ To have `minted` running with a traditional installation, you have to do followi
 3. When latexing, use `-shell-escape`: `pdflatex -shell-escape <%= filenames.main %>`.
    You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
+### latexmk hints
+
+[latexmk] runs the LaTeX tools (e.g., <%= reallatexcompiler %> and <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>) as often as needed to get the final PDF ([why `latexmk` is great](https://tex.stackexchange.com/a/249243/9075)).
+It reads its configuration from `.latexmkrc` in the directory of the document.
+To use the configuration for all your documents, put it at [the right place](http://tex.stackexchange.com/a/41149/9075).
+
+Build the document:
+
+```bash
+latexmk <%= filenames.main %>
+```
+
+In the Docker-based setup, put the `docker run ...` part from ["Docker-based (recommended)"](#docker-based-recommended) in front, or just run `make`.
+In the traditional setup, `latexmk` needs Perl (TeX Live ships it; with MiKTeX, install it, e.g., via `choco install strawberryperl`).
+
+To recompile on every change and open the PDF, run:
+
+```bash
+latexmk -pvc <%= filenames.main %>
+```
+
+On Windows, the configuration opens the PDF in [Sumatra PDF], which reloads the PDF automatically.
+
+## Tool hints
 <% if (!isThesis) { -%>
 
-#### Editor and bibliography
+### Editor and bibliography
 
 Independent of the chosen setup:
 
@@ -442,45 +463,15 @@ Independent of the chosen setup:
 - Use [JabRef] to manage your bibliography (Windows: `choco install jabref`).
 <% } -%>
 
-### Using `latexmk`
-
-[latexmk] is a very smart tool for latex compilation.
-It executes the latex tools as often as needed to get the final PDF.
-(More information about why `latexmk` is great can be found at <https://tex.stackexchange.com/a/249243/9075>.)
-
-To build the whole document, execute following command.
-Note that this requires a working perl installation.
-
-```bash
-latexmk <%= filenames.main %>
-```
-
-<% if (overleaf || githubpublish) { -%>
-To enable latexmk, please move `_latexmkrc` to `latexmkrc`.
-<% } -%>
-
-If you want automatic compilation use following command:
-
-```bash
-latexmk -pvc <%= filenames.main %>
-```
-
-This will also open a [Sumatra PDF] and only works with the supplied configuration.
-
-#### latexmk configuration
-
-This repository ships a `.latexmkrc` which is read by latexmk.
-In case there is a `_latexmkrc` file, you need to rename it to `.latexmkrc`.
-It is configured for Windows and especially sets Sumatra PDF as default PDF viewer.
-You can make this local configuration a global configuration, when you put it at [the right place](http://tex.stackexchange.com/a/41149/9075).
-
-If you want to add more packages, configure it there.
-For instance, for support of `makeglossaries` see <http://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries>.
-
 ### Advanced usage
 
 On the command line, there are additional features:
 
+<% if (docker == "iot") { -%>
+- `make` builds the PDF in the Docker container; `make LOCAL=1` uses your local LaTeX distribution (this works for all `make` targets)
+<% } else { -%>
+- `make` builds the PDF
+<% } -%>
 - `latexmk -C` or `make clean` for cleaning up
 - `make format` to reformat the `.tex` files (one sentence per line and indent)
 - `make aspell` for interactive spell checking
@@ -545,53 +536,16 @@ Currently, following extensions are recommended:
 - [LaTeX Utilities](https://marketplace.visualstudio.com/items?itemName=tecosaur.latex-utilities) to enhance LaTeX Workshop
 - [LTeX+] to have a nice spell checker that also identifies grammar issues
 
-Then, change the setting of LaTeX Workshop to use `biber`:
-
-Press <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd> to open the command palette.
-Then type "JSON" and select "Preferences: Open Settings (JSON)" to open `settings.json`.
-
-Update the following lines in VS Code's `settings.json` to contain:
+LaTeX Workshop builds with `latexmk`, which reads the configuration of this template (see ["latexmk hints"](#latexmk-hints)).
+<% if (docker == "iot") { -%>
+To compile in the Docker container (see ["Docker-based (recommended)"](#docker-based-recommended)), add the following lines to VS Code's `settings.json` (<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd>, then "Preferences: Open Settings (JSON)"):
 
 ```javascript
-    "latex-workshop.latex.recipes": [
-        {
-            "name": "<%= reallatexcompiler %> ➞ <%= bibtextool %> ➞ <%= reallatexcompiler %> × 2 🔃",
-            "tools": [
-                "<%= reallatexcompiler %>",
-                "<%= bibtextool %>",
-                "<%= reallatexcompiler %>",
-                "<%= reallatexcompiler %>"
-            ]
-        },
-    ],
-    "latex-workshop.latex.tools": [
-        // ...
-        {
-            "name": "<%= bibtextool %>",
-            "command": "<%= bibtextool %>",
-            "args": [
-                "%DOCFILE%"
-            ],
-            "env": {}
-        },
-        // ...
-    ],
+    "latex-workshop.docker.enabled": true,
+    "latex-workshop.docker.image.latex": "<%= iotImage %>",
 ```
-<%#
 
-  {
-    "name": "pdflatex",
-    "command": "pdflatex",
-    "args": [
-      "-synctex=1",
-      "-interaction=nonstopmode",
-      "-file-line-error",
-      "%DOC%"
-    ],
-    "env": {}
-  },
--%>
-
+<% } -%>
 The following settings are additionally recommended:
 
 ```javascript
@@ -607,19 +561,7 @@ The following settings are additionally recommended:
 
 Alternatively, just copy and paste the contents of the [vscode.settings.json](vscode.settings.json) file to your VS Code settings file.
 
-With the Docker-based setup (see ["Prerequisites"](#prerequisites)), LaTeX Workshop can run the LaTeX tools in the container instead of on your machine.
-This is an experimental feature of LaTeX Workshop; the recipes and tools stay the same.
-
-```javascript
-    "latex-workshop.docker.enabled": true,
-    "latex-workshop.docker.image.latex": "<%= iotImage %>",
-```
-
 You can manually trigger compilation by hitting the green button in the extension or using other methods provided by LaTeX Workshop.
-
-Please remove the magic comments (`% !TeX program ...`) at the top of the `<%= filenames.main %>.tex` file.
-Although [LaTeX-Workshop supports magic comments](https://github.com/James-Yu/LaTeX-Workshop/blob/master/README.md#magic-comments), it currently does not work reliably.
-Without the magic comments, compilation works.
 
 ### LTeX+ tips and tricks
 
@@ -802,9 +744,8 @@ Install the package `dehyph-exptl`.
 <% if (githubpublish) { -%>
 ### Q: I get ``! I can't find file `clmr28t10+20'.``
 
-You seem to use `latexmk` locally.
-Please move `_latexmkrc` to `latexmkrc` to get `latexmk` working.
-If you don't do this, `latexmk` tries to execute `latex`, which tries to produce a DVI file (and not a PDF file).
+`latexmk` runs `latex`, which produces a DVI file (and not a PDF file), because it does not find its configuration.
+Make sure that `.latexmkrc` is in the directory of the document.
 
 <% } -%>
 ### Q: I get `Font "LatinModernMath-Regular" not found.`. What can I do?
