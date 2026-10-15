@@ -16,8 +16,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Changed
 
 - The Universität Hamburg variant ships its logo as vector graphic (`figures/uhh-logo.pdf`, converted from the [public-domain SVG on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:UHH_Universit%C3%A4t_Hamburg_Logo_mit_Schrift_2010_Farbe_CMYK.svg)) instead of relying on a PNG placed in the template repository. Its title page and declaration are indented as `latexindent` expects.
-- The scientific thesis is laid out single-sided (`twoside=false`, `open=any`), because theses are read on screen: every page has the same margins, the page number stays at the bottom right, and there are no blank pages before chapters or after the cover. The header shows the chapter on the left and the current section on the right. A comment at the document class options shows how to switch back for two-sided printing. The uni-stuttgart dissertation stays two-sided, because it is printed as a book.
-- The `mwe` (Markdown quick-start) document is laid out single-sided as well, with the same comment for switching back to two-sided printing.
+- The scientific thesis is laid out single-sided (`twoside=false`, `open=any`); the header shows the chapter on the left and the section on the right.
+- The `mwe` (Markdown quick-start) document is laid out single-sided.
 - `make format` (and thus the generated CI) indents all main files (`main*.tex`, `paper*.tex`, `thesis-example*.tex`), not only `MASTER_TEX`.
 - The VS Code settings (`vscode.settings.json` and the README hints) provide a dark-mode-respective color (`#121314` instead of `#cccccc`), based on the [Dark 2026 `editor.background` from VS Code default theme](https://github.com/microsoft/vscode/blob/1.141.2/extensions/theme-defaults/themes/2026-dark.json#L108).
 - Recommend the `james-yu.latex-workshop` VS Code extension, replacing `manhen.latex-workshop-2` since it is unmaintained and has been removed from the stores.
