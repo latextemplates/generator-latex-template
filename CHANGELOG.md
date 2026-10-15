@@ -22,6 +22,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The Docker question comes after the UML question; with PlantUML or Mermaid, it offers the DANTE e.V. image (default), which contains these tools.
 - With `--docker=dante`, the README, the `Makefile`, and the VS Code settings use the DANTE e.V. image.
 - The DANTE e.V. image is pinned to `2026-B` for TeX Live 2025 and 2026 (instead of `edge`).
+- README.md: minted FAQs merged and moved up.
 
 ### Fixed
 

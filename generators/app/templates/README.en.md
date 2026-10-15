@@ -629,6 +629,41 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 
 Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
 
+<% if (listings == "minted" || githubpublish) { -%>
+### Q: I get `! Package minted Error: minted v3+ executable is not installed`
+
+The complete output reads:
+
+```text
+! Package minted Error: minted v3+ executable is not installed, is not added to
+ PATH, or is not permitted with restricted shell escape; or MiKTeX is being use
+d with -aux-directory or -output-directory without setting a TEXMF_OUTPUT_DIREC
+TORY environment variable.
+```
+
+The [minted] package needs Python and the Python package [latexminted].
+The Docker image and Overleaf contain both.
+For a local installation:
+
+1. Install Python, e.g., `choco install python` on Windows.
+2. Install or repair [latexminted]: `python -m pip install --force-reinstall latexminted` (see [minted#425](https://github.com/gpoore/minted/issues/425)).
+
+<% if (githubpublish) { -%>
+Without Python, use the `*-basic-listings*.tex` variant: it typesets source code with the [listings] package.
+<% } else { -%>
+Without Python, re-generate the template with `--listings=listings`: then, the [listings] package typesets source code.
+<% } -%>
+
+<% if (requiresShellEscape) { -%>
+### Q: I cannot get minted to run. There is this `-shell-escape` warning.
+
+Please ensure that your compilation command includes `-shell-escape`.
+E.g., `lualatex -shell-escape -synctex=1 <%= filenames.main %>.tex`.
+When compiling `<%= filenames.main %>.tex` with TeXStudio, you will see a dialog warning about overriding the compilation command.
+Just answer "(a) allow for this document" and it will work.
+
+<% } -%>
+<% } -%>
 ### Q: How do I spell check a passage in another language?
 
 Use the `\foreignlanguage{language}{text}` command.
@@ -722,32 +757,6 @@ Alternatively, execute `make format`.
 ### Q: How I want to obey the one-sentence-per-line rule. How to do?
 
 See "How can I reformat my `.tex` files?"
-
-### Q: I want to use minted, because I think its syntax highlighting seems to be better.
-
-You can re-generate the template and choose `minted` as listings environment.
-Moreover, ensure that python and [latexminted] are installed properly:
-
-- `choco install python`
-- `pip install latexminted`
-
-### Q: I have troubles with minted on Windows.
-
-For instance, on gets following output:
-
-```text
-! Package minted Error: minted v3+ executable is not installed, is not added to
- PATH, or is not permitted with restricted shell escape; or MiKTeX is being use
-d with -aux-directory or -output-directory without setting a TEXMF_OUTPUT_DIREC
-TORY environment variable.
-```
-
-Try out following command to update `latexminted`.
-See [minted#425](https://github.com/gpoore/minted/issues/425) for details.
-
-```shell
-python3 -m pip install --force-reinstall latexminted
-```
 
 <% if (documentclass == 'lncs') { -%>
 ### Q: Is it possible to have a footer indicating that the paper is intended to be submitted/submitted/published?
@@ -850,15 +859,6 @@ See installation hints of how to update them at different systems.
 Use the [MiKTeX console](https://miktex.org/howto/miktex-console) to refresh the package index.
 Then, automatic installation should work again.
 
-<% if (requiresShellEscape) { -%>
-### Q: I cannot get minted to run. There is this `-shell-escape` warning.
-
-Please ensure that your compilation command includes `-shell-escape`.
-E.g., `lualatex -shell-escape -synctex=1 <%= filenames.main %>.tex`.
-When compiling `<%= filenames.main %>.tex` with TeXStudio, you will see a dialog warning about overriding the compilation command.
-Just answer "(a) allow for this document" and it will work.
-
-<% } -%>
 ### Q: How to include Excel charts properly?
 
 1. Select the Excel chart you want to use.
