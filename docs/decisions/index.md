@@ -18,8 +18,8 @@ General pros and cons of LaTeX packages for typical problems are collected in [g
 - [ADR-0005](0005-custom-example-environment.md) - Use custom LaTeX environment for example presentation
 - [ADR-0006](0006-use-single-quote-to-enquote.md) - Use single quote (") to enquote text
 - [ADR-0007](0007-use-glossaries-package.md) - Use glossaries-extra package for abbreviations
-- [ADR-0008](0008-use-autotype-for-german-ligature-correction.md) - Use `autotype` For Ligature Correction for German Documents (superseded by ADR-0009)
-- [ADR-0009](0009-use-selnolig-for-english-ligature-correction.md) - Use `selnolig` For Ligature Correction
+- [ADR-0008](0008-use-autotype-for-german-ligature-correction.md) - Use `autotype` For Ligature Correction for German Documents
+- [ADR-0009](0009-use-selnolig-for-english-ligature-correction.md) - Use `selnolig` For Ligature Correction for English Documents
 - [ADR-0010](0010-use-lualatex-for-correct-ligatures.md) - Use lualatex for correct ligatures
 - [ADR-0011](0011-offer-tex-files-instead-of-a-package.md) - Offer tex files instead of a package
 - [ADR-0012](0012-use-minted-for-code-highlighting.md) - Use minted for code highlighting

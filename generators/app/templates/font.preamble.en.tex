@@ -165,11 +165,12 @@ lualatex
 <%= indent %>\setmathfont{NewCMMath-Regular.otf}
 <% break; } -%>
 <% } break; } -%>
+<% if (language != "de") { -%>
 
-<%= indent %>% Enable proper ligatures
+<%= indent %>% Enable proper ligatures for English documents (German documents use autotype, see ADR-0008)
 <%= indent %>% For more information see https://ctan.org/pkg/selnolig
-<%= indent %>% language "english" or "ngerman" is passed to selnolig by the document class
 <%= indent %>\usepackage{selnolig}
+<% } -%>
 
 <% } -%>
 <% if ((!reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { -%>

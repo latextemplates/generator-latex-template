@@ -37,6 +37,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The VS Code settings (`vscode.settings.json` and the README hints) use `latex-workshop.view.pdf.color.light.backgroundColor` and `latex-workshop.view.pdf.color.dark.backgroundColor` instead of the deprecated `latex-workshop.view.pdf.backgroundColor`, which LaTeX Workshop no longer applies (see [James-Yu/LaTeX-Workshop#3316](https://github.com/James-Yu/LaTeX-Workshop/pull/3316)).
 - README.md: the download links of the IEEE and LNCS templates point to the current repositories.
 - textlint ignores expl3 function names, Markdown reference IDs, and the name of the markdown package.
+- German documents load only `autotype` (not additionally `selnolig`) for correct ligatures.
 
 ## [2026.10.13]
 

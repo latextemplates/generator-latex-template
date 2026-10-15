@@ -1,4 +1,4 @@
-# Use `selnolig` For Ligature Correction
+# Use `selnolig` For Ligature Correction for English Documents
 
 ## Context and Problem Statement
 
@@ -13,7 +13,6 @@ Ligatures can be typeset wrongly.
 ## Decision Outcome
 
 Chosen option: "`selnolig`", because only package supporting ligature correction for English texts (without advanced package configuration).
-It also supports German texts, so one package serves both languages.
 
 ## More Information
 
