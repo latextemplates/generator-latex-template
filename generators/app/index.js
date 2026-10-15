@@ -183,6 +183,10 @@ export default class extends Generator {
       this.props.Vref = "\\zvref[S]";
     }
 
+    // The program that processes the bibliography: biber for biblatex, bibtex otherwise.
+    this.props.bibrunner =
+      this.props.bibtextool === "biblatex" ? "biber" : "bibtex";
+
     // Only minted and the PlantUML UML example need shell-escape; tikz-uml and the
     // remaining thesis content do not.
     this.props.requiresShellEscape =

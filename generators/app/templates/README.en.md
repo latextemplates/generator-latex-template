@@ -63,7 +63,7 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 3. Install font [Inconsolata](https://fonts.google.com/specimen/Inconsolata)
 4. Install Python and install minted3: `python -m pip install --force-reinstall latexminted`
 5. Start texing: edit `<%= filenames.main %>.tex`.
-6. Compile with "<%= reallatexcompiler %> + <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
+6. Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
 With the Docker-based setup (see ["Docker-based (recommended)"](#docker-based-recommended)), steps 2 to 4 are not needed: the image contains the font and `latexminted`.
 <% break; case "scientific-thesis": -%>
@@ -106,7 +106,7 @@ The template will be extended to support theses from more institutions.
         - German: `main-german.tex`
         - German advanced usage: `main-minted-german.tex` (see below)
 
-3. Compile with "<%= reallatexcompiler %> + <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
+3. Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
 ### Usage at Overleaf
 
@@ -160,7 +160,7 @@ The LaTeX snippets this template is assembled from can be inspected at <https://
 <% } else { -%>
 - Edit [`<%= filenames.main %>.tex`](<%= filenames.main %>.tex).
 <% } -%>
-- Compile with "<%= reallatexcompiler %> + <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
+- Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 <% if (githubpublish && (documentclass == "lncs")) { -%>
 
 As you see on GitHub actions, the paper compiles out of the box.
@@ -398,7 +398,7 @@ To have `minted` running with a traditional installation, you have to do followi
 <% } -%>
 ### latexmk hints
 
-[latexmk] runs the LaTeX tools (e.g., <%= reallatexcompiler %> and <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>) as often as needed to get the final PDF ([why `latexmk` is great](https://tex.stackexchange.com/a/249243/9075)).
+[latexmk] runs the LaTeX tools (e.g., <%= reallatexcompiler %> and <%= bibrunner %>) as often as needed to get the final PDF ([why `latexmk` is great](https://tex.stackexchange.com/a/249243/9075)).
 It reads its configuration from `.latexmkrc` in the directory of the document.
 <% if (overleaf) { -%>
 Overleaf reads `.latexmkrc`, too, so the "Compiler" setting of the Overleaf project does not matter; select TeX Live <%= texlive %> there.
@@ -510,7 +510,7 @@ Currently, following extensions are recommended:
 - [LaTeX Utilities](https://marketplace.visualstudio.com/items?itemName=tecosaur.latex-utilities) to enhance LaTeX Workshop
 - [LTeX+] to have a nice spell checker that also identifies grammar issues
 
-With the settings below, LaTeX Workshop compiles with the recipe "lualatex ➞ <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %> ➞ lualatex × 2".
+With the settings below, LaTeX Workshop compiles with the recipe "lualatex ➞ <%= bibrunner %> ➞ lualatex × 2".
 <% if (docker == "iot") { -%>
 To compile in the Docker container (see ["Docker-based (recommended)"](#docker-based-recommended)), add the following lines to VS Code's `settings.json` (<kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>P</kbd>, then "Preferences: Open Settings (JSON)"):
 
@@ -585,7 +585,7 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 <%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
 ```
 
-Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
+Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
 
 ### Q: How do I spell check a passage in another language?
 
@@ -876,7 +876,7 @@ In case something goes wrong, you can instruct the LaTeX compiler to stop at the
 <%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
 ```
 
-Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
+Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
 
 ### Q: How do I spell check a passage in another language?
 
