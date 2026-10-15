@@ -23,7 +23,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Recommend the `james-yu.latex-workshop` VS Code extension, replacing `manhen.latex-workshop-2` since it is unmaintained and has been removed from the stores.
 - The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
 - The generated `check.yml` pins all GitHub Actions to commit SHAs.
-- README: sections reordered: "Quick start" (merged with "Usage"), "Benefits", "Disabled features", and "Contained Directories and Files" come first; "Using `latexmk`" and "Advanced usage" are under "Tool hints"; "Debugging LaTeX errors" is the first FAQ.
+- README.md: sections reordered.
 
 ### Fixed
 
@@ -31,7 +31,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The `.markdown.in` file written by the [markdown](https://ctan.org/pkg/markdown) package is ignored by git and removed by `latexmk -c`.
 - The generated `.dockerignore` and README's "Directories" section reference `figures/` (instead of `graphics/`) matching `.gitignore`.
 - The VS Code settings (`vscode.settings.json` and the README hints) use `latex-workshop.view.pdf.color.light.backgroundColor` and `latex-workshop.view.pdf.color.dark.backgroundColor` instead of the deprecated `latex-workshop.view.pdf.backgroundColor`, which LaTeX Workshop no longer applies (see [James-Yu/LaTeX-Workshop#3316](https://github.com/James-Yu/LaTeX-Workshop/pull/3316)).
-- README: the download links of the IEEE and LNCS templates point to the current repositories.
+- README.md: the download links of the IEEE and LNCS templates point to the current repositories.
 
 ## [2026.10.13]
 
