@@ -108,7 +108,7 @@ The template will be extended to support theses from more institutions.
 
 3. Compile with "<%= reallatexcompiler %> + <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
-### Usage at overleaf
+### Usage at Overleaf
 
 See [docs/overleaf](docs/overleaf/).
 <%  break; default: -%>
@@ -292,7 +292,7 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 <% break; } -%>
 <% } -%>
 <% if (documentclass != "mwe") { -%>
-## Contained Directories and Files
+## Contained directories and files
 
 ### Directories
 
