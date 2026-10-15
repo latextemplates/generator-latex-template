@@ -13,7 +13,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Theses show UML diagrams without further tools: MetaUML class and component diagrams (LuaLaTeX) and a pgf-umlsd sequence diagram.
 - `--uml=mermaid`: Mermaid diagrams via ltmermaid.
 - README.md of published theses: how to generate an own copy with PlantUML or Mermaid.
-- [TeXtidote](https://github.com/sylvainhalle/textidote) checks spelling, grammar, and style: configuration `.textidote`, CI job `textidote` for English documents (annotations).
+- [TeXtidote](https://github.com/sylvainhalle/textidote) checks spelling, grammar, and style: configuration `.textidote`, `make textidote`, CI job `textidote` for English documents (annotations).
 
 ### Changed
 
