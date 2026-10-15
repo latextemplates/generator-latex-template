@@ -10,16 +10,16 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
-- The scientific thesis has a variant for the Technische Hochschule Ulm (`--thesisvariant=thu`): a title page with the THU logo ([CC BY-SA 4.0 by Hochschule Ulm](https://commons.wikimedia.org/wiki/File:THU_Logo_Subline_deutsch_RGB.png)) and the declaration signed in Ulm.
-- The table examples show how to color rows and cells (`\rowcolor`, `\cellcolor` from [colortbl](https://ctan.org/pkg/colortbl), loaded by `xcolor` with the option `table`). [scientific-thesis-template#87](https://github.com/latextemplates/scientific-thesis-template/pull/87)
+- The scientific thesis has a variant for the Technische Hochschule Ulm (`--thesisvariant=thu`).
+- The table examples show colored rows and cells. [scientific-thesis-template#87](https://github.com/latextemplates/scientific-thesis-template/pull/87)
 - `make log` shows the relevant messages of the LaTeX log (texlogsieve).
 
 ### Changed
 
-- The Universität Hamburg variant ships its logo as vector graphic (`figures/uhh-logo.pdf`, converted from the [public-domain SVG on Wikimedia Commons](https://commons.wikimedia.org/wiki/File:UHH_Universit%C3%A4t_Hamburg_Logo_mit_Schrift_2010_Farbe_CMYK.svg)) instead of relying on a PNG placed in the template repository. Its title page and declaration are indented as `latexindent` expects.
+- The Universität Hamburg variant ships its logo as vector graphic (`figures/uhh-logo.pdf`).
 - The scientific thesis is laid out single-sided (`twoside=false`, `open=any`); the header shows the chapter on the left and the section on the right.
 - The `mwe` (Markdown quick-start) document is laid out single-sided.
-- `make format` (and thus the generated CI) indents all main files (`main*.tex`, `paper*.tex`, `thesis-example*.tex`), not only `MASTER_TEX`.
+- `make format` indents all main files, not only `MASTER_TEX`.
 - The VS Code settings (`vscode.settings.json` and the README hints) provide a dark-mode-respective color (`#121314` instead of `#cccccc`), based on the [Dark 2026 `editor.background` from VS Code default theme](https://github.com/microsoft/vscode/blob/1.141.2/extensions/theme-defaults/themes/2026-dark.json#L108).
 - Recommend the `james-yu.latex-workshop` VS Code extension, replacing `manhen.latex-workshop-2` since it is unmaintained and has been removed from the stores.
 - The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
