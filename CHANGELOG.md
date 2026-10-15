@@ -51,6 +51,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - TeX Gyre Heros (the sans-serif font with `--font=times`) is available in bold.
 - `kvoptions-patch` is loaded only up to TeX Live 2025; LaTeX 2026-06-01 aborts loading it.
 - README.md: the self-archiving FAQ appears in all paper templates; ACM uses `authorversion` instead of `authorarchive`.
+- `vscode.settings.json`: the recipes run `lualatex` (resp. `pdflatex`) with `biber` or `bibtex`, and `--shell-escape` where needed.
 
 ## [2026.10.13]
 
