@@ -24,6 +24,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
 - The generated `check.yml` pins all GitHub Actions to commit SHAs.
 - README.md: sections reordered.
+- README.md: links the decision records of the generator.
+- The decision records of the scientific-thesis-template moved to `docs/decisions`.
 - README.md: "Usage with docker" merged into "Docker-based (recommended)".
 - Embedding the `.bib` file into the PDF is opt-in.
 

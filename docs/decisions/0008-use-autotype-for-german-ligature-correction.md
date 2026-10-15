@@ -1,3 +1,7 @@
+---
+status: "superseded by ADR-0009"
+---
+
 # Use `autotype` For Ligature Correction for German Documents
 
 ## Context and Problem Statement
@@ -13,3 +17,9 @@ Ligatures can be typeset wrongly.
 ## Decision Outcome
 
 Chosen option: "`autotype`", because has more features and seems to be more maintained.
+
+## More Information
+
+The templates use `selnolig` for German documents as well; `babel` passes the language to it.
+
+The options and their pros and cons in general: [How to avoid wrong ligatures](https://github.com/latextemplates/gadr-latex-packages/blob/main/ligatures.md).

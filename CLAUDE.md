@@ -61,6 +61,11 @@ Node ≥18).
   catalog: the TODO GADR compares `pdfcomment`/`pdfmarginpar`, not the showcased
   `todonotes`). Kept **semi-manual on purpose** — the pros/cons are a judgement call, so
   there is no generator; this hint *is* the mechanism.
+  **Our own decisions** (which package the templates use) live only in this repo's
+  `docs/decisions/` (MADR, listed in its `index.md`). A package decision there records the
+  choice and links the matching GADR for the general options and pros/cons — so when a
+  template switches packages, update both (supersede the old ADR, as 0003 → 0014). The
+  templates carry no ADRs; their README links to `docs/decisions/`.
 
 ## The update cycle (e.g. "support TeX Live 2026", or any generator change)
 

@@ -74,3 +74,7 @@ See <https://tex.stackexchange.com/q/61042/9075> and <https://tex.stackexchange.
 * Good, because latex users are used to ligatures everywhere
 * Good, because pdflatex can be used
 * Bad, because higher-quality typesetting is possible
+
+## More Information
+
+The options and their pros and cons in general: [How to avoid wrong ligatures](https://github.com/latextemplates/gadr-latex-packages/blob/main/ligatures.md).

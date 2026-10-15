@@ -976,8 +976,8 @@ Statement from IEEE:
 - tex.stackexchange.com questions regarding LNCS: <https://tex.stackexchange.com/questions/tagged/lncs>
 - Original LNCS documentation (without the improvements): [llncsdoc.pdf](https://mirrors.ctan.org/macros/latex/contrib/llncs/llncsdoc.pdf) from the [llncs CTAN package](https://ctan.org/pkg/llncs). The old `llncs.dem` demonstration is no longer part of that package; the official sample paper (`samplepaper.tex`) is contained in Springer's [LaTeX2e Proceedings Templates (zip)](https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines).
 <% } -%>
-<% if (githubpublish && (documentclass == "scientific-thesis")) { -%>
-- [Architectural decision records](https://adr.github.io) of this template: [docs/adr](docs/adr/)
+<% if (githubpublish) { -%>
+- Why the templates use which packages: [decision records of the template generator](https://github.com/latextemplates/generator-latex-template/tree/main/docs/decisions)
 <% } -%>
 - Other templates: <https://latextemplates.github.io/>
 - For German users, go to <https://texfragen.de/>.
