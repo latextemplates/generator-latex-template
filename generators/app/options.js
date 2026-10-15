@@ -163,28 +163,18 @@ export const options = [
     type: "list",
     name: "texlive",
     message: "Which TeXLive compatibility?",
-    choices(state) {
-      const res = [
-        {
-          name: "TeXLive 2024",
-          value: 2024,
-        },
-      ];
-      if (!state.overleaf) {
-        res.push({
-          name: "TeXLive 2025",
-          value: 2025,
-        });
-      }
-      return res;
-    },
-    default(state) {
-      if (state.overleaf) {
-        return 2024;
-      }
-
-      return 2025;
-    },
+    // Overleaf offers the current TeX Live (select it in the project settings).
+    choices: [
+      {
+        name: "TeXLive 2025",
+        value: 2025,
+      },
+      {
+        name: "TeXLive 2026",
+        value: 2026,
+      },
+    ],
+    default: 2026,
   },
   {
     type: "list",
@@ -201,7 +191,7 @@ export const options = [
           value: "pdflatex",
         },
       ];
-      if (state.texlive == 2025) {
+      if (state.texlive == 2026) {
         res.push({
           name: "pdflatex-dev",
           value: "pdflatex-dev",
@@ -211,7 +201,7 @@ export const options = [
         name: "lualatex",
         value: "lualatex",
       });
-      if (state.texlive == 2025) {
+      if (state.texlive == 2026) {
         res.push({
           name: "lualatex-dev",
           value: "lualatex-dev",
