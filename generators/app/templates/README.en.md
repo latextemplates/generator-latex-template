@@ -62,7 +62,8 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 2. Windows: Open MiKTeX Console and install package `inconsolata`
 3. Install font [Inconsolata](https://fonts.google.com/specimen/Inconsolata)
 4. Install Python and install minted3: `python -m pip install --force-reinstall latexminted`
-5. Start texing
+5. Start texing: edit `<%= filenames.main %>.tex`.
+6. Compile with "<%= reallatexcompiler %> + <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
 With the Docker-based setup (see ["Tool hints"](#tool-hints)), steps 2 to 4 are not needed: the image contains the font and `latexminted`.
 <% break; case "scientific-thesis": -%>
@@ -106,6 +107,8 @@ For [architectural decision records](https://adr.github.io) see [docs/adr](docs/
         - German: `main-german.tex`
         - German advanced usage: `main-minted-german.tex` (see below)
 
+3. Compile with "<%= reallatexcompiler %> + <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
+
 ### Usage at overleaf
 
 See [docs/overleaf](docs/overleaf/).
@@ -145,6 +148,30 @@ The LaTeX snippets this template is assembled from can be inspected at <https://
 - [paper-minted.pdf](https://latextemplates.github.io/acm-enhanced/paper-minted.pdf) - conference paper showing minted in action.
 <% break; default: -%>
 <% break; } } -%>
+<% if (!(githubpublish && ((documentclass == "ustutt") || (documentclass == "scientific-thesis")))) { -%>
+
+## Quick start
+
+<% if (githubpublish && isPaper) { const repo = { acmart: "acm-enhanced", ieee: "ieee-enhanced", lncs: "lncs-enhanced" }[documentclass]; -%>
+- Click on `Download ZIP` or [here](https://github.com/latextemplates/<%= repo %>/archive/main.zip).
+- Extract `<%= repo %>-main.zip` in the folder where you want to write your paper.
+<% } -%>
+<% if (documentclass == "mwe") { -%>
+- Write your text in [`<%= filenames.manuscript %>.md`](<%= filenames.manuscript %>.md).
+<% } else { -%>
+- Edit [`<%= filenames.main %>.tex`](<%= filenames.main %>.tex).
+<% } -%>
+- Compile with "<%= reallatexcompiler %> + <%= (bibtextool == "biblatex") ? "biber" : "bibtex" %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
+<% if (githubpublish && (documentclass == "lncs")) { -%>
+
+When using on overleaf, you have to switch Overleaf to use TeXLive 2025 (or later).
+
+As you see on GitHub actions, the paper compiles out of the box.
+There is no need to adjust the packages or to remove some of them.
+This might lead to undesired results such as hyperlinks not working any more or no good microtypographic features.
+In case you think, a package needs to be altered or added, feel free to open an issue.
+<% } -%>
+<% } -%>
 <% if (isThesis) { -%>
 
 ## Writing your thesis
@@ -152,94 +179,6 @@ The LaTeX snippets this template is assembled from can be inspected at <https://
 - Read [Student Thesis Projects](https://vdf.ch/product/student-thesis-projects-en.html) by Lichter, Ludewig, Deininger, and Schneider.
   The open-access book explains how to organize, conduct, write, and present a thesis.
 - Before handing in, work through the [thesis checklist](docs/thesis-checklist.md).
-<% } -%>
-
-## Usage
-
-- `<%= filenames.main %>.tex` is the main document
-- Use "<%= reallatexcompiler %> + <%= bibtextool %>" in your TeX editor or `latexmk <%= filenames.main %>` / `make` in the command line
-
-### Using `latexmk`
-
-[latexmk] is a very smart tool for latex compilation.
-It executes the latex tools as often as needed to get the final PDF.
-(More information about why `latexmk` is great can be found at <https://tex.stackexchange.com/a/249243/9075>.)
-
-To build the whole document, execute following command.
-Note that this requires a working perl installation.
-
-```bash
-latexmk <%= filenames.main %>
-```
-
-<% if (overleaf || githubpublish) { -%>
-To enable latexmk, please move `_latexmkrc` to `latexmkrc`.
-<% } -%>
-
-If you want automatic compilation use following command:
-
-```bash
-latexmk -pvc <%= filenames.main %>
-```
-
-This will also open a [Sumatra PDF] and only works with the supplied configuration.
-
-#### latexmk configuration
-
-This repository ships a `.latexmkrc` which is read by latexmk.
-In case there is a `_latexmkrc` file, you need to rename it to `.latexmkrc`.
-It is configured for Windows and especially sets Sumatra PDF as default PDF viewer.
-You can make this local configuration a global configuration, when you put it at [the right place](http://tex.stackexchange.com/a/41149/9075).
-
-If you want to add more packages, configure it there.
-For instance, for support of `makeglossaries` see <http://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries>.
-
-### Debugging LaTeX errors
-
-In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
-
-```bash
-<%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
-```
-
-Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
-
-### Advanced usage
-
-On the command line, there are additional features:
-
-- `latexmk -C` or `make clean` for cleaning up
-- `make format` to reformat the `.tex` files (one sentence per line and indent)
-- `make aspell` for interactive spell checking
-- `make stand`: Creates a new PDF with the current status of the document.
-- `make view`: Opens the configured viewer
-- `make mrproper`: Cleans up and removes also editor backup files.
-<% if (documentclass != "mwe") { -%>
-
-The `textlint` job of the `Check` workflow reports weakening words (e.g., "clearly", "just") in the English `.tex` files as annotations.
-Run it locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
-
-```bash
-npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-filter-rule-allowlist --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex
-```
-<% } -%>
-<% if (documentclass == "mwe") { -%>
-
-### Linting your Markdown
-
-Because the prose is a plain Markdown file, the text linters run on it directly — no extraction, and the reported line numbers point straight at `<%= filenames.manuscript %>.md`. Two workflows lint it and post inline annotations: `check-markdown` runs [Vale](https://vale.sh) (spelling, repetition), and `check-textlint` runs [textlint](https://github.com/textlint/textlint) (`write-good` + `terminology`).
-
-Run textlint locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
-
-```bash
-npx --yes --package textlint --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.manuscript %>.md
-```
-
-For Vale, install it (`brew install vale` / `choco install vale`, or see <https://vale.sh/docs>) and point it at the file:
-
-```bash
-vale <%= filenames.manuscript %>.md
-```
 <% } -%>
 
 <% if (documentclass != "mwe") { -%>
@@ -360,28 +299,7 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 
 The official template is available at <https://www.springer.com/gp/computer-science/lncs/conference-proceedings-guidelines> --> "Templates, samples files & useful links" --> "LaTeX2e Proceedings Templates (zip)"
 
-## Quick start
-
-- Click on `Download ZIP` or [here](https://github.com/latextemplates/lncs-enhanced/archive/main.zip).
-- Extract `LNCS-main.zip` in the folder where you want to write your paper.
-- Edit [paper.tex](paper.tex).
-- `latexmk paper`.
-
-When using on overleaf, you have to switch Overleaf to use TeXLive 2025 (or later).
-
-As you see on GitHub actions, the paper compiles out of the box.
-There is no need to adjust the packages or to remove some of them.
-This might lead to undesired results such as hyperlinks not working any more or no good microtypographic features.
-In case you think, a package needs to be altered or added, feel free to open an issue.
-
 <% break; case "ieee": -%>
-## Quick start
-
-- Click on `Download ZIP` or [here](https://github.com/latextemplates/IEEE/archive/main.zip).
-- Extract `main.zip` in the folder where you want to write your paper.
-- Edit [paper.tex](paper.tex).
-- `latexmk paper`.
-
 ## Using the template for a THU term paper
 
 Technische Hochschule Ulm (THU) bases its term paper template on the IEEE conference template.
@@ -528,6 +446,89 @@ Independent of the chosen setup:
   Note that it is enough to point to `languagetool.jar`.
   **If TeXstudio doesn't fit your need, check [the list of all available LaTeX Editors](http://tex.stackexchange.com/questions/339/latex-editors-ides).**
 - Use [JabRef] to manage your bibliography (Windows: `choco install jabref`).
+<% } -%>
+
+### Using `latexmk`
+
+[latexmk] is a very smart tool for latex compilation.
+It executes the latex tools as often as needed to get the final PDF.
+(More information about why `latexmk` is great can be found at <https://tex.stackexchange.com/a/249243/9075>.)
+
+To build the whole document, execute following command.
+Note that this requires a working perl installation.
+
+```bash
+latexmk <%= filenames.main %>
+```
+
+<% if (overleaf || githubpublish) { -%>
+To enable latexmk, please move `_latexmkrc` to `latexmkrc`.
+<% } -%>
+
+If you want automatic compilation use following command:
+
+```bash
+latexmk -pvc <%= filenames.main %>
+```
+
+This will also open a [Sumatra PDF] and only works with the supplied configuration.
+
+#### latexmk configuration
+
+This repository ships a `.latexmkrc` which is read by latexmk.
+In case there is a `_latexmkrc` file, you need to rename it to `.latexmkrc`.
+It is configured for Windows and especially sets Sumatra PDF as default PDF viewer.
+You can make this local configuration a global configuration, when you put it at [the right place](http://tex.stackexchange.com/a/41149/9075).
+
+If you want to add more packages, configure it there.
+For instance, for support of `makeglossaries` see <http://tex.stackexchange.com/questions/1226/how-to-make-latexmk-use-makeglossaries>.
+
+### Debugging LaTeX errors
+
+In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
+
+```bash
+<%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
+```
+
+Run `<% if (bibtextool == "biblatex") { %>biber<% } else { %>bibtex<% } %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
+
+### Advanced usage
+
+On the command line, there are additional features:
+
+- `latexmk -C` or `make clean` for cleaning up
+- `make format` to reformat the `.tex` files (one sentence per line and indent)
+- `make aspell` for interactive spell checking
+- `make stand`: Creates a new PDF with the current status of the document.
+- `make view`: Opens the configured viewer
+- `make mrproper`: Cleans up and removes also editor backup files.
+<% if (documentclass != "mwe") { -%>
+
+The `textlint` job of the `Check` workflow reports weakening words (e.g., "clearly", "just") in the English `.tex` files as annotations.
+Run it locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
+
+```bash
+npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-filter-rule-allowlist --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex
+```
+<% } -%>
+<% if (documentclass == "mwe") { -%>
+
+### Linting your Markdown
+
+Because the prose is a plain Markdown file, the text linters run on it directly — no extraction, and the reported line numbers point straight at `<%= filenames.manuscript %>.md`. Two workflows lint it and post inline annotations: `check-markdown` runs [Vale](https://vale.sh) (spelling, repetition), and `check-textlint` runs [textlint](https://github.com/textlint/textlint) (`write-good` + `terminology`).
+
+Run textlint locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
+
+```bash
+npx --yes --package textlint --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.manuscript %>.md
+```
+
+For Vale, install it (`brew install vale` / `choco install vale`, or see <https://vale.sh/docs>) and point it at the file:
+
+```bash
+vale <%= filenames.manuscript %>.md
+```
 <% } -%>
 <% if (uml != "none") { -%>
 
