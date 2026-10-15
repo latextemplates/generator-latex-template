@@ -78,19 +78,19 @@ The template will be extended to support theses from more institutions.
 ### University of Stuttgart, Computer Science
 
 - 🇺🇸 [English example](https://latextemplates.github.io/scientific-thesis-template/main-english.pdf)
-- 🇺🇸 [English example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-english.pdf)
+- 🇺🇸 [English example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-english.pdf)
 - 🇩🇪 [German example](https://latextemplates.github.io/scientific-thesis-template/main-german.pdf)
-- 🇩🇪 [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german.pdf)
+- 🇩🇪 [German example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-german.pdf)
 
 ### Universität Hamburg, Computer Science
 
-- 🇺🇸 [English example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-university-of-hamburg.pdf)
-- 🇩🇪 [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-university-of-hamburg.pdf)
+- 🇺🇸 [English example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-university-of-hamburg.pdf)
+- 🇩🇪 [German example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-university-of-hamburg.pdf)
 
 ### Technische Hochschule Ulm (THU), Computer Science
 
-- 🇺🇸 [English example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-thu.pdf)
-- 🇩🇪 [German example with minted and PlantUML](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-thu.pdf)
+- 🇺🇸 [English example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-thu.pdf)
+- 🇩🇪 [German example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-thu.pdf)
 
 ## Quick start
 
@@ -393,8 +393,10 @@ To have `minted` running with a traditional installation, you have to do followi
 
 1. Install python: `choco install python` - that uses [chocolatey](https://chocolatey.org/) to install Python
 2. Install [latexminted]: `pip install latexminted` - that uses the Python package manager to install the minted library
+<% if (requiresShellEscape) { -%>
 3. When latexing, use `-shell-escape`: `pdflatex -shell-escape <%= filenames.main %>`.
    You can also just execute `latexmk <%= filenames.main %>`.
+<% } -%>
 <% } -%>
 ### latexmk hints
 
@@ -582,7 +584,7 @@ See [this question on TeX.SE](https://tex.stackexchange.com/q/584702/9075) for d
 In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
 
 ```bash
-<%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
+<%= reallatexcompiler %> --synctex=1 <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
 ```
 
 Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
@@ -808,6 +810,7 @@ See installation hints of how to update them at different systems.
 Use the [MiKTeX console](https://miktex.org/howto/miktex-console) to refresh the package index.
 Then, automatic installation should work again.
 
+<% if (requiresShellEscape) { -%>
 ### Q: I cannot get minted to run. There is this `-shell-escape` warning.
 
 Please ensure that your compilation command includes `-shell-escape`.
@@ -815,6 +818,7 @@ E.g., `lualatex -shell-escape -synctex=1 main-minted-german.tex`.
 When compiling `main-minted-german.tex` with TeXStudio, you will see a dialog warning about overriding the compilation command.
 Just answer "(a) allow for this document" and it will work.
 
+<% } -%>
 ### Q: How to include Excel charts properly?
 
 1. Select the Excel chart you want to use.
@@ -857,7 +861,7 @@ We are collecting alternatives at the issue [#25](https://github.com/latextempla
 - Ensure that you run `lualatex` at least three times and that there are no "undefined references".
 - The margins are intended for good screen reading. **Do not change them** (or do exactly know what you are doing).
 <% } -%>
-<% if (documentclass == "scientific-thesis") { -%>
+<% if (uml == "plantuml") { -%>
 ### Q: `main-minted-german.tex` does not compile: ``File `main-minted-german-plantuml.latex' not found. \end{plantuml}``. What can I do?
 
 You did not setup the [plantuml package](https://www.ctan.org/pkg/plantuml) correctly.
@@ -873,7 +877,7 @@ Please head to <https://koppor.github.io/plantuml/> for installation instruction
 In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
 
 ```bash
-<%= reallatexcompiler %> --synctex=1 --shell-escape <%= filenames.main %>
+<%= reallatexcompiler %> --synctex=1 <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
 ```
 
 Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).

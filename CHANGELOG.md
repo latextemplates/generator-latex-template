@@ -36,6 +36,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The decision records of the scientific-thesis-template moved to `docs/decisions`.
 - README.md: "Usage with docker" merged into "Docker-based (recommended)".
 - Embedding the `.bib` file into the PDF is opt-in.
+- minted (TeX Live 2025 and later) compiles without `--shell-escape`.
 
 ### Fixed
 
@@ -52,6 +53,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - `kvoptions-patch` is loaded only up to TeX Live 2025; LaTeX 2026-06-01 aborts loading it.
 - README.md: the self-archiving FAQ appears in all paper templates; ACM uses `authorversion` instead of `authorarchive`.
 - `vscode.settings.json`: the recipes run `lualatex` (resp. `pdflatex`) with `biber` or `bibtex`, and `--shell-escape` where needed.
+- README.md: the scientific thesis examples are labeled "with minted" (they contain no PlantUML).
 
 ## [2026.10.13]
 
