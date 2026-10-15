@@ -23,4 +23,8 @@ In a document, some words have to be put in quotes. How to direct latex to enquo
 Chosen option: "Use single quote (") to enquote text", because resolves all forces.
 We accept that special hyphenation instructions such as `application"=specific` do not work anymore.
 
+## More Information
+
+The options and their pros and cons in general: [How to typeset quotation marks](https://github.com/latextemplates/gadr-latex-packages/blob/main/quotation-marks.md).
+
 <!-- markdownlint-disable-file MD013 -->

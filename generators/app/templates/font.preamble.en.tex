@@ -1,6 +1,6 @@
 %% !!! If you change the font, be sure that words such as "workflow" can
 %% !!! still be copied from the PDF. If this is not the case, you have
-%% !!! to use glyphtounicode. See comment at cmap package.
+%% !!! to use glyphtounicode (pdflatex only). See the comment at \input{glyphtounicode}.
 %%
 %% Background: "workflow" contains "fl" which is a ligature, which in turn
 %%             is rendered as one character in the PDF and needs to be split
@@ -89,7 +89,7 @@ lualatex
 <%= indent %>  Ligatures=TeX
 <%= indent %>]
 <%= indent %>% See https://tug.org/FontCatalogue/texgyreheros/ for more information
-<%= indent %>\setsansfont[Scale=.9]{TeX Gyre Heros Regular}
+<%= indent %>\setsansfont[Scale=.9]{TeX Gyre Heros}
 <% if (documentclass == 'lncs') { -%>
 <%= indent %>% newtxtt looks good with times, but no equivalent for lualatex found,
 <%= indent %>% therefore tried to replace with inconsolata.
@@ -165,11 +165,12 @@ lualatex
 <%= indent %>\setmathfont{NewCMMath-Regular.otf}
 <% break; } -%>
 <% } break; } -%>
+<% if (language != "de") { -%>
 
-<%= indent %>% Enable proper ligatures
+<%= indent %>% Enable proper ligatures for English documents (German documents use autotype, see ADR-0008)
 <%= indent %>% For more information see https://ctan.org/pkg/selnolig
-<%= indent %>% language "english" or "ngerman" is passed to selnolig by the document class
 <%= indent %>\usepackage{selnolig}
+<% } -%>
 
 <% } -%>
 <% if ((!reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { -%>
@@ -210,7 +211,7 @@ In addition, we make the code appear more nice -%>
 <%# no special configuration required -%>
 <% break; default: -%>
 <%= indent %>% This is the modern package for "Computer Modern".
-<%= indent %>% In case this gets activated, one has to switch from cmap package to glyphtounicode (in the case of pdflatex)
+<%= indent %>% In case this gets activated, check that ligatures can still be copied (pdflatex: glyphtounicode)
 <%= indent %>\usepackage[%
 <%= indent %>  rm={oldstyle=false,proportional=true},%
 <%= indent %>  sf={oldstyle=false,proportional=true},%
@@ -238,7 +239,7 @@ In addition, we make the code appear more nice -%>
 
 % Fallback font - if the subsequent font packages do not define a font (e.g., monospaced)
 %     This is the modern package for "Computer Modern".
-%     In case this gets activated, one has to switch from cmap package to glyphtounicode (in the case of pdflatex)
+%     In case this gets activated, check that ligatures can still be copied (pdflatex: glyphtounicode)
 %\usepackage[%
 %    rm={oldstyle=false,proportional=true},%
 %    sf={oldstyle=false,proportional=true},%
@@ -294,13 +295,16 @@ In addition, we make the code appear more nice -%>
 
 <% } -%>
 <% if (documentclass == 'scientific-thesis') { -%>
+% Header: the chapter on the left, the current section on the right.
+% autooneside=false keeps the section mark in a single-sided document.
+\KOMAoptions{autooneside=false}
 \automark[section]{chapter}
 \setkomafont{pageheadfoot}{\normalfont\sffamily}
 \setkomafont{pagenumber}{\normalfont\sffamily}
 
-\ihead[]{}
+\ihead[]{\leftmark}
 \chead[]{}
-\ohead[]{\headmark}
+\ohead[]{\rightmark}
 \cfoot[]{}
 \ofoot[\usekomafont{pagenumber}\thepage]{\usekomafont{pagenumber}\thepage}
 \ifoot[]{}

@@ -1,3 +1,7 @@
+---
+status: "superseded by ADR-0014"
+---
+
 # Use cleveref for references
 
 ## Context and Problem Statement

@@ -8,12 +8,35 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- The scientific thesis has a variant for the Technische Hochschule Ulm (`--thesisvariant=thu`).
+- The table examples show colored rows and cells. [scientific-thesis-template#87](https://github.com/latextemplates/scientific-thesis-template/pull/87)
+- `make log` shows the relevant messages of the LaTeX log (texlogsieve).
+- Paper templates contain a commented example for a self-archiving version (`authorarchive` for IEEE and LNCS, class option `authorversion` for ACM).
+
 ### Changed
 
+- The Universität Hamburg variant ships its logo as vector graphic (`figures/uhh-logo.pdf`).
+- The scientific thesis is laid out single-sided (`twoside=false`, `open=any`); the header shows the chapter on the left and the section on the right.
+- The `mwe` (Markdown quick-start) document is laid out single-sided.
+- `make format` indents all main files, not only `MASTER_TEX`.
 - The VS Code settings (`vscode.settings.json` and the README hints) provide a dark-mode-respective color (`#121314` instead of `#cccccc`), based on the [Dark 2026 `editor.background` from VS Code default theme](https://github.com/microsoft/vscode/blob/1.141.2/extensions/theme-defaults/themes/2026-dark.json#L108).
 - Recommend the `james-yu.latex-workshop` VS Code extension, replacing `manhen.latex-workshop-2` since it is unmaintained and has been removed from the stores.
 - The generated `dependabot.yml` groups all GitHub Actions updates into one weekly PR.
 - The generated `check.yml` pins all GitHub Actions to commit SHAs.
+- README.md: sections reordered.
+- README.md: the Overleaf hint names the TeX Live version of the template.
+- README.md: passages in another language are an FAQ.
+- README.md: compilation hints consolidated in "LaTeX compilation".
+- The generated `.latexmkrc` replaces `_latexmkrc` (also with `--overleaf`).
+- The generated `Makefile` runs the LaTeX tools in the Docker image (`make LOCAL=1` runs them locally).
+- The generated `vscode.settings.json` contains the Docker settings of LaTeX Workshop and does not build on save.
+- README.md: links the decision records of the generator.
+- The decision records of the scientific-thesis-template moved to `docs/decisions`.
+- README.md: "Usage with docker" merged into "Docker-based (recommended)".
+- Embedding the `.bib` file into the PDF is opt-in.
+- minted (TeX Live 2025 and later) compiles without `--shell-escape`.
 
 ### Fixed
 
@@ -21,6 +44,16 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The `.markdown.in` file written by the [markdown](https://ctan.org/pkg/markdown) package is ignored by git and removed by `latexmk -c`.
 - The generated `.dockerignore` and README's "Directories" section reference `figures/` (instead of `graphics/`) matching `.gitignore`.
 - The VS Code settings (`vscode.settings.json` and the README hints) use `latex-workshop.view.pdf.color.light.backgroundColor` and `latex-workshop.view.pdf.color.dark.backgroundColor` instead of the deprecated `latex-workshop.view.pdf.backgroundColor`, which LaTeX Workshop no longer applies (see [James-Yu/LaTeX-Workshop#3316](https://github.com/James-Yu/LaTeX-Workshop/pull/3316)).
+- README.md: the download links of the IEEE and LNCS templates point to the current repositories.
+- textlint ignores expl3 function names, Markdown reference IDs, and the name of the markdown package.
+- German documents load only `autotype` (not additionally `selnolig`) for correct ligatures.
+- `make view` opens the PDF on Linux and macOS.
+- German documents configure `autotype` with `ligatures=selective` instead of the outdated `ligbreak`.
+- TeX Gyre Heros (the sans-serif font with `--font=times`) is available in bold.
+- `kvoptions-patch` is loaded only up to TeX Live 2025; LaTeX 2026-06-01 aborts loading it.
+- README.md: the self-archiving FAQ appears in all paper templates; ACM uses `authorversion` instead of `authorarchive`.
+- `vscode.settings.json`: the recipes run `lualatex` (resp. `pdflatex`) with `biber` or `bibtex`, and `--shell-escape` where needed.
+- README.md: the scientific thesis examples are labeled "with minted" (they contain no PlantUML).
 
 ## [2026.10.13]
 

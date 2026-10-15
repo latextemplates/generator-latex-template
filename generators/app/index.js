@@ -12,7 +12,11 @@ export default class extends Generator {
     this.log(yosay(`Welcome to the ${chalk.red("latex-template")} generator!`));
 
     // See "Development hints" in README.md for help on Inquirer.js
-    const props = await this._optionOrPrompt(options);
+    // yeoman-option-or-prompt mutates the prompts (deletes `when`, replaces `choices`/`default`
+    // functions by their result); pass copies so that runs in one process (the tests) stay independent.
+    const props = await this._optionOrPrompt(
+      options.map((prompt) => ({ ...prompt })),
+    );
 
     // To access props later use this.props.someAnswer;
     this.props = props;
@@ -179,10 +183,16 @@ export default class extends Generator {
       this.props.Vref = "\\zvref[S]";
     }
 
-    // Only minted and the PlantUML UML example need shell-escape; tikz-uml and the
-    // remaining thesis content do not.
+    // The program that processes the bibliography: biber for biblatex, bibtex otherwise.
+    this.props.bibrunner =
+      this.props.bibtextool === "biblatex" ? "biber" : "bibtex";
+
+    // Only the PlantUML UML example needs shell-escape. minted 3 (TeX Live 2025 and later)
+    // runs latexminted, which TeX Live permits in restricted shell escape; minted 2
+    // (TeX Live 2024) still needs shell-escape.
     this.props.requiresShellEscape =
-      this.props.listings == "minted" || this.props.uml == "plantuml";
+      (this.props.listings == "minted" && this.props.texlive < 2025) ||
+      this.props.uml == "plantuml";
 
     // Two-column layouts (IEEE, and the ACM conference/journal formats) cannot use
     // `longtable` ("longtable not in 1-column mode"), so the longtable example must
@@ -310,7 +320,7 @@ export default class extends Generator {
     );
     this.fs.copyTpl(
       this.templatePath("latexmkrc"),
-      this.destinationPath(this.props.overleaf ? "_latexmkrc" : ".latexmkrc"),
+      this.destinationPath(".latexmkrc"),
       this.props,
     );
     this.fs.copyTpl(
@@ -440,6 +450,20 @@ export default class extends Generator {
         this.destinationPath("commands.tex"),
         this.props,
       );
+    }
+
+    if (this.props.documentclass == "scientific-thesis") {
+      const logos = {
+        "university-of-hamburg": "uhh-logo.pdf",
+        thu: "thu-logo.png",
+      };
+      const logo = logos[this.props.thesisvariant];
+      if (logo) {
+        this.fs.copy(
+          this.templatePath("logos/" + logo),
+          this.destinationPath("figures/" + logo),
+        );
+      }
     }
 
     if (this.props.documentclass == "ustutt") {

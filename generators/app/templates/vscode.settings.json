@@ -1,25 +1,27 @@
 {
+    "latex-workshop.docker.enabled": <%= docker == "iot" %>,
+    "latex-workshop.docker.image.latex": "<%= iotImage %>",
     "editor.wordWrap": "on",
     "latex-workshop.view.pdf.viewer": "tab",
     "latex-workshop.view.pdf.color.light.backgroundColor": "#cccccc",
     "latex-workshop.view.pdf.color.dark.backgroundColor": "#121314",
     "editor.renderWhitespace": "all",
-    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.autoBuild.run": "never",
     "latex-workshop.latex.recipes": [
         {
-            "name": "lualatex ➞ <%= bibtextool %> ➞ lualatex × 2 🔃",
+            "name": "lualatex ➞ <%= bibrunner %> ➞ lualatex × 2 🔃",
             "tools": [
-                "pdflatex",
-                "bibtex",
-                "pdflatex",
-                "pdflatex"
+                "lualatex",
+                "<%= bibrunner %>",
+                "lualatex",
+                "lualatex"
             ]
         },
         {
-            "name": "pdflatex ➞ <%= bibtextool %> ➞ pdflatex × 2 🔃",
+            "name": "pdflatex ➞ <%= bibrunner %> ➞ pdflatex × 2 🔃",
             "tools": [
                 "pdflatex",
-                "bibtex",
+                "<%= bibrunner %>",
                 "pdflatex",
                 "pdflatex"
             ]
@@ -39,6 +41,9 @@
             "command": "pdflatex",
             "args": [
                 "-synctex=1",
+<% if (requiresShellEscape) { -%>
+                "-shell-escape",
+<% } -%>
                 "-interaction=nonstopmode",
                 "-file-line-error",
                 "%DOC%"
@@ -50,6 +55,9 @@
             "command": "lualatex",
             "args": [
                 "-synctex=1",
+<% if (requiresShellEscape) { -%>
+                "-shell-escape",
+<% } -%>
                 "-interaction=nonstopmode",
                 "-file-line-error",
                 "%DOC%"
@@ -57,8 +65,8 @@
             "env": {}
         },
         {
-            "name": "<%= bibtextool %>",
-            "command": "<%= bibtextool %>",
+            "name": "<%= bibrunner %>",
+            "command": "<%= bibrunner %>",
             "args": [
                 "%DOCFILE%"
             ],
