@@ -22,9 +22,12 @@ describe(`generator runs for all switch combinations (pairwise, ${combos.length}
       // \mainmatter belongs to the book classes; acmart and IEEEtran do not define it.
       if (["acmart", "ieee", "lncs"].includes(combo.documentclass)) {
         runResult.assertNoFileContent(mainFile(combo), "\\mainmatter");
-        // The .bib file is embedded into the PDF of theses only.
-        runResult.assertNoFileContent(mainFile(combo), "\\embedfile");
       }
+      // Embedding the .bib file into the PDF is opt-in: the lines are commented out.
+      runResult.assertNoFileContent(
+        mainFile(combo),
+        /^\\(usepackage\{embedfile\}|embedfile\[)/m,
+      );
       // The mwe wrapper pulls its prose from an external Markdown manuscript;
       // make sure that file is emitted too.
       if (combo.documentclass === "mwe") {
