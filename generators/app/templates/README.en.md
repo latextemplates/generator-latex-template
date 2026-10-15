@@ -50,9 +50,9 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 ## Example PDFs
 
 - Thesis 🇩🇪: [thesis-example.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example.pdf)
-- Thesis 🇺🇸: [thesis-example-listings-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-listings-en.pdf)
-- Thesis (minted) 🇩🇪: [thesis-example-minted-de.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-minted-de.pdf)
-- Thesis (minted) 🇺🇸: [thesis-example-example-minted-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-example-minted-en.pdf)
+- Thesis 🇺🇸: [thesis-example-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-en.pdf)
+- Thesis with listings instead of minted 🇩🇪: [thesis-example-basic-listings.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-basic-listings.pdf)
+- Thesis with listings instead of minted 🇺🇸: [thesis-example-basic-listings-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-basic-listings-en.pdf)
 - Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
 - Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
 
@@ -78,19 +78,19 @@ The template will be extended to support theses from more institutions.
 ### University of Stuttgart, Computer Science
 
 - 🇺🇸 [English example](https://latextemplates.github.io/scientific-thesis-template/main-english.pdf)
-- 🇺🇸 [English example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-english.pdf)
+- 🇺🇸 [English example with listings instead of minted](https://latextemplates.github.io/scientific-thesis-template/main-basic-listings-english.pdf)
 - 🇩🇪 [German example](https://latextemplates.github.io/scientific-thesis-template/main-german.pdf)
-- 🇩🇪 [German example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-german.pdf)
+- 🇩🇪 [German example with listings instead of minted](https://latextemplates.github.io/scientific-thesis-template/main-basic-listings-german.pdf)
 
 ### Universität Hamburg, Computer Science
 
-- 🇺🇸 [English example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-university-of-hamburg.pdf)
-- 🇩🇪 [German example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-university-of-hamburg.pdf)
+- 🇺🇸 [English example](https://latextemplates.github.io/scientific-thesis-template/main-english-university-of-hamburg.pdf)
+- 🇩🇪 [German example](https://latextemplates.github.io/scientific-thesis-template/main-german-university-of-hamburg.pdf)
 
 ### Technische Hochschule Ulm (THU), Computer Science
 
-- 🇺🇸 [English example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-english-thu.pdf)
-- 🇩🇪 [German example with minted](https://latextemplates.github.io/scientific-thesis-template/main-minted-german-thu.pdf)
+- 🇺🇸 [English example](https://latextemplates.github.io/scientific-thesis-template/main-english-thu.pdf)
+- 🇩🇪 [German example](https://latextemplates.github.io/scientific-thesis-template/main-german-thu.pdf)
 
 ## Quick start
 
@@ -104,7 +104,7 @@ The template will be extended to support theses from more institutions.
     - University of Stuttgart:
         - English: `main-english.tex`
         - German: `main-german.tex`
-        - German advanced usage: `main-minted-german.tex` (see below)
+        - Without Python (see below): `main-basic-listings-english.tex`, `main-basic-listings-german.tex`
 
 3. Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
@@ -130,23 +130,28 @@ The LaTeX snippets this template is assembled from can be inspected at <https://
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/lncs-enhanced/paper.pdf) - normal paper.
-- [paper-minted.pdf](https://latextemplates.github.io/lncs-enhanced/paper-minted.pdf) - paper showing minted in action.
-- [paper-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
-- [paper-minted-newtx.pdf](http://latextemplates.github.io/lncs-enhanced/paper-minted-newtx.pdf) - paper typeset in Times Roman to save some space.
+- [paper-newtx.pdf](https://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
+- [paper-basic-listings.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings.pdf) - paper with listings instead of minted.
+- [paper-basic-listings-newtx.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings-newtx.pdf) - paper with listings instead of minted, typeset in Times Roman.
 <% break; case "ieee": -%>
 
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/ieee-enhanced/paper.pdf) - regular conference paper.
-- [paper-minted.pdf](https://latextemplates.github.io/ieee-enhanced/paper-minted.pdf) - conference paper showing minted in action.
+- [paper-basic-listings.pdf](https://latextemplates.github.io/ieee-enhanced/paper-basic-listings.pdf) - the same paper with listings instead of minted.
 <% break; case "acmart": -%>
 
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/acm-enhanced/paper.pdf) - regular conference paper.
-- [paper-minted.pdf](https://latextemplates.github.io/acm-enhanced/paper-minted.pdf) - conference paper showing minted in action.
+- [paper-basic-listings.pdf](https://latextemplates.github.io/acm-enhanced/paper-basic-listings.pdf) - the same paper with listings instead of minted.
 <% break; default: -%>
 <% break; } } -%>
+<% if (githubpublish && isPaper) { -%>
+
+The source code examples use [minted], which highlights code best; it needs Python and [latexminted] (contained in the Docker image and on Overleaf).
+The `-basic-listings` variants use [listings] instead and need no extra setup.
+<% } -%>
 <% if (!(githubpublish && ((documentclass == "ustutt") || (documentclass == "scientific-thesis")))) { -%>
 
 ## Quick start
@@ -814,8 +819,8 @@ Then, automatic installation should work again.
 ### Q: I cannot get minted to run. There is this `-shell-escape` warning.
 
 Please ensure that your compilation command includes `-shell-escape`.
-E.g., `lualatex -shell-escape -synctex=1 main-minted-german.tex`.
-When compiling `main-minted-german.tex` with TeXStudio, you will see a dialog warning about overriding the compilation command.
+E.g., `lualatex -shell-escape -synctex=1 <%= filenames.main %>.tex`.
+When compiling `<%= filenames.main %>.tex` with TeXStudio, you will see a dialog warning about overriding the compilation command.
 Just answer "(a) allow for this document" and it will work.
 
 <% } -%>
@@ -862,7 +867,7 @@ We are collecting alternatives at the issue [#25](https://github.com/latextempla
 - The margins are intended for good screen reading. **Do not change them** (or do exactly know what you are doing).
 <% } -%>
 <% if (uml == "plantuml") { -%>
-### Q: `main-minted-german.tex` does not compile: ``File `main-minted-german-plantuml.latex' not found. \end{plantuml}``. What can I do?
+### Q: `<%= filenames.main %>.tex` does not compile: ``File `<%= filenames.main %>-plantuml.latex' not found. \end{plantuml}``. What can I do?
 
 You did not setup the [plantuml package](https://www.ctan.org/pkg/plantuml) correctly.
 Please head to <https://koppor.github.io/plantuml/> for installation instructions.

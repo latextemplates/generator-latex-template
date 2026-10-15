@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Changed
+
+- The template repositories use minted in their main files; the variants with listings are named `*-basic-listings*`.
+
 ### Fixed
 
 - The interactive generator offers TeX Live 2025 and 2026 (default), also for Overleaf.
