@@ -306,7 +306,7 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 
 - `<%= filenames.main %>.tex` - The main `.tex` file loading all LaTeX packages and their configurations.
   - Add text here
-  - Adjust title, ... here
+  - Adjust title, … here
 - [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
 - [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
 - [commands.tex](commands.tex) - Example LaTeX macros.
