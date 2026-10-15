@@ -10,7 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- The template repositories use minted in their main files; the variants with listings are named `*-basic-listings*`.
+- The template repositories use minted in their main files; the variants using the listings package are named `*-basic-listings*`.
 
 ### Fixed
 

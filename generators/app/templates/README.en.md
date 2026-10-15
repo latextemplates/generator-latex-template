@@ -51,8 +51,8 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 
 - Thesis 🇩🇪: [thesis-example.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example.pdf)
 - Thesis 🇺🇸: [thesis-example-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-en.pdf)
-- Thesis with listings instead of minted 🇩🇪: [thesis-example-basic-listings.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-basic-listings.pdf)
-- Thesis with listings instead of minted 🇺🇸: [thesis-example-basic-listings-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-basic-listings-en.pdf)
+- Thesis using the listings package (instead of minted) for source code 🇩🇪: [thesis-example-basic-listings.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-basic-listings.pdf)
+- Thesis using the listings package (instead of minted) for source code 🇺🇸: [thesis-example-basic-listings-en.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example-basic-listings-en.pdf)
 - Book cover: [cover.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/cover.pdf)
 - Spine of the book cover: [spine.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/spine.pdf)
 
@@ -78,9 +78,9 @@ The template will be extended to support theses from more institutions.
 ### University of Stuttgart, Computer Science
 
 - 🇺🇸 [English example](https://latextemplates.github.io/scientific-thesis-template/main-english.pdf)
-- 🇺🇸 [English example with listings instead of minted](https://latextemplates.github.io/scientific-thesis-template/main-basic-listings-english.pdf)
+- 🇺🇸 [English example using the listings package (instead of minted) for source code](https://latextemplates.github.io/scientific-thesis-template/main-basic-listings-english.pdf)
 - 🇩🇪 [German example](https://latextemplates.github.io/scientific-thesis-template/main-german.pdf)
-- 🇩🇪 [German example with listings instead of minted](https://latextemplates.github.io/scientific-thesis-template/main-basic-listings-german.pdf)
+- 🇩🇪 [German example using the listings package (instead of minted) for source code](https://latextemplates.github.io/scientific-thesis-template/main-basic-listings-german.pdf)
 
 ### Universität Hamburg, Computer Science
 
@@ -131,26 +131,26 @@ The LaTeX snippets this template is assembled from can be inspected at <https://
 
 - [paper.pdf](https://latextemplates.github.io/lncs-enhanced/paper.pdf) - normal paper.
 - [paper-newtx.pdf](https://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
-- [paper-basic-listings.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings.pdf) - paper with listings instead of minted.
-- [paper-basic-listings-newtx.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings-newtx.pdf) - paper with listings instead of minted, typeset in Times Roman.
+- [paper-basic-listings.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings.pdf) - paper using the listings package (instead of minted) for source code.
+- [paper-basic-listings-newtx.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings-newtx.pdf) - paper using the listings package (instead of minted) for source code, typeset in Times Roman.
 <% break; case "ieee": -%>
 
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/ieee-enhanced/paper.pdf) - regular conference paper.
-- [paper-basic-listings.pdf](https://latextemplates.github.io/ieee-enhanced/paper-basic-listings.pdf) - the same paper with listings instead of minted.
+- [paper-basic-listings.pdf](https://latextemplates.github.io/ieee-enhanced/paper-basic-listings.pdf) - the same paper using the listings package (instead of minted) for source code.
 <% break; case "acmart": -%>
 
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/acm-enhanced/paper.pdf) - regular conference paper.
-- [paper-basic-listings.pdf](https://latextemplates.github.io/acm-enhanced/paper-basic-listings.pdf) - the same paper with listings instead of minted.
+- [paper-basic-listings.pdf](https://latextemplates.github.io/acm-enhanced/paper-basic-listings.pdf) - the same paper using the listings package (instead of minted) for source code.
 <% break; default: -%>
 <% break; } } -%>
 <% if (githubpublish && isPaper) { -%>
 
-The source code examples use [minted], which highlights code best; it needs Python and [latexminted] (contained in the Docker image and on Overleaf).
-The `-basic-listings` variants use [listings] instead and need no extra setup.
+The source code examples use the [minted] package, which highlights code best; it needs Python and [latexminted] (contained in the Docker image and on Overleaf).
+The `-basic-listings` variants use the [listings] package instead and need no extra setup.
 <% } -%>
 <% if (!(githubpublish && ((documentclass == "ustutt") || (documentclass == "scientific-thesis")))) { -%>
 
