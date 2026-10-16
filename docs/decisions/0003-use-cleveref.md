@@ -32,7 +32,7 @@ Should it be possible to summarize multiple figures? For instance, range fig:one
 
 ## Decision Outcome
 
-Chosen option: "[option 1]", because [justification. e.g., only option, which meets k.o. criterion decision driver | which resolves force force | … | comes out best (see below)].
+Chosen option: "cleveref", because it comes out best (see below).
 
 ## Pros and Cons of the Options
 
@@ -43,8 +43,8 @@ Chosen option: "[option 1]", because [justification. e.g., only option, which me
 * Good, because cleveref is easy to setup and use
 * Good, because cleveref allows for hyperlinked text
 * Good, because supports typesetting "Section" and "Sect." (used at the beginning resp. in the middle of a sentence; required by Springer guidelines).
-* Bad, because sometimes tweaks have to be applied to get it to work
-* Bad, because beginning and middle-of-sentence have to be distinguished by `\Cref` and `\cref`
+* Bad, because it sometimes needs tweaks to work
+* Bad, because `\Cref` and `\cref` distinguish beginning and middle of a sentence
 
 ### autoref
 
@@ -57,11 +57,11 @@ Chosen option: "[option 1]", because [justification. e.g., only option, which me
 
 ### fancyref
 
-Provides fancy cross-referencing support, based on the package's reference commands (`\fref` and `\Fref`) that recognise what sort of object is being referenced.
-So, for example, the label for a `\section` would be expected to be of the form `sec:foo`: the package would recognise the `sec:` part.
+Provides fancy cross-referencing support, based on the package's reference commands (`\fref` and `\Fref`) that recognise what sort of object the reference points to.
+So, for example, the package expects the label of a `\section` in the form `sec:foo`: the package would recognise the `sec:` part.
 
 * Neutral, because forces user to provide proper labels
-* Bad, because beginning and middle-of-sentence have to be distinguished by `\Fref` and `\fref`
+* Bad, because `\Fref` and `\fref` distinguish beginning and middle of a sentence
 
 ### fncylab
 
@@ -81,18 +81,18 @@ With `\labelformat{section}{Section~#1}`, one can instruct LaTeX to render `\ref
 
 Source: <https://ctan.org/pkg/prettyref>
 
-* Good, because this follows the "intuition" of LaTeX beginners, that labels need to be prefixed by their type
+* Good, because this follows the "intuition" of LaTeX beginners, that labels need their type as prefix
 * Bad, because hyperlinked reference name has to be manually crafted
 * Bad, because it is not widely known
 
 ### refstyle
 
 Refstyle requires to setup `newref` for each reference type.
-There are defaults provided such as `tab`, then `\tabref{tab:xy}` can be used.
+It provides defaults such as `tab`; then, `\tabref{tab:xy}` works.
 
 * Neutral, because provided commands (`\figref`, ...) are short, but make an intuitive impression
 * Bad, because no automatic compression of references
-* Bad, because the type of the referenced artifact has to be provided (e.g., `\eqref`)
+* Bad, because the command states the kind of the referenced artifact (e.g., `\eqref`)
 * Bad, because hard to configure
 
 ### typedref

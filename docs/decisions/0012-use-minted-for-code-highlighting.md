@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-Source code needs to be highlighted.
+Source code needs highlighting.
 
 ## Considered Options
 
@@ -21,7 +21,7 @@ Chosen option: "minted", because
 
 ### Consequences
 
-* Good, because source code is highlighted properly.
+* Good, because it highlights source code properly.
 * Bad, because users need to install Python and [latexminted](https://ctan.org/pkg/latexminted) and compile with `--shell-escape`.
 
 ## More Information

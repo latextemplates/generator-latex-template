@@ -2,7 +2,7 @@
 
 We love seeing people contribute patches to this project and the process is simple.
 In general, we follow [GitHub's fork & pull request model](https://help.github.com/articles/fork-a-repo/).
-The code is licensed under [BSD Zero Clause (`0BSD`)](LICENSE), the examples using `CC0`.
+The code has the license [BSD Zero Clause (`0BSD`)](LICENSE), the examples `CC0`.
 This is nothing special, but important for users of the generator and the snippets.
 
 **This repository is the place to contribute improvements to any of the [latextemplates](https://github.com/latextemplates) templates** — see [How the templates are generated](#how-the-templates-are-generated) below.
@@ -31,7 +31,7 @@ generator-latex-template          <- you are here: the single source of truth
 
 Each template repository embeds this repository as a Git submodule at `generator-latex-template/`
 and runs the generator in its `.github/workflows/update-files.yml` workflow.
-Whenever the submodule pointer is bumped, that workflow regenerates all variants of the template
+Whenever someone bumps the submodule pointer, that workflow regenerates all variants of the template
 (both languages, `listings`/`minted`, …) and commits the result.
 
 **Consequence: a change made directly in a template repository is overwritten on the next regeneration.**
@@ -58,10 +58,10 @@ In case you found an interesting or [new LaTeX package on CTAN](https://ctan.org
 You need to craft two files and include a reference to them in `main.*.tex`.
 The detailed steps are as follows:
 
-1. `[package].premable.en.tex` - for the LaTeX commands to be added to the preamble.
+1. `[package].premable.en.tex` - for the LaTeX commands of the preamble.
 2. `[package].example.en.tex` - put examples in there
 3. Add both `.tex` files to the appropriate place in `main.en.tex`
-4. Find a similar place in `main.de.tex`. You don't need to provide a translation; just include a reference to the English file.
+4. Find a similar place in `main.de.tex`. You don't need to provide a translation; include a reference to the English file.
 
 ## Contributing a translation
 
@@ -121,13 +121,13 @@ The detailed steps are as follows:
 
 #### Linux
 
-Parameters can be set using command line
+Set the parameters on the command line
 
 - LNCS: `npx yo /tmp/repo/generators/app/index.js --documentclass=lncs --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2026 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 
 #### Windows
 
-Parameters can be set using command line
+Set the parameters on the command line
 
 - IEEE template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=ieee --ieeevariant=conference --papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2026 --docker=reitzig --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
 - LNCS template (with pdflatex and bibtex): `npx yo c:\git-repositories\latextemplates\generator-latex-template\generators\app\index.js --overleaf=false --documentclass=lncs ---papersize=a4 --latexcompiler=pdflatex --bibtextool=bibtex --texlive=2026 --docker=false --lang=en --font=default --listings=listings --enquotes=csquotes --tweakouterquote=babel --todo=pdfcomment --examples=true --howtotext=true`
@@ -177,9 +177,9 @@ lualatex/pdflatex paper
 
 ### Debugging
 
-A `launch.json` configured for Windows and Visual Studio Code is included.
+The repository contains a `launch.json` for Windows and Visual Studio Code.
 <!-- markdownlint-disable-next-line MD033 -->
-Just press <kbd>F5</kbd> and the generator should run in debug mode.
+Press <kbd>F5</kbd> and the generator should run in debug mode.
 
 ```terminal
 ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generators\app\templates\main.en.tex
@@ -202,7 +202,7 @@ ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generato
    Use [release-it](https://www.npmjs.com/package/release-it) (do not create a release on GitHub) and [github-release-from-changelog](https://www.npmjs.com/package/github-release-from-changelog).
 
    - `npx release-it`
-   - Confirm the publish: `npm view generator-latex-template version` must print the new version (2026.10.1 was tagged and released on GitHub but never published to npm).
+   - Confirm the publish: `npm view generator-latex-template version` must print the new version (2026.10.1 got a tag and a GitHub release but never reached npm).
    - `GITHUB_TOKEN=$(gh auth token) npx github-release-from-changelog` (Git Bash; it needs a GitHub token, which the logged-in `gh` CLI provides)
 5. On `main`, run `scripts/end-new-cycle.sh`, then **squash-merge** each template's "Update LTG" PR once it is green.
 6. Release the templates: `scripts/release-templates.sh <YYYY-MM-DD>` (try `--dry-run` first) finalizes the CHANGELOG of every template with unreleased entries, commits `Release <date>`, tags, pushes, and creates the GitHub release with the CHANGELOG section as notes.

@@ -16,6 +16,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - [TeXtidote](https://github.com/sylvainhalle/textidote) checks spelling, grammar, and style: configuration `.textidote`, `make spellcheck-textidote`, CI job `textidote` for English documents (annotations).
 - VS Code: [JabRef 4 VSCode](https://marketplace.visualstudio.com/items?itemName=jabref.jabref-4-vscode) recommended.
 - CI checks the documentation of this repository with markdownlint and textlint.
+- Documentation: wording follows textlint (write-good, terminology); ADR 0003 states its chosen option.
 
 ### Changed
 

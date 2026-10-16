@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-In a document, some words have to be put in quotes. How to direct LaTeX to enquote a word?
+In a document, some words need quotes. How to direct LaTeX to enquote a word?
 
 ## Decision Drivers
 
