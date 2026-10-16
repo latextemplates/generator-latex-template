@@ -11,6 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Changed
 
 - README.md: link to the LaTeX snippets moved to the introduction.
+- README.md: "Disabled features" is a subsection of "Benefits".
 
 ## [2026.10.16]
 

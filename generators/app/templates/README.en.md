@@ -255,7 +255,7 @@ Following features are enabled in this template:
 - Hints on writing an abstract and thesis by Dirk Fahland.
 <% } -%>
 
-## Disabled features
+### Disabled features
 
 Following features were not activated for this template.
 You can <% if (!githubpublish) { %>re<% } %>run the [latex template generator] to enable the features.
