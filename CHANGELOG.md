@@ -25,6 +25,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The DANTE e.V. image is pinned to `2026-B` for TeX Live 2025 and 2026 (instead of `edge`).
 - README.md: minted FAQs merged and moved up.
 - `make spellcheck` runs all spell checkers.
+- GitHub workflows of this repository: actions pinned to commit SHAs.
 
 ### Fixed
 

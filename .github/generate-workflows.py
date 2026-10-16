@@ -146,8 +146,8 @@ jobs:
             yml.write("""    runs-on: ubuntu-24.04
     steps:
       - name: Set up Git repository
-        uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22'
           cache: 'npm'
@@ -180,7 +180,7 @@ jobs:
           sudo mpm --admin --update-db
           sudo mpm --admin --update
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 ''')
             table = "| documentclass | latexcompiler | bibtextool | texlive | lang | font    | listing  | enquote    | tweakouterquote | todo       | example | howtotext | link |"
             yml.write("      - name: Summary table heading\n");
@@ -235,7 +235,7 @@ jobs:
                             yml.write(yml_content)
                             ymlmiktex.write(yml_content)
                             yml.write('''      - name: Install TeX Live
-        uses: zauguin/install-texlive@v4
+        uses: zauguin/install-texlive@6671d0c62046c7e349fe154d5208fe746b07e037 # v4.4.0
         with:
 ''')
                             yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))
@@ -259,7 +259,7 @@ jobs:
                             ymlmiktex.write("        run: {}\n".format(command))
                             ymlmiktex.write("        working-directory: '${{{{ github.workspace }}}}/{}'\n".format(variantShort))
                             yml.write("      - id: {}_u\n".format(variantShort))
-                            yml.write('''        uses: actions/upload-artifact@v7
+                            yml.write('''        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ${{ env.CURRENT_VARIANT }}
           path: ${{ env.CURRENT_VARIANT_SHORT }}
@@ -274,7 +274,7 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
       - id: failing_u
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ${{ env.CURRENT_VARIANT }}
           path: ${{ env.CURRENT_VARIANT_SHORT }}
