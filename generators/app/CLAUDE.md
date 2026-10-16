@@ -113,5 +113,5 @@ formats) catch things a single local `yo` + compile does not. Two that have bitt
   language's example must be defined in **both** `abbreviations.en.tex` and
   `abbreviations.de.tex` (the unused one just never appears in that document's list). Making
   `\gls` entries language-exclusive breaks the other language's variant with
-  `Glossary entry '…' has not been defined`. The same single-shared-file logic applies to
+  ``Glossary entry `…' has not been defined``. The same single-shared-file logic applies to
   other `this.fs.copy`'d siblings (`commands.tex`, …).
