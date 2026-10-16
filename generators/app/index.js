@@ -445,6 +445,13 @@ export default class extends Generator {
       );
     }
 
+    if (this.props.documentclass === "ieee") {
+      this.fs.copy(
+        this.templatePath("IEEEtranN-doi.bst"),
+        this.destinationPath("IEEEtranN-doi.bst"),
+      );
+    }
+
     // Photo for the JPEG example in floats.example.*.tex (CC0, see README)
     if (this.props.examples) {
       this.fs.copy(

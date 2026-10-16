@@ -204,6 +204,7 @@ Following features are enabled in this template:
 <% if (documentclass == 'ieee') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
 - Shows how IEEE copyright notice can be added.
+- References show the DOI, as the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) asks for (`IEEEtranN-doi.bst`, a copy of `IEEEtranN.bst` with DOI output).
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
@@ -611,7 +612,7 @@ If your seminar at the Technische Hochschule Ulm (THU) requires the IEEE confere
   youremail@thu.de}}
   ```
 
-Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN`, `\citet`, links without colored boxes) is already set up.
+Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN-doi`, `\citet`, links without colored boxes) is already set up.
 
 <% } -%>
 <% if (isPaper) { -%>
