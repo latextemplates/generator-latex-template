@@ -1,3 +1,4 @@
+<% const snippetsHint = "The LaTeX snippets this template is assembled from can be inspected at <https://latextemplates.github.io/latex-snippets/>."; -%>
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
@@ -47,6 +48,8 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 
 > Unofficial LaTeX template for PhD theses at the University of Stuttgart, Germany.
 
+<%- snippetsHint %>
+
 ## Example PDFs
 
 - Thesis 🇩🇪: [thesis-example.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example.pdf)
@@ -72,6 +75,8 @@ With the Docker-based setup (see ["Docker-based (recommended)"](#docker-based-re
 This template is a general template for scientific theses.
 Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, and Student Theses at the computer science departments listed below, each with example PDFs; other departments are untested.
 The template will be extended to support theses from more institutions.
+
+<%- snippetsHint %>
 
 ## Supported institutions
 
@@ -123,8 +128,10 @@ See [docs/overleaf](docs/overleaf/).
 
 This is a **minimal Markdown quick start**. Write your content as plain Markdown in [`<%= filenames.manuscript %>.md`](<%= filenames.manuscript %>.md); the thin wrapper [`<%= filenames.main %>.tex`](<%= filenames.main %>.tex) pulls it in with `\markdownInput` and LaTeX turns it into a PDF — no thesis scaffolding, just the essentials: headings, citations, footnotes, tables, figures, smart cross-references (`\zcref`), and acronyms (defined once in the wrapper, recognized automatically in the running text and collected in an acronym list). Keeping the prose in a real `.md` file means your editor treats it as Markdown and the spell-/prose-checkers below lint it directly.
 <% } -%>
+<% if (!(githubpublish && ["ustutt", "scientific-thesis"].includes(documentclass))) { -%>
 
-The LaTeX snippets this template is assembled from can be inspected at <https://latextemplates.github.io/latex-snippets/>.
+<%- snippetsHint %>
+<% } -%>
 <% if (githubpublish) { switch (documentclass) { case "lncs": -%>
 
 ## Examples
