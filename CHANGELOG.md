@@ -13,7 +13,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Theses show UML diagrams without further tools: MetaUML class and component diagrams (LuaLaTeX) and a pgf-umlsd sequence diagram.
 - `--uml=mermaid`: Mermaid diagrams via ltmermaid.
 - README.md of published theses: how to generate an own copy with PlantUML or Mermaid.
-- [TeXtidote](https://github.com/sylvainhalle/textidote) checks spelling, grammar, and style: configuration `.textidote`, `make textidote`, CI job `textidote` for English documents (annotations).
+- [TeXtidote](https://github.com/sylvainhalle/textidote) checks spelling, grammar, and style: configuration `.textidote`, `make spellcheck-textidote`, CI job `textidote` for English documents (annotations).
 
 ### Changed
 
@@ -23,6 +23,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - With `--docker=dante`, the README, the `Makefile`, and the VS Code settings use the DANTE e.V. image.
 - The DANTE e.V. image is pinned to `2026-B` for TeX Live 2025 and 2026 (instead of `edge`).
 - README.md: minted FAQs merged and moved up.
+- `make spellcheck` runs all spell checkers.
 
 ### Fixed
 
@@ -30,7 +31,9 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The PlantUML example no longer uses the undefined command `\lualatex`.
 - The PlantUML example is skipped if PlantUML or `--shell-escape` is missing.
 - Example texts: spelling and grammar fixed.
-- `make aspell` uses the word list of the document language.
+- `make spellcheck-aspell` (previously `make aspell`) works and uses the word list of the document language.
+- `make showundef` reads the log file.
+- Makefile: `.PHONY` lists all targets.
 
 ## [2026.10.15]
 
