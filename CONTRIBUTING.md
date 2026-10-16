@@ -178,7 +178,6 @@ lualatex/pdflatex paper
 ### Debugging
 
 The repository contains a `launch.json` for Windows and Visual Studio Code.
-<!-- markdownlint-disable-next-line MD033 -->
 Press <kbd>F5</kbd> and the generator should run in debug mode.
 
 ```terminal

@@ -110,5 +110,3 @@ See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomme
 [hyperref]: https://ctan.org/pkg/hyperref
 [listings]: https://ctan.org/pkg/listings
 [minted]: https://ctan.org/pkg/minted
-
-<!-- markdownlint-disable-file MD013 MD033 -->
