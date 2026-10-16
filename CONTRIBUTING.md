@@ -29,7 +29,7 @@ generator-latex-template          <- you are here: the single source of truth
   uni-stuttgart-dissertation-template, markdown-latex-quickstart
 ```
 
-Each template repository embeds this repository as a git submodule at `generator-latex-template/`
+Each template repository embeds this repository as a Git submodule at `generator-latex-template/`
 and runs the generator in its `.github/workflows/update-files.yml` workflow.
 Whenever the submodule pointer is bumped, that workflow regenerates all variants of the template
 (both languages, `listings`/`minted`, …) and commits the result.
@@ -79,7 +79,7 @@ The detailed steps are as follows:
 - Add a new question
   - Also adapt `__tests__/app.js`
   - Execute tests with `npm test` (runs ESLint, then the tests via Node's built-in test runner). A bare run is `node --test`.
-- Update NPM dependencies
+- Update npm dependencies
   - `npx npm-update-all`. See [FreeCodeCamp](https://www.freecodecamp.org/news/10-npm-tricks-that-will-make-you-a-pro-a945982afb25/) for more details.
   - `npx npm-check-updates -u`. [[Source](https://www.carlrippon.com/upgrading-npm-dependencies/)]
   - See <https://github.com/yeoman/generator/releases> for changes in the generator.
@@ -87,9 +87,9 @@ The detailed steps are as follows:
 - When one encounters `Cannot find module 'yeoman-generator'`, please update the npm dependencies.
   That error occurred when using version `4.13.0` and `5.4.2` was available.
 - In case of the error "Error: EACCES, permission denied '/root/.config/configstore/insight-yo.json'", one needs to execute `chmod g+rwx /root /root/.config /root/.config/configstore`
-- Check GitHub actions
+- Check GitHub Actions
   - Use [actionlint](https://github.com/rhysd/actionlint#readme)
-  - Use [vs.code GitHub actions plugin](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
+  - Use [Visual Studio Code GitHub Actions extension](https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions)
   - Use [act](https://github.com/nektos/act) for checking: `act --rm --platform ubuntu-latest=fwilhe2/act-runner:latest -W .github/workflows/check-ieee-conference-a4-pdflatex-bibtex-2023-true.yml`
 - When adding a new package use `DEPP` (see above) or execute following steps:
   1. execute `npx` with `--generatereitzig` (in a clean directory)

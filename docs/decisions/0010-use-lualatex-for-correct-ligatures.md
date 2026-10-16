@@ -47,7 +47,7 @@ There is [selnolig](https://www.ctan.org/pkg/selnolig).
 Found going from <https://tex.stackexchange.com/q/28437/9075> to <https://tex.stackexchange.com/q/63005/9075> and finally to <https://tex.meta.stackexchange.com/questions/2884/new-package-selnolig-that-automates-suppression-of-typographic-ligatures>
 
 * Good, because disables at the right places and not completely
-* Bad, because needs switch of latex compiler to lualatex, which users are not used to
+* Bad, because needs switch of LaTeX compiler to lualatex, which users are not used to
 
 ### Use a post-processor
 
@@ -71,7 +71,7 @@ See <https://tex.stackexchange.com/q/61042/9075> and <https://tex.stackexchange.
 
 ### Ignore ligature issues
 
-* Good, because latex users are used to ligatures everywhere
+* Good, because LaTeX users are used to ligatures everywhere
 * Good, because pdflatex can be used
 * Bad, because higher-quality typesetting is possible
 

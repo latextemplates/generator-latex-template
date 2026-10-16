@@ -130,7 +130,7 @@ layout is a hard requirement.
    history — to one commit per cycle; `release-it`/`end-new-cycle.sh` are unaffected since the
    generated content is identical regardless of how the branch was merged.)
    **`latex-snippets` needs no action here** — it is outside the cycle scripts, and Dependabot
-   + `automerge.yml` bump its `generator-latex-template` submodule to the new release tag on
+   and `automerge.yml` bump its `generator-latex-template` submodule to the new release tag on
    their own (see the `latex-snippets` bullet under "Repo roles"). Just confirm it landed.
 5. **Release the templates** — **the cycle is not done until this step ran**; it was
    forgotten after 2026.9.28 and 2026.10.1, leaving the templates' `## [Unreleased]`
@@ -139,7 +139,7 @@ layout is a hard requirement.
    `main` (pulled): rename `## [Unreleased]` to `## [<YYYY-MM-DD>]` (today; templates use
    dashed dates, unlike the generator's dotted CalVer), bump
    `[Unreleased]: …/compare/<date>...HEAD`, add
-   `[<date>]: …/compare/<prev>...<date>`, run heylogs, commit "Release <date>", tag
+   `[<date>]: …/compare/<prev>...<date>`, run heylogs, commit `Release <date>`, tag
    `<date>`, push commit + tag, and create the GitHub release with that CHANGELOG section
    as body (`gh release create <date> --title <date> --notes-file <section.md>`).
    See tag `2026-07-30` in any template for the reference commit.

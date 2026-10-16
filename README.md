@@ -4,13 +4,13 @@
 
 ## Background information
 
-There are many latex templates out there.
+There are many LaTeX templates out there.
 All of them make use of certain packages such as [hyperref], [listings], or [minted].
 The packages have to be a) included in the `.tex` file somehow and b) configured.
 Moreover, some packages offer interfaces (such as new commands or new environments) to users.
 Minimal examples help to understand how a package works.
 
-The aim of the repository is to provide for each common latex package
+The aim of the repository is to provide for each common LaTeX package
 
 1. Configuration
 2. Usage example

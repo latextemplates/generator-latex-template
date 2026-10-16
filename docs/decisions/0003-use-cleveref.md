@@ -28,7 +28,6 @@ Should it be possible to summarize multiple figures? For instance, range fig:one
 * [refstyle](https://ctan.org/pkg/refstyle)
 * [fncylab](https://ctan.org/pkg/fncylab)
 * [prettyref](https://ctan.org/pkg/prettyref)
-* [refstyle](https://ctan.org/pkg/refstyle)
 * [typedref](https://ctan.org/pkg/typedref)
 
 ## Decision Outcome
@@ -64,10 +63,6 @@ So, for example, the label for a `\section` would be expected to be of the form 
 * Neutral, because forces user to provide proper labels
 * Bad, because beginning and middle-of-sentence have to be distinguished by `\Fref` and `\fref`
 
-### refstyle
-
-* Bad, because hard to configure
-
 ### fncylab
 
 This functionality is build-in in the LaTeX kernel.
@@ -98,6 +93,7 @@ There are defaults provided such as `tab`, then `\tabref{tab:xy}` can be used.
 * Neutral, because provided commands (`\figref`, ...) are short, but make an intuitive impression
 * Bad, because no automatic compression of references
 * Bad, because the type of the referenced artifact has to be provided (e.g., `\eqref`)
+* Bad, because hard to configure
 
 ### typedref
 

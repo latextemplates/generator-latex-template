@@ -16,4 +16,4 @@ What to use as basis for the generator?
 Chosen option: "vojtechhabarta/typescript-generator", because
 
 * actively maintained
-* typescript
+* TypeScript

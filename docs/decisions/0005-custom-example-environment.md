@@ -8,7 +8,7 @@ They should be shown both as LaTeX source and as rendered output.
 ## Decision Drives
 
 * Write once - have two outputs (source and rendered)
-* Good interaction with all pacakges
+* Good interaction with all packages
 * Should support floats
 * Should support compilation without special configuration (such as `--shell-escape`)
 

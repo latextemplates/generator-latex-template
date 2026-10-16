@@ -15,6 +15,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - README.md of published theses: how to generate an own copy with PlantUML or Mermaid.
 - [TeXtidote](https://github.com/sylvainhalle/textidote) checks spelling, grammar, and style: configuration `.textidote`, `make spellcheck-textidote`, CI job `textidote` for English documents (annotations).
 - VS Code: [JabRef 4 VSCode](https://marketplace.visualstudio.com/items?itemName=jabref.jabref-4-vscode) recommended.
+- CI checks the documentation of this repository with markdownlint and textlint.
 
 ### Changed
 
