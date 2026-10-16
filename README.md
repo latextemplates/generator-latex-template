@@ -2,11 +2,6 @@
 
 > Generates latex templates (e.g., for thesis, workshops, conferences, IEEEtran, LNCS, ...) out of "micro-templates"
 
-## Talks and papers
-
-- Paper: [Oliver Kopp - The LaTeX template generator: How micro-templates reduce template maintenance effort](https://tug.org/TUGboat/tb44-2/tb137kopp-microtemplates.html)
-- Talk: [Oliver Kopp - The LaTeX Template Generator - DANTE Herbsttagung 2019](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
-
 ## Background information
 
 There are many latex templates out there.
@@ -92,6 +87,8 @@ You can use the magic of `git` to prevent that:
 
 ## Resources
 
+- Paper: [Oliver Kopp - The LaTeX template generator: How micro-templates reduce template maintenance effort](https://tug.org/TUGboat/tb44-2/tb137kopp-microtemplates.html)
+- Talk: [Oliver Kopp - The LaTeX Template Generator - DANTE Herbsttagung 2019](https://github.com/dante-ev/Vortraege_Tagungen/blob/master/2019-Herbst/Oliver%20Kopp%20-%20The%20LaTeX%20Template%20Generator%20-%20dante2019-herbst.pdf) - a talk on the motivation, user experience, and the contribution
 - [IEEE](https://latextemplates.github.io/ieee-enhanced/) - example: [paper-conference-minted.tex](https://github.com/latextemplates/ieee-enhanced/blob/main/paper-conference-minted.tex)
 - [LNCS](https://latextemplates.github.io/lncs-enhanced/) - example: [paper.tex](https://github.com/latextemplates/lncs-enhanced/blob/main/paper.tex)
 - [scientific-thesis-template](https://latextemplates.github.io/scientific-thesis-template/) - example: [latexhints-english.tex](https://github.com/latextemplates/scientific-thesis-template/blob/main/latexhints-english.tex)
