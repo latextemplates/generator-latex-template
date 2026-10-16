@@ -1,0 +1,54 @@
+% Mermaid: UML diagrams rendered by the Mermaid CLI (mmdc, needs Node.js and Chromium) via ltmermaid.
+% Needs lualatex, --shell-escape, and the Mermaid CLI (contained in the Docker image by DANTE e.V.).
+% Without these prerequisites, the Mermaid example is skipped.
+\ifluatex
+  % Checks whether --shell-escape is enabled and whether one of the given programs is on the PATH
+  \usepackage{luacode}
+  \begin{luacode*}
+    function ltg_on_path(names)
+      for dir in string.gmatch(os.getenv("PATH") or "", "[^:;]+") do
+        for _, name in ipairs(names) do
+          local file = io.open(dir .. "/" .. name, "r")
+          if file then
+            file:close()
+            return true
+          end
+        end
+      end
+      return false
+    end
+    ltg_uml_available = status.shell_escape == 1 and ltg_on_path({"mmdc", "mmdc.cmd"})
+  \end{luacode*}
+  \ifnum\directlua{tex.sprint(ltg_uml_available and 1 or 0)}=1
+    % puppeteer.json lets the headless Chromium of the Mermaid CLI run without sandbox (needed, e.g., in Docker)
+    \usepackage[Renderer={mmdc -p puppeteer.json}]{ltmermaid}
+    % ltmermaid renders all diagrams anew in every run. Mermaid lays out class diagrams slightly differently each time,
+    % so latexmk sees changed PDFs and reruns until "too many passes". Thus, render a diagram only if its code changed.
+    % Remove when https://github.com/ryoya9826/ltMermaid/issues/4 is fixed.
+    \begin{luacode*}
+      local render = mermaid_cli.run
+      mermaid_cli.run = function(inf, outf, ...)
+        local function read(path)
+          local file = io.open(path, "rb")
+          if not file then
+            return nil
+          end
+          local content = file:read("*a")
+          file:close()
+          return content
+        end
+        local code = read(mermaid_cli.resolve_path(inf))
+        local output = mermaid_cli.resolve_path(outf)
+        if code and code == read(output .. ".mmd") and read(output) then
+          return
+        end
+        render(inf, outf, ...)
+        local file = io.open(output .. ".mmd", "wb")
+        if file then
+          file:write(code or "")
+          file:close()
+        end
+      end
+    \end{luacode*}
+  \fi
+\fi

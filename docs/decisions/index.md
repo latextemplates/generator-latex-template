@@ -6,7 +6,7 @@ For new ADRs, please use [adr-template.md](adr-template.md) as basis.
 More information on MADR is available at <https://adr.github.io/madr/>.
 General information about architectural decision records is available at <https://adr.github.io/>.
 
-General pros and cons of LaTeX packages for typical problems are collected in [gadr-latex-packages](https://github.com/latextemplates/gadr-latex-packages); the package decisions below link to them.
+General pros and cons of LaTeX packages for typical problems are in [gadr-latex-packages](https://github.com/latextemplates/gadr-latex-packages); the package decisions below link to them.
 
 ## Decisions
 

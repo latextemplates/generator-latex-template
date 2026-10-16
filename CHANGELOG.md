@@ -6,6 +6,41 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- Theses show UML diagrams without further tools: [MetaUML](https://ctan.org/pkg/metauml) class and component diagrams (LuaLaTeX) and a [pgf-umlsd](https://ctan.org/pkg/pgf-umlsd) sequence diagram.
+- `--uml=mermaid`: Mermaid diagrams via ltmermaid.
+- README.md of published theses: how to generate an own copy with PlantUML or Mermaid.
+- [TeXtidote](https://github.com/sylvainhalle/textidote) checks spelling, grammar, and style: configuration `.textidote`, `make spellcheck-textidote`, CI job `textidote` for English documents (annotations).
+- VS Code: [JabRef 4 VSCode](https://marketplace.visualstudio.com/items?itemName=jabref.jabref-4-vscode) recommended.
+- CI checks the documentation of this repository with markdownlint and textlint.
+- Documentation: wording follows textlint (write-good, terminology); ADR 0003 states its chosen option.
+
+### Changed
+
+- The template repositories use minted in their main files; the variants using the listings package are named `*-basic-listings*`.
+- The tikz-uml, PlantUML, and Mermaid examples show the same four diagrams (sequence, class relations, class visibility, components).
+- The Docker question comes after the UML question; with PlantUML or Mermaid, it offers the DANTE e.V. image (default), which contains these tools.
+- With `--docker=dante`, the README, the `Makefile`, and the VS Code settings use the DANTE e.V. image.
+- The DANTE e.V. image is pinned to `2026-B` for TeX Live 2025 and 2026 (instead of `edge`).
+- README.md: minted FAQs merged and moved up.
+- `make spellcheck` runs all spell checkers.
+- GitHub workflows of this repository: actions pinned to commit SHAs.
+- README.md: talk and paper moved to "Resources".
+- README.md: development hints moved to CONTRIBUTING.md, roadmap removed.
+
+### Fixed
+
+- The interactive generator offers TeX Live 2025 and 2026 (default), also for Overleaf.
+- The PlantUML example no longer uses the undefined command `\lualatex`.
+- The PlantUML example is skipped if PlantUML or `--shell-escape` is missing.
+- Example texts: spelling and grammar fixed.
+- `make spellcheck-aspell` (previously `make aspell`) works and uses the word list of the document language.
+- `make showundef` reads the log file.
+- Makefile: `.PHONY` lists all targets.
+
 ## [2026.10.15]
 
 ### Added

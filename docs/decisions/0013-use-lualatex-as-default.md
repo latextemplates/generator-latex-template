@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-Which latex compiler to use?
+Which LaTeX compiler to use?
 
 ## Considered Options
 

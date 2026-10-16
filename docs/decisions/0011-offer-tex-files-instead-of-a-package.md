@@ -7,7 +7,7 @@ How are the templates distributed?
 ## Considered Options
 
 * Distribute using a ZIP file downloadable via GitHub
-* Offer as latex package (`.sty`) distributed using CTAN
+* Offer as LaTeX package (`.sty`) distributed using CTAN
 * Offer as a class file (`.cls`) distributed using CTAN
 
 ## Decision Outcome
@@ -22,7 +22,7 @@ The main reason is that there will be never as much help as for basic classes su
 
 ### Consequences
 
-* Bad, because users have more effort to pick up updates of the template: by advanced use of git or by copying the patches manually.
+* Bad, because users have more effort to pick up updates of the template: by advanced use of Git or by copying the patches manually.
 
 ## More Information
 

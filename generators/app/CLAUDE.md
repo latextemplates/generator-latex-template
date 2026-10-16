@@ -83,6 +83,7 @@ The consequence (and a real footgun): **the blank-line layout of the output is n
 layout of the source.** Because `-%>` eats one trailing newline, two adjacent
 `-%>`-terminated blocks/includes render with **no** blank line between them. To get a
 blank line between blocks you need one of:
+
 - the first block's file to **end with a trailing blank line** (how most
   `*.preamble.*.tex` separate themselves — e.g. `font.preamble` ends with a blank line
   then `<% } -%>`), **or**
@@ -112,5 +113,5 @@ formats) catch things a single local `yo` + compile does not. Two that have bitt
   language's example must be defined in **both** `abbreviations.en.tex` and
   `abbreviations.de.tex` (the unused one just never appears in that document's list). Making
   `\gls` entries language-exclusive breaks the other language's variant with
-  "Glossary entry `…' has not been defined". The same single-shared-file logic applies to
+  ``Glossary entry `…' has not been defined``. The same single-shared-file logic applies to
   other `this.fs.copy`'d siblings (`commands.tex`, …).

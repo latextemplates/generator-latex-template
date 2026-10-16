@@ -1,6 +1,6 @@
 # Use CC0 as license for text
 
-Each information published should take a license to clearly state what is allowed and what not.
+Each information published should take a license stating what others may do with it.
 
 * The template should be usable freely.
 * The license should be an accepted one at least in the European Union and the US.
@@ -32,4 +32,4 @@ Chosen option: CC0, because comes out best (see below).
 
 * Good, because well-known
 * Bad, because forces the user of the template to make available his text under GPL, too.
-  A long reasoning regarding this statement is done at: <https://opensource.stackexchange.com/a/4206/5671>
+  A long reasoning regarding this statement: <https://opensource.stackexchange.com/a/4206/5671>

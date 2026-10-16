@@ -3,7 +3,7 @@
 ## Context and Problem Statement
 
 A reference should name what it points at ("Figure 3", "Section 2", "Equations 1 to 3"), the name should be part of the hyperlink, and the reference should stay correct when floats move or change type.
-How should cross-references be written?
+How to write cross-references?
 
 ## Considered Options
 

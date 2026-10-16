@@ -55,6 +55,15 @@ sub run_makeglossaries {
   };
 }
 
+<% if (uml == "mermaid") { -%>
+#------------------------------------------------------------------------------#
+# Mermaid (ltmermaid)
+
+# ltmermaid renders the Mermaid diagrams anew in every run. The resulting PDFs differ only in their dates,
+# which latexmk has to ignore; otherwise, it reruns until "pdflatex needed too many passes".
+$hash_calc_ignore_pattern{'pdf'} = '^/(CreationDate|ModDate) ';
+
+<% } -%>
 #------------------------------------------------------------------------------#
 # cleanup
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Release every consuming template whose main CHANGELOG has a non-empty "## [Unreleased]" section
-# (cycle step 5 in CLAUDE.md / README "Releasing a new version").
+# (cycle step 5 in CLAUDE.md / CONTRIBUTING.md "Releasing a new version").
 # Run from this repo's directory after the templates' "Update LTG" PRs are merged.
 #
 # Usage: scripts/release-templates.sh <YYYY-MM-DD> [--dry-run]

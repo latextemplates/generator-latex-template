@@ -1,0 +1,69 @@
+<%= heading2 %>{UML diagrams using Mermaid}
+
+\href{https://mermaid.js.org}{Mermaid} lays out diagrams automatically; a relation is a single arrow such as \texttt{Car *-- Wheel}.
+The \href{https://ctan.org/pkg/ltmermaid}{ltmermaid} package renders them with the Mermaid CLI (which needs Node.js and Chromium) and needs \texttt{lualatex} and the \texttt{--shell-escape} compiler flag; the Docker image by DANTE e.V.\ contains all of this (see the \texttt{README}).
+When these prerequisites are missing, the following demos are skipped automatically.
+Mermaid has no UML component diagrams.
+
+\ifluatex
+  \ifnum\directlua{tex.sprint(ltg_uml_available and 1 or 0)}=1
+    <%- bexample %>
+    \begin{figure}
+      \centering
+      \begin{mermaid}
+---
+config:
+  sequence:
+    mirrorActors: false
+---
+sequenceDiagram
+  Alice->>+Bob: test
+  Bob-->>-Alice: response
+\end{mermaid}
+      \caption{Sequence diagram drawn with Mermaid}
+      \label{fig:mermaid-sequence}
+    \end{figure}
+    <%- eexample %>
+
+    <%- bexample %>
+    \begin{figure}
+      \centering
+      \begin{mermaid}
+---
+config:
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
+  Driver -- Car : drives >
+  Car *-- Wheel : have 4 >
+  Car -- Person : < owns
+\end{mermaid}
+      \caption{Class diagram drawn with Mermaid}
+      \label{fig:mermaid-class-relations}
+    \end{figure}
+    <%- eexample %>
+
+    <%- bexample %>
+    \begin{figure}
+      \centering
+      \begin{mermaid}
+classDiagram
+  class BankAccount {
+    +owner : String
+    #balance : double
+    -pin : int
+    ~auditTrail : List
+    +deposit(amount : double)
+    #applyInterest()
+    -validatePin(pin : int)
+  }
+\end{mermaid}
+      \caption{Class with visibilities drawn with Mermaid}
+      \label{fig:mermaid-class-visibility}
+    \end{figure}
+    <%- eexample %>
+  \else
+    \emph{The Mermaid CLI or \texttt{--shell-escape} is not available, so these diagrams are not rendered. See the \texttt{README} on how to enable it.}
+  \fi
+\fi

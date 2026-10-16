@@ -192,7 +192,8 @@ export default class extends Generator {
     // (TeX Live 2024) still needs shell-escape.
     this.props.requiresShellEscape =
       (this.props.listings == "minted" && this.props.texlive < 2025) ||
-      this.props.uml == "plantuml";
+      this.props.uml == "plantuml" ||
+      this.props.uml == "mermaid";
 
     // Two-column layouts (IEEE, and the ACM conference/journal formats) cannot use
     // `longtable` ("longtable not in 1-column mode"), so the longtable example must
@@ -214,6 +215,45 @@ export default class extends Generator {
       (this.props.texlive >= 2026
         ? "latest"
         : `TL${this.props.texlive}-historic`);
+
+    // The DANTE e.V. image additionally contains PlantUML (and the Mermaid CLI), needed by
+    // --uml=plantuml and --uml=mermaid. Its tags: https://hub.docker.com/r/danteev/texlive/tags
+    const danteTags = {
+      2021: "2021-D",
+      2023: "2023-A",
+      2024: "2024-B",
+      2025: "2026-B",
+      2026: "2026-B",
+    };
+    this.props.danteImage =
+      "danteev/texlive:" + (danteTags[this.props.texlive] ?? "edge");
+
+    // The image used to compile in Docker (README, Makefile, VS Code settings)
+    this.props.dockerImage =
+      this.props.docker === "dante"
+        ? this.props.danteImage
+        : this.props.iotImage;
+    this.props.dockerCompile =
+      this.props.docker === "iot" || this.props.docker === "dante";
+
+    // The generator options of this template, used in the README to tell how to generate an own
+    // copy (e.g., with PlantUML). The options that distinguish the main files of a published
+    // template (thesis variant, language, package for source code) are left open, so that the
+    // generator asks for them.
+    this.props.regenerateOptions = [
+      "documentclass",
+      "latexcompiler",
+      "overleaf",
+      "texlive",
+      "enquotes",
+      "tweakouterquote",
+      "todo",
+      "examples",
+      "howtotext",
+    ]
+      .filter((name) => this.props[name] !== undefined)
+      .map((name) => `--${name}=${this.props[name]}`)
+      .join(" ");
 
     createFeatures(props);
     createHeadingCommands(props);
@@ -361,6 +401,40 @@ export default class extends Generator {
       this.fs.copy(
         this.templatePath("dot.aspell.en.pws"),
         this.destinationPath(".aspell.en.pws"),
+      );
+    }
+
+    // TeXtidote (spelling, grammar, and style; CI job "textidote") reads its options from .textidote.
+    // Its dictionary contains the words of both aspell word lists (without their header lines).
+    // Both files must not depend on the language: some templates publish both languages into one repository.
+    if (this.props.documentclass !== "mwe") {
+      this.fs.copy(
+        this.templatePath("dot.textidote"),
+        this.destinationPath(".textidote"),
+      );
+      this.fs.copy(
+        this.templatePath("dot.textidote.replacements"),
+        this.destinationPath(".textidote.replacements"),
+      );
+      const words = [
+        ...new Set(
+          ["en", "de"].flatMap((lang) =>
+            this.fs
+              .read(this.templatePath(`dot.aspell.${lang}.pws`))
+              .split("\n")
+              .slice(1)
+              .filter((word) => word !== ""),
+          ),
+        ),
+      ]
+        .sort((a, b) => a.localeCompare(b, "en"))
+        .join("\n");
+      // aspell word lists cannot contain hyphenated words
+      const hyphenated =
+        "zref-clever\nZref-clever\nzref-vario\nZref-vario\npgf-umlsd\nmarkdown-latex-quickstart\n";
+      this.fs.write(
+        this.destinationPath(".textidote.dict"),
+        words + "\n" + hyphenated,
       );
     }
 
@@ -545,6 +619,14 @@ export default class extends Generator {
 
     if (this.props.isThesis) {
       this.fs.copy(this.templatePath("docs/*"), this.destinationPath("docs/"));
+    }
+
+    if (this.props.uml === "mermaid") {
+      // lets the headless Chromium of the Mermaid CLI run without sandbox (see uml.mermaid.preamble.en.tex)
+      this.fs.copy(
+        this.templatePath("puppeteer.json"),
+        this.destinationPath("puppeteer.json"),
+      );
     }
 
     this.fs.copy(

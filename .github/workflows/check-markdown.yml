@@ -1,0 +1,43 @@
+name: Check Markdown
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Rules come from .markdownlint.yml
+      - uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff # v24.2.0
+        with:
+          globs: |
+            *.md
+            docs/**/*.md
+  textlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - name: Lint the documentation with textlint
+        run: |
+          # Report-only: findings show up as annotations, the job does not fail.
+          # Rules come from .textlintrc.json (the rules of the templates, without the LaTeX parts). The github formatter prints absolute paths;
+          # stripping the workspace prefix anchors the annotations to the files.
+          npx --yes \
+            --package textlint \
+            --package textlint-filter-rule-allowlist \
+            --package textlint-rule-terminology \
+            --package textlint-rule-write-good \
+            textlint --format github README.md CONTRIBUTING.md "docs/**/*.md" \
+            | sed "s|${GITHUB_WORKSPACE}/||g" | tee annotations.txt || true
+          count=$(grep -c '^::' annotations.txt || true)
+          echo "textlint reported ${count} finding(s) in the documentation." >> "$GITHUB_STEP_SUMMARY"

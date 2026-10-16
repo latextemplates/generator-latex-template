@@ -17,7 +17,7 @@ export const todos = ["pdfcomment", "none"];
 export const examples = ["true", "false"];
 export const howtotexts = ["true", "false"];
 export const ieeevariants = ["conference", "journal", "peerreview"];
-export const umls = ["none", "tikz-uml", "plantuml"];
+export const umls = ["none", "tikz-uml", "plantuml", "mermaid"];
 
 // The axes used for pairwise coverage. `ieeevariant` is only meaningful for
 // the ieee document class; for every other class the full matrix pins it to

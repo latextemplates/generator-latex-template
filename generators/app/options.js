@@ -163,28 +163,18 @@ export const options = [
     type: "list",
     name: "texlive",
     message: "Which TeXLive compatibility?",
-    choices(state) {
-      const res = [
-        {
-          name: "TeXLive 2024",
-          value: 2024,
-        },
-      ];
-      if (!state.overleaf) {
-        res.push({
-          name: "TeXLive 2025",
-          value: 2025,
-        });
-      }
-      return res;
-    },
-    default(state) {
-      if (state.overleaf) {
-        return 2024;
-      }
-
-      return 2025;
-    },
+    // Overleaf offers the current TeX Live (select it in the project settings).
+    choices: [
+      {
+        name: "TeXLive 2025",
+        value: 2025,
+      },
+      {
+        name: "TeXLive 2026",
+        value: 2026,
+      },
+    ],
+    default: 2026,
   },
   {
     type: "list",
@@ -201,7 +191,7 @@ export const options = [
           value: "pdflatex",
         },
       ];
-      if (state.texlive == 2025) {
+      if (state.texlive == 2026) {
         res.push({
           name: "pdflatex-dev",
           value: "pdflatex-dev",
@@ -211,7 +201,7 @@ export const options = [
         name: "lualatex",
         value: "lualatex",
       });
-      if (state.texlive == 2025) {
+      if (state.texlive == 2026) {
         res.push({
           name: "lualatex-dev",
           value: "lualatex-dev",
@@ -257,30 +247,6 @@ export const options = [
           return "biblatex";
       }
     },
-  },
-  {
-    type: "list",
-    name: "docker",
-    message: "Should a Dockerfile be generated?",
-    choices: [
-      {
-        name: "no",
-        value: false,
-      },
-      {
-        name: "yes (Island of TeX)",
-        value: "iot",
-      },
-      {
-        name: "yes (Reiztig)",
-        value: "reitzig",
-      },
-      {
-        name: "yes (DANTE e.V.)",
-        value: "dante",
-      },
-    ],
-    default: false,
   },
   {
     type: "list",
@@ -488,10 +454,53 @@ export const options = [
         value: "tikz-uml",
       },
       {
-        name: "PlantUML (needs LuaLaTeX, --shell-escape, and a PlantUML/Java install)",
+        name: "PlantUML (needs --shell-escape, Java, and PlantUML; contained in the Docker image by DANTE e.V.)",
         value: "plantuml",
+      },
+      {
+        name: "Mermaid (needs --shell-escape and the Mermaid CLI; contained in the Docker image by DANTE e.V.)",
+        value: "mermaid",
       },
     ],
     default: "none",
+  },
+  {
+    type: "list",
+    name: "docker",
+    message: "Should a Dockerfile be generated?",
+    // PlantUML and the Mermaid CLI are contained only in the image by DANTE e.V.
+    choices(state) {
+      const needsDante = state.uml === "plantuml" || state.uml === "mermaid";
+      const res = [
+        {
+          name: "no",
+          value: false,
+        },
+      ];
+      if (!needsDante) {
+        res.push(
+          {
+            name: "yes (Island of TeX)",
+            value: "iot",
+          },
+          {
+            name: "yes (Reiztig)",
+            value: "reitzig",
+          },
+        );
+      }
+      res.push({
+        name: needsDante
+          ? "yes (DANTE e.V.; contains PlantUML and the Mermaid CLI)"
+          : "yes (DANTE e.V.)",
+        value: "dante",
+      });
+      return res;
+    },
+    default(state) {
+      return state.uml === "plantuml" || state.uml === "mermaid"
+        ? "dante"
+        : false;
+    },
   },
 ];
