@@ -339,6 +339,87 @@ export default class extends Generator {
     }
   }
 
+  // The main templates mark each chapter with "%%LTG-CHAPTER <name>" (Markdown
+  // chapters with "%%LTG-CHAPTER-MARKDOWN <name>") and the end of the last one
+  // with "%%LTG-CHAPTERS-END". A thesis gets each chapter as its own file
+  // chapters/<nn> - <name>.<lang>.tex, included by the main file; a paper keeps
+  // its sections in the main file. Template repositories put the main files of
+  // all variants of one language next to each other, so the chapter files must
+  // not depend on the variant: the source code example (listings or minted) goes
+  // into a file of its own, picked by the package that the main file loads.
+  _splitChapters(lines) {
+    const isMarker = (line) => line.startsWith("%%LTG-");
+    if (!this.props.isThesis) {
+      return lines.filter((line) => !isMarker(line));
+    }
+
+    const trim = (chapterLines) => {
+      const first = chapterLines.findIndex((line) => line.trim() !== "");
+      const last = chapterLines.findLastIndex((line) => line.trim() !== "");
+      return first < 0 ? [] : chapterLines.slice(first, last + 1);
+    };
+    const write = (path, chapterLines) =>
+      this.fs.write(this.destinationPath(path), chapterLines.join("\n") + "\n");
+
+    const start = lines.findIndex((line) => line.startsWith("%%LTG-CHAPTER"));
+    const end = lines.indexOf("%%LTG-CHAPTERS-END");
+    const chapters = [];
+    for (const line of lines.slice(start, end)) {
+      const match = line.match(/^%%LTG-CHAPTER(-MARKDOWN)? (.+)$/);
+      if (match) {
+        chapters.push({
+          markdown: Boolean(match[1]),
+          name: match[2],
+          lines: [],
+        });
+      } else {
+        chapters.at(-1).lines.push(line);
+      }
+    }
+
+    const language = this.props.language;
+    const includes = chapters.flatMap((chapter, index) => {
+      const base = `chapters/${String(index + 1).padStart(2, "0")} - ${chapter.name}`;
+      if (chapter.markdown) {
+        write(`${base}.${language}.md`, trim(chapter.lines));
+        const input = `\\markdownInput{${base}.${language}.md}`;
+        return this.props.latexcompiler === "both"
+          ? ["\\ifluatex", "  " + input, "\\fi"]
+          : [input];
+      }
+
+      const chapterLines = [];
+      let sourceCode = null;
+      for (const line of chapter.lines) {
+        const match = line.match(/^%%LTG-SOURCECODE (\S+)$/);
+        if (match) {
+          sourceCode = { listings: match[1], lines: [] };
+        } else if (line === "%%LTG-SOURCECODE-END") {
+          const file = (listings) => `${base} - ${listings}.${language}`;
+          write(file(sourceCode.listings) + ".tex", trim(sourceCode.lines));
+          chapterLines.push(
+            "% The main file loads either the minted or the listings package",
+            "\\ifdefined\\inputminted",
+            `  \\input{${file("minted")}}`,
+            "\\else",
+            `  \\input{${file("listings")}}`,
+            "\\fi",
+            "",
+          );
+          sourceCode = null;
+        } else if (sourceCode) {
+          sourceCode.lines.push(line);
+        } else {
+          chapterLines.push(line);
+        }
+      }
+      write(`${base}.${language}.tex`, trim(chapterLines));
+      return [`\\include{${base}.${language}}`];
+    });
+
+    return [...lines.slice(0, start), ...includes, ...lines.slice(end + 1)];
+  }
+
   writing() {
     this.props.config = this.props;
     this.fs.copyTpl(
@@ -490,11 +571,11 @@ export default class extends Generator {
     // rendering, so the template carries placeholders that are filled here.
     if (this.props.documentclass !== "mwe") {
       const mainPath = this.destinationPath(this.props.filenames.main + ".tex");
-      const lines = this.fs.read(mainPath).split("\n");
+      const lines = this._splitChapters(this.fs.read(mainPath).split("\n"));
       const contentIndex = lines.indexOf("\\begin{document}");
       const headingIndex = lines.findIndex(
         (line, index) =>
-          index > contentIndex && /^\\(chapter|section)\{/.test(line),
+          index > contentIndex && /^\\(chapter|section|include)\{/.test(line),
       );
       const heading = lines[headingIndex].replace(/\\label\{.*$/, "");
       this.fs.write(

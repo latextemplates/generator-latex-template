@@ -34,8 +34,8 @@ LITERATURE = <%= filenames.bib %>.bib
 
 ## Derived file names
 SRC = $(shell basename $(MASTER_TEX) .tex)
-TEX_FILES = $(wildcard *.tex content/*.tex)
-## All main files, including variants of MASTER_TEX (e.g., other languages): "make format" indents each of them
+TEX_FILES = $(wildcard *.tex)
+## All main files, including variants of MASTER_TEX (e.g., other languages): "make format" indents each of them and the chapters
 MAIN_TEX_FILES = $(wildcard <%= isPaper ? "paper" : ((documentclass == "ustutt") ? "thesis-example" : "main") %>*.tex)
 GFX_FILES = $(wildcard figures/*)
 
@@ -108,12 +108,13 @@ spellcheck: spellcheck-aspell<% if (documentclass != "mwe") { %> spellcheck-text
 ##
 ## .aspell.<%= language %>.pws - persönliches Wörterbuch
 spellcheck-aspell:
-	for tex in $(TEX_FILES); do \
+	for tex in *.tex chapters/*.<%= language %>.tex; do \
+		[ -e "$$tex" ] || continue; \
 		aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws -c "$$tex" || exit 1; \
 	done
 
 <% if (documentclass != "mwe") { -%>
-## Spelling, grammar, and style with TeXtidote (https://github.com/sylvainhalle/textidote): writes textidote.html
+## Spelling, grammar, and style with TeXtidote (https://github.com/sylvainhalle/textidote): writes textidote.html<% if (isThesis) { %> and chapters/*.textidote.html<% } %>
 ## Needs Java (contained in the Docker image); the options are in .textidote (its --check en is overridden here).
 ## -Djdk.xml.totalEntitySizeLimit=0: TeXtidote 0.9 fails on Java 24+ otherwise (fixed after 0.9: sylvainhalle/textidote#274)
 textidote.jar:
@@ -122,7 +123,16 @@ textidote.jar:
 spellcheck-textidote: textidote.jar
 	@# TeXtidote exits with the number of findings, which is no failure here
 	$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html $(MASTER_TEX) > textidote.html || test -s textidote.html
+<% if (isThesis) { -%>
+	@# TeXtidote mixes up the text of \include lines, so .textidote removes them and each chapter is checked on its own
+	for tex in chapters/*.<%= language %>.tex; do \
+		[ -e "$$tex" ] || continue; \
+		$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html --read-all "$$tex" > "$${tex%.tex}.textidote.html" || test -s "$${tex%.tex}.textidote.html"; \
+	done
+	@echo "Reports: textidote.html and chapters/*.textidote.html"
+<% } else { -%>
 	@echo "Report: textidote.html"
+<% } -%>
 
 <% } -%>
 ## Show only the relevant messages of the last LaTeX run
@@ -136,7 +146,10 @@ showundef:
 ## Reformatierung
 
 format:
-	for f in $(MAIN_TEX_FILES); do $(RUN) latexindent -l -s -sl -w "$$f" || exit 1; done
+	for f in $(MAIN_TEX_FILES) chapters/*.tex; do \
+		[ -e "$$f" ] || continue; \
+		$(RUN) latexindent -l -s -sl -w "$$f" || exit 1; \
+	done
 
 indent:
 	$(RUN) latexindent -y="indentPreamble:1,defaultIndent:'  '" -m -w $(SRC)

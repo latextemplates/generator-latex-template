@@ -65,7 +65,7 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 2. Windows: Open MiKTeX Console and install package `inconsolata`
 3. Install font [Inconsolata](https://fonts.google.com/specimen/Inconsolata)
 4. Install Python and install minted3: `python -m pip install --force-reinstall latexminted`
-5. Start texing: edit `<%= filenames.main %>.tex`.
+5. Start texing: edit the chapters in [`chapters/`](chapters/), which `<%= filenames.main %>.tex` includes.
 6. Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
 With the Docker-based setup (see ["Docker-based (recommended)"](#docker-based-recommended)), steps 2 to 4 are not needed: the image contains the font and `latexminted`.
@@ -110,6 +110,7 @@ The template will be extended to support theses from more institutions.
         - English: `main-english.tex`
         - German: `main-german.tex`
         - Without Python (see below): `main-basic-listings-english.tex`, `main-basic-listings-german.tex`
+    - The text is in [`chapters/`](chapters/), one file per chapter and language (e.g., `chapters/01 - introduction.en.tex`), which the main files include.
 
 3. Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
@@ -307,13 +308,27 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 
 ### Directories
 
+<% if (isThesis) { -%>
+- [chapters](chapters/) One file per chapter, included by the main file.
+  The suffix names the language (`.en`, `.de`).
+<% if (markdown) { -%>
+  The chapter on Markdown is a plain Markdown file (`.md`), included with `\markdownInput` (LuaLaTeX only).
+<% } -%>
+<% if (examples) { -%>
+  The source code example of the LaTeX hints is a file of its own for each of the minted and listings packages.
+<% } -%>
+<% } -%>
 - [figures](figures/) Directory containing the figures.
   By using LuaLaTex/PDFLaTeX it is possible to use PDFs, JPGs, PNGs, ... We recommend to use PDFs to enable smooth scaling.
 
 ### Files
 
 - `<%= filenames.main %>.tex` - The main `.tex` file loading all LaTeX packages and their configurations.
+<% if (isThesis) { -%>
+  - Add or remove chapters here
+<% } else { -%>
   - Add text here
+<% } -%>
   - Adjust title, … here
 - [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
 - [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
@@ -471,7 +486,7 @@ On the command line, there are additional features:
 - `make spellcheck` runs all spell checkers:
   - `make spellcheck-aspell` for interactive spell checking with aspell
 <% if (documentclass != "mwe") { -%>
-  - `make spellcheck-textidote` checks spelling, grammar, and style with [TeXtidote](https://github.com/sylvainhalle/textidote) (report in `textidote.html`)
+  - `make spellcheck-textidote` checks spelling, grammar, and style with [TeXtidote](https://github.com/sylvainhalle/textidote) (report in `textidote.html`<% if (isThesis) { %>, for the chapters in `chapters/*.textidote.html`<% } %>)
 <% } -%>
 - `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
@@ -482,12 +497,12 @@ The `textlint` job of the `Check` workflow reports weakening words (e.g., "clear
 Run it locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
 
 ```bash
-npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-filter-rule-allowlist --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex
+npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-filter-rule-allowlist --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex<% if (isThesis) { %> chapters/*.en.tex<% } %>
 ```
 
 The `textidote` job of the `Check` workflow checks spelling, grammar, and style of English documents with [TeXtidote](https://github.com/sylvainhalle/textidote) and reports its findings as annotations.
 Its options are in `.textidote`.
-Run it locally with `make spellcheck-textidote`: it downloads `textidote.jar` once and writes the report `textidote.html`.
+Run it locally with `make spellcheck-textidote`: it downloads `textidote.jar` once and writes the report `textidote.html`<% if (isThesis) { %> (for the chapters: `chapters/*.textidote.html`)<% } %>.
 <% } -%>
 <% if (documentclass == "mwe") { -%>
 

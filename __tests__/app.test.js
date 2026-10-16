@@ -132,6 +132,64 @@ describe("published shared files are the same for English and German", () => {
   }
 });
 
+// A template repository puts the main files of all variants of one language
+// next to each other, so they share the directory "chapters". Only the source
+// code example depends on the listings switch; it has a file of its own.
+describe("thesis chapters are the same for all variants of a language", () => {
+  const common = {
+    githubpublish: true,
+    docker: "iot",
+    documentclass: "scientific-thesis",
+    papersize: "a4",
+    latexcompiler: "both",
+    bibtextool: "biblatex",
+    overleaf: true,
+    texlive: 2026,
+    font: "default",
+    cleveref: true,
+    enquotes: "csquotes",
+    tweakouterquote: "babel",
+    todo: "pdfcomment",
+    examples: true,
+    howtotext: true,
+    uml: "none",
+  };
+  for (const lang of ["en", "de"]) {
+    it(lang, async () => {
+      const chapters = async (options) => {
+        const runResult = await helpers
+          .run(generatorPath)
+          .withOptions({ ...common, ...options, lang });
+        const dir = path.join(runResult.cwd, "chapters");
+        return Object.fromEntries(
+          fs
+            .readdirSync(dir)
+            .filter((file) => !/ - (listings|minted)\./.test(file))
+            .map((file) => [
+              file,
+              fs.readFileSync(path.join(dir, file), "utf8"),
+            ]),
+        );
+      };
+      const reference = await chapters({
+        thesisvariant: "ustutt",
+        listings: "minted",
+      });
+      assert.ok(Object.keys(reference).length > 5);
+      for (const options of [
+        { thesisvariant: "ustutt", listings: "listings" },
+        { thesisvariant: "university-of-hamburg", listings: "minted" },
+      ]) {
+        assert.deepStrictEqual(
+          await chapters(options),
+          reference,
+          JSON.stringify(options),
+        );
+      }
+    });
+  }
+});
+
 // PlantUML and the Mermaid CLI are contained only in the Docker image by DANTE e.V.
 describe("Docker image for UML tools", () => {
   for (const uml of ["plantuml", "mermaid"]) {
