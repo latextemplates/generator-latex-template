@@ -104,11 +104,11 @@ edit:
 ##   Schreiben der LaTeX-Befehle in eine config Dateiname. Sieht so aus:
 ##   add-tex-command democommand PO // PO := prüfe []{} ;; po := ignoriere []{}
 ##
-## .aspell.en.pws - persönliches Wörterbuch
+## .aspell.<%= language %>.pws - persönliches Wörterbuch
 aspell:
 	for tex in $(TEX_FILES);
 		do
-			aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.en.pws -c $$tex;
+			aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws -c $$tex;
 		done
 
 <% if (documentclass != "mwe") { -%>
