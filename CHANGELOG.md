@@ -27,6 +27,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - `make spellcheck` runs all spell checkers.
 - GitHub workflows of this repository: actions pinned to commit SHAs.
 - README.md: talk and paper moved to "Resources".
+- README.md: development hints moved to CONTRIBUTING.md, roadmap removed.
 
 ### Fixed
 

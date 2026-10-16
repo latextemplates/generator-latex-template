@@ -112,14 +112,14 @@ layout is a hard requirement.
    link that was never bumped). So `git switch main && git pull` and confirm
    `git branch --show-current` prints `main` **before** touching the CHANGELOG or running
    `release-it`. Then **verify the CHANGELOG before publishing** (details and the exact
-   heylogs command in README → "Releasing a new version"): run heylogs for **0 problems**
+   heylogs command in CONTRIBUTING.md → "Releasing a new version"): run heylogs for **0 problems**
    (same check as `check-changelog.yml`) **and** eyeball the links by hand — heylogs
    **cannot** validate version links here, because our CalVer headings omit the date so
    `linkable`/`date-displayed`/`all-h2-contain-a-version` are off and heylogs skips
    link-checking a dateless heading. Confirm the top `## [<version>]` equals the version
    `release-it` will publish, and that both the `[<version>]:` and the bumped
    `[Unreleased]:` link definitions are present and point at the right tags.
-   Then cut the release (README → "Releasing a new version": `release-it` +
+   Then cut the release (CONTRIBUTING.md → "Releasing a new version": `release-it` +
    `github-release-from-changelog` — version bump, npm publish, tag, GitHub release; this is
    the only step that needs an interactive npm login + 2FA). Confirm the publish with
    `npm view generator-latex-template version`: 2026.10.1 was tagged and released on GitHub
@@ -269,7 +269,7 @@ diff is printed in the failing run's "Prepare files" step, canonical variant **e
 
 ## Local LaTeX testing
 
-See README → "Test locally" / DEPP / reitzig. Quick form, from an empty target dir:
+See CONTRIBUTING.md → "Test locally" / DEPP / reitzig. Quick form, from an empty target dir:
 `npx yo <path-to-this-repo>/generators/app/index.js --documentclass=... --texlive=... ...`.
 
 [Yeoman]: https://yeoman.io/
