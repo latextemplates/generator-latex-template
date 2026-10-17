@@ -103,7 +103,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute and for development
 The code has the license [0BSD](https://choosealicense.com/licenses/0bsd/#), the snippets (both LaTeX and text) 0BSD, too.
 See [benbalter/talks#15](https://github.com/benbalter/talks/issues/15#issuecomment-599704662), for the reasoning why we cannot use [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/).
 
-- `generators/app/templates/IEEEtranN-doi.bst` is `IEEEtranN.bst` from the [IEEEtran package](https://ctan.org/pkg/ieeetran), modified to output DOIs, and is LPPL-licensed.
+- `generators/app/templates/IEEEtranN-doi.bst` is `IEEEtranN.bst` from the [IEEEtran package](https://ctan.org/pkg/ieeetran), modified to output DOIs (`IEEEtranN-doi.bst.patch`), and is LPPL-licensed.
 - `generators/app/templates/splncs04nat.bst` comes from [tpavlic/splncs04nat](https://github.com/tpavlic/splncs04nat) and is MIT-licensed.
 - `generators/app/templates/logos/`: This directory contains logos, which have special licenses (see [`logos/README.md`](generators/app/templates/logos/README.md)).
 - `generators/app/templates/figures/ulm-minster.jpg` is [Landappbw 79389 1820 Ulmer Münster Ulm.jpg](https://commons.wikimedia.org/w/index.php?curid=131463041) by wkrauth, dedicated to the public domain under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
