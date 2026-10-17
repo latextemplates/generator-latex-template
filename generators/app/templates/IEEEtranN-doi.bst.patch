@@ -1,11 +1,12 @@
 --- IEEEtranN.bst
 +++ IEEEtranN-doi.bst
-@@ -1,5 +1,13 @@
+@@ -1,5 +1,14 @@
  %%
 -%% IEEEtranN.bst
 +%% IEEEtranN-doi.bst
 +%% IEEEtranN.bst (version 1.14) modified to output the DOI as
-+%% ", doi: 10.xxx" before the URL (also after a note), as the IEEE Reference Guide
++%% ", doi: 10.xxx" before the URL (also after a note) and to repeat the names
++%% of the previous entry instead of a dash, as the IEEE Reference Guide
 +%% (V 3.28.2025) asks for. Modified by the latextemplates project,
 +%% https://github.com/latextemplates/generator-latex-template;
 +%% report problems there, not to the original author.
@@ -15,7 +16,17 @@
  %% BibTeX Bibliography Style file
  %% Natbib version of IEEEtran.bst
  %% *** Not for normal IEEE work ***
-@@ -296,6 +304,7 @@
+@@ -130,7 +139,8 @@
+ % #0 turns off the "dashification" of repeated (i.e., identical to those
+ % of the previous entry) names. The IEEE normally does this.
+ % #1 enables
+-FUNCTION {default.is.dash.repeated.names} { #1 }
++% The IEEE Reference Guide (V 3.28.2025) repeats the names, hence #0
++FUNCTION {default.is.dash.repeated.names} { #0 }
+ 
+ 
+ % The default name format control string.
+@@ -296,6 +306,7 @@
      volume
      year
      yearfiled
@@ -23,7 +34,7 @@
      CTLuse_article_number
      CTLuse_paper
      CTLuse_url
-@@ -1125,7 +1134,7 @@
+@@ -1125,7 +1136,7 @@
  % the other gurus on comp.text.tex for their help and advice on the topic of
  % \selectlanguage, Babel and BibTeX.
  FUNCTION {begin.bib}
@@ -32,7 +43,7 @@
    write$ newline$
    preamble$ empty$ 'skip$
      { preamble$ write$ newline$ }
-@@ -1140,6 +1149,8 @@
+@@ -1140,6 +1151,8 @@
    write$ newline$
    "\providecommand{\newblock}{\relax}"
    write$ newline$
@@ -41,7 +52,7 @@
    "\providecommand{\bibinfo}[2]{#2}"
    write$ newline$
    "\providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}"
-@@ -1965,6 +1976,21 @@
+@@ -1965,6 +1978,21 @@
  
  
  
@@ -63,7 +74,7 @@
  %% URL
  
  FUNCTION {format.url}
-@@ -2012,6 +2038,7 @@
+@@ -2012,6 +2040,7 @@
    format.pages output
    format.date "year" output.warn
    format.note output
@@ -71,7 +82,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2036,6 +2063,7 @@
+@@ -2036,6 +2065,7 @@
    format.volume output
    format.number output
    format.note output
@@ -79,7 +90,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2053,6 +2081,7 @@
+@@ -2053,6 +2083,7 @@
    format.address "address" bibinfo.check output
    format.date output
    format.note output
@@ -87,7 +98,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2070,6 +2099,7 @@
+@@ -2070,6 +2101,7 @@
    format.organization "organization" bibinfo.check output
    format.address "address" bibinfo.check output
    format.note output
@@ -95,7 +106,7 @@
    format.url output
    fin.entry
    empty.entry.warn
-@@ -2093,6 +2123,7 @@
+@@ -2093,6 +2125,7 @@
    format.chapter output
    format.pages output
    format.note output
@@ -103,7 +114,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2114,6 +2145,7 @@
+@@ -2114,6 +2147,7 @@
    format.chapter output
    format.pages output
    format.note output
@@ -111,7 +122,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2140,6 +2172,7 @@
+@@ -2140,6 +2174,7 @@
    format.paper output
    format.pages output
    format.note output
@@ -119,7 +130,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2157,6 +2190,7 @@
+@@ -2157,6 +2192,7 @@
    format.address "address" bibinfo.check output
    format.date output
    format.note output
@@ -127,7 +138,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2174,6 +2208,7 @@
+@@ -2174,6 +2210,7 @@
    format.address "address" bibinfo.check output
    format.date "year" output.warn
    format.note output
@@ -135,7 +146,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2192,6 +2227,7 @@
+@@ -2192,6 +2229,7 @@
    format.pages output
    format.date output
    format.note output
@@ -143,7 +154,7 @@
    format.url output
    fin.entry
    empty.entry.warn
-@@ -2208,6 +2244,7 @@
+@@ -2208,6 +2246,7 @@
    format.patent.nationality.type.number output
    format.patent.date output
    format.note output
@@ -151,7 +162,7 @@
    format.url output
    fin.entry
    empty.entry.warn
-@@ -2227,6 +2264,7 @@
+@@ -2227,6 +2266,7 @@
    format.organization "organization" bibinfo.check output
    format.date "year" output.warn
    format.note output
@@ -159,7 +170,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2244,6 +2282,7 @@
+@@ -2244,6 +2284,7 @@
    format.address "address" bibinfo.check output
    format.date "year" output.warn
    format.note output
@@ -167,7 +178,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2266,6 +2305,7 @@
+@@ -2266,6 +2307,7 @@
      }
    if$
    format.note output
@@ -175,7 +186,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2283,6 +2323,7 @@
+@@ -2283,6 +2325,7 @@
    format.revision output
    format.date output
    format.note output
@@ -183,7 +194,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2301,6 +2342,7 @@
+@@ -2301,6 +2344,7 @@
    format.tech.report.number output.nonnull
    format.date "year" output.warn
    format.note output
@@ -191,7 +202,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2315,6 +2357,7 @@
+@@ -2315,6 +2359,7 @@
    format.article.title "title" output.warn
    format.date output
    format.note "note" output.warn
