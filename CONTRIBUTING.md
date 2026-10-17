@@ -63,6 +63,17 @@ The detailed steps are as follows:
 3. Add both `.tex` files to the appropriate place in `main.en.tex`
 4. Find a similar place in `main.de.tex`. You don't need to provide a translation; include a reference to the English file.
 
+## Updating `IEEEtranN-doi.bst`
+
+`generators/app/templates/IEEEtranN-doi.bst` is `IEEEtranN.bst` from the [IEEEtran package](https://ctan.org/pkg/ieeetran) (version 1.14) with DOI output.
+The changes are in `IEEEtranN-doi.bst.patch` next to it.
+When the IEEEtran package ships a new `IEEEtranN.bst`, apply the patch to it:
+
+```terminal
+cp "$(kpsewhich IEEEtranN.bst)" generators/app/templates/IEEEtranN-doi.bst
+patch generators/app/templates/IEEEtranN-doi.bst < generators/app/templates/IEEEtranN-doi.bst.patch
+```
+
 ## Contributing a translation
 
 1. Find a `.en.tex` file without a corresponding `.de.tex` file.

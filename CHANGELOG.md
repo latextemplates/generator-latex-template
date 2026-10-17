@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- IEEE: references show the DOI (`IEEEtranN-doi.bst`). [ieee-enhanced#18](https://github.com/latextemplates/ieee-enhanced/issues/18)
+- Theses: a chapter written in plain Markdown (`chapters/NN - markdown.<lang>.md`, LuaLaTeX).
+
+### Changed
+
+- README.md: link to the LaTeX snippets moved to the introduction.
+- Theses: each chapter is a file in `chapters/` (`NN - <name>.<lang>.tex`), included by the main file.
+- Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
+- README.md: "Disabled features" is a subsection of "Benefits".
+
 ## [2026.10.16]
 
 ### Added

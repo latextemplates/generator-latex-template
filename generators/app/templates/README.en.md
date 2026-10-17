@@ -1,3 +1,4 @@
+<% const snippetsHint = "The LaTeX snippets this template is assembled from can be inspected at <https://latextemplates.github.io/latex-snippets/>."; -%>
 <% if (githubpublish) {
   switch (documentclass) {
     case "lncs": -%>
@@ -47,6 +48,8 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 
 > Unofficial LaTeX template for PhD theses at the University of Stuttgart, Germany.
 
+<%- snippetsHint %>
+
 ## Example PDFs
 
 - Thesis 🇩🇪: [thesis-example.pdf](http://latextemplates.github.io/uni-stuttgart-dissertation-template/thesis-example.pdf)
@@ -62,7 +65,7 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 2. Windows: Open MiKTeX Console and install package `inconsolata`
 3. Install font [Inconsolata](https://fonts.google.com/specimen/Inconsolata)
 4. Install Python and install minted3: `python -m pip install --force-reinstall latexminted`
-5. Start texing: edit `<%= filenames.main %>.tex`.
+5. Start texing: edit the chapters in [`chapters/`](chapters/), which `<%= filenames.main %>.tex` includes.
 6. Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
 With the Docker-based setup (see ["Docker-based (recommended)"](#docker-based-recommended)), steps 2 to 4 are not needed: the image contains the font and `latexminted`.
@@ -72,6 +75,8 @@ With the Docker-based setup (see ["Docker-based (recommended)"](#docker-based-re
 This template is a general template for scientific theses.
 Currently, it is the unofficial LaTeX template for Master, Bachelor, Diploma, and Student Theses at the computer science departments listed below, each with example PDFs; other departments are untested.
 The template will be extended to support theses from more institutions.
+
+<%- snippetsHint %>
 
 ## Supported institutions
 
@@ -105,6 +110,7 @@ The template will be extended to support theses from more institutions.
         - English: `main-english.tex`
         - German: `main-german.tex`
         - Without Python (see below): `main-basic-listings-english.tex`, `main-basic-listings-german.tex`
+    - The text is in [`chapters/`](chapters/), one file per chapter and language (e.g., `chapters/01 - introduction.en.tex`), which the main files include.
 
 3. Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
@@ -123,8 +129,10 @@ See [docs/overleaf](docs/overleaf/).
 
 This is a **minimal Markdown quick start**. Write your content as plain Markdown in [`<%= filenames.manuscript %>.md`](<%= filenames.manuscript %>.md); the thin wrapper [`<%= filenames.main %>.tex`](<%= filenames.main %>.tex) pulls it in with `\markdownInput` and LaTeX turns it into a PDF — no thesis scaffolding, just the essentials: headings, citations, footnotes, tables, figures, smart cross-references (`\zcref`), and acronyms (defined once in the wrapper, recognized automatically in the running text and collected in an acronym list). Keeping the prose in a real `.md` file means your editor treats it as Markdown and the spell-/prose-checkers below lint it directly.
 <% } -%>
+<% if (!(githubpublish && ["ustutt", "scientific-thesis"].includes(documentclass))) { -%>
 
-The LaTeX snippets this template is assembled from can be inspected at <https://latextemplates.github.io/latex-snippets/>.
+<%- snippetsHint %>
+<% } -%>
 <% if (githubpublish) { switch (documentclass) { case "lncs": -%>
 
 ## Examples
@@ -197,6 +205,7 @@ Following features are enabled in this template:
 <% if (documentclass == 'ieee') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
 - Shows how IEEE copyright notice can be added.
+- References show the DOI, as the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) asks for (`IEEEtranN-doi.bst`, a copy of `IEEEtranN.bst` with DOI output).
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
@@ -248,7 +257,7 @@ Following features are enabled in this template:
 - Hints on writing an abstract and thesis by Dirk Fahland.
 <% } -%>
 
-## Disabled features
+### Disabled features
 
 Following features were not activated for this template.
 You can <% if (!githubpublish) { %>re<% } %>run the [latex template generator] to enable the features.
@@ -299,13 +308,27 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 
 ### Directories
 
+<% if (isThesis) { -%>
+- [chapters](chapters/) One file per chapter, included by the main file.
+  The suffix names the language (`.en`, `.de`).
+<% if (markdown) { -%>
+  The chapter on Markdown is a plain Markdown file (`.md`), included with `\markdownInput` (LuaLaTeX only).
+<% } -%>
+<% if (examples) { -%>
+  The source code example of the LaTeX hints is a file of its own for each of the minted and listings packages.
+<% } -%>
+<% } -%>
 - [figures](figures/) Directory containing the figures.
   By using LuaLaTex/PDFLaTeX it is possible to use PDFs, JPGs, PNGs, ... We recommend to use PDFs to enable smooth scaling.
 
 ### Files
 
 - `<%= filenames.main %>.tex` - The main `.tex` file loading all LaTeX packages and their configurations.
+<% if (isThesis) { -%>
+  - Add or remove chapters here
+<% } else { -%>
   - Add text here
+<% } -%>
   - Adjust title, … here
 - [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
 - [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
@@ -463,7 +486,7 @@ On the command line, there are additional features:
 - `make spellcheck` runs all spell checkers:
   - `make spellcheck-aspell` for interactive spell checking with aspell
 <% if (documentclass != "mwe") { -%>
-  - `make spellcheck-textidote` checks spelling, grammar, and style with [TeXtidote](https://github.com/sylvainhalle/textidote) (report in `textidote.html`)
+  - `make spellcheck-textidote` checks spelling, grammar, and style with [TeXtidote](https://github.com/sylvainhalle/textidote) (report in `textidote.html`<% if (isThesis) { %>, for the chapters in `chapters/*.textidote.html`<% } %>)
 <% } -%>
 - `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
@@ -474,12 +497,12 @@ The `textlint` job of the `Check` workflow reports weakening words (e.g., "clear
 Run it locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
 
 ```bash
-npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-filter-rule-allowlist --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex
+npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-filter-rule-allowlist --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex<% if (isThesis) { %> chapters/*.en.tex<% } %>
 ```
 
 The `textidote` job of the `Check` workflow checks spelling, grammar, and style of English documents with [TeXtidote](https://github.com/sylvainhalle/textidote) and reports its findings as annotations.
 Its options are in `.textidote`.
-Run it locally with `make spellcheck-textidote`: it downloads `textidote.jar` once and writes the report `textidote.html`.
+Run it locally with `make spellcheck-textidote`: it downloads `textidote.jar` once and writes the report `textidote.html`<% if (isThesis) { %> (for the chapters: `chapters/*.textidote.html`)<% } %>.
 <% } -%>
 <% if (documentclass == "mwe") { -%>
 
@@ -604,7 +627,7 @@ If your seminar at the Technische Hochschule Ulm (THU) requires the IEEE confere
   youremail@thu.de}}
   ```
 
-Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN`, `\citet`, links without colored boxes) is already set up.
+Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN-doi`, `\citet`, links without colored boxes) is already set up.
 
 <% } -%>
 <% if (isPaper) { -%>

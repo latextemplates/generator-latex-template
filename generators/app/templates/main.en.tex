@@ -22,8 +22,14 @@
 % !BIB program = <%= bibrunner %>
 % -*- coding:utf-8 mod:LaTeX -*-
 %
+<% if (isThesis) { -%>
+% vvvvvvvv  The content starts in line @@CONTENTLINE@@ (\begin{document}); the first
+%           chapter (@@FIRSTHEADING@@) is included in line @@HEADINGLINE@@.
+%           The chapters are in the directory "chapters".
+<% } else { -%>
 % vvvvvvvv  The content starts in line @@CONTENTLINE@@ (\begin{document}); the first
 %           heading (@@FIRSTHEADING@@) is in line @@HEADINGLINE@@.
+<% } -%>
 %           Everything above is the preamble: document class, packages, and settings.
 <% switch (documentclass) { case "lncs": -%>
 
@@ -317,6 +323,58 @@
 \usepackage[realmainfile]{currfile}
 \usepackage{tcolorbox}
 \tcbuselibrary{<%= listings %><% if (twocolumn) { %>,breakable<% } %>}
+% Required for proper example rendering in the compiled PDF
+\newcount\LTGbeginlineexample
+\newcount\LTGendlineexample
+\newenvironment{ltgexample}%
+{\LTGbeginlineexample=\numexpr\inputlineno+1\relax}%
+{\LTGendlineexample=\numexpr\inputlineno-1\relax%
+  \tcbinputlisting{%
+    listing only,
+<% if (twocolumn) { -%>
+    % Split across columns and pages. An unbreakable box overflows into the floats or the bottom margin when the floats of a page leave the narrow columns too little room
+    breakable,
+<% } -%>
+    listing file=\currfilepath,
+    colback=green!5!white,
+    colframe=green!25,
+    coltitle=black!90,
+    coltext=black!90,
+    left=8mm,
+    title=Corresponding \LaTeX{} code of \texttt{\currfilepath},
+<% if (listings == 'listings') { -%>
+    listing options={
+        frame=none,
+        language={[LaTeX]TeX},
+        escapeinside={},
+        firstline=\the\LTGbeginlineexample,
+        lastline=\the\LTGendlineexample,
+        firstnumber=\the\LTGbeginlineexample,
+        basewidth=.5em,
+        % break long lines even without whitespace (e.g., \includegraphics[...]{...}); otherwise they run out of the box
+        breakatwhitespace=false,
+        aboveskip=0mm,
+        belowskip=0mm,
+        numbers=left,
+        xleftmargin=0mm,
+        numberstyle=\tiny,
+        numbersep=8pt%
+      }
+<% } else { -%>
+    minted language=TeX,
+    minted style=vs,
+    minted options={
+        fontsize=\footnotesize,
+        firstline=\the\LTGbeginlineexample,
+        lastline=\the\LTGendlineexample,
+        firstnumber=\the\LTGbeginlineexample,
+        breaklines,
+        linenos,
+        numbersep=8pt
+      }
+<% } -%>
+  }
+}%
 <% } -%>
 <% } -%>
 
@@ -798,6 +856,7 @@ The following is typeset for both ustutt and scientific-thesis.
 <% } -%>
 
 <% if (howtotext) { -%>
+%%LTG-CHAPTER introduction
 %%% ===============================================================================
 <%= heading1 %>{Introduction}\label{sec:introduction}
 %%% ===============================================================================
@@ -929,8 +988,9 @@ State whether, and to which degree, the research question from <%- cref %>{sec:i
 
 Close by stating how much closer society and science have come in answering the general objective you outlined in <%- cref %>{sec:introduction:topic}.
 
+%%LTG-CHAPTER background
 %%% ===============================================================================
-\section{Background (SM1)}\label{sec:background}
+<%= heading1 %>{Background (SM1)}\label{sec:background}
 %%% ===============================================================================
 
 \emph{Purpose and scope}.
@@ -951,8 +1011,9 @@ The background chapter has multiple roles.
         You can close the related work discussion by clarifying the positioning and formulation of your research question (SM2) in relation to all the prior work, making more explicit whether you address an existing research question under different premises or whether you work on a modified or completely new research question.
 \end{itemize}
 
+%%LTG-CHAPTER problem exposition
 %%% ===============================================================================
-\section{Problem Exposition (optional)}\label{sec:problem-exposition}
+<%= heading1 %>{Problem Exposition (optional)}\label{sec:problem-exposition}
 %%% ===============================================================================
 
 \emph{Purpose and scope}.
@@ -986,8 +1047,9 @@ provide details based on <%- cref %>{sec:problem-exposition:context-understandin
 
 provide details based on <%- cref %>{sec:problem-exposition:context-understanding,sec:problem-exposition:data-understanding}
 
+%%LTG-CHAPTER first real chapter
 %%% ===============================================================================
-\section{First Real Chapter addressing first Research Problem}\label{sec:problem1}
+<%= heading1 %>{First Real Chapter addressing first Research Problem}\label{sec:problem1}
 %%% ===============================================================================
 
 \emph{Purpose and scope}.
@@ -1065,16 +1127,18 @@ What is important for you when you are writing a scientific argument is not to s
   \item Is it clear to the reader which part of the scientific argument you are currently making?
 \end{itemize}
 
+%%LTG-CHAPTER second real chapter
 %%% ===============================================================================
-\section{Second Real Chapter}\label{sec:sub-problem2}
+<%= heading1 %>{Second Real Chapter}\label{sec:sub-problem2}
 %%% ===============================================================================
 
 Have a short chapter introduction that recalls what you already achieved in <%- cref %>{sec:problem1} and explain the second research problem of your thesis.
 The problem has to show up in the introduction in <%- cref %>{sec:introduction:research-question} or in <%- cref %>{sec:problem-exposition:research-problems} already.
 Continue likewise for further research problems.
 
+%%LTG-CHAPTER evaluation
 %%% ===============================================================================
-\section{Evaluation}\label{sec:evaluation}
+<%= heading1 %>{Evaluation}\label{sec:evaluation}
 %%% ===============================================================================
 
 \emph{Purpose and scope}.
@@ -1126,6 +1190,7 @@ The interpretation must be based on the written description in <%- cref %>{sec:e
 Then you can be sure that your readers can follow your interpretation and reach the same conclusions as you have.
 
 <% } else { -%>
+%%LTG-CHAPTER introduction
 <%= heading1 %>{Introduction}
 \label{sec:introduction}
 \lipsum[1-3]\todo{Refine me}
@@ -1137,6 +1202,7 @@ The remainder of the paper starts with a presentation of related work (<%- cref 
 <% } -%>
 The paper closes with a conclusion and an outlook on future work (<%- cref %>{sec:outlook}).
 
+%%LTG-CHAPTER related work
 <%= heading1 %>{Related Work}
 \label{sec:relatedwork}
 
@@ -1148,66 +1214,15 @@ Writing hints for student theses are given in the open-access book \href{https:/
 More hints are given in \href{https://doi.org/10.1007/978-1-4471-6639-9}{\emph{Writing for Computer Science}}\footnote{\url{https://doi.org/10.1007/978-1-4471-6639-9}}.
 <% } -%>
 <% if (examples) { -%>
+<% if (isThesis && markdown) { -%>
 
+%%LTG-CHAPTER-MARKDOWN markdown
+<%- include('markdown.chapter.en.md', this); -%>
+<% } -%>
+
+%%LTG-CHAPTER latex hints
 <%= heading1 %>{LaTeX Hints}
 \label{sec:latexhints}
-
-<% if (useExampleEnvironment) { -%>
-% textidote: ignore begin
-% Required for proper example rendering in the compiled PDF
-\newcount\LTGbeginlineexample
-\newcount\LTGendlineexample
-\newenvironment{ltgexample}%
-{\LTGbeginlineexample=\numexpr\inputlineno+1\relax}%
-{\LTGendlineexample=\numexpr\inputlineno-1\relax%
-  \tcbinputlisting{%
-    listing only,
-<% if (twocolumn) { -%>
-    % Split across columns and pages. An unbreakable box overflows into the floats or the bottom margin when the floats of a page leave the narrow columns too little room
-    breakable,
-<% } -%>
-    listing file=\currfilepath,
-    colback=green!5!white,
-    colframe=green!25,
-    coltitle=black!90,
-    coltext=black!90,
-    left=8mm,
-    title=Corresponding \LaTeX{} code of \texttt{\currfilepath},
-<% if (listings == 'listings') { -%>
-    listing options={
-        frame=none,
-        language={[LaTeX]TeX},
-        escapeinside={},
-        firstline=\the\LTGbeginlineexample,
-        lastline=\the\LTGendlineexample,
-        firstnumber=\the\LTGbeginlineexample,
-        basewidth=.5em,
-        % break long lines even without whitespace (e.g., \includegraphics[...]{...}); otherwise they run out of the box
-        breakatwhitespace=false,
-        aboveskip=0mm,
-        belowskip=0mm,
-        numbers=left,
-        xleftmargin=0mm,
-        numberstyle=\tiny,
-        numbersep=8pt%
-      }
-<% } else { -%>
-    minted language=TeX,
-    minted style=vs,
-    minted options={
-        fontsize=\footnotesize,
-        firstline=\the\LTGbeginlineexample,
-        lastline=\the\LTGendlineexample,
-        firstnumber=\the\LTGbeginlineexample,
-        breaklines,
-        linenos,
-        numbersep=8pt
-      }
-<% } -%>
-  }
-}%
-% textidote: ignore end
-<% } -%>
 
 This <% if (heading1 == "\\chapter") {%>chapter<% } else { %>section<% } %> contains hints on writing LaTeX.
 It focuses on minimal examples, which can be directly adapted to the content
@@ -1265,10 +1280,16 @@ It focuses on minimal examples, which can be directly adapted to the content
 <%- include('longtable.example.en.tex', this); -%>
 <% } -%>
 
+<% if (isThesis) { -%>
+%%LTG-SOURCECODE <%= listings %>
+<% } -%>
 <% if (listings == 'listings') { -%>
 <%- include('listings.example.en.tex', this); %>
 <% } else { -%>
 <%- include('minted.example.en.tex', this); %>
+<% } -%>
+<% if (isThesis) { -%>
+%%LTG-SOURCECODE-END
 <% } -%>
 <%- include('paralist.example.en.tex', this); %>
 <% if (markdown) { %><%- include('markdown.example.en.tex', this); %>
@@ -1297,6 +1318,7 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 
 <% if (howtotext) { -%>
 
+%%LTG-CHAPTER conclusion
 %%% ===============================================================================
 <%= heading1 %>{Conclusion and Outlook}\label{sec:conclusion}
 %%% ===============================================================================
@@ -1310,12 +1332,14 @@ Be specific in the sense that your arguments for future work should be based on 
 <% } else { -%>
 <% if (!examples && ((documentclass == 'acmart') || (documentclass == 'ieee'))) { -%>
 
+%%LTG-CHAPTER lorem ipsum
 <%= heading1 %>{Lorem ipsum}
 \label{sec:loremipsum}
 \lipsum[1-4]
 <% } -%>
 <% if (documentclass == 'ustutt') { -%>
 \setchapterfooter{Kleiner Fuß!}
+%%LTG-CHAPTER lorem ipsum
 <%= heading1 %>{Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum}
 \label{chap:label}
 %Um die Fußzeile zu demonstrieren
@@ -1372,11 +1396,13 @@ Be specific in the sense that your arguments for future work should be based on 
 \subsection{Subsection}
 
 <% } -%>
+%%LTG-CHAPTER conclusion
 <%= heading1 %>{Conclusion and Outlook}
 \label{sec:outlook}
 \lipsum[1-2]
 <% } -%>
 
+%%LTG-CHAPTERS-END
 <%
   indent = ''
   switch (documentclass) { case "lncs": -%>
@@ -1440,7 +1466,8 @@ Be specific in the sense that your arguments for future work should be based on 
 % Enable to reduce spacing between bibitems (source: https://tex.stackexchange.com/a/25774)
 % \def\IEEEbibitemsep{0pt plus .5pt}
 
-\bibliographystyle{IEEEtranN} % IEEEtranN is the natbib compatible bst file
+% IEEEtranN (the natbib compatible bst file) extended by the DOI, as the IEEE Reference Guide asks for
+\bibliographystyle{IEEEtranN-doi}
 % argument is your BibTeX string definitions and bibliography database(s)
 \bibliography{<%= filenames.bib %>}
 <% break; case "ustutt": -%>
