@@ -22,7 +22,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - README.md: "Disabled features" is a subsection of "Benefits".
 - IEEE: repeated author names are written out instead of a dash.
 - IEEE: citation ranges are written out (`[1], [2], [3]` instead of `[1]–[3]`).
-- Markdown example: names the chapter (theses) or section (papers) that can be written in a separate Markdown file.
+- Markdown example: "a whole chapter" (theses) or "a whole section" (papers) instead of "a longer part".
 
 ## [2026.10.16]
 
