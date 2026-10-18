@@ -379,7 +379,8 @@ export default class extends Generator {
 
     const language = this.props.language;
     const includes = chapters.flatMap((chapter, index) => {
-      const base = `chapters/${String(index + 1).padStart(2, "0")} - ${chapter.name}`;
+      // Steps of 10 leave room to insert a chapter without renaming the others
+      const base = `chapters/${(index + 1) * 10} - ${chapter.name}`;
       if (chapter.markdown) {
         write(`${base}.${language}.md`, trim(chapter.lines));
         const input = `\\markdownInput{${base}.${language}.md}`;
