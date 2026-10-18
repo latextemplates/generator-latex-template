@@ -98,6 +98,10 @@ layout is a hard requirement.
    Keep this repo's `refine-ltg` PR description current: it summarizes the cycle and
    **links every issue the cycle fixes** (the same `[repo#N]` references as the CHANGELOG),
    so the PR shows what it resolves without reading the CHANGELOG.
+   An issue filed in a **template** repo is also linked from that template's "Update LTG"
+   PR: put `Fixes https://github.com/latextemplates/<template>/issues/<N>` above the
+   "Based on …" line (`spread-updates.sh` only appends, so the line stays). The template's
+   users see the fix where they filed it, and the issue closes once the template ships it.
 3. **Verify generation** — the switch-combination coverage is the `npm test` generation
    check (pairwise) and `npm run test:all` (full matrix); confirm these are green for the
    change. The full per-variant **LaTeX compile** matrix is no longer committed — if you
