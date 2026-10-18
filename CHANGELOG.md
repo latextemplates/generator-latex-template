@@ -16,13 +16,13 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- README.md: link to the LaTeX snippets moved to the introduction.
-- Theses: each chapter is a file in `chapters/` (`NN - <name>.<lang>.tex`), included by the main file.
-- Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
-- README.md: "Disabled features" is a subsection of "Benefits".
 - IEEE: repeated author names are written out instead of a dash.
 - IEEE: citation ranges are written out (`[1], [2], [3]` instead of `[1]–[3]`).
+- Theses: each chapter is a file in `chapters/` (`NN - <name>.<lang>.tex`), included by the main file.
+- Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
 - Markdown example: "a whole chapter" (theses) or "a whole section" (papers) instead of "a longer part".
+- README.md: link to the LaTeX snippets moved to the introduction.
+- README.md: "Disabled features" is a subsection of "Benefits".
 
 ## [2026.10.16]
 
