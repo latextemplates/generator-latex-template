@@ -16,6 +16,7 @@ ebenfalls[^detail].
 - erster Punkt
 - zweiter Punkt
   - Unterpunkt
+
 1) erstens
 2) zweitens
 

@@ -166,7 +166,7 @@ The `-basic-listings` variants use the [listings] package instead and need no ex
 ## Quick start
 
 <% if (githubpublish && isPaper) { const repo = { acmart: "acm-enhanced", ieee: "ieee-enhanced", lncs: "lncs-enhanced" }[documentclass]; -%>
-- Click on `Download ZIP` or [here](https://github.com/latextemplates/<%= repo %>/archive/main.zip).
+- Click on `Download ZIP` or download [<%= repo %>-main.zip](https://github.com/latextemplates/<%= repo %>/archive/main.zip).
 - Extract `<%= repo %>-main.zip` in the folder where you want to write your paper.
 <% } -%>
 <% if (documentclass == "mwe") { -%>
@@ -337,6 +337,12 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
   - Add text here
 <% } -%>
   - Adjust title, … here
+<% if (isPaper && markdown) { -%>
+- [content-markdown.md](content-markdown.md) - A section written in plain Markdown, included with `\markdownInput` (LuaLaTeX only).
+<% if (githubpublish && (documentclass == "lncs")) { -%>
+  The German papers include [content-markdown.de.md](content-markdown.de.md).
+<% } -%>
+<% } -%>
 - [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
 - [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
 - [commands.tex](commands.tex) - Example LaTeX macros.
@@ -438,6 +444,7 @@ To have `minted` running with a traditional installation, you have to do followi
    You can also just execute `latexmk <%= filenames.main %>`.
 <% } -%>
 <% } -%>
+
 ### latexmk hints
 
 [latexmk] runs the LaTeX tools (e.g., <%= reallatexcompiler %> and <%= bibrunner %>) as often as needed to get the final PDF ([why `latexmk` is great](https://tex.stackexchange.com/a/249243/9075)).
@@ -932,6 +939,7 @@ We are collecting alternatives at the issue [#25](https://github.com/latextempla
 - Search the PDF for "TODO" or similar things. Remove `\usepackage{todonotes}` in your main `.tex` file.
 - Ensure that you run `lualatex` at least three times and that there are no "undefined references".
 - The margins are intended for good screen reading. **Do not change them** (or do exactly know what you are doing).
+
 <% } -%>
 <% if (uml == "plantuml") { -%>
 ### Q: `<%= filenames.main %>.tex` does not compile: ``File `<%= filenames.main %>-plantuml.latex' not found. \end{plantuml}``. What can I do?
@@ -1041,9 +1049,13 @@ The logos are trademarks of the universities: use them only on the title page of
 - `figures/thu-logo.png` is [THU Logo Subline deutsch RGB.png](https://commons.wikimedia.org/wiki/File:THU_Logo_Subline_deutsch_RGB.png) by Hochschule Ulm, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), via Wikimedia Commons.
 <% } -%>
 
+<% if (bibtextool == "biblatex") { -%>
 [biber]: https://www.ctan.org/pkg/biber
+<% } -%>
 [biblatex]: http://tex.stackexchange.com/tags/biblatex/info
+<% if (bibtextool == "biblatex") { -%>
 [bibtex]: https://www.ctan.org/pkg/bibtex
+<% } -%>
 [booktabs]: https://ctan.org/pkg/booktabs
 [<%= crossref %>]: https://ctan.org/pkg/<%= crossref %>
 [csquotes]: https://www.ctan.org/pkg/csquotes
@@ -1055,13 +1067,17 @@ The logos are trademarks of the universities: use them only on the title page of
 [lualatex]: http://www.luatex.org/
 [microtype]: https://ctan.org/pkg/microtype
 [minted]: https://ctan.org/pkg/minted
+<% if (documentclass == "lncs") { -%>
 [natbib]: https://ctan.org/pkg/natbib
+<% } -%>
 [paralist]: https://www.ctan.org/pkg/paralist
 [pdfcomment]: https://www.ctan.org/pkg/pdfcomment
 [upquote]: https://www.ctan.org/pkg/upquote
 
 [JabRef]: https://www.jabref.org
+<% if (!isThesis) { -%>
 [LanguageTool]: https://languagetool.org/
+<% } -%>
 [latex template generator]: https://www.npmjs.com/package/generator-latex-template
 [LTeX+]: https://marketplace.visualstudio.com/items?itemName=ltex-plus.vscode-ltex-plus
 [latexminted]: https://pypi.org/project/latexminted/

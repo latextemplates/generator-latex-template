@@ -15,6 +15,7 @@ footnote.] Referenced footnotes work as well[^detail].
 - first point
 - second point
   - sub-point
+
 1) firstly
 2) secondly
 
