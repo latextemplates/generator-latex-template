@@ -205,10 +205,13 @@ Following features are enabled in this template:
 <% if (documentclass == 'ieee') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
 - Shows how IEEE copyright notice can be added.
-- References follow the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (`IEEEtranN-doi.bst`, a modified copy of `IEEEtranN.bst`):
-  - They show the DOI.
-  - Repeated author names are written out instead of a dash.
+- References follow the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (V 3.28.2025).
+  Differences to the [IEEEtran package](https://ctan.org/pkg/ieeetran) on CTAN:
+  - `IEEEtranN-doi.bst` is `IEEEtranN.bst` changed by [`IEEEtranN-doi.bst.patch`](https://github.com/latextemplates/generator-latex-template/blob/main/generators/app/templates/IEEEtranN-doi.bst.patch):
+    references show the DOI (", doi: 10.xxx"), and repeated author names are written out instead of a dash.
+    For the original output, use `\bibliographystyle{IEEEtranN}`.
   - Citation ranges are written out: `[1], [2], [3]` instead of `[1]–[3]`.
+    For ranges, use the natbib option `sort&compress` instead of `sort`.
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
