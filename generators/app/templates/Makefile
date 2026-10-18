@@ -107,10 +107,15 @@ spellcheck: spellcheck-aspell<% if (documentclass != "mwe") { %> spellcheck-text
 ##   add-tex-command democommand PO // PO := prüfe []{} ;; po := ignoriere []{}
 ##
 ## .aspell.<%= language %>.pws - persönliches Wörterbuch
+<% const markdownFiles = isThesis ? `chapters/*.${language}.md` : (language == "en" ? "content-markdown.md" : `content-markdown.${language}.md`); -%>
 spellcheck-aspell:
 	for tex in *.tex chapters/*.<%= language %>.tex; do \
 		[ -e "$$tex" ] || continue; \
 		aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws -c "$$tex" || exit 1; \
+	done
+	for md in <%= markdownFiles %>; do \
+		[ -e "$$md" ] || continue; \
+		aspell --mode=markdown <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws -c "$$md" || exit 1; \
 	done
 
 <% if (documentclass != "mwe") { -%>
@@ -125,13 +130,17 @@ spellcheck-textidote: textidote.jar
 	$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html $(MASTER_TEX) > textidote.html || test -s textidote.html
 <% if (isThesis) { -%>
 	@# TeXtidote mixes up the text of \include lines, so .textidote removes them and each chapter is checked on its own
-	for tex in chapters/*.<%= language %>.tex; do \
+	for tex in chapters/*.<%= language %>.tex <%= markdownFiles %>; do \
 		[ -e "$$tex" ] || continue; \
-		$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html --read-all "$$tex" > "$${tex%.tex}.textidote.html" || test -s "$${tex%.tex}.textidote.html"; \
+		$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html --read-all "$$tex" > "$${tex%.*}.textidote.html" || test -s "$${tex%.*}.textidote.html"; \
 	done
 	@echo "Reports: textidote.html and chapters/*.textidote.html"
 <% } else { -%>
-	@echo "Report: textidote.html"
+	@# .textidote removes \markdownInput, so the Markdown file is checked on its own
+	if [ -e <%= markdownFiles %> ]; then \
+		$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html <%= markdownFiles %> > <%= markdownFiles.replace(/\.md$/, "") %>.textidote.html || test -s <%= markdownFiles.replace(/\.md$/, "") %>.textidote.html; \
+	fi
+	@echo "Reports: textidote.html and <%= markdownFiles.replace(/\.md$/, "") %>.textidote.html"
 <% } -%>
 
 <% } -%>
