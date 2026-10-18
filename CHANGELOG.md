@@ -22,6 +22,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - IEEE: repeated author names are written out instead of a dash, as in the current [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf).
 - IEEE: citation ranges are written out (`[1], [2], [3]` instead of `[1]–[3]`), as the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (V 3.28.2025) now asks for.
 - Theses: each chapter is a file in `chapters-en/` or `chapters-de/` (`NN - <name>.tex`, numbered in steps of 10), included by the main file.
+- Theses: a short README.md in `chapters-en/` and `chapters-de/`.
 - Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
 - Markdown example: "a whole chapter" (theses) or "a whole section" (papers) instead of "a longer part".
 - CI and `make spellcheck`: aspell, textlint, and TeXtidote also check the Markdown files.

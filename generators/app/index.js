@@ -406,6 +406,10 @@ export default class extends Generator {
     }
 
     const language = this.props.language;
+    this.fs.copy(
+      this.templatePath(`chapters.README.${language}.md`),
+      this.destinationPath(`chapters-${language}/README.md`),
+    );
     const includes = chapters.flatMap((chapter, index) => {
       // Steps of 10 leave room to insert a chapter without renaming the others
       const base = `chapters-${language}/${(index + 1) * 10} - ${chapter.name}`;
