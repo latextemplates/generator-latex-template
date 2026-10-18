@@ -342,7 +342,7 @@ export default class extends Generator {
   // The main templates mark each chapter with "%%LTG-CHAPTER <name>" (Markdown
   // chapters with "%%LTG-CHAPTER-MARKDOWN <name>") and the end of the last one
   // with "%%LTG-CHAPTERS-END". A thesis gets each chapter as its own file
-  // chapters/<nn> - <name>.<lang>.tex, included by the main file; a paper keeps
+  // chapters-<lang>/<nn> - <name>.tex, included by the main file; a paper keeps
   // its sections in the main file. Template repositories put the main files of
   // all variants of one language next to each other, so the chapter files must
   // not depend on the variant: the source code example (listings or minted) goes
@@ -408,10 +408,10 @@ export default class extends Generator {
     const language = this.props.language;
     const includes = chapters.flatMap((chapter, index) => {
       // Steps of 10 leave room to insert a chapter without renaming the others
-      const base = `chapters/${(index + 1) * 10} - ${chapter.name}`;
+      const base = `chapters-${language}/${(index + 1) * 10} - ${chapter.name}`;
       if (chapter.markdown) {
-        write(`${base}.${language}.md`, trim(chapter.lines));
-        return markdownInput(`${base}.${language}.md`);
+        write(`${base}.md`, trim(chapter.lines));
+        return markdownInput(`${base}.md`);
       }
 
       const chapterLines = [];
@@ -421,7 +421,7 @@ export default class extends Generator {
         if (match) {
           sourceCode = { listings: match[1], lines: [] };
         } else if (line === "%%LTG-SOURCECODE-END") {
-          const file = (listings) => `${base} - ${listings}.${language}`;
+          const file = (listings) => `${base} - ${listings}`;
           write(file(sourceCode.listings) + ".tex", trim(sourceCode.lines));
           chapterLines.push(
             "% The main file loads either the minted or the listings package",
@@ -439,8 +439,8 @@ export default class extends Generator {
           chapterLines.push(line);
         }
       }
-      write(`${base}.${language}.tex`, trim(chapterLines));
-      return [`\\include{${base}.${language}}`];
+      write(`${base}.tex`, trim(chapterLines));
+      return [`\\include{${base}}`];
     });
 
     return [...lines.slice(0, start), ...includes, ...lines.slice(end + 1)];

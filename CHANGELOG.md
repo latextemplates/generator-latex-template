@@ -12,7 +12,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - IEEE: references show the DOI (`IEEEtranN-doi.bst`). [ieee-enhanced#18](https://github.com/latextemplates/ieee-enhanced/issues/18)
 - Papers: a section written in plain Markdown (`content-markdown.md`, German: `content-markdown.de.md`; LuaLaTeX).
-- Theses: a chapter written in plain Markdown (`chapters/NN - markdown.<lang>.md`, LuaLaTeX).
+- Theses: a chapter written in plain Markdown (`chapters-<lang>/NN - markdown.md`, LuaLaTeX).
 - Theses: optional `[PDF]` link to the cited paper from JabRef's `file` field.
 - Theses: section "Threats to Validity" in the evaluation chapter of the writing hints.
 - VS Code: [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint) recommended, configured by `.markdownlint.yml`.
@@ -21,7 +21,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - IEEE: repeated author names are written out instead of a dash, as in the current [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf).
 - IEEE: citation ranges are written out (`[1], [2], [3]` instead of `[1]–[3]`), as the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (V 3.28.2025) now asks for.
-- Theses: each chapter is a file in `chapters/` (`NN - <name>.<lang>.tex`, numbered in steps of 10), included by the main file.
+- Theses: each chapter is a file in `chapters-en/` or `chapters-de/` (`NN - <name>.tex`, numbered in steps of 10), included by the main file.
 - Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
 - Markdown example: "a whole chapter" (theses) or "a whole section" (papers) instead of "a longer part".
 - CI and `make spellcheck`: aspell, textlint, and TeXtidote also check the Markdown files.

@@ -133,7 +133,7 @@ describe("published shared files are the same for English and German", () => {
 });
 
 // A template repository puts the main files of all variants of one language
-// next to each other, so they share the directory "chapters". Only the source
+// next to each other, so they share the directory "chapters-<lang>". Only the source
 // code example depends on the listings switch; it has a file of its own.
 describe("thesis chapters are the same for all variants of a language", () => {
   const common = {
@@ -160,11 +160,11 @@ describe("thesis chapters are the same for all variants of a language", () => {
         const runResult = await helpers
           .run(generatorPath)
           .withOptions({ ...common, ...options, lang });
-        const dir = path.join(runResult.cwd, "chapters");
+        const dir = path.join(runResult.cwd, `chapters-${lang}`);
         return Object.fromEntries(
           fs
             .readdirSync(dir)
-            .filter((file) => !/ - (listings|minted)\./.test(file))
+            .filter((file) => !/ - (listings|minted)\.tex$/.test(file))
             .map((file) => [
               file,
               fs.readFileSync(path.join(dir, file), "utf8"),

@@ -107,9 +107,9 @@ spellcheck: spellcheck-aspell<% if (documentclass != "mwe") { %> spellcheck-text
 ##   add-tex-command democommand PO // PO := prüfe []{} ;; po := ignoriere []{}
 ##
 ## .aspell.<%= language %>.pws - persönliches Wörterbuch
-<% const markdownFiles = isThesis ? `chapters/*.${language}.md` : (language == "en" ? "content-markdown.md" : `content-markdown.${language}.md`); -%>
+<% const markdownFiles = isThesis ? `chapters-${language}/*.md` : (language == "en" ? "content-markdown.md" : `content-markdown.${language}.md`); -%>
 spellcheck-aspell:
-	for tex in *.tex chapters/*.<%= language %>.tex; do \
+	for tex in *.tex chapters-<%= language %>/*.tex; do \
 		[ -e "$$tex" ] || continue; \
 		aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws -c "$$tex" || exit 1; \
 	done
@@ -119,7 +119,7 @@ spellcheck-aspell:
 	done
 
 <% if (documentclass != "mwe") { -%>
-## Spelling, grammar, and style with TeXtidote (https://github.com/sylvainhalle/textidote): writes textidote.html<% if (isThesis) { %> and chapters/*.textidote.html<% } %>
+## Spelling, grammar, and style with TeXtidote (https://github.com/sylvainhalle/textidote): writes textidote.html<% if (isThesis) { %> and chapters-<%= language %>/*.textidote.html<% } %>
 ## Needs Java (contained in the Docker image); the options are in .textidote (its --check en is overridden here).
 ## -Djdk.xml.totalEntitySizeLimit=0: TeXtidote 0.9 fails on Java 24+ otherwise (fixed after 0.9: sylvainhalle/textidote#274)
 textidote.jar:
@@ -130,11 +130,11 @@ spellcheck-textidote: textidote.jar
 	$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html $(MASTER_TEX) > textidote.html || test -s textidote.html
 <% if (isThesis) { -%>
 	@# TeXtidote mixes up the text of \include lines, so .textidote removes them and each chapter is checked on its own
-	for tex in chapters/*.<%= language %>.tex <%= markdownFiles %>; do \
+	for tex in chapters-<%= language %>/*.tex <%= markdownFiles %>; do \
 		[ -e "$$tex" ] || continue; \
 		$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html --read-all "$$tex" > "$${tex%.*}.textidote.html" || test -s "$${tex%.*}.textidote.html"; \
 	done
-	@echo "Reports: textidote.html and chapters/*.textidote.html"
+	@echo "Reports: textidote.html and chapters-<%= language %>/*.textidote.html"
 <% } else { -%>
 	@# .textidote removes \markdownInput, so the Markdown file is checked on its own
 	if [ -e <%= markdownFiles %> ]; then \
@@ -155,7 +155,7 @@ showundef:
 ## Reformatierung
 
 format:
-	for f in $(MAIN_TEX_FILES) chapters/*.tex; do \
+	for f in $(MAIN_TEX_FILES) chapters-*/*.tex; do \
 		[ -e "$$f" ] || continue; \
 		$(RUN) latexindent -l -s -sl -w "$$f" || exit 1; \
 	done

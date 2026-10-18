@@ -1,7 +1,7 @@
 # Writing in Markdown {#sec:markdown-file}
 
 This chapter is written in plain Markdown, not in \LaTeX{}.
-Its source is a Markdown file in the `chapters` directory.
+Its source is a Markdown file in the `chapters-en` directory.
 The main file includes it with the `markdownInput` command of the [markdown package](https://ctan.org/pkg/markdown), and \LaTeX{} takes care of the typesetting.
 This needs \hologo{LuaLaTeX}.
 

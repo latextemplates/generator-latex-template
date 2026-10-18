@@ -1,7 +1,7 @@
 # Schreiben in Markdown {#sec:markdown-file}
 
 Dieses Kapitel ist in reinem Markdown geschrieben, nicht in \LaTeX{}.
-Die Quelle ist eine Markdown-Datei im Verzeichnis `chapters`.
+Die Quelle ist eine Markdown-Datei im Verzeichnis `chapters-de`.
 Die Hauptdatei bindet sie mit dem Befehl `markdownInput` des [markdown-Pakets](https://ctan.org/pkg/markdown) ein, und \LaTeX{} übernimmt den Satz.
 Dafür wird \hologo{LuaLaTeX} benötigt.
 

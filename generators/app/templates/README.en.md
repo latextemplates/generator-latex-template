@@ -65,7 +65,7 @@ In case you need other configurations, please adapt `paper.tex` or run the [late
 2. Windows: Open MiKTeX Console and install package `inconsolata`
 3. Install font [Inconsolata](https://fonts.google.com/specimen/Inconsolata)
 4. Install Python and install minted3: `python -m pip install --force-reinstall latexminted`
-5. Start texing: edit the chapters in [`chapters/`](chapters/), which `<%= filenames.main %>.tex` includes.
+5. Start texing: edit the chapters in <% if (githubpublish) { %>[`chapters-en/`](chapters-en/) (English) or [`chapters-de/`](chapters-de/) (German)<% } else { %>[`chapters-<%= language %>/`](chapters-<%= language %>/)<% } %>, which `<%= filenames.main %>.tex` includes.
 6. Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
 With the Docker-based setup (see ["Docker-based (recommended)"](#docker-based-recommended)), steps 2 to 4 are not needed: the image contains the font and `latexminted`.
@@ -110,8 +110,8 @@ The template will be extended to support theses from more institutions.
         - English: `main-english.tex`
         - German: `main-german.tex`
         - Without Python (see below): `main-basic-listings-english.tex`, `main-basic-listings-german.tex`
-    - The text is in [`chapters/`](chapters/), one file per chapter and language (e.g., `chapters/10 - introduction.en.tex`), which the main files include.
-      The numbers go in steps of 10, so a new chapter fits in between (e.g., `chapters/25 - my chapter.en.tex`).
+    - The text is in [`chapters-en/`](chapters-en/) (English) and [`chapters-de/`](chapters-de/) (German), one file per chapter (e.g., `chapters-en/10 - introduction.tex`), which the main files include.
+      The numbers go in steps of 10, so a new chapter fits in between (e.g., `chapters-en/25 - my chapter.tex`).
 
 3. Compile with "<%= reallatexcompiler %> + <%= bibrunner %>" in your TeX editor or with `latexmk <%= filenames.main %>` / `make` on the command line.
 
@@ -316,8 +316,11 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 ### Directories
 
 <% if (isThesis) { -%>
-- [chapters](chapters/) One file per chapter, included by the main file.
-  The suffix names the language (`.en`, `.de`).
+<% if (githubpublish) { -%>
+- [chapters-en](chapters-en/), [chapters-de](chapters-de/) One file per chapter (English, German), included by the main file.
+<% } else { -%>
+- [chapters-<%= language %>](chapters-<%= language %>/) One file per chapter, included by the main file.
+<% } -%>
 <% if (markdown) { -%>
   The chapter on Markdown is a plain Markdown file (`.md`), included with `\markdownInput` (LuaLaTeX only).
 <% } -%>
@@ -500,7 +503,7 @@ On the command line, there are additional features:
 - `make spellcheck` runs all spell checkers:
   - `make spellcheck-aspell` for interactive spell checking with aspell
 <% if (documentclass != "mwe") { -%>
-  - `make spellcheck-textidote` checks spelling, grammar, and style with [TeXtidote](https://github.com/sylvainhalle/textidote) (report in `textidote.html`<% if (isThesis) { %>, for the chapters in `chapters/*.textidote.html`<% } %>)
+  - `make spellcheck-textidote` checks spelling, grammar, and style with [TeXtidote](https://github.com/sylvainhalle/textidote) (report in `textidote.html`<% if (isThesis) { %>, for the chapters in `chapters-*/*.textidote.html`<% } %>)
 <% } -%>
 - `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
@@ -511,12 +514,12 @@ The `textlint` job of the `Check` workflow reports weakening words (e.g., "clear
 Run it locally with `npx` (needs Node.js; rules come from `.textlintrc.json`):
 
 ```bash
-npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-filter-rule-allowlist --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex<% if (isThesis) { %> chapters/*.en.tex<% } %>
+npx --yes --package textlint --package textlint-plugin-latex2e --package textlint-filter-rule-allowlist --package textlint-rule-terminology --package textlint-rule-write-good textlint <%= filenames.main %>.tex<% if (isThesis) { %> chapters-en/*.tex chapters-en/*.md<% } else { %> content-markdown.md<% } %>
 ```
 
 The `textidote` job of the `Check` workflow checks spelling, grammar, and style of English documents with [TeXtidote](https://github.com/sylvainhalle/textidote) and reports its findings as annotations.
 Its options are in `.textidote`.
-Run it locally with `make spellcheck-textidote`: it downloads `textidote.jar` once and writes the report `textidote.html`<% if (isThesis) { %> (for the chapters: `chapters/*.textidote.html`)<% } %>.
+Run it locally with `make spellcheck-textidote`: it downloads `textidote.jar` once and writes the report `textidote.html`<% if (isThesis) { %> (for the chapters: `chapters-*/*.textidote.html`)<% } %>.
 <% } -%>
 <% if (documentclass == "mwe") { -%>
 
