@@ -222,16 +222,16 @@ export default class extends Generator {
       2021: "2021-D",
       2023: "2023-A",
       2024: "2024-B",
-      2025: "2026-B",
-      2026: "2026-B",
+      2025: "2026-C",
+      2026: "2026-C",
     };
     this.props.danteImage =
       "danteev/texlive:" + (danteTags[this.props.texlive] ?? "edge");
 
     // The DANTE e.V. image also contains the linters (aspell with English and German
     // dictionaries, TeXtidote); CI and "make spellcheck" run them there.
-    // TODO: the release tag of the image containing aspell instead of "edge"
-    this.props.lintImage = "danteev/texlive:edge";
+    // They do not depend on the TeX Live version, so the image is the first release containing aspell.
+    this.props.lintImage = "danteev/texlive:2026-C";
 
     // The image used to compile in Docker (README, Makefile, VS Code settings)
     this.props.dockerImage =

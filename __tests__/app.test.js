@@ -205,9 +205,9 @@ describe("Docker image for UML tools", () => {
       assert.strictEqual(runResult.generator.props.docker, "dante");
       runResult.assertFileContent(
         "README.md",
-        "danteev/texlive:2026-B latexmk",
+        "danteev/texlive:2026-C latexmk",
       );
-      runResult.assertFileContent("Dockerfile", "FROM danteev/texlive:2026-B");
+      runResult.assertFileContent("Dockerfile", "FROM danteev/texlive:2026-C");
     });
   }
   it("keeps the Island of TeX image without UML tools", async () => {

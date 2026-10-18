@@ -23,13 +23,16 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - IEEE: citation ranges are written out (`[1], [2], [3]` instead of `[1]–[3]`), as the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (V 3.28.2025) now asks for.
 - IEEE: references in the text as the [IEEE Editorial Style Manual](https://journals.ieeeauthorcenter.ieee.org/your-role-in-article-production/ieee-editorial-style-manual/) asks for: "Fig. 1" (also at the beginning of a sentence), "(1)" for equations ("Equation (1)" at the beginning of a sentence).
 - IEEE: captions read "Fig. 1." (babel had changed them to "Figure 1.").
+- IEEE: the example tables are tables (caption "TABLE I" above) instead of figures.
 - Papers: the minted variant keeps the caption style of the document class (the `caption` package is no longer loaded).
+- Examples: the caption of the cross-reference example table is above the table.
 - Theses: each chapter is a file in `chapters-en/` or `chapters-de/` (`NN - <name>.tex`, numbered in steps of 10), included by the main file.
 - Theses: a short README.md in `chapters-en/` and `chapters-de/`.
 - Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
 - Markdown example: "a whole chapter" (theses) or "a whole section" (papers) instead of "a longer part".
 - CI and `make spellcheck`: aspell, textlint, and TeXtidote also check the Markdown files.
 - CI and `make spellcheck`: aspell and TeXtidote run in the [Docker image by DANTE e.V.](https://hub.docker.com/r/danteev/texlive).
+- The DANTE e.V. image is `2026-C`.
 - README.md: link to the LaTeX snippets moved to the introduction.
 - README.md: "Disabled features" is a subsection of "Benefits".
 - README.md and `docs/latex-setup.md`: markdownlint findings fixed.
