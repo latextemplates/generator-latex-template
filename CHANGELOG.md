@@ -26,6 +26,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
 - Markdown example: "a whole chapter" (theses) or "a whole section" (papers) instead of "a longer part".
 - CI and `make spellcheck`: aspell, textlint, and TeXtidote also check the Markdown files.
+- CI and `make spellcheck`: aspell and TeXtidote run in the [Docker image by DANTE e.V.](https://hub.docker.com/r/danteev/texlive).
 - README.md: link to the LaTeX snippets moved to the introduction.
 - README.md: "Disabled features" is a subsection of "Benefits".
 - README.md and `docs/latex-setup.md`: markdownlint findings fixed.

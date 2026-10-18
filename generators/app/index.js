@@ -228,6 +228,11 @@ export default class extends Generator {
     this.props.danteImage =
       "danteev/texlive:" + (danteTags[this.props.texlive] ?? "edge");
 
+    // The DANTE e.V. image also contains the linters (aspell with English and German
+    // dictionaries, TeXtidote); CI and "make spellcheck" run them there.
+    // TODO: the release tag of the image containing aspell instead of "edge"
+    this.props.lintImage = "danteev/texlive:edge";
+
     // The image used to compile in Docker (README, Makefile, VS Code settings)
     this.props.dockerImage =
       this.props.docker === "dante"

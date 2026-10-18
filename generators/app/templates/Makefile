@@ -22,6 +22,20 @@ RUN = docker run --rm -u $(shell id -u):$(shell id -g) -e HOME=/tmp -v "$(CURDIR
 endif
 endif
 <% } -%>
+<% if (docker) { -%>
+
+## The spell checkers (aspell, TeXtidote) run in the Docker image by DANTE e.V., which contains them; "make LOCAL=1" uses local installations
+## LINT_IT is interactive (aspell -c)
+ifeq ($(LOCAL),)
+ifeq ($(OS),Windows_NT)
+LINT = docker run --rm -v "$(CURDIR):/workdir" -w /workdir <%= lintImage %>
+LINT_IT = docker run --rm -it -v "$(CURDIR):/workdir" -w /workdir <%= lintImage %>
+else
+LINT = docker run --rm -u $(shell id -u):$(shell id -g) -e HOME=/tmp -v "$(CURDIR):/workdir" -w /workdir <%= lintImage %>
+LINT_IT = docker run --rm -it -u $(shell id -u):$(shell id -g) -e HOME=/tmp -v "$(CURDIR):/workdir" -w /workdir <%= lintImage %>
+endif
+endif
+<% } -%>
 
 ## Editor
 editor = gedit
@@ -100,7 +114,7 @@ edit:
 ## Spell checking: "make spellcheck" runs all spell checkers, "make spellcheck-<tool>" one of them
 spellcheck: spellcheck-aspell<% if (documentclass != "mwe") { %> spellcheck-textidote<% } %>
 
-## Interactive spell checking with aspell (needs a local aspell installation)
+## Interactive spell checking with aspell
 ##
 ## .aspell.conf - zu ignorierende LaTeX-Befehle
 ##   Schreiben der LaTeX-Befehle in eine config Dateiname. Sieht so aus:
@@ -111,34 +125,30 @@ spellcheck: spellcheck-aspell<% if (documentclass != "mwe") { %> spellcheck-text
 spellcheck-aspell:
 	for tex in *.tex chapters-<%= language %>/*.tex; do \
 		[ -e "$$tex" ] || continue; \
-		aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws -c "$$tex" || exit 1; \
+		$(LINT_IT) aspell --mode=tex <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws -c "$$tex" || exit 1; \
 	done
 	for md in <%= markdownFiles %>; do \
 		[ -e "$$md" ] || continue; \
-		aspell --mode=markdown <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws -c "$$md" || exit 1; \
+		$(LINT_IT) aspell --mode=markdown <% if (language == 'de') { %>-l de_DE --run-together<% } else { %>-l en_US<% } %> --encoding=utf-8 --conf=./.aspell.conf -p ./.aspell.<%= language %>.pws -c "$$md" || exit 1; \
 	done
 
 <% if (documentclass != "mwe") { -%>
 ## Spelling, grammar, and style with TeXtidote (https://github.com/sylvainhalle/textidote): writes textidote.html<% if (isThesis) { %> and chapters-<%= language %>/*.textidote.html<% } %>
-## Needs Java (contained in the Docker image); the options are in .textidote (its --check en is overridden here).
-## -Djdk.xml.totalEntitySizeLimit=0: TeXtidote 0.9 fails on Java 24+ otherwise (fixed after 0.9: sylvainhalle/textidote#274)
-textidote.jar:
-	curl -sSfL -o $@ https://github.com/sylvainhalle/textidote/releases/download/v0.9/textidote.jar
-
-spellcheck-textidote: textidote.jar
+## The options are in .textidote (its --check en is overridden here).
+spellcheck-textidote:
 	@# TeXtidote exits with the number of findings, which is no failure here
-	$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html $(MASTER_TEX) > textidote.html || test -s textidote.html
+	$(LINT) textidote --check <%= language %> --output html $(MASTER_TEX) > textidote.html || test -s textidote.html
 <% if (isThesis) { -%>
 	@# TeXtidote mixes up the text of \include lines, so .textidote removes them and each chapter is checked on its own
 	for tex in chapters-<%= language %>/*.tex <%= markdownFiles %>; do \
 		[ -e "$$tex" ] || continue; \
-		$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html --read-all "$$tex" > "$${tex%.*}.textidote.html" || test -s "$${tex%.*}.textidote.html"; \
+		$(LINT) textidote --check <%= language %> --output html --read-all "$$tex" > "$${tex%.*}.textidote.html" || test -s "$${tex%.*}.textidote.html"; \
 	done
 	@echo "Reports: textidote.html and chapters-<%= language %>/*.textidote.html"
 <% } else { -%>
 	@# .textidote removes \markdownInput, so the Markdown file is checked on its own
 	if [ -e <%= markdownFiles %> ]; then \
-		$(RUN) java -Djdk.xml.totalEntitySizeLimit=0 -jar textidote.jar --check <%= language %> --output html <%= markdownFiles %> > <%= markdownFiles.replace(/\.md$/, "") %>.textidote.html || test -s <%= markdownFiles.replace(/\.md$/, "") %>.textidote.html; \
+		$(LINT) textidote --check <%= language %> --output html <%= markdownFiles %> > <%= markdownFiles.replace(/\.md$/, "") %>.textidote.html || test -s <%= markdownFiles.replace(/\.md$/, "") %>.textidote.html; \
 	fi
 	@echo "Reports: textidote.html and <%= markdownFiles.replace(/\.md$/, "") %>.textidote.html"
 <% } -%>
