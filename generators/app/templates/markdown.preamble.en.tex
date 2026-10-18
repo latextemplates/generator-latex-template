@@ -17,6 +17,14 @@
 <%= markdownIndent %>  relativeReferences, % <#id> to reference an id defined via {#id} (typeset by <%- cref %>, see below)
 <%= markdownIndent %>  hashEnumerators,    % 1) 2) 3) style enumerators
 <%= markdownIndent %>]{markdown}
+<% if (isPaper) { -%>
+<%= markdownIndent %>% The markdown package typesets "#" as \chapter if the class defines it (llncs does); in a paper, "#" is a section
+<%= markdownIndent %>% textidote: ignore begin
+<%= markdownIndent %>\renewcommand{\markdownRendererHeadingOne}[1]{\section{#1}}
+<%= markdownIndent %>\renewcommand{\markdownRendererHeadingTwo}[1]{\subsection{#1}}
+<%= markdownIndent %>\renewcommand{\markdownRendererHeadingThree}[1]{\subsubsection{#1}}
+<%= markdownIndent %>% textidote: ignore end
+<% } -%>
 <%- include('markdown-references.preamble.en.tex', this); -%>
 <% if (latexcompiler == "both") { -%>
 \fi

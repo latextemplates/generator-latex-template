@@ -349,10 +349,6 @@ export default class extends Generator {
   // into a file of its own, picked by the package that the main file loads.
   _splitChapters(lines) {
     const isMarker = (line) => line.startsWith("%%LTG-");
-    if (!this.props.isThesis) {
-      return lines.filter((line) => !isMarker(line));
-    }
-
     const trim = (chapterLines) => {
       const first = chapterLines.findIndex((line) => line.trim() !== "");
       const last = chapterLines.findLastIndex((line) => line.trim() !== "");
@@ -360,6 +356,38 @@ export default class extends Generator {
     };
     const write = (path, chapterLines) =>
       this.fs.write(this.destinationPath(path), chapterLines.join("\n") + "\n");
+    const markdownInput = (path) => {
+      const input = `\\markdownInput{${path}}`;
+      return this.props.latexcompiler === "both"
+        ? ["\\ifluatex", "  " + input, "\\fi"]
+        : [input];
+    };
+
+    if (!this.props.isThesis) {
+      // A paper keeps its sections in the main file, except the Markdown one:
+      // content-markdown.md (English) or content-markdown.<lang>.md
+      const result = [];
+      let markdown = null;
+      for (const line of lines) {
+        if (markdown && isMarker(line)) {
+          const path =
+            this.props.language === "en"
+              ? "content-markdown.md"
+              : `content-markdown.${this.props.language}.md`;
+          write(path, trim(markdown));
+          result.push(...markdownInput(path), "");
+          markdown = null;
+        }
+        if (line.startsWith("%%LTG-CHAPTER-MARKDOWN")) {
+          markdown = [];
+        } else if (markdown) {
+          markdown.push(line);
+        } else if (!isMarker(line)) {
+          result.push(line);
+        }
+      }
+      return result;
+    }
 
     const start = lines.findIndex((line) => line.startsWith("%%LTG-CHAPTER"));
     const end = lines.indexOf("%%LTG-CHAPTERS-END");
@@ -383,10 +411,7 @@ export default class extends Generator {
       const base = `chapters/${(index + 1) * 10} - ${chapter.name}`;
       if (chapter.markdown) {
         write(`${base}.${language}.md`, trim(chapter.lines));
-        const input = `\\markdownInput{${base}.${language}.md}`;
-        return this.props.latexcompiler === "both"
-          ? ["\\ifluatex", "  " + input, "\\fi"]
-          : [input];
+        return markdownInput(`${base}.${language}.md`);
       }
 
       const chapterLines = [];
@@ -733,6 +758,11 @@ export default class extends Generator {
     this.fs.copy(
       this.templatePath(".vscode/extensions.json"),
       this.destinationPath(".vscode/extensions.json"),
+    );
+    this.fs.copyTpl(
+      this.templatePath("dot.markdownlint.yml"),
+      this.destinationPath(".markdownlint.yml"),
+      this.props,
     );
     this.fs.copyTpl(
       this.templatePath("vscode.settings.json"),
