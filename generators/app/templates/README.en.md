@@ -205,7 +205,10 @@ Following features are enabled in this template:
 <% if (documentclass == 'ieee') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
 - Shows how IEEE copyright notice can be added.
-- References show the DOI, as the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) asks for (`IEEEtranN-doi.bst`, a copy of `IEEEtranN.bst` with DOI output).
+- References follow the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (`IEEEtranN-doi.bst`, a modified copy of `IEEEtranN.bst`):
+  - They show the DOI.
+  - Repeated author names are written out instead of a dash.
+  - Citation ranges are written out: `[1], [2], [3]` instead of `[1]–[3]`.
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file

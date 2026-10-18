@@ -12,6 +12,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - IEEE: references show the DOI (`IEEEtranN-doi.bst`). [ieee-enhanced#18](https://github.com/latextemplates/ieee-enhanced/issues/18)
 - Theses: a chapter written in plain Markdown (`chapters/NN - markdown.<lang>.md`, LuaLaTeX).
+- Theses: optional `[PDF]` link to the cited paper from JabRef's `file` field.
 
 ### Changed
 
@@ -19,6 +20,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Theses: each chapter is a file in `chapters/` (`NN - <name>.<lang>.tex`), included by the main file.
 - Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
 - README.md: "Disabled features" is a subsection of "Benefits".
+- IEEE: repeated author names are written out instead of a dash.
+- IEEE: citation ranges are written out (`[1], [2], [3]` instead of `[1]–[3]`).
 
 ## [2026.10.16]
 
