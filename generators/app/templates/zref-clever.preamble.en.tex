@@ -7,11 +7,24 @@
 \zcsetup{cap, nameinlink=true<% if (documentclass == 'lncs') { %>, abbrev<% } %>}
 % \Zcref{...} is short for \zcref[S]{...}: capitalized, unabbreviated name at the beginning of a sentence
 \NewDocumentCommand{\Zcref}{s O{} m}{\IfBooleanTF{#1}{\zcref*[S,#2]{#3}}{\zcref[S,#2]{#3}}}
+<% if (listings == 'minted') { -%>
+% Lines of minted listings are referenced as "Line 2"
+\zcsetup{countertype={FancyVerbLine=line}}
+<% } -%>
 <% if (documentclass == 'lncs') { -%>
 \zcLanguageSetup{english}{
   type=section, Name-sg-ab=Sect., Name-pl-ab=Sect.,
   type=listing, Name-sg-ab=List., Name-pl-ab=List.,
 }
+<% } -%>
+<% if (documentclass == 'ieee') { -%>
+% IEEE Editorial Style Manual: "Fig. 1" also at the beginning of a sentence, "Section II", "Table I";
+% equations as "(1)" in the text and as "Equation (1)" at the beginning of a sentence
+\zcLanguageSetup{english}{
+  type=figure, Name-sg=Fig., Name-pl=Figs.,
+  type=equation, Name-sg-ab={}, Name-pl-ab={},
+}
+\zcRefTypeSetup{equation}{abbrev}
 <% } -%>
 <% if (isThesis) { -%>
 

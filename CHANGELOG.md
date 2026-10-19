@@ -6,6 +6,53 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- IEEE: references show the DOI (`IEEEtranN-doi.bst`). [ieee-enhanced#18](https://github.com/latextemplates/ieee-enhanced/issues/18)
+- Papers: a section written in plain Markdown (`content-markdown.md`, German: `content-markdown.de.md`; LuaLaTeX).
+- Theses: a chapter written in plain Markdown (`chapters-<lang>/NN - markdown.md`, LuaLaTeX).
+- Theses: optional `[PDF]` link to the cited paper from JabRef's `file` field.
+- Theses: section "Threats to Validity" in the evaluation chapter of the writing hints.
+- Theses: numbered research questions (`\defRQ`, referenced as "RQ1" by `\refRQ`) using [refenums](https://github.com/koppor/refenums) 2.0.0, included as `refenums.sty`.
+- VS Code: [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint) recommended, configured by `.markdownlint.yml`.
+- VS Code: LTeX+ knows the words of the aspell word lists (`.vscode/ltex.dictionary.<language>.txt`).
+- `make dictionaries` merges the word lists of aspell, LTeX+, and TeXtidote.
+- CI: after a push that changes a word list, the workflow `Dictionaries` runs `make dictionaries` and commits the merged word lists.
+- CI: [typos](https://github.com/crate-ci/typos) checks the spelling, also in comments (configured in `.typos.toml`). The generator's own CI runs it, too.
+
+### Changed
+
+- IEEE: repeated author names are written out instead of a dash, as in the current [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf).
+- IEEE: citation ranges are written out (`[1], [2], [3]` instead of `[1]–[3]`), as the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (V 3.28.2025) now asks for.
+- IEEE: references in the text as the [IEEE Editorial Style Manual](https://journals.ieeeauthorcenter.ieee.org/your-role-in-article-production/ieee-editorial-style-manual/) asks for: "Fig. 1" (also at the beginning of a sentence), "(1)" for equations ("Equation (1)" at the beginning of a sentence).
+- IEEE: captions read "Fig. 1." (babel had changed them to "Figure 1.").
+- IEEE: the example tables are tables (caption "TABLE I" above) instead of figures.
+- Papers: the minted variant keeps the caption style of the document class (the `caption` package is no longer loaded).
+- Examples: the caption of the cross-reference example table is above the table.
+- minted: listing lines are labeled with `\label` and referenced with `\zcref` (or `\cref`) like everything else (`\labelline`, `\refline`, `\llabel`, and `\lref` removed).
+- Theses: each chapter is a file in `chapters-en/` or `chapters-de/` (`NN - <name>.tex`, numbered in steps of 10), included by the main file.
+- Theses: a short README.md in `chapters-en/` and `chapters-de/`.
+- Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
+- Theses (University of Hamburg, English): the title page shows "Thesis Title" as placeholder.
+- Markdown example: "a whole chapter" (theses) or "a whole section" (papers) instead of "a longer part".
+- CI and `make spellcheck`: aspell, textlint, and TeXtidote also check the Markdown files.
+- CI and `make spellcheck`: aspell and TeXtidote run in the [Docker image by DANTE e.V.](https://hub.docker.com/r/danteev/texlive).
+- The DANTE e.V. image is `2026-C`.
+- README.md: FAQ on adding words (e.g., names of tools) to the spell checkers.
+- README.md: how to run the `make` targets in Docker without a local `make`.
+- README.md: link to the LaTeX snippets moved to the introduction.
+- README.md: "Disabled features" is a subsection of "Benefits".
+- README.md (also the German one) and `docs/latex-setup.md`: markdownlint findings fixed.
+
+### Fixed
+
+- Theses with `--crossref=cleveref`: the table of the used AI tools is formatted as latexindent formats it.
+- Theses (English): algorithms are captioned "Algorithm" (instead of "Algorithmus").
+- Typos fixed, mostly in comments; German comments in the English files translated.
+- Generator: the name "Scientific Thesis" in the choice of the document class is spelled correctly.
+
 ## [2026.10.16]
 
 ### Added
@@ -483,7 +530,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Included more elements from the "original" scientific-thesis template.
-- Added LaTeX package [hyphenex](https://ctan.org/pkg/hyphenex) to ensure that English words are correclty hyphenated.
+- Added LaTeX package [hyphenex](https://ctan.org/pkg/hyphenex) to ensure that English words are correctly hyphenated.
 
 ## [0.4.0] – 2022-02-03
 
@@ -499,7 +546,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- LNCS is now based on the offical CTAN package [llncs](https://ctan.org/pkg/llncs)
+- LNCS is now based on the official CTAN package [llncs](https://ctan.org/pkg/llncs)
 
 ### Removed
 

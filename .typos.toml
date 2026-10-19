@@ -1,0 +1,48 @@
+# Spell checking with https://github.com/crate-ci/typos (CI job "typos" in test.yml)
+# The templates get their own configuration from generators/app/templates/dot.typos.toml.
+# typos knows English only, so German files are excluded.
+[files]
+extend-exclude = [
+  # German
+  "*.de.tex",
+  "*.de.md",
+  "generators/app/templates/logos/README.md",
+  # Bibliography, styles, vendored packages, patches, and word lists
+  "*.bib",
+  "*.bst",
+  "*.bst.patch",
+  "*.sty",
+  "*.pws",
+  # File extensions of LaTeX's auxiliary files
+  "generators/app/templates/dot.gitignore",
+  "generators/app/templates/dot.dockerignore",
+  "generators/app/templates/latexmkrc",
+  # Allowed words for the templates
+  "generators/app/templates/dot.typos.toml",
+]
+
+[default]
+extend-ignore-re = [
+  # app-lication, app\-lication: examples of a hyphenation
+  "app\\\\?-lication",
+  # font encoding OT1
+  "(?i)ot1",
+  # German titles of books
+  "Ein Leitfaden",
+  # file name of a source
+  "makros\\.tex",
+]
+
+[default.extend-words]
+# German name of the algorithm float
+Algorithmus = "Algorithmus"
+# TeX Gyre Heros (font)
+Heros = "Heros"
+# microtype option "alltext-nott" (all text except typewriter fonts)
+nott = "nott"
+# label prefix for theorems (thm:...)
+thm = "thm"
+# 2\textsuperscript{nd}
+nd = "nd"
+# ACM Transactions on Management Information Systems
+TMIS = "TMIS"

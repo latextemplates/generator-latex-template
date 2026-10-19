@@ -61,7 +61,7 @@ Found going from <https://tex.stackexchange.com/q/28437/9075> to <https://tex.st
   See <https://tex.stackexchange.com/a/389439/9075> for a long explanation.
 * Bad, because tex files change
 
-### Supress ligatures completely
+### Suppress ligatures completely
 
 See <https://tex.stackexchange.com/q/61042/9075> and <https://tex.stackexchange.com/q/1841/9075>
 

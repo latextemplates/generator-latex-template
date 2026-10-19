@@ -8,13 +8,23 @@
 \Crefname{section}{Section}{Sections}
 \crefname{listing}{List.}{List.}
 <% } -%>
+<% if (documentclass == 'ieee') { -%>
+% IEEE Editorial Style Manual: "Fig. 1" also at the beginning of a sentence, "Section II", "Table I";
+% equations as "(1)" in the text and as "Equation (1)" at the beginning of a sentence
+\crefname{figure}{Fig.}{Figs.}
+\Crefname{figure}{Fig.}{Figs.}
+\crefformat{equation}{#2(#1)#3}
+\crefrangeformat{equation}{#3(#1)#4 to~#5(#2)#6}
+\crefmultiformat{equation}{#2(#1)#3}{ and~#2(#1)#3}{, #2(#1)#3}{, and~#2(#1)#3}
+\Crefformat{equation}{#2Equation~(#1)#3}
+\Crefrangeformat{equation}{Equations~#3(#1)#4 to~#5(#2)#6}
+\Crefmultiformat{equation}{Equations~#2(#1)#3}{ and~#2(#1)#3}{, #2(#1)#3}{, and~#2(#1)#3}
+<% } -%>
 \crefname{listing}{Listing}{Listings}
 \Crefname{listing}{Listing}{Listings}
 <% if (listings == 'minted') { -%>
-
-% Intermediate solution for hyperlinked refs. See https://tex.stackexchange.com/q/132420/9075 for more information.
-\newcommand{\llabel}[1]{\label[line]{#1}\hypertarget{#1}{}}
-\newcommand{\lref}[1]{\hyperlink{#1}{\FancyVerbLineautorefname~\ref*{#1}}}
+\crefname{FancyVerbLine}{line}{lines}
+\Crefname{FancyVerbLine}{Line}{Lines}
 <% } else { -%>
 \crefname{lstlisting}{Listing}{Listings}
 \Crefname{lstlisting}{Listing}{Listings}

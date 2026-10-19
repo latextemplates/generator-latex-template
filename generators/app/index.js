@@ -222,11 +222,25 @@ export default class extends Generator {
       2021: "2021-D",
       2023: "2023-A",
       2024: "2024-B",
-      2025: "2026-B",
-      2026: "2026-B",
+      2025: "2026-C",
+      2026: "2026-C",
     };
     this.props.danteImage =
       "danteev/texlive:" + (danteTags[this.props.texlive] ?? "edge");
+
+    // The DANTE e.V. image also contains the linters (aspell with English and German
+    // dictionaries, TeXtidote); CI and "make spellcheck" run them there.
+    // They do not depend on the TeX Live version, so the image is the first release containing aspell.
+    this.props.lintImage = "danteev/texlive:2026-C";
+    // Words of the template that aspell word lists cannot contain (see "make dictionaries")
+    this.props.hyphenatedWords = [
+      "markdown-latex-quickstart",
+      "pgf-umlsd",
+      "zref-clever",
+      "Zref-clever",
+      "zref-vario",
+      "Zref-vario",
+    ];
 
     // The image used to compile in Docker (README, Makefile, VS Code settings)
     this.props.dockerImage =
@@ -339,6 +353,117 @@ export default class extends Generator {
     }
   }
 
+  // The main templates mark each chapter with "%%LTG-CHAPTER <name>" (Markdown
+  // chapters with "%%LTG-CHAPTER-MARKDOWN <name>") and the end of the last one
+  // with "%%LTG-CHAPTERS-END". A thesis gets each chapter as its own file
+  // chapters-<lang>/<nn> - <name>.tex, included by the main file; a paper keeps
+  // its sections in the main file. Template repositories put the main files of
+  // all variants of one language next to each other, so the chapter files must
+  // not depend on the variant: the source code example (listings or minted) goes
+  // into a file of its own, picked by the package that the main file loads.
+  _splitChapters(lines) {
+    const isMarker = (line) => line.startsWith("%%LTG-");
+    const trim = (chapterLines) => {
+      const first = chapterLines.findIndex((line) => line.trim() !== "");
+      const last = chapterLines.findLastIndex((line) => line.trim() !== "");
+      return first < 0 ? [] : chapterLines.slice(first, last + 1);
+    };
+    const write = (path, chapterLines) =>
+      this.fs.write(this.destinationPath(path), chapterLines.join("\n") + "\n");
+    const markdownInput = (path) => {
+      const input = `\\markdownInput{${path}}`;
+      return this.props.latexcompiler === "both"
+        ? ["\\ifluatex", "  " + input, "\\fi"]
+        : [input];
+    };
+
+    if (!this.props.isThesis) {
+      // A paper keeps its sections in the main file, except the Markdown one:
+      // content-markdown.md (English) or content-markdown.<lang>.md
+      const result = [];
+      let markdown = null;
+      for (const line of lines) {
+        if (markdown && isMarker(line)) {
+          const path =
+            this.props.language === "en"
+              ? "content-markdown.md"
+              : `content-markdown.${this.props.language}.md`;
+          write(path, trim(markdown));
+          result.push(...markdownInput(path), "");
+          markdown = null;
+        }
+        if (line.startsWith("%%LTG-CHAPTER-MARKDOWN")) {
+          markdown = [];
+        } else if (markdown) {
+          markdown.push(line);
+        } else if (!isMarker(line)) {
+          result.push(line);
+        }
+      }
+      return result;
+    }
+
+    const start = lines.findIndex((line) => line.startsWith("%%LTG-CHAPTER"));
+    const end = lines.indexOf("%%LTG-CHAPTERS-END");
+    const chapters = [];
+    for (const line of lines.slice(start, end)) {
+      const match = line.match(/^%%LTG-CHAPTER(-MARKDOWN)? (.+)$/);
+      if (match) {
+        chapters.push({
+          markdown: Boolean(match[1]),
+          name: match[2],
+          lines: [],
+        });
+      } else {
+        chapters.at(-1).lines.push(line);
+      }
+    }
+
+    const language = this.props.language;
+    this.fs.copy(
+      this.templatePath(`chapters.README.${language}.md`),
+      this.destinationPath(`chapters-${language}/README.md`),
+    );
+    const includes = chapters.flatMap((chapter, index) => {
+      // Steps of 10 leave room to insert a chapter without renaming the others
+      const base = `chapters-${language}/${(index + 1) * 10} - ${chapter.name}`;
+      if (chapter.markdown) {
+        write(`${base}.md`, trim(chapter.lines));
+        return markdownInput(`${base}.md`);
+      }
+
+      const chapterLines = [];
+      let sourceCode = null;
+      for (const line of chapter.lines) {
+        const match = line.match(/^%%LTG-SOURCECODE (\S+)$/);
+        if (match) {
+          sourceCode = { listings: match[1], lines: [] };
+        } else if (line === "%%LTG-SOURCECODE-END") {
+          const file = (listings) => `${base} - ${listings}`;
+          write(file(sourceCode.listings) + ".tex", trim(sourceCode.lines));
+          chapterLines.push(
+            "% The main file loads either the minted or the listings package",
+            "\\ifdefined\\inputminted",
+            `  \\input{${file("minted")}}`,
+            "\\else",
+            `  \\input{${file("listings")}}`,
+            "\\fi",
+            "",
+          );
+          sourceCode = null;
+        } else if (sourceCode) {
+          sourceCode.lines.push(line);
+        } else {
+          chapterLines.push(line);
+        }
+      }
+      write(`${base}.tex`, trim(chapterLines));
+      return [`\\include{${base}}`];
+    });
+
+    return [...lines.slice(0, start), ...includes, ...lines.slice(end + 1)];
+  }
+
   writing() {
     this.props.config = this.props;
     this.fs.copyTpl(
@@ -404,9 +529,38 @@ export default class extends Generator {
       );
     }
 
+    // The word lists of aspell (.aspell.<lang>.pws), LTeX+ (.vscode/ltex.dictionary.<language>.txt), and
+    // TeXtidote (.textidote.dict) contain the same words. "make dictionaries" merges them in the generated
+    // repository the same way (sorted like "LC_ALL=C sort -u"), so its first run changes nothing.
+    // LTeX+ (VS Code extension, see .vscode/extensions.json) reads its file automatically; "Add to dictionary" writes there.
+    const sortedUnique = (words) => [...new Set(words)].sort();
+    const aspellWords = (lang) =>
+      this.fs
+        .read(this.templatePath(`dot.aspell.${lang}.pws`))
+        .split("\n")
+        .slice(1)
+        .filter((word) => word !== "");
+    const ltexWords = {};
+    for (const [lang, ltexLanguage] of [
+      ["en", "en-US"],
+      ["de", "de-DE"],
+    ]) {
+      if (this.props.language == lang || this.props.githubpublish) {
+        // aspell word lists cannot contain hyphenated words; LTeX+ and TeXtidote get them in addition
+        ltexWords[lang] = sortedUnique([
+          ...aspellWords(lang),
+          ...this.props.hyphenatedWords,
+        ]);
+        this.fs.write(
+          this.destinationPath(`.vscode/ltex.dictionary.${ltexLanguage}.txt`),
+          ltexWords[lang].join("\n") + "\n",
+        );
+      }
+    }
+
     // TeXtidote (spelling, grammar, and style; CI job "textidote") reads its options from .textidote.
-    // Its dictionary contains the words of both aspell word lists (without their header lines).
-    // Both files must not depend on the language: some templates publish both languages into one repository.
+    // Its dictionary contains the words of all LTeX+ word lists.
+    // .textidote must not depend on the language: some templates publish both languages into one repository.
     if (this.props.documentclass !== "mwe") {
       this.fs.copy(
         this.templatePath("dot.textidote"),
@@ -416,25 +570,17 @@ export default class extends Generator {
         this.templatePath("dot.textidote.replacements"),
         this.destinationPath(".textidote.replacements"),
       );
-      const words = [
-        ...new Set(
-          ["en", "de"].flatMap((lang) =>
-            this.fs
-              .read(this.templatePath(`dot.aspell.${lang}.pws`))
-              .split("\n")
-              .slice(1)
-              .filter((word) => word !== ""),
-          ),
-        ),
-      ]
-        .sort((a, b) => a.localeCompare(b, "en"))
-        .join("\n");
-      // aspell word lists cannot contain hyphenated words
-      const hyphenated =
-        "zref-clever\nZref-clever\nzref-vario\nZref-vario\npgf-umlsd\nmarkdown-latex-quickstart\n";
       this.fs.write(
         this.destinationPath(".textidote.dict"),
-        words + "\n" + hyphenated,
+        sortedUnique(Object.values(ltexWords).flat()).join("\n") + "\n",
+      );
+    }
+
+    // refenums 2.0.0 (based on zref-clever) is not yet in TeX Live
+    if (this.props.isThesis) {
+      this.fs.copy(
+        this.templatePath("refenums.sty"),
+        this.destinationPath("refenums.sty"),
       );
     }
 
@@ -442,6 +588,13 @@ export default class extends Generator {
       this.fs.copy(
         this.templatePath("splncs04nat.bst"),
         this.destinationPath("splncs04nat.bst"),
+      );
+    }
+
+    if (this.props.documentclass === "ieee") {
+      this.fs.copy(
+        this.templatePath("IEEEtranN-doi.bst"),
+        this.destinationPath("IEEEtranN-doi.bst"),
       );
     }
 
@@ -483,11 +636,11 @@ export default class extends Generator {
     // rendering, so the template carries placeholders that are filled here.
     if (this.props.documentclass !== "mwe") {
       const mainPath = this.destinationPath(this.props.filenames.main + ".tex");
-      const lines = this.fs.read(mainPath).split("\n");
+      const lines = this._splitChapters(this.fs.read(mainPath).split("\n"));
       const contentIndex = lines.indexOf("\\begin{document}");
       const headingIndex = lines.findIndex(
         (line, index) =>
-          index > contentIndex && /^\\(chapter|section)\{/.test(line),
+          index > contentIndex && /^\\(chapter|section|include)\{/.test(line),
       );
       const heading = lines[headingIndex].replace(/\\label\{.*$/, "");
       this.fs.write(
@@ -640,10 +793,24 @@ export default class extends Generator {
       this.destinationPath(".github/workflows/check.yml"),
       this.props,
     );
+    this.fs.copy(
+      this.templatePath(".github/workflows/dictionaries.yml"),
+      this.destinationPath(".github/workflows/dictionaries.yml"),
+    );
 
     this.fs.copy(
       this.templatePath(".vscode/extensions.json"),
       this.destinationPath(".vscode/extensions.json"),
+    );
+    this.fs.copyTpl(
+      this.templatePath("dot.markdownlint.yml"),
+      this.destinationPath(".markdownlint.yml"),
+      this.props,
+    );
+    this.fs.copyTpl(
+      this.templatePath("dot.typos.toml"),
+      this.destinationPath(".typos.toml"),
+      this.props,
     );
     this.fs.copyTpl(
       this.templatePath("vscode.settings.json"),
