@@ -513,7 +513,6 @@ On the command line, there are additional features:
 - `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
 - `make mrproper`: Cleans up and removes also editor backup files.
-<% if (docker) { -%>
 
 Without `make` (e.g., on Windows), run a target with `make` in the [Docker image by DANTE e.V.](https://hub.docker.com/r/danteev/texlive), which contains `make` and all tools, e.g., `dictionaries`:
 
@@ -524,7 +523,6 @@ docker run --rm -it -v "${PWD}:/workdir" -w /workdir <%= lintImage %> make LOCAL
 ```bash
 docker run --rm -it -u "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:/workdir" -w /workdir <%= lintImage %> make LOCAL=1 dictionaries
 ```
-<% } -%>
 <% if (documentclass != "mwe") { -%>
 
 The `textlint` job of the `Check` workflow reports weakening words (e.g., "clearly", "just") in the English `.tex` files as annotations.
@@ -748,6 +746,7 @@ Each spell checker reads its own word list; add the word as a new line:
 
 The word lists of aspell<% if (documentclass != "mwe") { %>, LTeX+, and TeXtidote<% } else { %> and LTeX+<% } %> contain the same words.
 Instead of editing each of them, add the word to the aspell or the LTeX+ word list and run `make dictionaries`: it merges both and writes the word into all of them (hyphenated words not into aspell's).
+On GitHub, the workflow `Dictionaries` does this after each push that changes one of these word lists and commits the result.
 To remove a word, delete it from the aspell and the LTeX+ word list<% if (documentclass != "mwe") { %> and run `make dictionaries`<% } %>.
 <% switch (documentclass) { case "lncs": -%>
 
@@ -1024,6 +1023,7 @@ Each spell checker reads its own word list; add the word as a new line:
 
 The word lists of aspell<% if (documentclass != "mwe") { %>, LTeX+, and TeXtidote<% } else { %> and LTeX+<% } %> contain the same words.
 Instead of editing each of them, add the word to the aspell or the LTeX+ word list and run `make dictionaries`: it merges both and writes the word into all of them (hyphenated words not into aspell's).
+On GitHub, the workflow `Dictionaries` does this after each push that changes one of these word lists and commits the result.
 To remove a word, delete it from the aspell and the LTeX+ word list<% if (documentclass != "mwe") { %> and run `make dictionaries`<% } %>.
 
 <% } -%>

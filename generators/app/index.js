@@ -793,6 +793,10 @@ export default class extends Generator {
       this.destinationPath(".github/workflows/check.yml"),
       this.props,
     );
+    this.fs.copy(
+      this.templatePath(".github/workflows/dictionaries.yml"),
+      this.destinationPath(".github/workflows/dictionaries.yml"),
+    );
 
     this.fs.copy(
       this.templatePath(".vscode/extensions.json"),
