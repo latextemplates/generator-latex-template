@@ -38,6 +38,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - README.md: "Disabled features" is a subsection of "Benefits".
 - README.md and `docs/latex-setup.md`: markdownlint findings fixed.
 
+### Fixed
+
+- Theses with `--crossref=cleveref`: the table of the used AI tools is formatted as latexindent formats it.
+
 ## [2026.10.16]
 
 ### Added
