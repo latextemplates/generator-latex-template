@@ -17,6 +17,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Theses: section "Threats to Validity" in the evaluation chapter of the writing hints.
 - Theses: numbered research questions (`\defRQ`, referenced as "RQ1" by `\refRQ`) using [refenums](https://github.com/koppor/refenums) 2.0.0, included as `refenums.sty`.
 - VS Code: [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint) recommended, configured by `.markdownlint.yml`.
+- VS Code: LTeX+ knows the words of the aspell word lists (`.vscode/ltex.dictionary.<language>.txt`).
 - CI: [typos](https://github.com/crate-ci/typos) checks the spelling, also in comments (configured in `.typos.toml`). The generator's own CI runs it, too.
 
 ### Changed

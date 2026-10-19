@@ -520,6 +520,30 @@ export default class extends Generator {
       );
     }
 
+    // aspell word lists cannot contain hyphenated words; the other dictionaries get them in addition
+    const hyphenated =
+      "zref-clever\nZref-clever\nzref-vario\nZref-vario\npgf-umlsd\nmarkdown-latex-quickstart\n";
+    const aspellWords = (lang) =>
+      this.fs
+        .read(this.templatePath(`dot.aspell.${lang}.pws`))
+        .split("\n")
+        .slice(1)
+        .filter((word) => word !== "");
+
+    // LTeX+ (VS Code extension, see .vscode/extensions.json) reads .vscode/ltex.dictionary.<language>.txt
+    // automatically; its "Add to dictionary" writes there, too. It gets the words of the aspell word list.
+    for (const [lang, ltexLanguage] of [
+      ["en", "en-US"],
+      ["de", "de-DE"],
+    ]) {
+      if (this.props.language == lang || this.props.githubpublish) {
+        this.fs.write(
+          this.destinationPath(`.vscode/ltex.dictionary.${ltexLanguage}.txt`),
+          aspellWords(lang).join("\n") + "\n" + hyphenated,
+        );
+      }
+    }
+
     // TeXtidote (spelling, grammar, and style; CI job "textidote") reads its options from .textidote.
     // Its dictionary contains the words of both aspell word lists (without their header lines).
     // Both files must not depend on the language: some templates publish both languages into one repository.
@@ -532,22 +556,9 @@ export default class extends Generator {
         this.templatePath("dot.textidote.replacements"),
         this.destinationPath(".textidote.replacements"),
       );
-      const words = [
-        ...new Set(
-          ["en", "de"].flatMap((lang) =>
-            this.fs
-              .read(this.templatePath(`dot.aspell.${lang}.pws`))
-              .split("\n")
-              .slice(1)
-              .filter((word) => word !== ""),
-          ),
-        ),
-      ]
+      const words = [...new Set(["en", "de"].flatMap(aspellWords))]
         .sort((a, b) => a.localeCompare(b, "en"))
         .join("\n");
-      // aspell word lists cannot contain hyphenated words
-      const hyphenated =
-        "zref-clever\nZref-clever\nzref-vario\nZref-vario\npgf-umlsd\nmarkdown-latex-quickstart\n";
       this.fs.write(
         this.destinationPath(".textidote.dict"),
         words + "\n" + hyphenated,
