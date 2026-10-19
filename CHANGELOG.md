@@ -12,7 +12,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - IEEE: references show the DOI (`IEEEtranN-doi.bst`). [ieee-enhanced#18](https://github.com/latextemplates/ieee-enhanced/issues/18)
 - Papers: a section written in plain Markdown (`content-markdown.md`, German: `content-markdown.de.md`; LuaLaTeX).
-- Theses: a chapter written in plain Markdown (`chapters-<lang>/NN - markdown.md`, LuaLaTeX).
+- Theses: a chapter written in plain Markdown (`chapters-<lang>/NN - markdown.md`; LuaLaTeX).
 - Theses: optional `[PDF]` link to the cited paper from JabRef's `file` field.
 - Theses: section "Threats to Validity" in the evaluation chapter of the writing hints.
 - Theses: numbered research questions (`\defRQ`, referenced as "RQ1" by `\refRQ`) using [refenums](https://github.com/koppor/refenums) 2.0.0, included as `refenums.sty`.
