@@ -782,6 +782,11 @@ export default class extends Generator {
       this.props,
     );
     this.fs.copyTpl(
+      this.templatePath("dot.typos.toml"),
+      this.destinationPath("_typos.toml"),
+      this.props,
+    );
+    this.fs.copyTpl(
       this.templatePath("vscode.settings.json"),
       this.destinationPath("vscode.settings.json"),
       this.props,

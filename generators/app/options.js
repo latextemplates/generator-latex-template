@@ -17,7 +17,7 @@ export const options = [
         value: "lncs",
       },
       {
-        name: "Scientic Thesis",
+        name: "Scientific Thesis",
         value: "scientific-thesis",
       },
       {

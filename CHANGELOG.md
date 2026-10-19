@@ -17,6 +17,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Theses: section "Threats to Validity" in the evaluation chapter of the writing hints.
 - Theses: numbered research questions (`\defRQ`, referenced as "RQ1" by `\refRQ`) using [refenums](https://github.com/koppor/refenums) 2.0.0, included as `refenums.sty`.
 - VS Code: [markdownlint](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint) recommended, configured by `.markdownlint.yml`.
+- CI: [typos](https://github.com/crate-ci/typos) checks the spelling, also in comments (configured in `_typos.toml`). The generator's own CI runs it, too.
 
 ### Changed
 
@@ -31,6 +32,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Theses: each chapter is a file in `chapters-en/` or `chapters-de/` (`NN - <name>.tex`, numbered in steps of 10), included by the main file.
 - Theses: a short README.md in `chapters-en/` and `chapters-de/`.
 - Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
+- Theses (University of Hamburg, English): the title page shows "Thesis Title" as placeholder.
 - Markdown example: "a whole chapter" (theses) or "a whole section" (papers) instead of "a longer part".
 - CI and `make spellcheck`: aspell, textlint, and TeXtidote also check the Markdown files.
 - CI and `make spellcheck`: aspell and TeXtidote run in the [Docker image by DANTE e.V.](https://hub.docker.com/r/danteev/texlive).
@@ -42,6 +44,9 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - Theses with `--crossref=cleveref`: the table of the used AI tools is formatted as latexindent formats it.
+- Theses (English): algorithms are captioned "Algorithm" (instead of "Algorithmus").
+- Typos fixed, mostly in comments; German comments in the English files translated.
+- Generator: the name "Scientific Thesis" in the choice of the document class is spelled correctly.
 
 ## [2026.10.16]
 
@@ -520,7 +525,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Included more elements from the "original" scientific-thesis template.
-- Added LaTeX package [hyphenex](https://ctan.org/pkg/hyphenex) to ensure that English words are correclty hyphenated.
+- Added LaTeX package [hyphenex](https://ctan.org/pkg/hyphenex) to ensure that English words are correctly hyphenated.
 
 ## [0.4.0] – 2022-02-03
 
@@ -536,7 +541,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- LNCS is now based on the offical CTAN package [llncs](https://ctan.org/pkg/llncs)
+- LNCS is now based on the official CTAN package [llncs](https://ctan.org/pkg/llncs)
 
 ### Removed
 
