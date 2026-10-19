@@ -232,6 +232,15 @@ export default class extends Generator {
     // dictionaries, TeXtidote); CI and "make spellcheck" run them there.
     // They do not depend on the TeX Live version, so the image is the first release containing aspell.
     this.props.lintImage = "danteev/texlive:2026-C";
+    // Words of the template that aspell word lists cannot contain (see "make dictionaries")
+    this.props.hyphenatedWords = [
+      "markdown-latex-quickstart",
+      "pgf-umlsd",
+      "zref-clever",
+      "Zref-clever",
+      "zref-vario",
+      "Zref-vario",
+    ];
 
     // The image used to compile in Docker (README, Makefile, VS Code settings)
     this.props.dockerImage =
@@ -520,33 +529,38 @@ export default class extends Generator {
       );
     }
 
-    // aspell word lists cannot contain hyphenated words; the other dictionaries get them in addition
-    const hyphenated =
-      "zref-clever\nZref-clever\nzref-vario\nZref-vario\npgf-umlsd\nmarkdown-latex-quickstart\n";
+    // The word lists of aspell (.aspell.<lang>.pws), LTeX+ (.vscode/ltex.dictionary.<language>.txt), and
+    // TeXtidote (.textidote.dict) contain the same words. "make dictionaries" merges them in the generated
+    // repository the same way (sorted like "LC_ALL=C sort -u"), so its first run changes nothing.
+    // LTeX+ (VS Code extension, see .vscode/extensions.json) reads its file automatically; "Add to dictionary" writes there.
+    const sortedUnique = (words) => [...new Set(words)].sort();
     const aspellWords = (lang) =>
       this.fs
         .read(this.templatePath(`dot.aspell.${lang}.pws`))
         .split("\n")
         .slice(1)
         .filter((word) => word !== "");
-
-    // LTeX+ (VS Code extension, see .vscode/extensions.json) reads .vscode/ltex.dictionary.<language>.txt
-    // automatically; its "Add to dictionary" writes there, too. It gets the words of the aspell word list.
+    const ltexWords = {};
     for (const [lang, ltexLanguage] of [
       ["en", "en-US"],
       ["de", "de-DE"],
     ]) {
       if (this.props.language == lang || this.props.githubpublish) {
+        // aspell word lists cannot contain hyphenated words; LTeX+ and TeXtidote get them in addition
+        ltexWords[lang] = sortedUnique([
+          ...aspellWords(lang),
+          ...this.props.hyphenatedWords,
+        ]);
         this.fs.write(
           this.destinationPath(`.vscode/ltex.dictionary.${ltexLanguage}.txt`),
-          aspellWords(lang).join("\n") + "\n" + hyphenated,
+          ltexWords[lang].join("\n") + "\n",
         );
       }
     }
 
     // TeXtidote (spelling, grammar, and style; CI job "textidote") reads its options from .textidote.
-    // Its dictionary contains the words of both aspell word lists (without their header lines).
-    // Both files must not depend on the language: some templates publish both languages into one repository.
+    // Its dictionary contains the words of all LTeX+ word lists.
+    // .textidote must not depend on the language: some templates publish both languages into one repository.
     if (this.props.documentclass !== "mwe") {
       this.fs.copy(
         this.templatePath("dot.textidote"),
@@ -556,12 +570,9 @@ export default class extends Generator {
         this.templatePath("dot.textidote.replacements"),
         this.destinationPath(".textidote.replacements"),
       );
-      const words = [...new Set(["en", "de"].flatMap(aspellWords))]
-        .sort((a, b) => a.localeCompare(b, "en"))
-        .join("\n");
       this.fs.write(
         this.destinationPath(".textidote.dict"),
-        words + "\n" + hyphenated,
+        sortedUnique(Object.values(ltexWords).flat()).join("\n") + "\n",
       );
     }
 

@@ -509,6 +509,7 @@ On the command line, there are additional features:
 <% if (documentclass != "mwe") { -%>
   - `make spellcheck-textidote` checks spelling, grammar, and style with [TeXtidote](https://github.com/sylvainhalle/textidote) (report in `textidote.html`<% if (isThesis) { %>, for the chapters in `chapters-*/*.textidote.html`<% } %>)
 <% } -%>
+- `make dictionaries` merges the word lists of the spell checkers (see the FAQ on adding words)
 - `make stand`: Creates a new PDF with the current status of the document.
 - `make view`: Opens the configured viewer
 - `make mrproper`: Cleans up and removes also editor backup files.
@@ -722,16 +723,20 @@ For example:
 
 ### Q: How do I add a word (e.g., the name of a tool) to the spell checkers?
 
-Each spell checker has its own list of accepted words, one word per line:
+Each spell checker reads its own word list; add the word as a new line:
 
 | Spell checker | Word list |
 | --- | --- |
-| aspell (CI job `spell-check`, `make spellcheck-aspell`) | <% if (language == "en" || githubpublish) { %>`.aspell.en.pws`<% } %><% if (githubpublish) { %> (English), <% } %><% if (language == "de" || githubpublish) { %>`.aspell.de.pws`<% } %><% if (githubpublish) { %> (German)<% } %>; below the first line, without hyphenated words |
+| aspell (CI job `spell-check`, `make spellcheck-aspell`) | <% if (language == "en" || githubpublish) { %>`.aspell.en.pws`<% } %><% if (githubpublish) { %> (English), <% } %><% if (language == "de" || githubpublish) { %>`.aspell.de.pws`<% } %><% if (githubpublish) { %> (German)<% } %>; below the first line, no hyphenated words |
+| [LTeX+] (VS Code) | <% if (language == "en" || githubpublish) { %>`.vscode/ltex.dictionary.en-US.txt`<% } %><% if (githubpublish) { %>, <% } %><% if (language == "de" || githubpublish) { %>`.vscode/ltex.dictionary.de-DE.txt`<% } %>; "Add to dictionary" in VS Code writes there |
 <% if (documentclass != "mwe") { -%>
 | TeXtidote (CI job `textidote`, `make spellcheck-textidote`) | `.textidote.dict` |
 <% } -%>
-| [LTeX+] (VS Code) | <% if (language == "en" || githubpublish) { %>`.vscode/ltex.dictionary.en-US.txt`<% } %><% if (githubpublish) { %>, <% } %><% if (language == "de" || githubpublish) { %>`.vscode/ltex.dictionary.de-DE.txt`<% } %>; "Add to dictionary" in VS Code writes there |
 | [typos](https://github.com/crate-ci/typos) (CI job `typos`) | `.typos.toml`, section `[default.extend-words]`, e.g., `Heros = "Heros"`; only needed if typos reports the word |
+
+The word lists of aspell<% if (documentclass != "mwe") { %>, LTeX+, and TeXtidote<% } else { %> and LTeX+<% } %> contain the same words.
+Instead of editing each of them, add the word to the aspell or the LTeX+ word list and run `make dictionaries`: it merges both and writes the word into all of them (hyphenated words not into aspell's).
+To remove a word, delete it from the aspell and the LTeX+ word list<% if (documentclass != "mwe") { %> and run `make dictionaries`<% } %>.
 <% switch (documentclass) { case "lncs": -%>
 
 ### Q: Overleaf outputs a warning regarding the llncs class
@@ -994,16 +999,20 @@ For example:
 
 ### Q: How do I add a word (e.g., the name of a tool) to the spell checkers?
 
-Each spell checker has its own list of accepted words, one word per line:
+Each spell checker reads its own word list; add the word as a new line:
 
 | Spell checker | Word list |
 | --- | --- |
-| aspell (CI job `spell-check`, `make spellcheck-aspell`) | <% if (language == "en" || githubpublish) { %>`.aspell.en.pws`<% } %><% if (githubpublish) { %> (English), <% } %><% if (language == "de" || githubpublish) { %>`.aspell.de.pws`<% } %><% if (githubpublish) { %> (German)<% } %>; below the first line, without hyphenated words |
+| aspell (CI job `spell-check`, `make spellcheck-aspell`) | <% if (language == "en" || githubpublish) { %>`.aspell.en.pws`<% } %><% if (githubpublish) { %> (English), <% } %><% if (language == "de" || githubpublish) { %>`.aspell.de.pws`<% } %><% if (githubpublish) { %> (German)<% } %>; below the first line, no hyphenated words |
+| [LTeX+] (VS Code) | <% if (language == "en" || githubpublish) { %>`.vscode/ltex.dictionary.en-US.txt`<% } %><% if (githubpublish) { %>, <% } %><% if (language == "de" || githubpublish) { %>`.vscode/ltex.dictionary.de-DE.txt`<% } %>; "Add to dictionary" in VS Code writes there |
 <% if (documentclass != "mwe") { -%>
 | TeXtidote (CI job `textidote`, `make spellcheck-textidote`) | `.textidote.dict` |
 <% } -%>
-| [LTeX+] (VS Code) | <% if (language == "en" || githubpublish) { %>`.vscode/ltex.dictionary.en-US.txt`<% } %><% if (githubpublish) { %>, <% } %><% if (language == "de" || githubpublish) { %>`.vscode/ltex.dictionary.de-DE.txt`<% } %>; "Add to dictionary" in VS Code writes there |
 | [typos](https://github.com/crate-ci/typos) (CI job `typos`) | `.typos.toml`, section `[default.extend-words]`, e.g., `Heros = "Heros"`; only needed if typos reports the word |
+
+The word lists of aspell<% if (documentclass != "mwe") { %>, LTeX+, and TeXtidote<% } else { %> and LTeX+<% } %> contain the same words.
+Instead of editing each of them, add the word to the aspell or the LTeX+ word list and run `make dictionaries`: it merges both and writes the word into all of them (hyphenated words not into aspell's).
+To remove a word, delete it from the aspell and the LTeX+ word list<% if (documentclass != "mwe") { %> and run `make dictionaries`<% } %>.
 
 <% } -%>
 <% if (githubpublish && (documentclass == "ieee")) { -%>
