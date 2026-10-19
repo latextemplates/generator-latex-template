@@ -7,15 +7,12 @@ Ein **minimaler Markdown-Schnellstart**: Schreibe deinen Inhalt als reines Markd
 Die in dieser Vorlage verwendeten LaTeX-Snippets können unter <https://latextemplates.github.io/latex-snippets/> eingesehen werden.
 
 Kompiliere es mittels
-<% if (latexcompiler == "pdflatex")  { %>
+
+<% if (latexcompiler == "pdflatex") { -%>
     pdflatex <%= filenames.main %>
-<%
-} else {
-%>
+<% } else { -%>
     lualatex <%= filenames.main %>
-<%
-}
-%>
+<% } -%>
 
 ## Features
 

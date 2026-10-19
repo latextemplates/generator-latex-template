@@ -719,6 +719,19 @@ For example:
 ```latex
 \foreignlanguage{english}{Therefore, our proposed approach will change the world.}
 ```
+
+### Q: How do I add a word (e.g., the name of a tool) to the spell checkers?
+
+Each spell checker has its own list of accepted words, one word per line:
+
+| Spell checker | Word list |
+| --- | --- |
+| aspell (CI job `spell-check`, `make spellcheck-aspell`) | <% if (language == "en" || githubpublish) { %>`.aspell.en.pws`<% } %><% if (githubpublish) { %> (English), <% } %><% if (language == "de" || githubpublish) { %>`.aspell.de.pws`<% } %><% if (githubpublish) { %> (German)<% } %>; below the first line, without hyphenated words |
+<% if (documentclass != "mwe") { -%>
+| TeXtidote (CI job `textidote`, `make spellcheck-textidote`) | `.textidote.dict` |
+<% } -%>
+| [LTeX+] (VS Code) | <% if (language == "en" || githubpublish) { %>`.vscode/ltex.dictionary.en-US.txt`<% } %><% if (githubpublish) { %>, <% } %><% if (language == "de" || githubpublish) { %>`.vscode/ltex.dictionary.de-DE.txt`<% } %>; "Add to dictionary" in VS Code writes there |
+| [typos](https://github.com/crate-ci/typos) (CI job `typos`) | `.typos.toml`, section `[default.extend-words]`, e.g., `Heros = "Heros"`; only needed if typos reports the word |
 <% switch (documentclass) { case "lncs": -%>
 
 ### Q: Overleaf outputs a warning regarding the llncs class
@@ -978,6 +991,19 @@ For example:
 ```latex
 \foreignlanguage{english}{Therefore, our proposed approach will change the world.}
 ```
+
+### Q: How do I add a word (e.g., the name of a tool) to the spell checkers?
+
+Each spell checker has its own list of accepted words, one word per line:
+
+| Spell checker | Word list |
+| --- | --- |
+| aspell (CI job `spell-check`, `make spellcheck-aspell`) | <% if (language == "en" || githubpublish) { %>`.aspell.en.pws`<% } %><% if (githubpublish) { %> (English), <% } %><% if (language == "de" || githubpublish) { %>`.aspell.de.pws`<% } %><% if (githubpublish) { %> (German)<% } %>; below the first line, without hyphenated words |
+<% if (documentclass != "mwe") { -%>
+| TeXtidote (CI job `textidote`, `make spellcheck-textidote`) | `.textidote.dict` |
+<% } -%>
+| [LTeX+] (VS Code) | <% if (language == "en" || githubpublish) { %>`.vscode/ltex.dictionary.en-US.txt`<% } %><% if (githubpublish) { %>, <% } %><% if (language == "de" || githubpublish) { %>`.vscode/ltex.dictionary.de-DE.txt`<% } %>; "Add to dictionary" in VS Code writes there |
+| [typos](https://github.com/crate-ci/typos) (CI job `typos`) | `.typos.toml`, section `[default.extend-words]`, e.g., `Heros = "Heros"`; only needed if typos reports the word |
 
 <% } -%>
 <% if (githubpublish && (documentclass == "ieee")) { -%>
