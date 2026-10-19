@@ -554,6 +554,14 @@ export default class extends Generator {
       );
     }
 
+    // refenums 2.0.0 (based on zref-clever) is not yet in TeX Live
+    if (this.props.isThesis) {
+      this.fs.copy(
+        this.templatePath("refenums.sty"),
+        this.destinationPath("refenums.sty"),
+      );
+    }
+
     if (this.props.documentclass === "lncs") {
       this.fs.copy(
         this.templatePath("splncs04nat.bst"),
