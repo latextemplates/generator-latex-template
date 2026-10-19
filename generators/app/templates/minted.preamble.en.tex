@@ -38,9 +38,25 @@
 % \AtBeginEnvironment{listing}{\setcounter{listing}{\value{lstlisting}}}
 % \AtEndEnvironment{listing}{\stepcounter{lstlisting}}
 
-% Intermediate solution for hyperlinked refs. See https://tex.stackexchange.com/q/132420/9075 for more information.
-\newcommand{\labelline}[1]{\label<% if (crossref == 'cleveref') { %>[line]<% } %>{#1}\hypertarget{#1}{}}
-\newcommand{\refline}[1]{\hyperlink{#1}{\FancyVerbLineautorefname~\ref*{#1}}}
+% Enable \label in listing lines (via escapeinside) and referencing them using <%- cref %>, e.g., "Line 2".
+% fancyvrb steps the line counter without \refstepcounter: no counter for <%- cref %> and no target for the hyperlink.
+% See https://github.com/gusbrs/zref-clever/issues/65 and https://tex.stackexchange.com/q/132420/9075.
+\makeatletter
+\def\FV@refstepcounter#1{%
+  \refstepcounter{#1}%
+  \protected@edef\@currentlabel{\csname p@#1\endcsname\arabic{#1}}%
+<% if (crossref == 'cleveref') { -%>
+  \protected@edef\cref@currentlabel{[#1][\arabic{#1}][]\arabic{#1}}%
+  % keeps the LaTeX kernel from rebuilding \cref@currentlabel with \theFancyVerbLine (small font)
+  \let\@currentcounter\@empty
+<% } -%>
+}
+% Unique hyperlink targets in each listing
+\newcounter{FancyVerbListing}
+\let\FV@StepLineNo@orig\FV@StepLineNo
+\def\FV@StepLineNo{\stepcounter{FancyVerbListing}\FV@StepLineNo@orig}
+\def\theHFancyVerbLine{\arabic{FancyVerbListing}.\arabic{FancyVerbLine}}
+\makeatother
 <% if (documentclass == "ustutt") { -%>
 
 % Zeilennummern innerhalb vom Rand:

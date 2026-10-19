@@ -26,6 +26,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - IEEE: the example tables are tables (caption "TABLE I" above) instead of figures.
 - Papers: the minted variant keeps the caption style of the document class (the `caption` package is no longer loaded).
 - Examples: the caption of the cross-reference example table is above the table.
+- minted: listing lines are labeled with `\label` and referenced with `\zcref` (or `\cref`) like everything else (`\labelline`, `\refline`, `\llabel`, and `\lref` removed).
 - Theses: each chapter is a file in `chapters-en/` or `chapters-de/` (`NN - <name>.tex`, numbered in steps of 10), included by the main file.
 - Theses: a short README.md in `chapters-en/` and `chapters-de/`.
 - Theses: the parts of the writing hints (background, problem exposition, …, evaluation) are chapters.
