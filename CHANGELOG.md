@@ -40,6 +40,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - CI and `make spellcheck`: aspell and TeXtidote run in the [Docker image by DANTE e.V.](https://hub.docker.com/r/danteev/texlive).
 - The DANTE e.V. image is `2026-C`.
 - README.md: FAQ on adding words (e.g., names of tools) to the spell checkers.
+- README.md: how to run the `make` targets in Docker without a local `make`.
 - README.md: link to the LaTeX snippets moved to the introduction.
 - README.md: "Disabled features" is a subsection of "Benefits".
 - README.md (also the German one) and `docs/latex-setup.md`: markdownlint findings fixed.
