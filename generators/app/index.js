@@ -783,7 +783,7 @@ export default class extends Generator {
     );
     this.fs.copyTpl(
       this.templatePath("dot.typos.toml"),
-      this.destinationPath("_typos.toml"),
+      this.destinationPath(".typos.toml"),
       this.props,
     );
     this.fs.copyTpl(
