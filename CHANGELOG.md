@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Changed
+
+- Theses: `docs/latex-setup.md` recommends Docker and VS Code first (linking to the README) and lists TeXstudio as the last alternative.
+
 ## [2026.10.19]
 
 ### Added
