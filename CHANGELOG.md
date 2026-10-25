@@ -16,7 +16,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - Theses: `docs/latex-setup.md` recommends Docker and VS Code first (linking to the README) and lists TeXstudio as the last alternative.
 - Theses: `docs/latex-setup.md` no longer mentions Ubuntu 16.04.
-- Theses: `docs/latex-setup.md` recommends the JabRef beta version instead of the outdated 5.15.
+- The README and, for theses, `docs/latex-setup.md` recommend the JabRef beta version instead of the outdated 5.15.
 
 ## [2026.10.19]
 
