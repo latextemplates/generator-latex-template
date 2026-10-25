@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- Papers: the README FAQ explains how to clean the sources for arXiv with [arxiv-latex-cleaner](https://github.com/google-research/arxiv-latex-cleaner). [#342](https://github.com/latextemplates/generator-latex-template/issues/342)
 - Progress bars below headings (`\progress{60}`, using [progressbar](https://ctan.org/pkg/progressbar)) show how far each chapter is written: enabled in theses, as commented-out lines in papers. [#359](https://github.com/latextemplates/generator-latex-template/issues/359)
 - `scientific-thesis`: a commented-out line switches to serif headings (classic English book style).
 - Theses load [fewerfloatpages](https://ctan.org/pkg/fewerfloatpages) to avoid underfull float pages. [#370](https://github.com/latextemplates/generator-latex-template/issues/370)
