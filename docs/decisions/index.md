@@ -26,3 +26,4 @@ General pros and cons of LaTeX packages for typical problems are in [gadr-latex-
 - [ADR-0013](0013-use-lualatex-as-default.md) - Use lualatex as default
 - [ADR-0014](0014-use-zref-clever-for-cross-references.md) - Use zref-clever for cross-references
 - [ADR-0015](0015-use-progressbar-for-writing-progress.md) - Use progressbar to show the writing progress
+- [ADR-0016](0016-no-hint-output-yet.md) - Do not offer HINT output yet
