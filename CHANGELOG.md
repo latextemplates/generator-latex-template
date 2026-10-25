@@ -17,7 +17,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- `scientific-thesis`: the page number is typeset in a smaller font.
+- `scientific-thesis`: the running header and the page number are typeset in a smaller font.
 - Theses: `docs/latex-setup.md` recommends Docker and VS Code first (linking to the README) and lists TeXstudio as the last alternative.
 - Theses: `docs/latex-setup.md` no longer mentions Ubuntu 16.04.
 - The README and, for theses, `docs/latex-setup.md` recommend the JabRef beta version instead of the outdated 5.15.
