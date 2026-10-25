@@ -1,7 +1,14 @@
 % Avoid orphans and widows (a single line of a paragraph left at the bottom or top
-% of a page). Using a package feels less hacky than tuning \clubpenalty and
-% \widowpenalty manually.
-\usepackage[all,defaultlines=3]{nowidow}
+% of a page).
+\ifdefined\directlua
+  % LuaLaTeX: lua-widow-control removes them by lengthening or shortening a paragraph
+  % by one line, instead of leaving an empty line at the bottom of the page.
+  \usepackage{lua-widow-control}
+\else
+  % pdfLaTeX: nowidow sets \clubpenalty and \widowpenalty; using a package feels less
+  % hacky than tuning them manually.
+  \usepackage[all,defaultlines=3]{nowidow}
+\fi
 
 % Avoid a widow line being split off a displayed equation.
 \displaywidowpenalty=10000

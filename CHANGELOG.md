@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- LuaLaTeX: [linebreaker](https://ctan.org/pkg/linebreaker) sets a paragraph again with more tolerance when a line would run into the margin. [#92](https://github.com/latextemplates/generator-latex-template/issues/92)
 - README: "Further information" links the often referenced questions on TeX.SE and Barbara Beeton's "What every LaTeX newbie should know". [#173](https://github.com/latextemplates/generator-latex-template/issues/173)
 - Papers: the README FAQ explains how to clean the sources for arXiv with [arxiv-latex-cleaner](https://github.com/google-research/arxiv-latex-cleaner). [#342](https://github.com/latextemplates/generator-latex-template/issues/342)
 - Progress bars below headings (`\progress{60}`, using [progressbar](https://ctan.org/pkg/progressbar)) show how far each chapter is written: enabled in theses, as commented-out lines in papers. [#359](https://github.com/latextemplates/generator-latex-template/issues/359)
@@ -20,6 +21,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
+- LuaLaTeX: widows and orphans are removed by [lua-widow-control](https://ctan.org/pkg/lua-widow-control), which lengthens or shortens a paragraph by one line instead of leaving an empty line at the bottom of the page; pdfLaTeX keeps [nowidow](https://ctan.org/pkg/nowidow). [#92](https://github.com/latextemplates/generator-latex-template/issues/92)
 - Long URLs may break after any character ([xurl](https://ctan.org/pkg/xurl)), so they no longer run into the margin. [#133](https://github.com/latextemplates/generator-latex-template/issues/133)
 - `scientific-thesis`: the running header and the page number are typeset in a smaller font.
 - Theses: `docs/latex-setup.md` recommends Docker and VS Code first (linking to the README) and lists TeXstudio as the last alternative.
