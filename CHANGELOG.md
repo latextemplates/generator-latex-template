@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- Templates with Docker-based compilation ship a `.devcontainer/devcontainer.json`: VS Code (Dev Containers) and GitHub Codespaces work inside the TeX Live image, without a local LaTeX installation. [#437](https://github.com/latextemplates/generator-latex-template/issues/437)
 - Papers: the README's "Further information" links the LaTeX setup guide of the scientific-thesis-template, since a paper template can be a student's first contact with LaTeX.
 
 ### Changed
