@@ -24,6 +24,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - Theses: `docs/latex-setup.md` no longer mentions Ubuntu 16.04.
 - The README and, for theses, `docs/latex-setup.md` recommend the JabRef beta version instead of the outdated 5.15.
 
+### Removed
+
+- The [spelling](https://ctan.org/pkg/spelling) package is no longer loaded: it was switched off, and its text export breaks words at ligatures. Spell checking stays with aspell, LTeX+, TeXtidote, and typos.
+
 ## [2026.10.19]
 
 ### Added
