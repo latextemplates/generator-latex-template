@@ -8,9 +8,14 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Papers: the README's "Further information" links the LaTeX setup guide of the scientific-thesis-template, since a paper template can be a student's first contact with LaTeX.
+
 ### Changed
 
 - Theses: `docs/latex-setup.md` recommends Docker and VS Code first (linking to the README) and lists TeXstudio as the last alternative.
+- Theses: `docs/latex-setup.md` no longer mentions Ubuntu 16.04.
 
 ## [2026.10.19]
 
