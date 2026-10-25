@@ -20,6 +20,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
+- Long URLs may break after any character ([xurl](https://ctan.org/pkg/xurl)), so they no longer run into the margin. [#133](https://github.com/latextemplates/generator-latex-template/issues/133)
 - `scientific-thesis`: the running header and the page number are typeset in a smaller font.
 - Theses: `docs/latex-setup.md` recommends Docker and VS Code first (linking to the README) and lists TeXstudio as the last alternative.
 - Theses: `docs/latex-setup.md` no longer mentions Ubuntu 16.04.
