@@ -27,3 +27,5 @@ General pros and cons of LaTeX packages for typical problems are in [gadr-latex-
 - [ADR-0014](0014-use-zref-clever-for-cross-references.md) - Use zref-clever for cross-references
 - [ADR-0015](0015-use-progressbar-for-writing-progress.md) - Use progressbar to show the writing progress
 - [ADR-0016](0016-use-xurl-for-url-line-breaks.md) - Use xurl to break long URLs
+- [ADR-0017](0017-use-linebreaker-against-overfull-lines.md) - Use linebreaker against overfull lines
+- [ADR-0018](0018-use-lua-widow-control-against-widows-and-orphans.md) - Use lua-widow-control against widows and orphans
