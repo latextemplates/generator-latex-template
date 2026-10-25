@@ -414,11 +414,8 @@ The image does not contain <%= (uml == "plantuml") ? "PlantUML" : "the Mermaid C
    ```
 
 1. Optional: Let VS Code compile in the container, see ["VS Code configuration"](#vs-code-configuration).
-<% if (dockerCompile) { -%>
 
-Alternatively, work completely inside the container: open this folder in VS Code with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) and choose "Reopen in Container", or open the repository in [GitHub Codespaces](https://github.com/features/codespaces) (no local installation at all).
-The configuration is in `.devcontainer/devcontainer.json`; it installs the recommended VS Code extensions, and LaTeX Workshop compiles directly in the container.
-<% } -%>
+No Docker at hand? Open the repository in [GitHub Codespaces](https://github.com/features/codespaces) and compile in the browser.
 <% switch (docker) { case "reitzig": -%>
 
 Alternatively, use the generated `Dockerfile`, which is based on the [Dockerfile by reitzig](https://github.com/reitzig/texlive-docker).
