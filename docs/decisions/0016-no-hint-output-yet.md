@@ -33,7 +33,7 @@ Chosen option: "Wait for HiTeX and revisit", because HiTeX cannot process the te
 
 Revisit when all of the following hold:
 
-* HiTeX's hash table takes at least ~120,000 control sequences (today fixed at 45,000; the `scientific-thesis` template needs 111,616).
+* HiTeX's hash table takes at least ~120,000 control sequences (today fixed at 45,000; the `scientific-thesis` template needs 111,616; reported as [HINT#38](https://github.com/ruckertm/HINT/issues/38)).
 * TeX Live builds `hilatex.fmt` out of the box (TeX Live 2026 does not list `hilatex` in `fmtutil.cnf`, and building it by hand fails, see below).
 * The `hitex.def` driver for `graphics`/`color` is in TeX Live (today only in the [HINT repository](https://github.com/ruckertm/HINT/tree/main/hilatex/base)).
 
@@ -46,7 +46,7 @@ Measured on 2026-10-25 with the `texlive/texlive:latest` (TeX Live 2026) and `is
   Any template with `biblatex` or `tcolorbox` is over the limit.
 * TeX Live 2026 (HiTeX 2.0): `hitex -ini -etex -ltx -jobname=hilatex hilatex.ini` fails with 100 errors.
   HiTeX defines `\Umathcode`, so expl3 takes its Unicode-engine path, but `\c_max_char_int` stays 255: `Charcode requested out of engine range` while reading `UnicodeData.txt`.
-  With `\Umathcode` hidden, `fontmath.ltx` fails next: this HiTeX build evaluates `\if\relax\noexpand\alpha` as false (pdfTeX and HiTeX in TeX Live 2025 and 2022: true), which breaks `\DeclareMathSymbol`.
+  With `\Umathcode` hidden, `fontmath.ltx` fails next: this HiTeX build evaluates `\if\relax\noexpand\alpha` as false (pdfTeX and HiTeX in TeX Live 2025 and 2022: true), which breaks `\DeclareMathSymbol` (reported as [HINT#37](https://github.com/ruckertm/HINT/issues/37)).
 * TeX Live 2025 (HiTeX 2.1): the same command builds `hilatex.fmt` without errors. A minimal `article` with `hyperref`, `xcolor`, and `graphicx` (PNG) compiles to `.hnt`; `hyperref` picks its `hhitex.def` driver itself, `graphics`/`color` need `hitex.def`, `graphics.cfg`, and `color.cfg` copied from the HINT repository.
 * Not supported by HiTeX or without a driver: `microtype`, `pdfcomment`, `pdflscape`, `pgf` (falls back to `dvips` specials), floats (per the [upstream test notes](https://github.com/ruckertm/HINT/blob/main/hilatex/tests/README.md)), external links.
 * Reading `.hnt` files needs the HintView app (Windows, macOS, Linux, Android, iOS); no browser or PDF viewer opens them.
