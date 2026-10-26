@@ -32,6 +32,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - The [spelling](https://ctan.org/pkg/spelling) package is no longer loaded: it was switched off, and its text export breaks words at ligatures. Spell checking stays with aspell, LTeX+, TeXtidote, and typos.
 
+### Fixed
+
+- latexmk no longer reruns LaTeX because the recorder file (`.fls`) changed, which could end in exit code 12 without any error in the log (seen with `pdfcomment` under LuaLaTeX): the generated `.latexmkrc` ignores the `.fls` that currfile's `realmainfile` option reads.
+
 ## [2026.10.19]
 
 ### Added
