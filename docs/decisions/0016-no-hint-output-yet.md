@@ -47,7 +47,7 @@ Measured on 2026-10-25 with the `texlive/texlive:latest` (TeX Live 2026) and `is
 * TeX Live 2026 (HiTeX 2.0): `hitex -ini -etex -ltx -jobname=hilatex hilatex.ini` fails with 100 errors.
   HiTeX defines `\Umathcode`, so expl3 takes its Unicode-engine path, but `\c_max_char_int` stays 255: `Charcode requested out of engine range` while reading `UnicodeData.txt`.
   With `\Umathcode` hidden, `fontmath.ltx` fails next: this HiTeX build evaluates `\if\relax\noexpand\alpha` as false (pdfTeX and HiTeX in TeX Live 2025 and 2022: true), which breaks `\DeclareMathSymbol` (reported as [HINT#37](https://github.com/ruckertm/HINT/issues/37)).
-* TeX Live 2025 (HiTeX 2.1): the same command builds `hilatex.fmt` without errors. A minimal `article` with `hyperref`, `xcolor`, and `graphicx` (PNG) compiles to `.hnt`; `hyperref` picks its `hhitex.def` driver itself, `graphics`/`color` need `hitex.def`, `graphics.cfg`, and `color.cfg` copied from the HINT repository.
+* TeX Live 2025 (HiTeX banner `3.141592653-2.6-2.1`, i.e. HINT format 2.1; the program version is older than 2.0): the same command builds `hilatex.fmt` without errors. A minimal `article` with `hyperref`, `xcolor`, and `graphicx` (PNG) compiles to `.hnt`; `hyperref` picks its `hhitex.def` driver itself, `graphics`/`color` need `hitex.def`, `graphics.cfg`, and `color.cfg` copied from the HINT repository.
 * Not supported by HiTeX or without a driver: `microtype`, `pdfcomment`, `pdflscape`, `pgf` (falls back to `dvips` specials), floats (per the [upstream test notes](https://github.com/ruckertm/HINT/blob/main/hilatex/tests/README.md)), external links.
 * Reading `.hnt` files needs the HintView app (Windows, macOS, Linux, Android, iOS); no browser or PDF viewer opens them.
 
