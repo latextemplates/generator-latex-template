@@ -219,9 +219,10 @@ auto-closes. `check.yml` IS generated → handle it here in the generator.
 
 When a template's `update-ltg` PR shows a bot regeneration, decide CHANGELOG entries
 **semantically** — the bot can't tell which regenerated lines are user-facing (this is a
-Claude step, not a mechanical copy). Add the entries **after** the `Update Files` bot pushed
-its regeneration commit, and `git pull --rebase` first — the bot pushes on every push to
-`update-ltg`, so a push that races it is rejected. A release renames `## [Unreleased]`
+Claude step, not a mechanical copy). No need to wait for the `Update Files` bot: its push
+step retries `git pull --rebase; git push`, and a new push cancels its running job and
+restarts it — just `git pull --rebase` before your own push (it is rejected if the bot
+pushed in between). A release renames `## [Unreleased]`
 without adding an empty one, so the first entry of a cycle re-adds the heading above the
 latest version. Then **mirror where appropriate**:
 

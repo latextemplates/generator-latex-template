@@ -26,6 +26,11 @@ the feature vanishes for some switch combination without any error.
    `<% if (examples) %>`); package loads go in the preamble area. Guard each with the
    right condition (`isThesis`, a switch value, …) — and gate an example to where the
    config that makes it compile is present.
+2a. **Package choice → ADR.** When you pick one package over alternatives (e.g.
+   `progressbar` over `progress`), record it as a new ADR in `docs/decisions/` (MADR,
+   add it to `index.md`) and add or update the matching GADR in the sibling
+   `gadr-latex-packages` repo (see the root `CLAUDE.md`, "Repo roles"); the ADR links the GADR.
+   Example: ADR-0015 and `gadr-latex-packages/progress-bars.md`.
 3. **`Texlivefile`** — add the TeX Live package name, guarded (usually
    `githubpublish || <condition>`; `githubpublish` deliberately bundles everything).
 4. **Shell-escape is derived, never hardcoded.** It is the boolean

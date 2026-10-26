@@ -1,0 +1,17 @@
+<% const c = isThesis ? '' : '% ' -%>
+% Show how far each chapter or section is written:
+% \progress{60} below a heading draws a bar filled to 60 %.
+% Set \showprogressfalse to hide all bars, e.g., for the submitted version.
+<% if (!isThesis) { -%>
+% To use it, uncomment the following lines.
+<% } -%>
+<%= c %>\usepackage{progressbar}
+<%= c %>\newif\ifshowprogress
+<%= c %>\showprogresstrue
+<%= c %>\newcommand{\progress}[1]{%
+<%= c %>  \ifshowprogress
+<%= c %>    \par\vspace{-.5\baselineskip}%
+<%= c %>    {\parfillskip=0pt\noindent\progressbar[width=\linewidth,heighta=4pt,borderwidth=0.4pt,subdivisions=4,filledcolor=black!50]{\fpeval{#1/100}}\par}%
+<%= c %>  \fi
+<%= c %>}
+

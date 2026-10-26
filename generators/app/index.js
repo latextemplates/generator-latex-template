@@ -770,6 +770,13 @@ export default class extends Generator {
         break;
     }
 
+    // GitHub Codespaces (and VS Code Dev Containers): work inside the image, no local LaTeX installation
+    this.fs.copyTpl(
+      this.templatePath(".devcontainer/devcontainer.json"),
+      this.destinationPath(".devcontainer/devcontainer.json"),
+      this.props,
+    );
+
     if (this.props.isThesis) {
       this.fs.copy(this.templatePath("docs/*"), this.destinationPath("docs/"));
     }

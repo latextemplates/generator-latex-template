@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- LuaLaTeX: [linebreaker](https://ctan.org/pkg/linebreaker) sets a paragraph again with more tolerance when a line would run into the margin. [#92](https://github.com/latextemplates/generator-latex-template/issues/92)
+- README: "Further information" links the often referenced questions on TeX.SE and Barbara Beeton's "What every LaTeX newbie should know". [#173](https://github.com/latextemplates/generator-latex-template/issues/173)
+- Papers: the README FAQ explains how to clean the sources for arXiv with [arxiv-latex-cleaner](https://github.com/google-research/arxiv-latex-cleaner). [#342](https://github.com/latextemplates/generator-latex-template/issues/342)
+- Progress bars below headings (`\progress{60}`, using [progressbar](https://ctan.org/pkg/progressbar)) show how far each chapter is written: enabled in theses, as commented-out lines in papers. [#359](https://github.com/latextemplates/generator-latex-template/issues/359)
+- `scientific-thesis`: a commented-out line switches to serif headings (classic English book style).
+- Theses load [fewerfloatpages](https://ctan.org/pkg/fewerfloatpages) to avoid underfull float pages. [#370](https://github.com/latextemplates/generator-latex-template/issues/370)
+- `.devcontainer/devcontainer.json`: the templates can be opened in GitHub Codespaces (or VS Code Dev Containers) to work inside the TeX Live image, without any local installation. [#437](https://github.com/latextemplates/generator-latex-template/issues/437)
+- Papers: the README's "Further information" links the LaTeX setup guide of the scientific-thesis-template, since a paper template can be a student's first contact with LaTeX.
+
+### Changed
+
+- LuaLaTeX: widows and orphans are removed by [lua-widow-control](https://ctan.org/pkg/lua-widow-control), which lengthens or shortens a paragraph by one line instead of leaving an empty line at the bottom of the page; pdfLaTeX keeps [nowidow](https://ctan.org/pkg/nowidow). [#92](https://github.com/latextemplates/generator-latex-template/issues/92)
+- Long URLs may break after any character ([xurl](https://ctan.org/pkg/xurl)), so they no longer run into the margin. [#133](https://github.com/latextemplates/generator-latex-template/issues/133)
+- `scientific-thesis`: the running header and the page number are typeset in a smaller font.
+- Theses: `docs/latex-setup.md` recommends Docker and VS Code first (linking to the README) and lists TeXstudio as the last alternative.
+- Theses: `docs/latex-setup.md` no longer mentions Ubuntu 16.04.
+- The README and, for theses, `docs/latex-setup.md` recommend the JabRef beta version instead of the outdated 5.15.
+
+### Removed
+
+- The [spelling](https://ctan.org/pkg/spelling) package is no longer loaded: it was switched off, and its text export breaks words at ligatures. Spell checking stays with aspell, LTeX+, TeXtidote, and typos.
+
+### Fixed
+
+- latexmk no longer reruns LaTeX because the recorder file (`.fls`) changed, which could end in exit code 12 without any error in the log (seen with `pdfcomment` under LuaLaTeX): the generated `.latexmkrc` ignores the `.fls` that currfile's `realmainfile` option reads.
+
 ## [2026.10.19]
 
 ### Added
