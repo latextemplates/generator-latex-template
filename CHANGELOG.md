@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- `lncs`: a commented-out block sets all footnotes of a page side by side in one paragraph to save space ([footmisc](https://ctan.org/pkg/footmisc) option `para`, LuaLaTeX only). [lncs-enhanced#20](https://github.com/latextemplates/lncs-enhanced/issues/20)
+
 ## [2026.10.26]
 
 ### Added
