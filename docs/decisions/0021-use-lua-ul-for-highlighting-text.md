@@ -21,7 +21,7 @@ pdfLaTeX documents keep `\colorbox` (unchanged behavior), as LuaLaTeX is the def
 ### Consequences
 
 * Good, because a highlighted passage of any length is fine with LuaLaTeX.
-* Bad, because luacolor replaces the color stack by attributes; no interference with hyperref, minted, pgfplots, tcolorbox or pdfcomment showed up in the lncs example.
+* Neutral, because luacolor changes how LuaTeX produces colors: it tags glyphs and rules with an attribute instead of writing color-stack specials. A package that drives the color stack itself could disagree with that; in the compiled lncs example, hyperref, minted, pgfplots, tcolorbox and pdfcomment rendered as before.
 
 ## More Information
 
