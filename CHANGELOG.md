@@ -16,6 +16,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - `lncs`: `\citet` with two authors reads "A und B" in German papers; `splncs04nat.bst` writes `\andname{}`, a babel caption registered with `\setlocalecaption`. [lncs-enhanced#18](https://github.com/latextemplates/lncs-enhanced/issues/18)
+- `\textcomment`: the highlighted text breaks across lines with LuaLaTeX ([lua-ul](https://ctan.org/pkg/lua-ul)); pdfLaTeX keeps the unbreakable `\colorbox`. [lncs-enhanced#15](https://github.com/latextemplates/lncs-enhanced/issues/15)
 
 ## [2026.10.26]
 
