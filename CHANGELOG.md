@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- README: an "Advanced quick start" sets up the document as a git repository with the template as remote, so template updates can be merged later; the FAQ on synchronizing updates points to it.
 - `lncs`: a commented-out block sets all footnotes of a page side by side in one paragraph to save space ([footmisc](https://ctan.org/pkg/footmisc) option `para`, LuaLaTeX only). [lncs-enhanced#20](https://github.com/latextemplates/lncs-enhanced/issues/20)
 - LaTeX hints: how to polish a single paragraph with `\looseness` once the text is final. [lncs-enhanced#14](https://github.com/latextemplates/lncs-enhanced/issues/14)
 
