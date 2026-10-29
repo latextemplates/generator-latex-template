@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- Thesis: the citation example cites a master's thesis and explains the entry types for theses (`@MastersThesis`, `@Thesis` with `type`). [scientific-thesis-template#33](https://github.com/latextemplates/scientific-thesis-template/issues/33)
 - Tables: `\tablefootnote` for footnotes inside floating tables ([tablefootnote](https://ctan.org/pkg/tablefootnote)), with an example. [scientific-thesis-template#91](https://github.com/latextemplates/scientific-thesis-template/issues/91)
 - Thesis README: FAQ on section headings sticking out into the left margin. [scientific-thesis-template#91](https://github.com/latextemplates/scientific-thesis-template/issues/91)
 - README: an "Advanced quick start" sets up the document as a git repository with the template as remote, so template updates can be merged later; the FAQ on synchronizing updates points to it.
@@ -22,6 +23,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- German theses: the bibliography heading reads "Literaturverzeichnis", a cited master's thesis "Masterarbeit" (biblatex's default "Magisterarbeit"), and back references "zitiert auf S."; the German biblatex settings were never included. [scientific-thesis-template#57](https://github.com/latextemplates/scientific-thesis-template/issues/57)
 - `lncs`: `\citet` with two authors reads "A und B" in German papers; `splncs04nat.bst` writes `\andname{}`, a babel caption registered with `\setlocalecaption`. [lncs-enhanced#18](https://github.com/latextemplates/lncs-enhanced/issues/18)
 - `\textcomment`: the highlighted text breaks across lines with LuaLaTeX ([lua-ul](https://ctan.org/pkg/lua-ul)); pdfLaTeX keeps the unbreakable `\colorbox`. [lncs-enhanced#15](https://github.com/latextemplates/lncs-enhanced/issues/15)
 - Thesis documents (`scientific-thesis`, `ustutt`, `mwe`): the space of a table caption is now between caption and table, not above the caption (KOMA-Script option `captions=tableheading`). [scientific-thesis-template#86](https://github.com/latextemplates/scientific-thesis-template/issues/86)
