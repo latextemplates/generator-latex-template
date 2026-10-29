@@ -21,7 +21,7 @@ The template shows them both as LaTeX source and as rendered output.
 * [`showexpl`](https://ctan.org/pkg/showexpl)
 * [`latexdemo`](https://ctan.org/pkg/latexdemo)
 * `tkzexample` (part of [`tkz-doc`](https://ctan.org/pkg/tkz-doc))
-* `fancyvrb-ex` (part of [`facnyvrb`](https://ctan.org/pkg/fancyvrb))
+* `fancyvrb-ex` (part of [`fancyvrb`](https://ctan.org/pkg/fancyvrb))
 * [`sverb`](https://www.ctan.org/pkg/sverb)
 * `lstdoc` (part of [`listings`](https://www.ctan.org/pkg/listings))
 * `ydoc-expl` (part of [`ydoc`](https://www.ctan.org/pkg/ydoc))
@@ -72,6 +72,8 @@ Hint: The LuxiMono package generates bold typewriter keywords (hint by listings 
 * Bad, because [does not support referencing inside the environment](https://github.com/rolfn/showexpl/issues/5)
 
 ### tcolorbox, latexdemo, tkzexample, fancyvrb-ex
+
+`fancyvrb-ex` defines example environments that set input code and output side by side or on top of each other; the fancyvrb documentation itself uses them.
 
 * Good, because nice boxes
 * Bad, because all of them do not support floating environments
