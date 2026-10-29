@@ -16,7 +16,8 @@ How to keep the PDF small without asking authors to prepare their images?
 
 Chosen option: "graphicscache, loaded only when shell escape is enabled", because it works on the unchanged sources and needs no knob: it re-encodes each image once through Ghostscript (lossless `compress=flat`, at most 300 dpi) and caches the result in `graphicscache/`, so later runs are as fast as before.
 The package needs `\write18` for Ghostscript and an external `pdflatex`, so the preamble loads it only under `--shell-escape` (`\sys_if_shell_unrestricted:T`); a plain run embeds the images as before.
-Its `compress=flat` option spells the Ghostscript filter "FlatEncode", which Ghostscript rejects; the preamble corrects it to `FlateEncode` after loading.
+Its `compress=flat` option spells the Ghostscript filter "FlatEncode", which Ghostscript rejects; the preamble corrects it to `FlateEncode` after loading (reported as [xqms/graphicscache#30](https://github.com/xqms/graphicscache/issues/30)).
+It also does not know graphicx's `alt` key, which the markdown package sets; the preamble forwards it ([xqms/graphicscache#29](https://github.com/xqms/graphicscache/issues/29)).
 
 ### Consequences
 
