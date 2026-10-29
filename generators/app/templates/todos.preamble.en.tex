@@ -44,7 +44,14 @@
 <% break; case "todonotes": -%>
 \usepackage[color=gray!17]{todonotes}
 \let\xtodo\todo
+<% if (isThesis) { -%>
+% Inline TODOs as a titled box, which stands out in a long text
+\usepackage{tcolorbox}
+\newtcolorbox{todobox}{colback=yellow!8,colframe=brown!60!black,fonttitle=\bfseries,title=TODO}
+\renewcommand{\todo}[1]{\begin{todobox}#1\end{todobox}}
+<% } else { -%>
 \renewcommand{\todo}[1]{\xtodo[inline,color=black!5]{#1}}
+<% } -%>
 \newcommand{\todofix}[1]{\xtodo[color=red!40]{#1}}
 
 <% break; default: -%>
@@ -67,3 +74,16 @@
 
 % Modified (Text blau)
 \newcommand{\modified}[1]{{\color{blue!60!black} #1}\xspace}
+
+% Edits and comments by several authors (phfcc): \FA{added text}, \FA*{text to remove}, \FA[a comment],
+% \FA!{important}; the initials appear once per page in the margin. Define one command per author.
+% Doc: https://ctan.org/pkg/phfcc
+\usepackage{phfcc}
+\ifdefined\directlua
+  \phfSetDefaultCommentingStyle{style=rmstrikethrough} % strike through removed text across lines (LuaLaTeX only)
+\fi
+% Comments as footnotes keep the layout intact, e.g., to check page limits
+%\phfSetDefaultCommentingStyle{style=footcomments}
+\phfMakeCommentingCommand[initials={FA}]{FA} % first author
+% Final version: hide all edits and comments
+%\phfDisableCommentingCommands
