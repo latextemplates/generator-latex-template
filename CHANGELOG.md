@@ -19,7 +19,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
-- The list of abbreviations (thesis documents) and the acronym list (`mwe`) are sorted by TeX itself (`\makenoidxglossaries`); no `makeglossaries` run is needed, so the list also appears when compiling without latexmk. [scientific-thesis-template#43](https://github.com/latextemplates/scientific-thesis-template/issues/43)
+- The list of abbreviations (thesis documents) and the acronym list (`mwe`) are sorted by TeX itself (`\makenoidxglossaries`); no `makeglossaries` run is needed, so the list also appears when compiling without latexmk; `.latexmkrc` no longer calls `makeglossaries-lite`. [scientific-thesis-template#43](https://github.com/latextemplates/scientific-thesis-template/issues/43)
 
 ### Fixed
 
