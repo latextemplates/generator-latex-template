@@ -33,3 +33,4 @@ General pros and cons of LaTeX packages for typical problems are in [gadr-latex-
 - [ADR-0020](0020-use-impnattypo-against-short-last-lines.md) - Use impnattypo against short last lines
 - [ADR-0021](0021-use-lua-ul-for-highlighting-text.md) - Use lua-ul for highlighting text
 - [ADR-0022](0022-use-tablefootnote-for-footnotes-in-tables.md) - Use tablefootnote for footnotes in tables
+- [ADR-0023](0023-use-graphicscache-to-shrink-images.md) - Use graphicscache to shrink images
