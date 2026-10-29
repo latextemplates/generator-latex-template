@@ -10,7 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
-- Thesis: the citation example cites a master's thesis and explains the entry types for theses (`@MastersThesis`, `@Thesis` with `type`). [scientific-thesis-template#33](https://github.com/latextemplates/scientific-thesis-template/issues/33)
+- Thesis: the citation example cites a master's and a doctoral thesis and explains the entry types for theses (`@MastersThesis`, `@Thesis` with `type`). [scientific-thesis-template#33](https://github.com/latextemplates/scientific-thesis-template/issues/33)
 - Tables: `\tablefootnote` for footnotes inside floating tables ([tablefootnote](https://ctan.org/pkg/tablefootnote)), with an example. [scientific-thesis-template#91](https://github.com/latextemplates/scientific-thesis-template/issues/91)
 - Thesis README: FAQ on section headings sticking out into the left margin. [scientific-thesis-template#91](https://github.com/latextemplates/scientific-thesis-template/issues/91)
 - README: an "Advanced quick start" sets up the document as a git repository with the template as remote, so template updates can be merged later; the FAQ on synchronizing updates points to it.
