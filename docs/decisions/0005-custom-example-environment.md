@@ -28,6 +28,7 @@ The template shows them both as LaTeX source and as rendered output.
 * [`gincltex`](https://ctan.org/pkg/gincltex)
 * [`minted`](https://ctan.org/pkg/minted)
 * Self-made with [standalone](https://ctan.org/pkg/standalone) package
+* [`codemwe`](https://ctan.org/pkg/codemwe)
 
 See also
 
@@ -101,5 +102,14 @@ The source code contains the `example` environment (taken from <http://blog.kars
 
 * Good, because complete documents can be typeset
 * Bad, because it requires -write-18
+
+### codemwe
+
+New on CTAN in October 2026, after this decision.
+Typesets code and result from one source, side by side or stacked, and writes a standalone, compilable MWE file for each example.
+
+* Good, because each example also exists as a minimal working example file
+* Bad, because the result is set in a `tcolorbox`, so floating environments do not work inside (same as `tcolorbox`)
+* Bad, because syntax highlighting needs `minted` and thus `--shell-escape`
 
 <!-- markdownlint-disable-file MD013 -->
