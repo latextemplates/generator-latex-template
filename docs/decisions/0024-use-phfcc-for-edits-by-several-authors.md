@@ -18,7 +18,7 @@ How to mark edits and comments by several authors?
 Chosen option: "phfcc", because one `\phfMakeCommentingCommand` per author gives a single short command for everything: `\FA{added}`, `\FA*{removed}`, `\FA[comment]`, `\FA!{important}`, with the initials once per page in the margin instead of at every mark, and `\phfDisableCommentingCommands` hides everything for the final version.
 With LuaLaTeX, the `rmstrikethrough` style strikes removed text through across line breaks (lua-ul, which the templates load anyway); the `footcomments` style moves comments into footnotes so that the layout stays intact when checking page limits.
 
-![phfcc: additions, a removal and comments by two authors](0024-phfcc.png)
+![phfcc: an addition, a comment and a removal](0024-phfcc.png)
 
 Separately, the thesis documents with `--todo=todonotes` set inline TODOs as a titled tcolorbox, which stands out in a long text better than todonotes' plain colored bar:
 
