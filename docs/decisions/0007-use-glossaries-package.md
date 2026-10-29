@@ -19,9 +19,9 @@ Chosen option: "glossaries-extra", because seems to be best.
 A discussion on glossaries versus acro: <http://tex.stackexchange.com/questions/309203/glossaries-vs-acro>.
 A pull request switching from acro to glossaries: <https://github.com/latextemplates/scientific-thesis-template/pull/35>.
 
-The list is sorted by an external tool: `makeglossaries` needs Perl, `makeglossaries-lite` (Lua, part of TeX Live) does not.
-Without that run, the list stays empty, which is what broke the template for students in 2016 (<https://github.com/latextemplates/scientific-thesis-template/issues/43>; the hotfix <https://github.com/latextemplates/scientific-thesis-template/pull/45> used `\makenoidxglossaries`, which sorts in TeX).
-The `latexmkrc` of the templates therefore runs `makeglossaries-lite` automatically; Overleaf reads that file, too.
+Sorting: the list is sorted by TeX itself (`\makenoidxglossaries` and `\printnoidxglossary`), so no external tool is needed and the list appears with any build, also without latexmk.
+The external tools (`makeglossaries`, which needs Perl, or `makeglossaries-lite`) sort faster and by language rules, which matters for large glossaries or accented sort keys, not for a list of abbreviations.
+A missing tool run is what broke the template for students in 2016 (<https://github.com/latextemplates/scientific-thesis-template/issues/43>; the hotfix <https://github.com/latextemplates/scientific-thesis-template/pull/45> introduced `\makenoidxglossaries`); the templates returned to it in 2026.
 
 The options and their pros and cons in general: [How to manage acronyms and glossaries](https://github.com/latextemplates/gadr-latex-packages/blob/main/acronyms-and-glossaries.md).
 

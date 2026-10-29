@@ -13,6 +13,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - `lncs`: a commented-out block sets all footnotes of a page side by side in one paragraph to save space ([footmisc](https://ctan.org/pkg/footmisc) option `para`, LuaLaTeX only). [lncs-enhanced#20](https://github.com/latextemplates/lncs-enhanced/issues/20)
 - LaTeX hints: how to polish a single paragraph with `\looseness` once the text is final. [lncs-enhanced#14](https://github.com/latextemplates/lncs-enhanced/issues/14)
 
+### Changed
+
+- The list of abbreviations (thesis documents) and the acronym list (`mwe`) are sorted by TeX itself (`\makenoidxglossaries`); no `makeglossaries` run is needed, so the list also appears when compiling without latexmk. [scientific-thesis-template#43](https://github.com/latextemplates/scientific-thesis-template/issues/43)
+
 ### Fixed
 
 - `lncs`: `\citet` with two authors reads "A und B" in German papers; `splncs04nat.bst` writes `\andname{}`, a babel caption registered with `\setlocalecaption`. [lncs-enhanced#18](https://github.com/latextemplates/lncs-enhanced/issues/18)
