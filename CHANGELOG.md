@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Fixed
+
+- `ustutt`: the footer no longer shows "Inhaltsverzeichnis"/"Contents" or the previous chapter's last section on pages where no section of the current chapter has started yet. [uni-stuttgart-dissertation-template#16](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/16)
+
 ## [2026.10.30]
 
 ### Added
