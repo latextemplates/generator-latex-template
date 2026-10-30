@@ -21,13 +21,14 @@ The template shows them both as LaTeX source and as rendered output.
 * [`showexpl`](https://ctan.org/pkg/showexpl)
 * [`latexdemo`](https://ctan.org/pkg/latexdemo)
 * `tkzexample` (part of [`tkz-doc`](https://ctan.org/pkg/tkz-doc))
-* `fancyvrb-ex` (part of [`facnyvrb`](https://ctan.org/pkg/fancyvrb))
+* `fancyvrb-ex` (part of [`fancyvrb`](https://ctan.org/pkg/fancyvrb))
 * [`sverb`](https://www.ctan.org/pkg/sverb)
 * `lstdoc` (part of [`listings`](https://www.ctan.org/pkg/listings))
 * `ydoc-expl` (part of [`ydoc`](https://www.ctan.org/pkg/ydoc))
 * [`gincltex`](https://ctan.org/pkg/gincltex)
 * [`minted`](https://ctan.org/pkg/minted)
 * Self-made with [standalone](https://ctan.org/pkg/standalone) package
+* [`codemwe`](https://ctan.org/pkg/codemwe)
 
 See also
 
@@ -72,6 +73,8 @@ Hint: The LuxiMono package generates bold typewriter keywords (hint by listings 
 
 ### tcolorbox, latexdemo, tkzexample, fancyvrb-ex
 
+`fancyvrb-ex` defines example environments that set input code and output side by side or on top of each other; the fancyvrb documentation itself uses them.
+
 * Good, because nice boxes
 * Bad, because all of them do not support floating environments
 
@@ -101,5 +104,14 @@ The source code contains the `example` environment (taken from <http://blog.kars
 
 * Good, because complete documents can be typeset
 * Bad, because it requires -write-18
+
+### codemwe
+
+New on CTAN in October 2026, after this decision.
+Typesets code and result from one source, side by side or stacked, and writes a standalone, compilable MWE file for each example.
+
+* Good, because each example also exists as a minimal working example file
+* Bad, because the result is set in a `tcolorbox`, so floating environments do not work inside (same as `tcolorbox`)
+* Bad, because syntax highlighting needs `minted` and thus `--shell-escape`
 
 <!-- markdownlint-disable-file MD013 -->

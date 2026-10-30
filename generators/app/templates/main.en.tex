@@ -94,6 +94,7 @@
   open=any,       % a chapter starts on the next page, not necessarily on a right-hand one
   % For two-sided printing, replace the two lines above by "twoside, open=right,"
   bibliography=totoc,
+  captions=tableheading,  % table captions are set above the table: put the space between caption and table, not above the caption
   % idxtotoc,   % Index ins Inhaltsverzeichnis
   % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
   headsepline,
@@ -114,6 +115,7 @@
   DIV=calc,
   headings=small,
   bibliography=totoc,
+  captions=tableheading,  % table captions are set above the table: put the space between caption and table, not above the caption
   % idxtotoc,   % Index ins Inhaltsverzeichnis
   % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
   listof=totoc,
@@ -173,6 +175,8 @@
 
 <% } -%>
 \usepackage{graphicx}
+
+<%- include('graphicscache.preamble.en.tex', this); -%>
 
 <% if (isThesis) { -%>
 % Base folder, so there is no need to repeat this over and over again.
@@ -827,9 +831,7 @@ The following is typeset for both ustutt and scientific-thesis.
 
 <% } -%>
 % Abbreviations / Acronyms
-\printglossary[type=\acronymtype,title={Abbreviations}]
-% \printglossaries
-% \printnoidxglossaries
+\printnoidxglossary[type=\acronymtype,sort=word,title={Abbreviations}]
 % \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075
 
 \microtypesetup{protrusion=true}

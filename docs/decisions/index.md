@@ -29,3 +29,9 @@ General pros and cons of LaTeX packages for typical problems are in [gadr-latex-
 - [ADR-0016](0016-use-xurl-for-url-line-breaks.md) - Use xurl to break long URLs
 - [ADR-0017](0017-use-linebreaker-against-overfull-lines.md) - Use linebreaker against overfull lines
 - [ADR-0018](0018-use-lua-widow-control-against-widows-and-orphans.md) - Use lua-widow-control against widows and orphans
+- [ADR-0019](0019-use-footmisc-para-for-paragraph-footnotes.md) - Use footmisc para for paragraph footnotes
+- [ADR-0020](0020-use-impnattypo-against-short-last-lines.md) - Use impnattypo against short last lines
+- [ADR-0021](0021-use-lua-ul-for-highlighting-text.md) - Use lua-ul for highlighting text
+- [ADR-0022](0022-use-tablefootnote-for-footnotes-in-tables.md) - Use tablefootnote for footnotes in tables
+- [ADR-0023](0023-use-graphicscache-to-shrink-images.md) - Use graphicscache to shrink images
+- [ADR-0024](0024-use-phfcc-for-edits-by-several-authors.md) - Use phfcc for edits and comments by several authors

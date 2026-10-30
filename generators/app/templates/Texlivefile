@@ -95,6 +95,7 @@ fewerfloatpages
 fifo-stack<%# required by algpseudocodex%>
 <% } -%>
 filehook
+filemod<%# required by graphicscache %>
 fixmath
 <% if (githubpublish || (documentclass == "acmart") || isThesis) { -%>
 float
@@ -125,6 +126,7 @@ glossaries-german
 <% } -%>
 <% } -%>
 graphics
+graphicscache
 <% if (githubpublish || isThesis) { -%>
 helvetic
 <% } -%>
@@ -184,8 +186,8 @@ llncs
 <% if (githubpublish || isThesis) { -%>
 lscapeenhanced
 <% } -%>
-<% if (githubpublish || (uml == "mermaid")) { -%>
-ltmermaid
+<% if ((githubpublish || (uml == "mermaid")) && (texlive >= 2026)) { -%>
+ltmermaid<%# in TeX Live from 2026 on %>
 <% } -%>
 ltxcmds
 <% if (githubpublish || (reallatexcompiler.startsWith("lualatex"))) { -%>
@@ -195,6 +197,8 @@ lualatex-math
 luamplib
 metapost<%# plain.mp, required by luamplib %>
 <% } -%>
+lua-ul<%# breakable text highlighting (\textcomment) with LuaLaTeX %>
+luacolor<%# required by lua-ul for colored highlighting %>
 lua-widow-control
 luatex85
 luatexbase
@@ -265,9 +269,11 @@ pdftexcmds
 pgf
 pgfplots<%# used by the pgfplots example; also provides pgfplotstable %>
 <% } -%>
+phfcc
 <% if (githubpublish || (isThesis && examples)) { -%>
 pgf-umlsd
 <% } -%>
+pgfopts<%# required by graphicscache %>
 pict2e
 <% if (githubpublish || (documentclass == "ustutt")) { -%>
 placeins
@@ -316,6 +322,7 @@ svn-prov<%# at least required by acmart, ustutt, scientific-thesis%>
 <% if (githubpublish || isThesis) { -%>
 tabto-ltx
 <% } -%>
+tablefootnote
 tcolorbox
 tex-gyre<%# at least required by acm, ieee, font config "times"; provides ts1-qtmr %>
 texcount
@@ -355,8 +362,8 @@ xcharter
 xcolor
 <% if (githubpublish || isThesis) { -%>
 xfor
-xifthen
 <% } -%>
+xifthen<%# required by tablefootnote %>
 xkeyval
 <% if (githubpublish || (documentclass == "ieee") || (font == "times")) { -%>
 xpatch

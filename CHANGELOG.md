@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- Thesis: the citation example cites a master's and a doctoral thesis and explains the entry types for theses (`@MastersThesis`, `@Thesis` with `type`). [scientific-thesis-template#33](https://github.com/latextemplates/scientific-thesis-template/issues/33)
+- Tables: `\tablefootnote` for footnotes inside floating tables ([tablefootnote](https://ctan.org/pkg/tablefootnote)), with an example. [scientific-thesis-template#91](https://github.com/latextemplates/scientific-thesis-template/issues/91)
+- Thesis README: FAQ on section headings sticking out into the left margin. [scientific-thesis-template#91](https://github.com/latextemplates/scientific-thesis-template/issues/91)
+- Smaller PDFs: when compiling with `--shell-escape`, [graphicscache](https://ctan.org/pkg/graphicscache) re-encodes every included image once (lossless, at most 300 dpi) and caches it in `graphicscache/`; without shell escape nothing changes. [generator-latex-template#609](https://github.com/latextemplates/generator-latex-template/issues/609)
+- `--texlive=2025`: the Texlivefile no longer lists `ltmermaid` (in TeX Live from 2026 on), and the Mermaid example is skipped when the package is missing, so the generated template installs and compiles on TeX Live 2025 again.
+- Edits and comments by several authors via [phfcc](https://ctan.org/pkg/phfcc): `\FA{added}`, `\FA*{removed}`, `\FA[comment]`, with the initials in the margin; one command per author, `\phfDisableCommentingCommands` for the final version. [generator-latex-template#143](https://github.com/latextemplates/generator-latex-template/issues/143)
+- Thesis documents with `--todo=todonotes`: inline TODOs are set as a titled box.
+- README: an "Advanced quick start" sets up the document as a git repository with the template as remote, so template updates can be merged later; the FAQ on synchronizing updates points to it.
+- `lncs`: a commented-out block sets all footnotes of a page side by side in one paragraph to save space ([footmisc](https://ctan.org/pkg/footmisc) option `para`, LuaLaTeX only). [lncs-enhanced#20](https://github.com/latextemplates/lncs-enhanced/issues/20)
+- LaTeX hints: how to polish a single paragraph with `\looseness` once the text is final. [lncs-enhanced#14](https://github.com/latextemplates/lncs-enhanced/issues/14)
+
+### Changed
+
+- The list of abbreviations (thesis documents) and the acronym list (`mwe`) are sorted by TeX itself (`\makenoidxglossaries`); no `makeglossaries` run is needed, so the list also appears when compiling without latexmk; `.latexmkrc` no longer calls `makeglossaries-lite`. [scientific-thesis-template#43](https://github.com/latextemplates/scientific-thesis-template/issues/43)
+
+### Fixed
+
+- German theses: the bibliography heading reads "Literaturverzeichnis", a cited master's thesis "Masterarbeit" (biblatex's default "Magisterarbeit"), and back references "zitiert auf S."; the German biblatex settings were never included. [scientific-thesis-template#57](https://github.com/latextemplates/scientific-thesis-template/issues/57)
+- `lncs`: `\citet` with two authors reads "A und B" in German papers; `splncs04nat.bst` writes `\andname{}`, a babel caption registered with `\setlocalecaption`. [lncs-enhanced#18](https://github.com/latextemplates/lncs-enhanced/issues/18)
+- `\textcomment`: the highlighted text breaks across lines with LuaLaTeX ([lua-ul](https://ctan.org/pkg/lua-ul)); pdfLaTeX keeps the unbreakable `\colorbox`. [lncs-enhanced#15](https://github.com/latextemplates/lncs-enhanced/issues/15)
+- Thesis documents (`scientific-thesis`, `ustutt`, `mwe`): the space of a table caption is now between caption and table, not above the caption (KOMA-Script option `captions=tableheading`). [scientific-thesis-template#86](https://github.com/latextemplates/scientific-thesis-template/issues/86)
+- Abbreviations example: the first use of `\glspl{rdbms}` reads "Relational Database Management Systems (RDBMS)" instead of "RDBMS (RDBMS)".
+
 ## [2026.10.26]
 
 ### Added

@@ -17,7 +17,13 @@
 % Enable nice comments
 \usepackage{pdfcomment}
 
-\newcommand{\textcomment}[2]{\colorbox{yellow!60}{#1}\pdfcomment[color={0.234 0.867 0.211},hoffset=-6pt,voffset=10pt,opacity=0.5]{#2}}
+\ifdefined\directlua
+  % Highlighting that breaks across lines (\colorbox does not): lua-ul's \highLight; the color needs luacolor
+  \usepackage{luacolor,lua-ul}
+  \newcommand{\textcomment}[2]{\highLight[yellow!60]{#1}\pdfcomment[color={0.234 0.867 0.211},hoffset=-6pt,voffset=10pt,opacity=0.5]{#2}}
+\else
+  \newcommand{\textcomment}[2]{\colorbox{yellow!60}{#1}\pdfcomment[color={0.234 0.867 0.211},hoffset=-6pt,voffset=10pt,opacity=0.5]{#2}}
+\fi
 
 % Small PDF comment
 % 1st parameter: comment
@@ -38,7 +44,14 @@
 <% break; case "todonotes": -%>
 \usepackage[color=gray!17]{todonotes}
 \let\xtodo\todo
+<% if (isThesis) { -%>
+% Inline TODOs as a titled box, which stands out in a long text
+\usepackage{tcolorbox}
+\newtcolorbox{todobox}{colback=yellow!8,colframe=brown!60!black,fonttitle=\bfseries,title=TODO}
+\renewcommand{\todo}[1]{\begin{todobox}#1\end{todobox}}
+<% } else { -%>
 \renewcommand{\todo}[1]{\xtodo[inline,color=black!5]{#1}}
+<% } -%>
 \newcommand{\todofix}[1]{\xtodo[color=red!40]{#1}}
 
 <% break; default: -%>
@@ -61,3 +74,18 @@
 
 % Modified (Text blau)
 \newcommand{\modified}[1]{{\color{blue!60!black} #1}\xspace}
+
+% Edits and comments by several authors, each with their own color and initials (phfcc)
+% Doc: https://ctan.org/pkg/phfcc
+\usepackage{phfcc}
+\ifdefined\directlua
+  \phfSetDefaultCommentingStyle{style=rmstrikethrough} % strike through removed text across lines (LuaLaTeX only)
+\fi
+% Comments as footnotes keep the layout intact, e.g., to check page limits
+%\phfSetDefaultCommentingStyle{style=footcomments}
+% One command per author: \FA{added text}, \FA*{text to remove}, \FA[a comment], \FA!{important};
+% the initials appear once per page in the margin; the forms do not combine (\FA*[...]{...} is only a comment), so
+% write \FA*{removed}\FA[comment]. Add one line per further author with their initials.
+\phfMakeCommentingCommand[initials={FA}]{FA} % first author
+% Final version: hide all edits and comments (there is no class option for it: "final" is the default of every class)
+%\phfDisableCommentingCommands

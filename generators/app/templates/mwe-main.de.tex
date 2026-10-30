@@ -16,6 +16,7 @@
   % Für beidseitigen Druck die beiden Zeilen darüber durch "twoside, open=right," ersetzen
   parskip=half,
   numbers=noenddot,
+  captions=tableheading,  % table captions are set above the table: put the space between caption and table, not above the caption
 ]{scrbook}
 
 % --- LuaLaTeX-Schrift-/Typografie-Setup ---
@@ -57,6 +58,7 @@
 
 % --- Abbildungen + intelligente Querverweise ---
 \usepackage{graphicx}
+<%- include('graphicscache.preamble.en.tex', this); -%>
 \usepackage{zref-clever}
 \zcsetup{cap = true}    % Typnamen groß schreiben: "Kapitel", "Abbildung", "Tabelle"
 
@@ -77,7 +79,7 @@
 % glossaries ist die klassische Ausnahme von "hyperref zuletzt": NACH hyperref
 % laden, damit Akronym-Verwendungen und das Abkürzungsverzeichnis verlinkt sind.
 \usepackage[acronym, nopostdot]{glossaries}
-\makeglossaries
+\makenoidxglossaries   % the list is sorted by TeX itself: no makeglossaries run needed
 \setacronymstyle{long-short}    % wie \gls Einträge setzt; das markdown-Theme selbst druckt immer die Kurzform
 \newacronym{html}{HTML}{HyperText Markup Language}
 \newacronym{yaml}{YAML}{YAML Ain't Markup Language}
@@ -112,7 +114,7 @@
 
 \backmatter
 
-\printacronyms
+\printnoidxglossary[type=\acronymtype,sort=word]
 
 \printbibliography
 

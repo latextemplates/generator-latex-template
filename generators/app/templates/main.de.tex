@@ -102,6 +102,7 @@
   open=any,       % ein Kapitel beginnt auf der nächsten Seite, nicht unbedingt auf einer rechten
   % Für beidseitigen Druck die beiden Zeilen darüber durch "twoside, open=right," ersetzen
   bibliography=totoc,
+  captions=tableheading,  % table captions are set above the table: put the space between caption and table, not above the caption
   % idxtotoc,   % Index ins Inhaltsverzeichnis
   % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
   headsepline,
@@ -122,6 +123,7 @@
   DIV=calc,
   headings=small,
   bibliography=totoc,
+  captions=tableheading,  % table captions are set above the table: put the space between caption and table, not above the caption
   % idxtotoc,   % Index ins Inhaltsverzeichnis
   % liststotoc, % List of * ins Inhaltsverzeichnis, mit liststotocnumbered werden die Abbildungsverzeichnisse nummeriert
   listof=totoc,
@@ -185,6 +187,8 @@
 <% } -%>
 \usepackage{graphicx}
 
+<%- include('graphicscache.preamble.en.tex', this); -%>
+
 <% if (isThesis) { -%>
 % Base folder, so there is no need to repeat this over and over again.
 \graphicspath{ {figures/} }
@@ -224,13 +228,13 @@
 <%- include('natbib.preamble.en.tex', this); -%>
 <% break; case "lncs": -%>
 <% if (bibtextool == 'biblatex') { -%>
-<%- include('biblatex.preamble.en.tex', this); -%>
+<%- include('biblatex.preamble.de.tex', this); -%>
 <% } else { -%>
 
 <%- include('natbib.preamble.en.tex', this); -%>
 <% } -%>
 <% break; case "scientific-thesis": case "ustutt": -%>
-<%- include('biblatex.preamble.en.tex', this); -%>
+<%- include('biblatex.preamble.de.tex', this); -%>
 <% break; } -%>
 
 <%- include('embedfile.preamble.en.tex', this); -%>
@@ -857,9 +861,7 @@ The following is typeset for both ustutt and scientific-thesis.
 
 <% } -%>
 % Abkürzungsverzeichnis / Acronyms / Abbreviations
-\printglossary[type=\acronymtype,title={Abkürzungsverzeichnis}]
-% \printglossaries
-% \printnoidxglossaries
+\printnoidxglossary[type=\acronymtype,sort=word,title={Abkürzungsverzeichnis}]
 % \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075
 
 \microtypesetup{protrusion=true}

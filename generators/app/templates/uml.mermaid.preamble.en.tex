@@ -17,7 +17,8 @@
       end
       return false
     end
-    ltg_uml_available = status.shell_escape == 1 and ltg_on_path({"mmdc", "mmdc.cmd"})
+    -- ltmermaid is in TeX Live from 2026 on; without it, the example is skipped as well
+    ltg_uml_available = status.shell_escape == 1 and ltg_on_path({"mmdc", "mmdc.cmd"}) and kpse.find_file("ltmermaid.sty") ~= nil
   \end{luacode*}
   \ifnum\directlua{tex.sprint(ltg_uml_available and 1 or 0)}=1
     % puppeteer.json lets the headless Chromium of the Mermaid CLI run without sandbox (needed, e.g., in Docker)
