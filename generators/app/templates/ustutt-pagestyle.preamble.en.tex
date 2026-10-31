@@ -4,27 +4,32 @@
 \pagestyle{scrheadings}
 \clearmainofpairofpagestyles
 
+% KOMA convention: \markboth sets the chapter (left mark) and clears the section (right mark),
+% so the start of a chapter never shows the previous chapter's last section or the table of contents.
+% \markright sets the section only.
 \newcommand{\setchapterfooter}[1]{%
   \def\mydummy{#1}
   \renewcommand{\chaptermark}[1]{%
-    \markright{\textbf{\thechapter}~|~\mydummy}{}}
+    \markboth{\textbf{\thechapter}~|~\mydummy}{}}
 }
 
 \newcommand{\resetchapterfooter}{%
   \renewcommand{\chaptermark}[1]{%
-    \markright{\textbf{\thechapter}~|~##1}{}}
+    \markboth{\textbf{\thechapter}~|~##1}{}}
 }
 
 \renewcommand{\chaptermark}[1]{%
-  \markright{\textbf{\thechapter}~|~#1}{}}
+  \markboth{\textbf{\thechapter}~|~#1}{}}
 
 \renewcommand{\sectionmark}[1]{%
-  \markleft{\textbf{\thesection}~|~#1}{}}
+  \markright{\textbf{\thesection}~|~#1}}
 
 \ofoot[\pagemark]{\pagemark}
-\refoot{\rightmark}
-%\refoot{\chaptermark -- \thechapter}
-\lofoot{\leftmark}
+% Document version in the (otherwise empty) header (see gitver below); empty when compiled without --shell-escape.
+% The footer is taken by the chapter and section marks, which are too long to share the line with the version.
+\chead*{\versionBox}
+\refoot{\leftmark}
+\lofoot{\rightmark}
 
 % daniel's style for abstract (summary / abstract)
 \deftriplepagestyle{justpagenums}{}{}{}{}{}{\textbf{\thepage}}
