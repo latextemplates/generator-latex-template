@@ -11,7 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Thesis: each chapter compiles on its own via [subfiles](https://ctan.org/pkg/subfiles) (`latexmk "10 - introduction"` in `chapters-<lang>/`, with a `.latexmkrc` there); the main file includes the chapters with `\subfileinclude`, and the `Check` workflow builds the first chapter on its own and uploads its PDF. [uni-stuttgart-dissertation-template#11](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/11)
-- Document version from git via [gitver](https://ctan.org/pkg/gitver): `\gitVer` and `\versionBox` (commit and build time) when compiling with `--shell-escape`; offered commented out in all templates; the `ustutt` thesis is compiled with `--shell-escape` and shows it in the page header. [uni-stuttgart-dissertation-template#1](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/1)
+- Document version from git via [gitver](https://ctan.org/pkg/gitver): `\gitVer` and `\versionBox` (commit and build time) when compiling with `--shell-escape`; offered commented out in all templates (the Markdown quick start also with a footer line); the `ustutt` thesis is compiled with `--shell-escape` and shows it in the page header. [uni-stuttgart-dissertation-template#1](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/1)
 - `ustutt` README: FAQ on an English thesis with the German title page and Kurzfassung (use `thesis-example-en.tex`, or `\selectlanguage{english}` before `\tableofcontents`). [uni-stuttgart-dissertation-template#20](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/20)
 
 ### Fixed
