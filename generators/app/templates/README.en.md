@@ -233,10 +233,10 @@ Following features are enabled in this template:
 <% if (font == "default" || githubpublish) { -%>
 - The fonts IEEEtran intends (Times, Helvetica, Courier) with both engines; with LuaLaTeX, fontspec would otherwise fall back to Latin Modern.
 
-  | Engine   | Text            | Sans            | Code             | Math              |
-  |----------|-----------------|-----------------|------------------|-------------------|
-  | pdfLaTeX | Nimbus Roman    | Nimbus Sans     | newtxtt          | Computer Modern   |
-  | LuaLaTeX | TeX Gyre Termes | TeX Gyre Heros  | TeX Gyre Cursor  | Latin Modern Math |
+  | Engine   | Text | Sans | Code | Math |
+  |----------|------|------|------|------|
+  | pdfLaTeX | Nimbus Roman | Nimbus Sans | [newtxtt](https://tug.org/FontCatalogue/newtxtt/) | [Computer Modern](https://tug.org/FontCatalogue/computermodern/) |
+  | LuaLaTeX | [TeX Gyre Termes](https://tug.org/FontCatalogue/texgyretermes/) | [TeX Gyre Heros](https://tug.org/FontCatalogue/texgyreheros/) | [TeX Gyre Cursor](https://tug.org/FontCatalogue/texgyrecursor/) | [Latin Modern Math](https://tug.org/FontCatalogue/latinmodernroman/) |
 <% } -%>
 <% } -%>
 <% if (documentclass == 'lncs') { -%>

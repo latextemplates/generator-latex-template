@@ -17,7 +17,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Fixed
 
 - `ustutt` with `--lang=de`: the document class receives `ngerman` instead of `english`, so packages that read the class options (e.g., selnolig) treat the thesis as German; with `--howtotext=false`, the word "american" no longer appears after the abstract.
-- `ieee` with LuaLaTeX: the paper is typeset in Times, Helvetica and Courier (TeX Gyre Termes, Heros, Cursor; Pagella for compsoc journals) as IEEEtran intends, instead of Latin Modern; fontspec had replaced the class's Type 1 fonts and no main font was set.
+- `ieee` with LuaLaTeX: the paper is typeset in Times, Helvetica and Courier ([TeX Gyre Termes](https://tug.org/FontCatalogue/texgyretermes/), [Heros](https://tug.org/FontCatalogue/texgyreheros/), [Cursor](https://tug.org/FontCatalogue/texgyrecursor/); [Pagella](https://tug.org/FontCatalogue/texgyrepagella/) for compsoc journals) as IEEEtran intends, instead of Latin Modern; fontspec had replaced the class's Type 1 fonts and no main font was set.
 - `ustutt`: the chapter number box is as wide as the text, so chapter pages no longer produce an "Overfull \hbox" warning (and no longer stick into the margin on layouts narrower than 12.34 cm). [uni-stuttgart-dissertation-template#21](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/21)
 - `ustutt`: the footer no longer shows "Inhaltsverzeichnis"/"Contents" or the previous chapter's last section on pages where no section of the current chapter has started yet. [uni-stuttgart-dissertation-template#16](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/16)
 
