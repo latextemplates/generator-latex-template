@@ -10,7 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
-- Document version from git via [gitver](https://ctan.org/pkg/gitver): `\gitVer` and `\versionBox` (commit and build time) when compiling with `--shell-escape`; offered commented out in all templates and shown in the page header of the `ustutt` thesis. [uni-stuttgart-dissertation-template#1](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/1)
+- Document version from git via [gitver](https://ctan.org/pkg/gitver): `\gitVer` and `\versionBox` (commit and build time) when compiling with `--shell-escape`; offered commented out in all templates; the `ustutt` thesis is compiled with `--shell-escape` and shows it in the page header. [uni-stuttgart-dissertation-template#1](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/1)
 
 ### Fixed
 

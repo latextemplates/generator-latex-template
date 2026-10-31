@@ -187,13 +187,15 @@ export default class extends Generator {
     this.props.bibrunner =
       this.props.bibtextool === "biblatex" ? "biber" : "bibtex";
 
-    // Only the PlantUML UML example needs shell-escape. minted 3 (TeX Live 2025 and later)
+    // The PlantUML/Mermaid UML examples need shell-escape, as does gitver (the version
+    // stamp in the header of the ustutt thesis). minted 3 (TeX Live 2025 and later)
     // runs latexminted, which TeX Live permits in restricted shell escape; minted 2
     // (TeX Live 2024) still needs shell-escape.
     this.props.requiresShellEscape =
       (this.props.listings == "minted" && this.props.texlive < 2025) ||
       this.props.uml == "plantuml" ||
-      this.props.uml == "mermaid";
+      this.props.uml == "mermaid" ||
+      this.props.documentclass == "ustutt";
 
     // Two-column layouts (IEEE, and the ACM conference/journal formats) cannot use
     // `longtable` ("longtable not in 1-column mode"), so the longtable example must

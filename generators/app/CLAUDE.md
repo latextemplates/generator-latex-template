@@ -34,7 +34,7 @@ the feature vanishes for some switch combination without any error.
 3. **`Texlivefile`** — add the TeX Live package name, guarded (usually
    `githubpublish || <condition>`; `githubpublish` deliberately bundles everything).
 4. **Shell-escape is derived, never hardcoded.** It is the boolean
-   `requiresShellEscape` in `index.js` (`uml == "plantuml"`, and minted only up to TeX Live 2024:
+   `requiresShellEscape` in `index.js` (`uml == "plantuml"`/`"mermaid"`, `ustutt` for gitver, and minted only up to TeX Live 2024:
    minted 3 runs `latexminted`, which TeX Live permits in restricted shell escape).
    Extend that expression if the new package needs `\write18`; the `latexmkrc` and the
    `main.*.tex` editor hints read the flag.
