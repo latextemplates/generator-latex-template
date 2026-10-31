@@ -456,10 +456,12 @@ export default class extends Generator {
       : [this.props.filenames.main];
     const chapterName = (index, chapter) =>
       `${(index + 1) * 10} - ${chapter.name}`;
+    // The chapter the README names and check.yml compiles on its own
+    this.props.firstChapter = chapterName(0, chapters[0]);
     this.fs.copyTpl(
       this.templatePath("chapters.dot.latexmkrc"),
       this.destinationPath(`chapters-${language}/.latexmkrc`),
-      { example: chapterName(0, chapters[0]) },
+      { example: this.props.firstChapter },
     );
     const includes = chapters.flatMap((chapter, index) => {
       // Steps of 10 leave room to insert a chapter without renaming the others
