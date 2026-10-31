@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Document version from git via [gitver](https://ctan.org/pkg/gitver): `\gitVer` and `\versionBox` (commit and build time) when compiling with `--shell-escape`; offered commented out in all templates and shown in the page header of the `ustutt` thesis. [uni-stuttgart-dissertation-template#1](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/1)
+
 ### Fixed
 
 - `ustutt`: the footer no longer shows "Inhaltsverzeichnis"/"Contents" or the previous chapter's last section on pages where no section of the current chapter has started yet. [uni-stuttgart-dissertation-template#16](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/16)
