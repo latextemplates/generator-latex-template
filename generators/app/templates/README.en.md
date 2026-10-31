@@ -230,6 +230,14 @@ Following features are enabled in this template:
     For the original output, use `\bibliographystyle{IEEEtranN}`.
   - Citation ranges are written out: `[1], [2], [3]` instead of `[1]–[3]`.
     For ranges, use the natbib option `sort&compress` instead of `sort`.
+<% if (font == "default" || githubpublish) { -%>
+- The fonts IEEEtran intends (Times, Helvetica, Courier) with both engines; with LuaLaTeX, fontspec would otherwise fall back to Latin Modern.
+
+  | Engine   | Text            | Sans            | Code             | Math              |
+  |----------|-----------------|-----------------|------------------|-------------------|
+  | pdfLaTeX | Nimbus Roman    | Nimbus Sans     | newtxtt          | Computer Modern   |
+  | LuaLaTeX | TeX Gyre Termes | TeX Gyre Heros  | TeX Gyre Cursor  | Latin Modern Math |
+<% } -%>
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
