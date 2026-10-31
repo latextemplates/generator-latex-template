@@ -426,9 +426,45 @@ export default class extends Generator {
       this.templatePath(`chapters.README.${language}.md`),
       this.destinationPath(`chapters-${language}/README.md`),
     );
+    // Each chapter compiles on its own (package subfiles): it names the main
+    // file whose preamble it loads. The template repositories rename the main
+    // file per variant (update-files.yml) and share the chapter files, so the
+    // chapters of a published template name the minted main file of their
+    // language and carry the other variants commented out.
+    const publishedMains = {
+      ustutt: {
+        en: ["thesis-example-en", "thesis-example-basic-listings-en"],
+        de: ["thesis-example", "thesis-example-basic-listings"],
+      },
+      "scientific-thesis": {
+        en: [
+          "main-english",
+          "main-basic-listings-english",
+          "main-english-thu",
+          "main-english-university-of-hamburg",
+        ],
+        de: [
+          "main-german",
+          "main-basic-listings-german",
+          "main-german-thu",
+          "main-german-university-of-hamburg",
+        ],
+      },
+    };
+    const mains = this.props.githubpublish
+      ? publishedMains[this.props.documentclass][language]
+      : [this.props.filenames.main];
+    const chapterName = (index, chapter) =>
+      `${(index + 1) * 10} - ${chapter.name}`;
+    this.fs.copyTpl(
+      this.templatePath("chapters.dot.latexmkrc"),
+      this.destinationPath(`chapters-${language}/.latexmkrc`),
+      { example: chapterName(0, chapters[0]) },
+    );
     const includes = chapters.flatMap((chapter, index) => {
       // Steps of 10 leave room to insert a chapter without renaming the others
-      const base = `chapters-${language}/${(index + 1) * 10} - ${chapter.name}`;
+      const name = chapterName(index, chapter);
+      const base = `chapters-${language}/${name}`;
       if (chapter.markdown) {
         write(`${base}.md`, trim(chapter.lines));
         return markdownInput(`${base}.md`);
@@ -441,8 +477,10 @@ export default class extends Generator {
         if (match) {
           sourceCode = { listings: match[1], lines: [] };
         } else if (line === "%%LTG-SOURCECODE-END") {
-          const file = (listings) => `${base} - ${listings}`;
-          write(file(sourceCode.listings) + ".tex", trim(sourceCode.lines));
+          const file = (listings) => `${name} - ${listings}`;
+          write(`${base} - ${sourceCode.listings}.tex`, trim(sourceCode.lines));
+          // The path is relative to this directory: subfiles reads the chapter
+          // through its import path, and a chapter compiled on its own runs here
           chapterLines.push(
             "% The main file loads either the minted or the listings package",
             "\\ifdefined\\inputminted",
@@ -459,8 +497,17 @@ export default class extends Generator {
           chapterLines.push(line);
         }
       }
-      write(`${base}.tex`, trim(chapterLines));
-      return [`\\include{${base}}`];
+      write(`${base}.tex`, [
+        `% Compiles on its own: latexmk "${name}" (in this directory, see README.md).`,
+        "% The subfiles package loads the preamble of the main file named here.",
+        ...mains.map(
+          (main, i) => `${i ? "%" : ""}\\documentclass[../${main}]{subfiles}`,
+        ),
+        "\\begin{document}",
+        ...trim(chapterLines),
+        "\\end{document}",
+      ]);
+      return [`\\subfileinclude{${base}}`];
     });
 
     return [...lines.slice(0, start), ...includes, ...lines.slice(end + 1)];
@@ -642,7 +689,8 @@ export default class extends Generator {
       const contentIndex = lines.indexOf("\\begin{document}");
       const headingIndex = lines.findIndex(
         (line, index) =>
-          index > contentIndex && /^\\(chapter|section|include)\{/.test(line),
+          index > contentIndex &&
+          /^\\(chapter|section|subfileinclude)\{/.test(line),
       );
       const heading = lines[headingIndex].replace(/\\label\{.*$/, "");
       this.fs.write(

@@ -346,13 +346,14 @@
     % Über Spalten und Seiten umbrechen. Eine nicht umbrechbare Box ragt in die Gleitobjekte oder den unteren Rand, wenn die Gleitobjekte einer Seite den schmalen Spalten zu wenig Platz lassen
     breakable,
 <% } -%>
-    listing file=\currfilepath,
+% \currfilename statt \currfilepath: ein Kapitel wird über den Import-Pfad von subfiles gelesen, den minted sonst noch einmal voranstellt
+    listing file=\currfilename,
     colback=green!5!white,
     colframe=green!25,
     coltitle=black!90,
     coltext=black!90,
     left=8mm,
-    title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\currfilepath},
+    title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\currfilename},
 <% if (listings == 'listings') { -%>
     listing options={
         frame=none,
@@ -496,6 +497,9 @@
 
 <% } -%>
 <%- include('linebreaker.preamble.en.tex', this); -%>
+<% if (isThesis) { -%>
+<%- include('subfiles.preamble.en.tex', this); -%>
+<% } -%>
 \begin{document}
 <% if (documentclass === "ustutt") { -%>
 \setstretch{1.2}

@@ -36,3 +36,4 @@ General pros and cons of LaTeX packages for typical problems are in [gadr-latex-
 - [ADR-0023](0023-use-graphicscache-to-shrink-images.md) - Use graphicscache to shrink images
 - [ADR-0024](0024-use-phfcc-for-edits-by-several-authors.md) - Use phfcc for edits and comments by several authors
 - [ADR-0025](0025-use-gitver-for-the-document-version.md) - Use gitver for the document version
+- [ADR-0026](0026-use-subfiles-to-compile-single-chapters.md) - Use subfiles to compile single chapters

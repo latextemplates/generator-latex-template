@@ -259,6 +259,8 @@ Following features are enabled in this template:
   `minted` provides better output than [listings], but requires [latexminted] to be installed.
 <% } -%>
 <% if (isThesis) { -%>
+- Each chapter compiles on its own, which is much faster than the whole thesis while writing: `latexmk "10 - introduction"` in `chapters-<%= githubpublish ? 'en' : language %>/`.
+  This is enabled by the [subfiles](https://ctan.org/pkg/subfiles) package; see [chapters-<%= githubpublish ? 'en' : language %>/README.md](chapters-<%= githubpublish ? 'en' : language %>/README.md).
 - Numbered research questions: `\defRQ` prints "Research Question 1 (RQ1)", `\refRQ` references it as "RQ1".
   This is enabled by the [refenums](https://github.com/koppor/refenums) package; `refenums.sty` is part of this repository, because TeX Live contains an older version.
 <% } -%>
@@ -827,6 +829,15 @@ To keep an existing German `thesis-example.tex` instead, put `\selectlanguage{en
 Install package `inconsolata`
 <% break; default: -%>
 <% break; } -%>
+<% if (isThesis) { -%>
+
+### Q: How do I compile a single chapter?
+
+In `chapters-<%= githubpublish ? 'en' : language %>/`, run `latexmk "10 - introduction"`; the result is `10-introduction.pdf`.
+Each chapter file starts with `\documentclass[../<main file>]{subfiles}`, and the [subfiles](https://ctan.org/pkg/subfiles) package loads the preamble of that main file.
+The `.latexmkrc` in the chapter directory takes the settings of the main directory and lets LaTeX find the packages, figures and the bibliography there.
+References to other chapters show as `??` and the bibliography is not printed; the full document has them.
+<% } -%>
 <% if (githubpublish) { -%>
 
 ### Q: How can I synchronize updates from the template to my repository?
