@@ -235,7 +235,7 @@ jobs:
                             yml.write(yml_content)
                             ymlmiktex.write(yml_content)
                             yml.write('''      - name: Install TeX Live
-        uses: zauguin/install-texlive@6671d0c62046c7e349fe154d5208fe746b07e037 # v4.4.0
+        uses: zauguin/install-texlive@c9f3ea3d51b2e04d092c4f9d208a19542d5dabcf # v4.5.0
         with:
 ''')
                             yml.write("          package_file: '${{{{ github.workspace }}}}/{}/Texlivefile'\n".format(variantShort))

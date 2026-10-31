@@ -110,7 +110,17 @@ lualatex
 <%  break; default: -%>
 <%# "default" font configuration -%>
 <% switch (documentclass) { case "ieee": -%>
-<%# Default font configuration of the IEEE template is used -%>
+<%# IEEEtran sets Times/Helvetica/Courier (Palatino for compsoc journals) as Type 1 fonts via \rmdefault etc.;
+fontspec replaces them with Latin Modern, so the OpenType equivalents are set here -%>
+
+<%= indent %>% IEEEtran's fonts (Times, Helvetica, Courier) as OpenType: fontspec would otherwise typeset the paper in Latin Modern
+<%= indent %>\setmainfont{TeX Gyre Termes}
+<%= indent %>\setsansfont{TeX Gyre Heros}
+<%= indent %>\setmonofont{TeX Gyre Cursor}
+<%= indent %>% compsoc journals use Palatino
+<%= indent %>\makeatletter
+<%= indent %>\@IEEEcompsocnotconfonly{\setmainfont{TeX Gyre Pagella}}
+<%= indent %>\makeatother
 <% break; case "ustutt": -%>
 <%# see also https://github.com/programming-journal/programming/blob/main/programming.cls -%>
 
@@ -197,7 +207,7 @@ pdflatex
 <% break; default: -%>
 <%# "default" font configuration / Computer Modern and pdflatex -%>
 <% switch (documentclass) { case "ieee": -%>
-<%# The default font configuration (Palatino/Palladio) of the IEEE template is used.
+<%# The default fonts of IEEEtran (Times, Helvetica, Courier; Palatino for compsoc journals) are used.
 In addition, we make the code appear more nice -%>
 <%= indent %>% use nicer font for code
 <%= indent %>\usepackage[zerostyle=b,scaled=.75]{newtxtt}

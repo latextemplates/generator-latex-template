@@ -230,6 +230,15 @@ Following features are enabled in this template:
     For the original output, use `\bibliographystyle{IEEEtranN}`.
   - Citation ranges are written out: `[1], [2], [3]` instead of `[1]–[3]`.
     For ranges, use the natbib option `sort&compress` instead of `sort`.
+<% if (font == "default" || githubpublish) { -%>
+- The fonts IEEEtran intends (Times, Helvetica, Courier) with both engines; with LuaLaTeX, fontspec would otherwise fall back to Latin Modern.
+
+  | Engine | Text | Sans | Code | Math |
+  | --- | --- | --- | --- | --- |
+  | pdfLaTeX | Nimbus Roman | Nimbus Sans | [newtxtt](https://tug.org/FontCatalogue/newtxtt/) | [Computer Modern](https://tug.org/FontCatalogue/computermodern/) |
+  | LuaLaTeX | [TeX Gyre Termes](https://tug.org/FontCatalogue/texgyretermes/) | [TeX Gyre Heros](https://tug.org/FontCatalogue/texgyreheros/) | [TeX Gyre Cursor](https://tug.org/FontCatalogue/texgyrecursor/) | [Latin Modern Math](https://tug.org/FontCatalogue/latinmodernroman/) |
+
+<% } -%>
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
 - Provides a skeletal [<%= filenames.main %>.tex](<%= filenames.main %>.tex) file
@@ -251,6 +260,8 @@ Following features are enabled in this template:
   `minted` provides better output than [listings], but requires [latexminted] to be installed.
 <% } -%>
 <% if (isThesis) { -%>
+- Each chapter compiles on its own, which is much faster than the whole thesis while writing: `latexmk "10 - introduction"` in `chapters-<%= githubpublish ? 'en' : language %>/`.
+  This is enabled by the [subfiles](https://ctan.org/pkg/subfiles) package; see [chapters-<%= githubpublish ? 'en' : language %>/README.md](chapters-<%= githubpublish ? 'en' : language %>/README.md).
 - Numbered research questions: `\defRQ` prints "Research Question 1 (RQ1)", `\refRQ` references it as "RQ1".
   This is enabled by the [refenums](https://github.com/koppor/refenums) package; `refenums.sty` is part of this repository, because TeX Live contains an older version.
 <% } -%>
@@ -809,11 +820,25 @@ replace the term `thesis-example` by e.g., `thesis-topic-name` in the following 
 | `.gitignore`                     | `thesis-example*.png`                     |
 | `Makefile`                       | `MASTER_TEX = thesis-example.tex`         |
 
+### Q: The thesis is in English, but the title page and the Kurzfassung have to be in German. Which main file do I use?
+
+`thesis-example-en.tex`: its title page is German anyway (the examination regulations prescribe it), the "Kurzfassung" is set in German with `\begin{otherlanguage}{ngerman}`, and everything else is English, including "Contents", "List of Figures", "Chapter", and "Figure".
+To keep an existing German `thesis-example.tex` instead, put `\selectlanguage{english}` in front of `\tableofcontents`; all headings and captions from there on are English.
+
 ### Q: I get the error `Reload initiated (formats: otf,ttf,ttc); reason: Font "Inconsolatazi4" not found.`
 
 Install package `inconsolata`
 <% break; default: -%>
 <% break; } -%>
+<% if (isThesis) { -%>
+
+### Q: How do I compile a single chapter?
+
+In `chapters-<%= githubpublish ? 'en' : language %>/`, run `latexmk "10 - introduction"`; the result is `10-introduction.pdf`.
+Each chapter file starts with `\documentclass[../<main file>]{subfiles}`, and the [subfiles](https://ctan.org/pkg/subfiles) package loads the preamble of that main file.
+The `.latexmkrc` in the chapter directory takes the settings of the main directory and lets LaTeX find the packages, figures and the bibliography there.
+References to other chapters show as `??` and the bibliography is not printed; the full document has them.
+<% } -%>
 <% if (githubpublish) { -%>
 
 ### Q: How can I synchronize updates from the template to my repository?
