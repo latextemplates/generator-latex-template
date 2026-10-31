@@ -14,6 +14,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- `ustutt`: the chapter number box is as wide as the text, so chapter pages no longer produce an "Overfull \hbox" warning (and no longer stick into the margin on layouts narrower than 12.34 cm). [uni-stuttgart-dissertation-template#21](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/21)
 - `ustutt`: the footer no longer shows "Inhaltsverzeichnis"/"Contents" or the previous chapter's last section on pages where no section of the current chapter has started yet. [uni-stuttgart-dissertation-template#16](https://github.com/latextemplates/uni-stuttgart-dissertation-template/issues/16)
 
 ## [2026.10.30]
