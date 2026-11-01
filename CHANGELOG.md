@@ -19,6 +19,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- `rotating` is loaded before `tablefootnote`, so packages added by the user that need it (`ctable`, `sidewaystable`) no longer fail with "Package rotating loaded after tablefootnote"; a sideways `ctable` is placed correctly. [scientific-thesis-template#101](https://github.com/latextemplates/scientific-thesis-template/issues/101)
 - Theses: the abbreviations example names the right file (`abbreviations.tex`) and command (`\newabbreviation`), links glossaries-extra, and explains that `\glsunset`/`\glsreset` act on the next `\gls`; README FAQ on it. [scientific-thesis-template#121](https://github.com/latextemplates/scientific-thesis-template/issues/121)
 - `ieee`: the date "(2015/08/26)" no longer appears before the reference list; the banner comment that `IEEEtranN-doi.bst` writes into the `.bbl` was longer than BibTeX's line limit, so its second half was typeset.
 
