@@ -191,6 +191,18 @@ export default class extends Generator {
     // stamp in the header of the ustutt thesis). minted 3 (TeX Live 2025 and later)
     // runs latexminted, which TeX Live permits in restricted shell escape; minted 2
     // (TeX Live 2024) still needs shell-escape.
+    // Written into the main file header and the PDF properties (template-version.preamble.en.tex):
+    // the state of the template is a function of the generator version.
+    this.props.generatorVersion = this.rootGeneratorVersion();
+    this.props.templateRepo = {
+      acmart: "acm-enhanced",
+      ieee: "ieee-enhanced",
+      lncs: "lncs-enhanced",
+      "scientific-thesis": "scientific-thesis-template",
+      ustutt: "uni-stuttgart-dissertation-template",
+      mwe: "markdown-latex-quickstart",
+    }[this.props.documentclass];
+
     this.props.requiresShellEscape =
       (this.props.listings == "minted" && this.props.texlive < 2025) ||
       this.props.uml == "plantuml" ||
