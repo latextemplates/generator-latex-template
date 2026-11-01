@@ -1008,6 +1008,13 @@ Put them before that `\gls{...}` in the text, use the key from `abbreviations.te
 `\glsresetall` after the abstract lets every abbreviation appear in its long form again in the main text.
 
 <% } -%>
+<% if ((documentclass == "scientific-thesis") && (githubpublish || (thesisvariant == "ustutt"))) { -%>
+### Q: The thesis is in English, but the title page says "Masterarbeit" (or "Bachelorarbeit"). Why?
+
+On the cover of the University of Stuttgart, the thesis type is the official German term of the examination regulations, also in an English thesis; see the [discussion at the cover package](https://github.com/latextemplates/scientific-thesis-cover/pull/10).
+If your university wants it in English, set the type as free text in the options of `scientific-thesis-cover` in the main file: `type={Master Thesis}` instead of `type=master`.
+
+<% } -%>
 <% if (bibtextool == 'biblatex') { -%>
 ### Q: How do I change the citation style (APA, Chicago, IEEE, ...)?
 
