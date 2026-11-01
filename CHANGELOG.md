@@ -11,6 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Papers (`acmart`, `ieee`, `lncs`, with `--githubpublish`): `comparison/` renders the same text with the publisher's class as distributed and with the template; `comparison/build.sh` puts the first, a middle and the last page side by side, the `Check` workflow builds them, and the README shows the images.
+- `Check` workflow (`--githubpublish`): the weekly run compares the built PDF with the one published on gh-pages (`diff-pdf`) and uploads the highlighted differences as artifact `pdf-diff`, so changes from a TeX Live update are visible without an error.
 - README (biblatex templates): FAQ on changing the citation style to APA, Chicago, IEEE, etc., pointing to the GADR with rendered examples. [scientific-thesis-template#151](https://github.com/latextemplates/scientific-thesis-template/issues/151)
 
 ### Fixed
