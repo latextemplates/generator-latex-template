@@ -12,6 +12,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - README (biblatex templates): FAQ on changing the citation style to APA, Chicago, IEEE, etc., pointing to the GADR with rendered examples. [scientific-thesis-template#151](https://github.com/latextemplates/scientific-thesis-template/issues/151)
 
+### Fixed
+
+- `ieee`: the date "(2015/08/26)" no longer appears before the reference list; the banner comment that `IEEEtranN-doi.bst` writes into the `.bbl` was longer than BibTeX's line limit, so its second half was typeset.
+
 ## [2026.11.1]
 
 ### Added
