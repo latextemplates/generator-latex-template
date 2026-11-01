@@ -161,6 +161,16 @@ This is a **minimal Markdown quick start**. Write your content as plain Markdown
 
 The source code examples use the [minted] package, which highlights code best; it needs Python and [latexminted] (contained in the Docker image and on Overleaf).
 The `-basic-listings` variants use the [listings] package instead and need no extra setup.
+
+## Comparison with the publisher's template
+
+The same text rendered with the <%= { acmart: "acmart", ieee: "IEEEtran", lncs: "llncs" }[documentclass] %> class as distributed (left) and with this template (right).
+The layout, the fonts, and the title block are the publisher's; this template adds microtype, hyperlinks, and DOIs in the references.
+The sources are in [comparison/](comparison/); `comparison/build.sh` renders the images.
+<% for (const page of ["first", "middle", "last"]) { -%>
+
+![<%= page[0].toUpperCase() + page.slice(1) %> page: as distributed (left) and this template (right)](https://latextemplates.github.io/<%= templateRepo %>/comparison-<%= page %>.png)
+<% } -%>
 <% } -%>
 <% if (!(githubpublish && ((documentclass == "ustutt") || (documentclass == "scientific-thesis")))) { -%>
 
@@ -380,6 +390,9 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 <% } -%>
 - [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
 - [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
+<% if ((documentclass == "scientific-thesis") && (githubpublish || (thesisvariant == "ustutt"))) { -%>
+- <% if (githubpublish || (language == "en")) { %>[affirmation.tex](affirmation.tex)<% } %><% if (githubpublish) { %> and <% } %><% if (githubpublish || (language == "de")) { %>[affirmation-de.tex](affirmation-de.tex)<% } %> - The declaration at the end of the thesis<% if (githubpublish) { %> (University of Stuttgart variant, English and German)<% } %>. Adapt the text if your university requires another one.
+<% } -%>
 - [commands.tex](commands.tex) - Example LaTeX macros.
 
 Following additional files are included, which do not need to be adapted:
@@ -986,6 +999,63 @@ Try with following command
 
 See <https://tex.stackexchange.com/a/124206/9075> for details.
 
+<% if (isThesis || feature.abbreviations) { -%>
+### Q: `\glsunset{...}` or `\glsreset{...}` seem to do nothing. Why?
+
+They only change the "already used" flag of an abbreviation; nothing is printed where they stand.
+The effect shows at the next `\gls{...}` of that abbreviation: after `\glsunset{nlp}`, `\gls{nlp}` prints the short form; after `\glsreset{nlp}`, the long form.
+Put them before that `\gls{...}` in the text, use the key from `abbreviations.tex` (`\newabbreviation{nlp}{NLP}{natural language processing}`), and compile twice (`latexmk` does), because the first-use information comes from the previous run.
+`\glsresetall` after the abstract lets every abbreviation appear in its long form again in the main text.
+
+<% } -%>
+<% if ((documentclass == "scientific-thesis") && (githubpublish || (thesisvariant == "ustutt"))) { -%>
+### Q: The thesis is in English, but the title page says "Masterarbeit" (or "Bachelorarbeit"). Why?
+
+On the cover of the University of Stuttgart, the thesis type is the official German term of the examination regulations, also in an English thesis; see the [discussion at the cover package](https://github.com/latextemplates/scientific-thesis-cover/pull/10).
+If your university wants it in English, set the type as free text in the options of `scientific-thesis-cover` in the main file: `type={Master Thesis}` instead of `type=master`.
+
+<% } -%>
+<% if (documentclass == "scientific-thesis") { -%>
+### Q: How do I change the font of the table of contents?
+
+With KOMA-Script commands in the preamble of the main file (next to `\setkomafont{disposition}`); the `tocloft` package is not needed and does not go well with KOMA-Script.
+The chapter entries use the font element `chapterentry`, the lower levels are set by `\DeclareTOCStyleEntries`:
+
+```latex
+\setkomafont{chapterentry}{\sffamily\bfseries\large}
+\DeclareTOCStyleEntries[entryformat=\sffamily\large]{tocline}{section}
+\DeclareTOCStyleEntries[entryformat=\sffamily]{tocline}{subsection,subsubsection}
+```
+
+The template sets all entries in the sans-serif font of the headings; see the KOMA-Script manual (`texdoc scrguide`, section on `tocbasic`) for `numwidth`, `indent`, `pagenumberformat`, and the other keys.
+
+<% } -%>
+### Q: How do I speed up compilation with a precompiled preamble?
+
+With pdfLaTeX, the preamble of `<%= filenames.main %>.tex` can be dumped into a format file once ([mylatex](https://ctan.org/pkg/mylatex), part of TeX Live); later runs load the format instead of reading all packages, which saved 26 % per run for the example thesis.
+
+```bash
+pdflatex -ini "&pdflatex" mylatex.ltx <%= filenames.main %>
+pdflatex "&mylatex" <%= filenames.main %>
+```
+
+Caveats: a run with the format skips the preamble of the `.tex` file, so after every change to the preamble, and after a TeX Live update, the first command has to be repeated; otherwise the change is silently ignored.
+Additions placed after a line containing only `% mylatex` (put it right before `\begin{document}`) are read anyway, so new packages and macros can go there while writing.
+`latexmk` does not rebuild the format, so this is for runs by hand while writing; `latexmk` builds the final version as usual.
+The file `mylatex.fmt` (about 14 MB) is a build product and in `.gitignore`.
+LuaLaTeX<% if (reallatexcompiler.startsWith("lualatex")) { %> (the default of this template)<% } %> cannot dump its preamble: Lua states and the loaded fonts are not part of a format.
+The other ways to shorten the edit-compile loop, with measurements, are in the decision record [How to speed up compilation](https://github.com/latextemplates/gadr-latex-packages/blob/main/compilation-speed.md).
+
+<% if (bibtextool == 'biblatex') { -%>
+### Q: How do I change the citation style (APA, Chicago, IEEE, ...)?
+
+The bibliography is typeset by [biblatex] with its built-in styles: `<%= authoryear ? "authoryear" : (documentclass == "lncs" ? "lncs" : "alphabetic") %>` here<% if (!authoryear && documentclass != "lncs") { %> (`--authoryear` at generation time switches to `authoryear`)<% } %>.
+These styles are generic and complete; they follow no published style guide, which is fine unless a department or a journal prescribes one.
+To switch to a prescribed style, replace the `bibstyle` and `citestyle` options in the `\usepackage[...]{biblatex}` block of `<%= filenames.main %>.tex` by the style's option, e.g., `style=apa` ([biblatex-apa](https://ctan.org/pkg/biblatex-apa)) or `style=ieee` ([biblatex-ieee](https://ctan.org/pkg/biblatex-ieee)); Chicago comes as its own package ([biblatex-chicago](https://ctan.org/pkg/biblatex-chicago)), which is loaded instead of biblatex.
+The options `minalphanames` and `maxalphanames` belong to the `alphabetic` style and have to go.
+Rendered examples of each style and the trade-offs are in the decision record [How to cite in a given citation style](https://github.com/latextemplates/gadr-latex-packages/blob/main/citation-styles.md).
+
+<% } -%>
 ### Q: There is an output that biber/biblatex too old
 
 See installation hints of how to update them at different systems.

@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- Papers (`acmart`, `ieee`, `lncs`, with `--githubpublish`): `comparison/` renders the same text with the publisher's class as distributed and with the template; `comparison/build.sh` puts the first, a middle and the last page side by side, the `Check` workflow builds them, and the README shows the images.
+- `Check` workflow (`--githubpublish`): the weekly run compares the built PDF with the one published on gh-pages page by page and uploads the differing pages as artifact `pdf-diff`, so changes from a TeX Live update are visible without an error.
+- `scientific-thesis` (ustutt): the declaration at the end of the thesis is the file `affirmation.tex` (German: `affirmation-de.tex`) of the template instead of the fixed `\Versicherung` of the cover package, so its text can be adapted. [scientific-thesis-template#119](https://github.com/latextemplates/scientific-thesis-template/issues/119)
+- `scientific-thesis` (ustutt) README: FAQ on why the title page says "Masterarbeit" in an English thesis and how to set the type as free text. [scientific-thesis-template#97](https://github.com/latextemplates/scientific-thesis-template/issues/97)
+- The main file header and the PDF properties (custom entry `Template`, shown by `pdfinfo -custom` and in the document properties of viewers) name the template and the generator version the document is based on. [scientific-thesis-template#93](https://github.com/latextemplates/scientific-thesis-template/issues/93)
+- README: FAQ on a precompiled preamble with pdfLaTeX (`mylatex`) and its caveats, with a link to the decision record on compilation speed; `*.fmt` is ignored by git.
+- README (biblatex templates): FAQ on changing the citation style to APA, Chicago, IEEE, etc., pointing to the GADR with rendered examples. [scientific-thesis-template#151](https://github.com/latextemplates/scientific-thesis-template/issues/151)
+
+### Changed
+
+- `scientific-thesis`: the entries of the table of contents are set in the sans-serif font of the headings on all levels (KOMA-Script's `\DeclareTOCStyleEntries`); before, only the chapter entries were. README FAQ on changing the fonts of the table of contents. [scientific-thesis-template#150](https://github.com/latextemplates/scientific-thesis-template/issues/150)
+
+### Fixed
+
+- `rotating` is loaded before `tablefootnote`, so packages added by the user that need it (`ctable`, `sidewaystable`) no longer fail with "Package rotating loaded after tablefootnote"; a sideways `ctable` is placed correctly. [scientific-thesis-template#101](https://github.com/latextemplates/scientific-thesis-template/issues/101)
+- Theses: the abbreviations example names the right file (`abbreviations.tex`) and command (`\newabbreviation`), links glossaries-extra, and explains that `\glsunset`/`\glsreset` act on the next `\gls`; README FAQ on it. [scientific-thesis-template#121](https://github.com/latextemplates/scientific-thesis-template/issues/121)
+- `ieee`: the date "(2015/08/26)" no longer appears before the reference list; the banner comment that `IEEEtranN-doi.bst` writes into the `.bbl` was longer than BibTeX's line limit, so its second half was typeset.
+
 ## [2026.11.1]
 
 ### Added

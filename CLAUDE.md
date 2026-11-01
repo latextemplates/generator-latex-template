@@ -277,4 +277,17 @@ diff is printed in the failing run's "Prepare files" step, canonical variant **e
 See CONTRIBUTING.md → "Test locally" / DEPP / reitzig. Quick form, from an empty target dir:
 `npx yo <path-to-this-repo>/generators/app/index.js --documentclass=... --texlive=... ...`.
 
+Compile in the Docker image `registry.gitlab.com/islandoftex/images/texlive:latest` (run as your own
+uid: `-u $(id -u):$(id -g) -e HOME=/tmp`). **Pull the image once a week** (`docker pull`) so a local
+build reflects the current TeX Live, as CI does. Two things a passing local build does **not** prove:
+
+- **The `Texlivefile` is complete.** The image is a full TeX Live; the CI runner installs only the
+  packages the generated `Texlivefile` lists. A document that compiles locally can still fail in the
+  `Check` workflow with a missing `.sty`, `.bst`, or font metric (e.g., `courier` for `pcrr7t`, found
+  by the comparison build in 2026-11). When a build needs a new package, add it to `Texlivefile`.
+- **Nothing changed in the output.** A TeX Live update can change line breaks, fonts, or spacing
+  without an error. After pulling a new image (or when the weekly scheduled `Check` run turns red),
+  rebuild and look at the PDF against the published one
+  (`https://latextemplates.github.io/<template>/<main>.pdf`), e.g. with `diff-pdf` or page renders.
+
 [Yeoman]: https://yeoman.io/
