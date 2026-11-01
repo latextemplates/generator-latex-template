@@ -17,6 +17,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The main file header and the PDF properties (custom entry `Template`, shown by `pdfinfo -custom` and in the document properties of viewers) name the template and the generator version the document is based on. [scientific-thesis-template#93](https://github.com/latextemplates/scientific-thesis-template/issues/93)
 - README (biblatex templates): FAQ on changing the citation style to APA, Chicago, IEEE, etc., pointing to the GADR with rendered examples. [scientific-thesis-template#151](https://github.com/latextemplates/scientific-thesis-template/issues/151)
 
+### Changed
+
+- `scientific-thesis`: the entries of the table of contents are set in the sans-serif font of the headings on all levels (KOMA-Script's `\DeclareTOCStyleEntries`); before, only the chapter entries were. README FAQ on changing the fonts of the table of contents. [scientific-thesis-template#150](https://github.com/latextemplates/scientific-thesis-template/issues/150)
+
 ### Fixed
 
 - `rotating` is loaded before `tablefootnote`, so packages added by the user that need it (`ctable`, `sidewaystable`) no longer fail with "Package rotating loaded after tablefootnote"; a sideways `ctable` is placed correctly. [scientific-thesis-template#101](https://github.com/latextemplates/scientific-thesis-template/issues/101)
