@@ -755,9 +755,14 @@ export default class extends Generator {
       this.props.documentclass === "scientific-thesis" &&
       this.props.thesisvariant === "ustutt"
     ) {
+      // English and German thesis share one repository on GitHub, so the file name carries the language
       this.fs.copy(
         this.templatePath("affirmation." + this.props.language + ".tex"),
-        this.destinationPath("affirmation.tex"),
+        this.destinationPath(
+          this.props.language === "en"
+            ? "affirmation.tex"
+            : "affirmation-de.tex",
+        ),
       );
     }
 
