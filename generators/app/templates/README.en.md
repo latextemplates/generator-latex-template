@@ -996,6 +996,15 @@ Try with following command
 
 See <https://tex.stackexchange.com/a/124206/9075> for details.
 
+<% if (isThesis || feature.abbreviations) { -%>
+### Q: `\glsunset{...}` or `\glsreset{...}` seem to do nothing. Why?
+
+They only change the "already used" flag of an abbreviation; nothing is printed where they stand.
+The effect shows at the next `\gls{...}` of that abbreviation: after `\glsunset{nlp}`, `\gls{nlp}` prints the short form; after `\glsreset{nlp}`, the long form.
+Put them before that `\gls{...}` in the text, use the key from `abbreviations.tex` (`\newabbreviation{nlp}{NLP}{natural language processing}`), and compile twice (`latexmk` does), because the first-use information comes from the previous run.
+`\glsresetall` after the abstract lets every abbreviation appear in its long form again in the main text.
+
+<% } -%>
 <% if (bibtextool == 'biblatex') { -%>
 ### Q: How do I change the citation style (APA, Chicago, IEEE, ...)?
 
