@@ -390,6 +390,9 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 <% } -%>
 - [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
 - [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
+<% if ((documentclass == "scientific-thesis") && (githubpublish || (thesisvariant == "ustutt"))) { -%>
+- [affirmation.tex](affirmation.tex) - The declaration at the end of the thesis<% if (githubpublish) { %> (University of Stuttgart variant)<% } %>. Adapt the text if your university requires another one.
+<% } -%>
 - [commands.tex](commands.tex) - Example LaTeX macros.
 
 Following additional files are included, which do not need to be adapted:

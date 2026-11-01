@@ -737,6 +737,18 @@ export default class extends Generator {
       );
     }
 
+    // The declaration at the end of a University of Stuttgart thesis is a file of the template, so its
+    // text can be adapted (scientific-thesis-template#119)
+    if (
+      this.props.documentclass === "scientific-thesis" &&
+      this.props.thesisvariant === "ustutt"
+    ) {
+      this.fs.copy(
+        this.templatePath("affirmation." + this.props.language + ".tex"),
+        this.destinationPath("affirmation.tex"),
+      );
+    }
+
     // mwe-main does not \input{commands}; keep the quick start minimal.
     if (this.props.documentclass !== "mwe") {
       this.fs.copyTpl(
