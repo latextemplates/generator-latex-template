@@ -161,6 +161,16 @@ This is a **minimal Markdown quick start**. Write your content as plain Markdown
 
 The source code examples use the [minted] package, which highlights code best; it needs Python and [latexminted] (contained in the Docker image and on Overleaf).
 The `-basic-listings` variants use the [listings] package instead and need no extra setup.
+
+## Comparison with the publisher's template
+
+The same text rendered with the <%= { acmart: "acmart", ieee: "IEEEtran", lncs: "llncs" }[documentclass] %> class as distributed (left) and with this template (right).
+The layout, the fonts, and the title block are the publisher's; this template adds microtype, hyperlinks, and DOIs in the references.
+The sources are in [comparison/](comparison/); `comparison/build.sh` renders the images.
+<% for (const page of ["first", "middle", "last"]) { -%>
+
+![<%= page[0].toUpperCase() + page.slice(1) %> page: as distributed (left) and this template (right)](https://latextemplates.github.io/<%= templateRepo %>/comparison-<%= page %>.png)
+<% } -%>
 <% } -%>
 <% if (!(githubpublish && ((documentclass == "ustutt") || (documentclass == "scientific-thesis")))) { -%>
 

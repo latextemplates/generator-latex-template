@@ -635,6 +635,21 @@ export default class extends Generator {
       );
     }
 
+    // Side-by-side comparison of the publisher's class as distributed with this template (README, gh-pages)
+    if (this.props.githubpublish && this.props.isPaper) {
+      for (const [src, dest] of [
+        [`comparison-body.${this.props.documentclass}.tex`, "body.tex"],
+        [`comparison-plain.${this.props.documentclass}.tex`, "plain.tex"],
+        ["comparison-build.sh", "build.sh"],
+      ]) {
+        this.fs.copyTpl(
+          this.templatePath(src),
+          this.destinationPath(`comparison/${dest}`),
+          this.props,
+        );
+      }
+    }
+
     if (this.props.documentclass === "lncs") {
       this.fs.copy(
         this.templatePath("splncs04nat.bst"),
