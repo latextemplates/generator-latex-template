@@ -986,6 +986,16 @@ Try with following command
 
 See <https://tex.stackexchange.com/a/124206/9075> for details.
 
+<% if (bibtextool == 'biblatex') { -%>
+### Q: How do I change the citation style (APA, Chicago, IEEE, ...)?
+
+The bibliography is typeset by [biblatex] with its built-in styles: `<%= authoryear ? "authoryear" : (documentclass == "lncs" ? "lncs" : "alphabetic") %>` here<% if (!authoryear && documentclass != "lncs") { %> (`--authoryear` at generation time switches to `authoryear`)<% } %>.
+These styles are generic and complete; they follow no published style guide, which is fine unless a department or a journal prescribes one.
+To switch to a prescribed style, replace the `bibstyle` and `citestyle` options in the `\usepackage[...]{biblatex}` block of `<%= filenames.main %>.tex` by the style's option, e.g., `style=apa` ([biblatex-apa](https://ctan.org/pkg/biblatex-apa)) or `style=ieee` ([biblatex-ieee](https://ctan.org/pkg/biblatex-ieee)); Chicago comes as its own package ([biblatex-chicago](https://ctan.org/pkg/biblatex-chicago)), which is loaded instead of biblatex.
+The options `minalphanames` and `maxalphanames` belong to the `alphabetic` style and have to go.
+Rendered examples of each style and the trade-offs are in the decision record [How to cite in a given citation style](https://github.com/latextemplates/gadr-latex-packages/blob/main/citation-styles.md).
+
+<% } -%>
 ### Q: There is an output that biber/biblatex too old
 
 See installation hints of how to update them at different systems.

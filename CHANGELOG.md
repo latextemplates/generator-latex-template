@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- README (biblatex templates): FAQ on changing the citation style to APA, Chicago, IEEE, etc., pointing to the GADR with rendered examples. [scientific-thesis-template#151](https://github.com/latextemplates/scientific-thesis-template/issues/151)
+
 ## [2026.11.1]
 
 ### Added
