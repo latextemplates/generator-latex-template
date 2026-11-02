@@ -139,9 +139,25 @@
 
 \usepackage{iftex}
 <% } -%>
-<% if (isThesis) { -%>
+<% if (texlive >= 2021) { -%>
 
+% lineno is loaded by mindflow (used in the examples). It checks \@parboxrestore when it is loaded and warns
+% "Command \@parboxrestore has changed" if another package has patched the command before; loaded here first.
+\usepackage{lineno}
+<% } -%>
+<% if (isThesis && (reallatexcompiler.startsWith("lualatex") || latexcompiler == "both")) { -%>
+
+% \ifwindows selects the system fonts under LuaLaTeX (see the font setup). Under pdfLaTeX, ifplatform needs shell
+% escape and warns without it, so it is loaded for LuaLaTeX only.
+<% if (latexcompiler == "both") { -%>
+\ifluatex
+  \usepackage{ifplatform}
+\else
+  \newif\ifwindows % \ifwindows has to be a conditional for TeX to skip the LuaLaTeX branch correctly
+\fi
+<% } else { -%>
 \usepackage{ifplatform}
+<% } -%>
 <% } -%>
 
 % backticks (`) are rendered as such in verbatim environments.
