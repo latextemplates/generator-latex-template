@@ -164,7 +164,8 @@ The `-basic-listings` variants use the [listings] package instead and need no ex
 
 ## Comparison with the publisher's template
 
-The same text rendered with the <%= { acmart: "acmart", ieee: "IEEEtran", lncs: "llncs" }[documentclass] %> class as distributed (left) and with this template (right).
+<% const plainClass = { acmart: "acmart", ieee: "IEEEtran", lncs: "llncs" }[documentclass]; -%>
+The same text rendered with the <%= plainClass %> class as distributed (left) and with this template (right).
 The layout, the fonts, and the title block are the publisher's; this template adds microtype, hyperlinks, and DOIs in the references.
 The sources are in [comparison/](comparison/); `comparison/build.sh` renders the images.
 <% for (const page of ["first", "middle", "last"]) { -%>
