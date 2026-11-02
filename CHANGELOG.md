@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- LuaLaTeX: no line break after a one-letter word such as "a" or "I" (`\suppressonecharbreak` of [chickenize](https://ctan.org/pkg/chickenize)); pdfLaTeX is unaffected. [scientific-thesis-template#84](https://github.com/latextemplates/scientific-thesis-template/issues/84)
 - Papers (`acmart`, `ieee`, `lncs`, with `--githubpublish`): `comparison/` renders the same text with the publisher's class as distributed and with the template; `comparison/build.sh` puts the first, a middle and the last page side by side, the `Check` workflow builds them, and the README shows the images.
 - `Check` workflow (`--githubpublish`): the weekly run compares the built PDF with the one published on gh-pages page by page and uploads the differing pages as artifact `pdf-diff`, so changes from a TeX Live update are visible without an error.
 - `scientific-thesis` (ustutt): the declaration at the end of the thesis is the file `affirmation.tex` (German: `affirmation-de.tex`) of the template instead of the fixed `\Versicherung` of the cover package, so its text can be adapted. [scientific-thesis-template#119](https://github.com/latextemplates/scientific-thesis-template/issues/119)
