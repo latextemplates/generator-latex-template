@@ -742,6 +742,13 @@ Run the compiler so that it stops at the first error instead of continuing with 
 
 The line starting with `!` in the output (and in `<%= filenames.main %>.log`) names the error, the following `l.<number>` line the line of the source.
 `make log` shows only the relevant messages of the last run (using [texlogsieve](https://ctan.org/pkg/texlogsieve)).
+For an interactive run, [texfot](https://ctan.org/pkg/texfot) wraps the compiler and prints only the lines that probably need a change in the source:
+
+```bash
+texfot <%= reallatexcompiler %> <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
+```
+
+Which tool fits which situation is compared in the [decision record on log filtering](https://github.com/latextemplates/gadr-latex-packages/blob/main/log-filtering.md).
 Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `<%= reallatexcompiler %>` afterwards).
 
 If there is no PDF although the log shows only warnings, the compiler stopped on a missing file without an `!` line: search the end of the log for `not found`, `cannot find`, or `Fatal error`.
@@ -1167,6 +1174,13 @@ Run the compiler so that it stops at the first error instead of continuing with 
 
 The line starting with `!` in the output (and in `<%= filenames.main %>.log`) names the error, the following `l.<number>` line the line of the source.
 `make log` shows only the relevant messages of the last run (using [texlogsieve](https://ctan.org/pkg/texlogsieve)).
+For an interactive run, [texfot](https://ctan.org/pkg/texfot) wraps the compiler and prints only the lines that probably need a change in the source:
+
+```bash
+texfot <%= reallatexcompiler %> <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
+```
+
+Which tool fits which situation is compared in the [decision record on log filtering](https://github.com/latextemplates/gadr-latex-packages/blob/main/log-filtering.md).
 Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `<%= reallatexcompiler %>` afterwards).
 
 If there is no PDF although the log shows only warnings, the compiler stopped on a missing file without an `!` line: search the end of the log for `not found`, `cannot find`, or `Fatal error`.
