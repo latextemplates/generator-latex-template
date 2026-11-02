@@ -676,6 +676,7 @@ export default class extends Generator {
 
     if (this.props.documentclass === "ieee") {
       this.fs.copy(
+        // [impl->req~ieee-bst-banner~1]
         this.templatePath("IEEEtranN-doi.bst"),
         this.destinationPath("IEEEtranN-doi.bst"),
       );

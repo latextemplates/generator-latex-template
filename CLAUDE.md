@@ -289,7 +289,10 @@ build reflects the current TeX Live, as CI does. Two things a passing local buil
   without an error. After pulling a new image (or when the weekly scheduled `Check` run turns red),
   rebuild and look at the PDF against the published one
   (`https://latextemplates.github.io/<template>/<main>.pdf`), e.g. with `diff-pdf` or page renders.
-  `docs/silent-regressions.md` maps the constructs that have regressed silently before to their issue and to
-  the page of the example document where they show; add a row when such an issue is closed.
+  `docs/silent-regressions.md` lists the constructs that have regressed silently before, each as an
+  OpenFastTrace requirement (`req~<name>~1`) with its issue and the page of the example document where it
+  shows. The fix carries `<%# [impl->req~<name>~1] -%>` (an EJS comment, stripped from the output; a JS
+  comment in `index.js`). `scripts/oft-tags.sh` collects the tags and the `OpenFastTrace` workflow fails on
+  an uncovered requirement or a tag without one. When such an issue is closed, add the entry and the tag.
 
 [Yeoman]: https://yeoman.io/

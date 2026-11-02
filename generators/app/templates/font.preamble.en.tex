@@ -91,6 +91,7 @@ lualatex
 <%= indent %>% See https://tug.org/FontCatalogue/texgyreheros/ for more information
 <%= indent %>\setsansfont[Scale=.9]{TeX Gyre Heros}
 <%= indent %>% Math (and siunitx numbers) in the matching math font; unicode-math would use Latin Modern Math otherwise
+<%# [impl->req~math-font-matches-text~1] -%>
 <%= indent %>\setmathfont{TeX Gyre Termes Math}
 <% if (documentclass == 'lncs') { -%>
 <%= indent %>% newtxtt looks good with times, but no equivalent for lualatex found,
@@ -115,11 +116,13 @@ lualatex
 <%# IEEEtran sets Times/Helvetica/Courier (Palatino for compsoc journals) as Type 1 fonts via \rmdefault etc.;
 fontspec replaces them with Latin Modern, so the OpenType equivalents are set here -%>
 
+<%# [impl->req~ieee-fonts-lualatex~1] -%>
 <%= indent %>% IEEEtran's fonts (Times, Helvetica, Courier) as OpenType: fontspec would otherwise typeset the paper in Latin Modern
 <%= indent %>\setmainfont{TeX Gyre Termes}
 <%= indent %>\setsansfont{TeX Gyre Heros}
 <%= indent %>\setmonofont{TeX Gyre Cursor}
 <%= indent %>% Math (and siunitx numbers) in the matching math font; unicode-math would use Latin Modern Math otherwise
+<%# [impl->req~math-font-matches-text~1] -%>
 <%= indent %>\setmathfont{TeX Gyre Termes Math}
 <%= indent %>% compsoc journals use Palatino
 <%= indent %>\makeatletter
@@ -136,6 +139,7 @@ fontspec replaces them with Latin Modern, so the OpenType equivalents are set he
 <%= indent %>  \setmainfont{XCharter}
 <%= indent %>\fi
 <%= indent %>% Math (and siunitx numbers) in the matching math font; unicode-math would use Latin Modern Math otherwise
+<%# [impl->req~math-font-matches-text~1] -%>
 <%= indent %>\setmathfont{XCharter-Math.otf}
 
 <%= indent %>% Use Inconsolata font (https://ctan.org/pkg/inconsolata)
@@ -185,6 +189,7 @@ fontspec replaces them with Latin Modern, so the OpenType equivalents are set he
 
 <%= indent %>% Enable proper ligatures for English documents (German documents use autotype, see ADR-0008)
 <%= indent %>% For more information see https://ctan.org/pkg/selnolig
+<%# [impl->req~ligatures-copyable~1] -%>
 <%= indent %>\usepackage{selnolig}
 <% } -%>
 
@@ -208,6 +213,7 @@ pdflatex
 <%# Times New Roman and pdflatex -%>
 <%# -%>
 <%= indent %>\RequirePackage{newtxtext}
+<%# [impl->req~mathrm-text-font~1] -%>
 <%= indent %>\RequirePackage{newtxmath}
 <%= indent %>\RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
 <% break; default: -%>
@@ -319,6 +325,7 @@ In addition, we make the code appear more nice -%>
 % chapter entries in the heading font and the lower levels in the text font. No tocloft needed (it does
 % not go well with KOMA-Script); change entryformat to taste, e.g., \sffamily\large for larger section entries,
 % and \setkomafont{chapterentry}{...} for the chapter entries.
+<%# [impl->req~toc-heading-font~1] -%>
 \DeclareTOCStyleEntries[entryformat=\sffamily]{tocline}{section,subsection,subsubsection}
 
 % Header: the chapter on the left, the current section on the right.
