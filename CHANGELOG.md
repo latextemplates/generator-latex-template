@@ -24,6 +24,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
+- README FAQ "How do I find the cause of a LaTeX error?": `-halt-on-error`, how to read the `!` line, `make log`, and what to look for when there is no PDF although the log shows only warnings (missing font or encoding file). [scientific-thesis-template#134](https://github.com/latextemplates/scientific-thesis-template/issues/134)
 - Thesis (English): the German summary (`Kurzfassung`) is an appendix instead of a section after the abstract, as the examination regulations of the University of Stuttgart require. [scientific-thesis-template#105](https://github.com/latextemplates/scientific-thesis-template/issues/105)
 - `scientific-thesis`: the entries of the table of contents are set in the sans-serif font of the headings on all levels (KOMA-Script's `\DeclareTOCStyleEntries`); before, only the chapter entries were. README FAQ on changing the fonts of the table of contents. [scientific-thesis-template#150](https://github.com/latextemplates/scientific-thesis-template/issues/150)
 
