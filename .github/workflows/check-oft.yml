@@ -11,9 +11,12 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Download OpenFastTrace
-        run: |
-          curl -sSL -o openfasttrace.jar https://github.com/itsallcode/openfasttrace/releases/download/4.11.0/openfasttrace-4.11.0.jar
-          echo "f094cd314f0fc4236f513f66fb39260a16f72e2320beb6b4fdeb7940b9b8cf87  openfasttrace.jar" | sha256sum -c
+        uses: ethanjli/cached-download-action@f1d109e4eca8d988e012ed5565366717aba90d0f # v0.1.4
+        with:
+          url: https://github.com/itsallcode/openfasttrace/releases/download/4.11.0/openfasttrace-4.11.0.jar
+          destination: openfasttrace.jar
+      - name: Verify the download
+        run: echo "f094cd314f0fc4236f513f66fb39260a16f72e2320beb6b4fdeb7940b9b8cf87  openfasttrace.jar" | sha256sum -c
       - name: Collect the tags of the templates
         run: scripts/oft-tags.sh
       - name: Trace the requirements of docs/silent-regressions.md
