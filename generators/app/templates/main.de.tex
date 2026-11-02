@@ -161,7 +161,9 @@
 \ifluatex
   \usepackage{ifplatform}
 \else
-  \newif\ifwindows % \ifwindows has to be a conditional for TeX to skip the LuaLaTeX branch correctly
+  % A conditional named \ifwindows, so that TeX can skip the LuaLaTeX branch of the font setup. Written with \csname:
+  % when LuaLaTeX skips this branch, a literal \ifwindows (defined by ifplatform by then) would unbalance the \ifluatex.
+  \expandafter\newif\csname ifwindows\endcsname
 \fi
 <% } else { -%>
 \usepackage{ifplatform}
