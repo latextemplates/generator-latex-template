@@ -638,11 +638,20 @@
 
 \begin{abstract}
 <% break; case "scientific-thesis": -%>
+<%# [impl->req~page-numbering-iso-7144~1] -%>
+<% if (pagenumbering == "roman") { -%>
+% Römische Seitenzahlen für den Vorspann (Titelseite bis Inhaltsverzeichnis);
+% \mainmatter unten beginnt neu mit arabisch 1. Erzeugt mit --pagenumbering=roman.
+\frontmatter
+<% } else { -%>
+% Die Seitennummerierung erfolgt durchlaufend ab der Titelseite, also keine römischen Ziffern im Vorspann:
+% Die ISO 7144 schreibt das für Abschlussarbeiten vor. Für römische Ziffern mit --pagenumbering=roman neu erzeugen
+% (oder hier \frontmatter und vor dem ersten Kapitel \mainmatter einfügen).
 \pagenumbering{arabic}
+<% } -%>
 <% if (thesisvariant == "ustutt") { -%>
 \Titelblatt
 <% } else if (thesisvariant == "university-of-hamburg") { -%>
-\frontmatter
 \newgeometry{centering,left=2cm,right=2cm,top=2cm,bottom=2cm}
 \begin{titlepage}
   \includegraphics[width=10cm]{figures/uhh-logo.pdf}
@@ -675,7 +684,6 @@
 
 \restoregeometry
 <% } else if (thesisvariant == "thu") { -%>
-\frontmatter
 \newgeometry{centering,left=2cm,right=2cm,top=2cm,bottom=2cm}
 \begin{titlepage}
   \includegraphics[width=5cm]{figures/thu-logo.png}
@@ -714,12 +722,17 @@
 % auch im Stil vom Inhaltsverzeichnis
 \section*{Kurzfassung}
 <% break; case "ustutt": -%>
+<%# [impl->req~page-numbering-iso-7144~1] -%>
+<% if (pagenumbering == "roman") { -%>
+% Römische Seitenzahlen für den Vorspann; \mainmatter unten beginnt neu mit arabisch 1.
+% Erzeugt mit --pagenumbering=roman. Promotionsordnung prüfen: sie kann durchlaufende Nummerierung verlangen.
+\frontmatter
+<% } else { -%>
 % Die Seitennummerierung erfolgt durchlaufend ab der Titelseite. Also keine
 % Spielereien mit römischen Ziffern usw. - Die ISO 7144 schreibt das sogar für
-% wissenschaftliche Werke vor.
-% Von Promitionsordnung verlangt!
-% Deshalb ist \frontmatter DEAKTIVIERT
-%\frontmatter
+% wissenschaftliche Werke vor. Von der Promotionsordnung verlangt!
+% Deshalb wird \frontmatter nicht verwendet (mit --pagenumbering=roman neu erzeugen, um es zu nutzen).
+<% } -%>
 \title{Thesis Title}
 %\author{\texorpdfstring{\href{http://www.example.org/}{Author Name}}{Author Name}}
 \author{Author Name}
@@ -735,8 +748,6 @@
 % Default: Dr. rer. nat.
 %\degree{Doktors der Naturwissenschaften (Dr.~rer.~nat.)}
 \maketitle
-
-%\mainmatter
 
 \pagestyle{scrheadings}
 
@@ -902,7 +913,7 @@ The following is typeset for both ustutt and scientific-thesis.
 
 \tableofcontents
 <% break; } -%>
-<% if ((documentclass == "scientific-thesis") && (thesisvariant != "ustutt")) { -%>
+<% if (isThesis && (pagenumbering == "roman")) { -%>
 \mainmatter
 <% } -%>
 

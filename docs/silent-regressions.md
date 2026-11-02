@@ -193,3 +193,12 @@ The `chktex` job passes on the generated files without options; `.chktexrc` carr
 [scientific-thesis-template#108](https://github.com/latextemplates/scientific-thesis-template/issues/108)
 
 Needs: impl
+
+### Page numbering follows ISO 7144
+
+`req~page-numbering-iso-7144~1`
+
+All thesis variants number the pages continuously with arabic numerals from the title page on (ISO 7144); the Hamburg and THU variants once restarted with arabic 1 after a roman front matter ([scientific-thesis-template#69](https://github.com/latextemplates/scientific-thesis-template/issues/69)).
+Check: the page after the table of contents of the example document carries an arabic number greater than 1; with `--pagenumbering=roman` the front matter carries roman numerals and the first chapter starts at 1.
+
+Needs: impl

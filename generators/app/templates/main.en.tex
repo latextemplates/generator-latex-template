@@ -605,11 +605,20 @@
 
 \begin{abstract}
 <% break; case "scientific-thesis": -%>
+<%# [impl->req~page-numbering-iso-7144~1] -%>
+<% if (pagenumbering == "roman") { -%>
+% Roman page numbers for the front matter (title page up to the table of contents);
+% \mainmatter below restarts with arabic 1. Generated with --pagenumbering=roman.
+\frontmatter
+<% } else { -%>
+% The pages are numbered continuously from the title page, so no roman numerals for the front matter:
+% ISO 7144 requires this for theses. For roman numerals, regenerate with --pagenumbering=roman
+% (or put \frontmatter here and \mainmatter before the first chapter).
 \pagenumbering{arabic}
+<% } -%>
 <% if (thesisvariant == "ustutt") { -%>
 \Titelblatt
 <% } else if (thesisvariant == "university-of-hamburg") { -%>
-\frontmatter
 \newgeometry{centering,left=2cm,right=2cm,top=2cm,bottom=2cm}
 \begin{titlepage}
   \includegraphics[width=10cm]{figures/uhh-logo.pdf}
@@ -642,7 +651,6 @@
 
 \restoregeometry
 <% } else if (thesisvariant == "thu") { -%>
-\frontmatter
 \newgeometry{centering,left=2cm,right=2cm,top=2cm,bottom=2cm}
 \begin{titlepage}
   \includegraphics[width=5cm]{figures/thu-logo.png}
@@ -682,10 +690,16 @@
 \section*{Abstract}
 <% break; case "ustutt": -%>
 
+<%# [impl->req~page-numbering-iso-7144~1] -%>
+<% if (pagenumbering == "roman") { -%>
+% Roman page numbers for the front matter; \mainmatter below restarts with arabic 1.
+% Generated with --pagenumbering=roman. Check the doctoral regulations: they may require continuous numbering.
+\frontmatter
+<% } else { -%>
 % The page numbering runs continuously from the title page, so no Roman numerals etc.
 % ISO 7144 even requires this for scientific works, and so do the doctoral regulations.
-% Therefore, \frontmatter is DISABLED
-%\frontmatter
+% Therefore, \frontmatter is not used (regenerate with --pagenumbering=roman to use it).
+<% } -%>
 \title{Thesis Title}
 %\author{\texorpdfstring{\href{http://www.example.org/}{Author Name}}{Author Name}}
 \author{Author Name}
@@ -701,8 +715,6 @@
 % Default: Dr. rer. nat.
 %\degree{Doktors der Naturwissenschaften (Dr.~rer.~nat.)}
 \maketitle
-
-%\mainmatter
 
 \pagestyle{scrheadings}
 
@@ -861,7 +873,7 @@ The following is typeset for both ustutt and scientific-thesis.
 
 \tableofcontents
 <% break; } -%>
-<% if ((documentclass == "scientific-thesis") && (thesisvariant != "ustutt")) { -%>
+<% if (isThesis && (pagenumbering == "roman")) { -%>
 \mainmatter
 <% } -%>
 

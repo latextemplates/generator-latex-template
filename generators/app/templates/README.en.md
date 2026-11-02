@@ -1054,6 +1054,19 @@ On the cover of the University of Stuttgart, the thesis type is the official Ger
 If your university wants it in English, set the type as free text in the options of `scientific-thesis-cover` in the main file: `type={Master Thesis}` instead of `type=master`.
 
 <% } -%>
+<% if (isThesis) { -%>
+### Q: Why are the pages numbered continuously, without roman numerals for the front matter?
+
+ISO 7144 ("Presentation of theses and similar documents") numbers the pages consecutively with arabic numerals from the title page on, and the doctoral regulations of the University of Stuttgart require that.
+Furthermore, the page number in the PDF viewer then equals the printed one, and a page reference is unambiguous.
+See the [decision record](https://github.com/latextemplates/generator-latex-template/blob/main/docs/decisions/0027-number-pages-continuously.md).
+If your institution wants roman numerals for the front matter, put `\frontmatter` before the title page and `\mainmatter` before the first chapter of the main file, or generate an own copy of the template with the [latex template generator]:
+
+```bash
+npx -p yo -p generator-latex-template -c 'yo latex-template <%= regenerateOptions %> --pagenumbering=roman'
+```
+
+<% } -%>
 <% if (documentclass == "scientific-thesis") { -%>
 ### Q: How do I change the font of the table of contents?
 

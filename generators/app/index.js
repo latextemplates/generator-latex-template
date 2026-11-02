@@ -149,6 +149,12 @@ export default class extends Generator {
         ? true
         : this.options.longtable === true || this.options.longtable === "true";
 
+    // `pagenumbering` is a plain CLI flag (no prompt) for the theses: "continuous"
+    // (default, ISO 7144: arabic from the title page on) or "roman" (roman numerals
+    // for the front matter, arabic from 1 for the main matter). See ADR-0027.
+    this.props.pagenumbering =
+      this.options.pagenumbering === "roman" ? "roman" : "continuous";
+
     // `authoryear` is a plain CLI flag (no prompt): switch citations to
     // author-year globally. Maps to biblatex's authoryear style (theses, lncs)
     // and \citestyle{acmauthoryear} (acmart); the mwe quick start is
