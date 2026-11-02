@@ -385,7 +385,7 @@ export default class extends Generator {
     const write = (path, chapterLines) =>
       this.fs.write(this.destinationPath(path), chapterLines.join("\n") + "\n");
     const markdownInput = (path) => {
-      const input = `\\markdownInput{${path}}`;
+      const input = `\\markdownInput{${path}} % chktex 8`;
       return this.props.latexcompiler === "both"
         ? ["\\ifluatex", "  " + input, "\\fi"]
         : [input];
@@ -521,7 +521,8 @@ export default class extends Generator {
         ...trim(chapterLines),
         "\\end{document}",
       ]);
-      return [`\\subfileinclude{${base}}`];
+      // chktex 8: the dash in the file name is not a dash in the text
+      return [`\\subfileinclude{${base}} % chktex 8`];
     });
 
     return [...lines.slice(0, start), ...includes, ...lines.slice(end + 1)];
@@ -539,6 +540,11 @@ export default class extends Generator {
     this.fs.copyTpl(
       this.templatePath("dot.editorconfig"),
       this.destinationPath(".editorconfig"),
+      this.props,
+    );
+    this.fs.copyTpl(
+      this.templatePath("dot.chktexrc"),
+      this.destinationPath(".chktexrc"),
       this.props,
     );
     this.fs.copyTpl(

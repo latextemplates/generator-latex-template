@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- [ChkTeX](https://ctan.org/pkg/chktex) lint: `make chktex` and the job `chktex` of the `Check` workflow check the main file and the chapters for typographic and syntax issues; `.chktexrc` turns off the four warnings that do not fit the template (listed there with the reason) and accepts a spaced en dash, so no `-n` options are needed. The generated files pass without warnings; code in the templates that trips a warning carries `% chktex <number>` at the end of the line, and the example texts were fixed (`\ldots`, `etc.\ `, `XML\@.`, `--`). [scientific-thesis-template#108](https://github.com/latextemplates/scientific-thesis-template/issues/108)
 - LuaLaTeX: no line break after a one-letter word such as "a" or "I" (`\suppressonecharbreak` of [chickenize](https://ctan.org/pkg/chickenize)); pdfLaTeX is unaffected. [scientific-thesis-template#84](https://github.com/latextemplates/scientific-thesis-template/issues/84)
 - Papers (`acmart`, `ieee`, `lncs`, with `--githubpublish`): `comparison/` renders the same text with the publisher's class as distributed and with the template; `comparison/build.sh` puts the first, a middle and the last page side by side, the `Check` workflow builds them, and the README shows the images.
 - `Check` workflow (`--githubpublish`): the weekly run compares the built PDF with the one published on gh-pages page by page and uploads the differing pages as artifact `pdf-diff`, so changes from a TeX Live update are visible without an error.
