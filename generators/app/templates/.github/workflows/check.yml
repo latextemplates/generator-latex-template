@@ -94,6 +94,22 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           texlogsieve <%= filenames.main %>.log | tee -a "$GITHUB_STEP_SUMMARY" || true
           echo '```' >> $GITHUB_STEP_SUMMARY
+<% if (examples) { -%>
+      - name: Install pdftotext
+        uses: awalsh128/cache-apt-pkgs-action@553a35bb8ebd9fcabcb1c9451aa4c98e1b4ca8a9 # v1.6.3
+        with:
+          packages: poppler-utils
+          version: 1.0
+<%# [impl->req~ligatures-copyable~1] -%>
+      - name: Check that words with ligatures can be copied from the PDF
+        # The example "Other features" typesets "workflow" and "dwarflike". A wrong font setup
+        # gives "work?ow" or the ligature characters U+FB00 to U+FB06 when the text is copied.
+        run: |
+          pdftotext <%= filenames.main %>.pdf <%= filenames.main %>.txt
+          grep -q workflow <%= filenames.main %>.txt
+          grep -q dwarflike <%= filenames.main %>.txt
+          ! LC_ALL=C grep -qP '\xef\xac[\x80-\x86]' <%= filenames.main %>.txt
+<% } -%>
 <% } -%>
 <% if (githubpublish) { const templateRepo = { acmart: "acm-enhanced", ieee: "ieee-enhanced", lncs: "lncs-enhanced", "scientific-thesis": "scientific-thesis-template", ustutt: "uni-stuttgart-dissertation-template", mwe: "markdown-latex-quickstart" }[documentclass]; -%>
       - name: Install pdftoppm and ImageMagick
