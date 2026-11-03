@@ -36,6 +36,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- latexmk no longer runs LaTeX one more time only because biblatex flipped its rerun flags in `.run.xml` and `.aux`: the generated `.latexmkrc` ignores these lines (patterns by John Collins). A clean build of the thesis takes four LaTeX runs instead of five.
 - Warnings in the log of a clean build: "Command `\@parboxrestore` has changed" (`lineno` loaded first), "Token not allowed in a PDF string" (the todo on abbreviations), `ifplatform` under pdfLaTeX, and the undefined italic shape of Inconsolata under LuaLaTeX are gone; the diagonal-cell table uses `\centering` instead of a `center` environment. [scientific-thesis-template#135](https://github.com/latextemplates/scientific-thesis-template/issues/135)
 - LuaLaTeX: math and siunitx numbers are set in the math font matching the text font (TeX Gyre Termes Math for `scientific-thesis` and `ieee`, XCharter Math for `ustutt`); before, unicode-math fell back to Latin Modern Math, so numbers in text and in formulas or `\num` differed in design and weight. [scientific-thesis-template#36](https://github.com/latextemplates/scientific-thesis-template/issues/36)
 - `rotating` is loaded before `tablefootnote`, so packages added by the user that need it (`ctable`, `sidewaystable`) no longer fail with "Package rotating loaded after tablefootnote"; a sideways `ctable` is placed correctly. [scientific-thesis-template#101](https://github.com/latextemplates/scientific-thesis-template/issues/101)
