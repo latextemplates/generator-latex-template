@@ -605,9 +605,16 @@ export default class extends Generator {
 
     // The word lists of aspell (.aspell.<lang>.pws), LTeX+ (.vscode/ltex.dictionary.<language>.txt), and
     // TeXtidote (.textidote.dict) contain the same words. "make dictionaries" merges them in the generated
-    // repository the same way (sorted like "LC_ALL=C sort -u"), so its first run changes nothing.
+    // repository the same way (sorted like "LC_ALL=C sort -u | LC_ALL=C sort -f": ASCII case folded, ties in
+    // byte order), so its first run changes nothing. A different order makes the "Update files" bot and the
+    // "Dictionaries" workflow rewrite the files in turns.
     // LTeX+ (VS Code extension, see .vscode/extensions.json) reads its file automatically; "Add to dictionary" writes there.
-    const sortedUnique = (words) => [...new Set(words)].sort();
+    const fold = (word) => word.replace(/[a-z]/g, (c) => c.toUpperCase());
+    const byteOrder = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
+    const sortedUnique = (words) =>
+      [...new Set(words)].sort(
+        (a, b) => byteOrder(fold(a), fold(b)) || byteOrder(a, b),
+      );
     const aspellWords = (lang) =>
       this.fs
         .read(this.templatePath(`dot.aspell.${lang}.pws`))
