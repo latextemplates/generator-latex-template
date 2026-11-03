@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Fixed
+
+- Two-column papers (`ieee`, `acmart` with `sigconf`): the wide-table example is scaled to the column width (`\linewidth`), not to `\textwidth`, which let it run into the other column.
+- `minted` listings use the same font size as `listings` ones (`\footnotesize`; `\small` in the `ustutt` dissertation) instead of the text size.
+
 ## [2026.11.3]
 
 ### Added

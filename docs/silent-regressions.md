@@ -104,7 +104,7 @@ Needs: impl
 
 `req~wide-table-scaled~1`
 
-A table wider than the text is scaled down (adjustbox), not run into the margin.
+A table wider than the text is scaled down (adjustbox) to `\linewidth`, not run into the margin; in a two-column layout (IEEE, ACM `sigconf`), `\linewidth` is the column width, `\textwidth` would overflow into the other column.
 Shows in "Tables", the twelve-column table.
 [scientific-thesis-template#80](https://github.com/latextemplates/scientific-thesis-template/issues/80)
 
