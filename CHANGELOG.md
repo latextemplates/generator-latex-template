@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Under LuaLaTeX, a `\usepackage{newtxtext}` added by hand stops the build with an error pointing to the fontspec setup, instead of silently switching to TeX Gyre Termes X without TeX ligatures (`` and '' as two single quotes).
+
 ### Fixed
 
 - IEEE under LuaLaTeX: no more `Font shape `TU/ptm/m/n' undefined` warnings. IEEEtran selects Times before fontspec runs; the preamble now declares the `TU` shapes for `ptm` and `ppl`.
