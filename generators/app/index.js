@@ -149,6 +149,12 @@ export default class extends Generator {
         ? true
         : this.options.longtable === true || this.options.longtable === "true";
 
+    // `pagenumbering` is a plain CLI flag (no prompt) for the theses: "continuous"
+    // (default, ISO 7144: arabic from the title page on) or "roman" (roman numerals
+    // for the front matter, arabic from 1 for the main matter). See ADR-0027.
+    this.props.pagenumbering =
+      this.options.pagenumbering === "roman" ? "roman" : "continuous";
+
     // `authoryear` is a plain CLI flag (no prompt): switch citations to
     // author-year globally. Maps to biblatex's authoryear style (theses, lncs)
     // and \citestyle{acmauthoryear} (acmart); the mwe quick start is
@@ -191,6 +197,18 @@ export default class extends Generator {
     // stamp in the header of the ustutt thesis). minted 3 (TeX Live 2025 and later)
     // runs latexminted, which TeX Live permits in restricted shell escape; minted 2
     // (TeX Live 2024) still needs shell-escape.
+    // Written into the main file header and the PDF properties (template-version.preamble.en.tex):
+    // the state of the template is a function of the generator version.
+    this.props.generatorVersion = this.rootGeneratorVersion();
+    this.props.templateRepo = {
+      acmart: "acm-enhanced",
+      ieee: "ieee-enhanced",
+      lncs: "lncs-enhanced",
+      "scientific-thesis": "scientific-thesis-template",
+      ustutt: "uni-stuttgart-dissertation-template",
+      mwe: "markdown-latex-quickstart",
+    }[this.props.documentclass];
+
     this.props.requiresShellEscape =
       (this.props.listings == "minted" && this.props.texlive < 2025) ||
       this.props.uml == "plantuml" ||
@@ -530,6 +548,11 @@ export default class extends Generator {
       this.props,
     );
     this.fs.copyTpl(
+      this.templatePath("dot.chktexrc"),
+      this.destinationPath(".chktexrc"),
+      this.props,
+    );
+    this.fs.copyTpl(
       this.templatePath("bibliography.bib"),
       this.destinationPath(this.props.filenames.bib + ".bib"),
       this.props,
@@ -635,6 +658,21 @@ export default class extends Generator {
       );
     }
 
+    // Side-by-side comparison of the publisher's class as distributed with this template (README, gh-pages)
+    if (this.props.githubpublish && this.props.isPaper) {
+      for (const [src, dest] of [
+        [`comparison-body.${this.props.documentclass}.tex`, "body.tex"],
+        [`comparison-plain.${this.props.documentclass}.tex`, "plain.tex"],
+        ["comparison-build.sh", "build.sh"],
+      ]) {
+        this.fs.copyTpl(
+          this.templatePath(src),
+          this.destinationPath(`comparison/${dest}`),
+          this.props,
+        );
+      }
+    }
+
     if (this.props.documentclass === "lncs") {
       this.fs.copy(
         this.templatePath("splncs04nat.bst"),
@@ -644,6 +682,7 @@ export default class extends Generator {
 
     if (this.props.documentclass === "ieee") {
       this.fs.copy(
+        // [impl->req~ieee-bst-banner~1]
         this.templatePath("IEEEtranN-doi.bst"),
         this.destinationPath("IEEEtranN-doi.bst"),
       );
@@ -719,6 +758,23 @@ export default class extends Generator {
       this.fs.copy(
         this.templatePath("abbreviations." + this.props.language + ".tex"),
         this.destinationPath("abbreviations.tex"),
+      );
+    }
+
+    // The declaration at the end of a University of Stuttgart thesis is a file of the template, so its
+    // text can be adapted (scientific-thesis-template#119)
+    if (
+      this.props.documentclass === "scientific-thesis" &&
+      this.props.thesisvariant === "ustutt"
+    ) {
+      // English and German thesis share one repository on GitHub, so the file name carries the language
+      this.fs.copy(
+        this.templatePath("affirmation." + this.props.language + ".tex"),
+        this.destinationPath(
+          this.props.language === "en"
+            ? "affirmation.tex"
+            : "affirmation-de.tex",
+        ),
       );
     }
 

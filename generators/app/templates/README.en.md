@@ -161,6 +161,17 @@ This is a **minimal Markdown quick start**. Write your content as plain Markdown
 
 The source code examples use the [minted] package, which highlights code best; it needs Python and [latexminted] (contained in the Docker image and on Overleaf).
 The `-basic-listings` variants use the [listings] package instead and need no extra setup.
+
+## Comparison with the publisher's template
+
+<% const plainClass = { acmart: "acmart", ieee: "IEEEtran", lncs: "llncs" }[documentclass]; -%>
+The same text rendered with the <%= plainClass %> class as distributed (left) and with this template (right).
+The layout, the fonts, and the title block are the publisher's; this template adds microtype, hyperlinks, and DOIs in the references.
+The sources are in [comparison/](comparison/); `comparison/build.sh` renders the images.
+<% for (const page of ["first", "middle", "last"]) { -%>
+
+![<%= page[0].toUpperCase() + page.slice(1) %> page: as distributed (left) and this template (right)](https://latextemplates.github.io/<%= templateRepo %>/comparison-<%= page %>.png)
+<% } -%>
 <% } -%>
 <% if (!(githubpublish && ((documentclass == "ustutt") || (documentclass == "scientific-thesis")))) { -%>
 
@@ -380,6 +391,9 @@ A first step towards that is done at the [biblatex-ieee package](https://ctan.or
 <% } -%>
 - [bibliography.bib](bibliography.bib) - Bibliography. [biblatex] format. Manage it with [JabRef].
 - [abbreviations.tex](abbreviations.tex) - Acronyms and abbreviations.
+<% if ((documentclass == "scientific-thesis") && (githubpublish || (thesisvariant == "ustutt"))) { -%>
+- <% if (githubpublish || (language == "en")) { %>[affirmation.tex](affirmation.tex)<% } %><% if (githubpublish) { %> and <% } %><% if (githubpublish || (language == "de")) { %>[affirmation-de.tex](affirmation-de.tex)<% } %> - The declaration at the end of the thesis<% if (githubpublish) { %> (University of Stuttgart variant, English and German)<% } %>. Adapt the text if your university requires another one.
+<% } -%>
 - [commands.tex](commands.tex) - Example LaTeX macros.
 
 Following additional files are included, which do not need to be adapted:
@@ -534,6 +548,7 @@ On the command line, there are additional features:
 - `latexmk -C` or `make clean` for cleaning up
 - `make log` shows only the relevant messages of the last LaTeX run (using [texlogsieve](https://ctan.org/pkg/texlogsieve))
 - `make format` to reformat the `.tex` files (one sentence per line and indent)
+- `make chktex` checks the LaTeX sources for typographic and syntax issues with [ChkTeX](https://ctan.org/pkg/chktex); the `Check` workflow runs it as job `chktex`. Warnings to ignore are configured in `.chktexrc` (`chktex -l` lists all), a single line with `% chktex <number>` at its end.
 - `make spellcheck` runs all spell checkers<% if (docker) { %> (in the [Docker image by DANTE e.V.](https://hub.docker.com/r/danteev/texlive), which contains them; `make LOCAL=1 spellcheck` uses local installations)<% } %>:
   - `make spellcheck-aspell` for interactive spell checking with aspell
 <% if (documentclass != "mwe") { -%>
@@ -706,15 +721,52 @@ See [this question on TeX.SE](https://tex.stackexchange.com/q/584702/9075) for d
 <% if (documentclass != "mwe") { -%>
 ## FAQs
 
-### Q: How do I find the cause of a LaTeX error?
+<% if (listings != "minted" || githubpublish) { -%>
+### Q: pdfLaTeX stops with "Invalid UTF-8 byte sequence (\lst@EC)" in a listing, or an umlaut is missing in it.
 
-In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
+Under pdfLaTeX, the `listings` package reads a listing byte by byte, so a character outside ASCII has to be mapped to its LaTeX command.
+The template does this for accented Latin letters and common punctuation with `literate=` in `\lstset` (search for `extendedchars` in `<%= filenames.main %>.tex`).
+A character that is not in the table triggers the error and is dropped.
+Add it with the same pattern, e.g., `{ő}{{\H{o}}}1` (the `1` is its width in characters).
+LuaLaTeX reads UTF-8 directly and needs no table, which is why the table is inside `\ifpdftex`.
+[listingsutf8](https://ctan.org/pkg/listingsutf8) helps with `\lstinputlisting` only, not with the `lstlisting` environment.
+
+<% } -%>
+### Q: How do I include an SVG file?
+
+Convert it once to PDF with Inkscape (1.0 or later) and include the PDF with `\includegraphics`:
 
 ```bash
-<%= reallatexcompiler %> --synctex=1 <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
+inkscape figure.svg --export-type=pdf --export-filename=figure.pdf
 ```
 
-Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
+The [svg](https://ctan.org/pkg/svg) package automates this (`\includesvg{figure}` converts at every build), but it needs Inkscape on the machine that compiles and `--shell-escape`, so the conversion fails on Overleaf and in CI; the one-time conversion has neither constraint.
+Text in the SVG stays as it is; the `--export-latex` option of Inkscape writes the text to a `.pdf_tex` file set by LaTeX in the document font instead (see the svg package manual for the `\includeinkscape` workflow).
+
+### Q: How do I find the cause of a LaTeX error?
+
+Run the compiler so that it stops at the first error instead of continuing with a damaged document:
+
+```bash
+<%= reallatexcompiler %> -halt-on-error --synctex=1 <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
+```
+
+The line starting with `!` in the output (and in `<%= filenames.main %>.log`) names the error, the following `l.<number>` line the line of the source.
+`make log` shows only the relevant messages of the last run (using [texlogsieve](https://ctan.org/pkg/texlogsieve)).
+For an interactive run, [texfot](https://ctan.org/pkg/texfot) wraps the compiler and prints only the lines that probably need a change in the source:
+
+```bash
+texfot <%= reallatexcompiler %> <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
+```
+
+Which tool fits which situation is compared in the [decision record on log filtering](https://github.com/latextemplates/gadr-latex-packages/blob/main/log-filtering.md).
+Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `<%= reallatexcompiler %>` afterwards).
+
+If there is no PDF although the log shows only warnings, the compiler stopped on a missing file without an `!` line: search the end of the log for `not found`, `cannot find`, or `Fatal error`.
+A missing font or encoding file is the usual cause (see the questions on `.enc` files and `LatinModernMath` below); warnings such as "THIS IS AN ALPHA VERSION" of a package are harmless.
+<% if (githubpublish) { -%>
+The `Check` workflow builds this template on every change, so a build that fails locally comes from the local TeX installation; compare with the PDF at <https://latextemplates.github.io/<%= templateRepo %>/> or build in the Docker image (see the Makefile).
+<% } -%>
 
 <% if (listings == "minted" || githubpublish) { -%>
 ### Q: I get `! Package minted Error: minted v3+ executable is not installed`
@@ -986,6 +1038,91 @@ Try with following command
 
 See <https://tex.stackexchange.com/a/124206/9075> for details.
 
+<% if (isThesis || feature.abbreviations) { -%>
+### Q: `\glsunset{...}` or `\glsreset{...}` seem to do nothing. Why?
+
+They only change the "already used" flag of an abbreviation; nothing is printed where they stand.
+The effect shows at the next `\gls{...}` of that abbreviation: after `\glsunset{nlp}`, `\gls{nlp}` prints the short form; after `\glsreset{nlp}`, the long form.
+Put them before that `\gls{...}` in the text, use the key from `abbreviations.tex` (`\newabbreviation{nlp}{NLP}{natural language processing}`), and compile twice (`latexmk` does), because the first-use information comes from the previous run.
+`\glsresetall` after the abstract lets every abbreviation appear in its long form again in the main text.
+
+<% } -%>
+<% if ((documentclass == "scientific-thesis") && (githubpublish || (thesisvariant == "ustutt"))) { -%>
+### Q: The thesis is in English, but the title page says "Masterarbeit" (or "Bachelorarbeit"). Why?
+
+On the cover of the University of Stuttgart, the thesis type is the official German term of the examination regulations, also in an English thesis; see the [discussion at the cover package](https://github.com/latextemplates/scientific-thesis-cover/pull/10).
+If your university wants it in English, set the type as free text in the options of `scientific-thesis-cover` in the main file: `type={Master Thesis}` instead of `type=master`.
+
+### Q: I write my thesis at ISTE (University of Stuttgart). What do I set?
+
+- Cover (options of `scientific-thesis-cover` in the main file): `institute=istesqa` prints the Institute of Software Engineering with the department Software Quality and Architecture, `institute=iste, department={Empirical Software Engineering}` another department; `type=forschungsprojekt` prints "Bachelor-Forschungsprojekt Informatik", `type=studienprojektse` "Studienprojekt Software Engineering", `type=bachelor` and `type=master` the theses.
+  The [cover package](https://github.com/latextemplates/scientific-thesis-cover#options) lists all keys.
+  Any other institute, department, or type is free text in curly braces, `\\` starts a new line: `institute={Institute of Software Engineering\\Empirical Software Engineering}`.
+- Times as text font and roman page numbers for the front matter are generator options.
+  Generate an own copy of the template with the [latex template generator]:
+
+  ```bash
+  npx -p yo -p generator-latex-template -c 'yo latex-template <%= regenerateOptions %> --font=times --pagenumbering=roman'
+  ```
+
+  The generator asks for the remaining options (institution: University of Stuttgart; language; package for source code).
+- The German Kurzfassung stays the appendix at the end of the thesis.
+
+<% } -%>
+<% if (isThesis) { -%>
+### Q: Why are the pages numbered continuously, without roman numerals for the front matter?
+
+ISO 7144 ("Presentation of theses and similar documents") numbers the pages consecutively with arabic numerals from the title page on, and the doctoral regulations of the University of Stuttgart require that.
+Furthermore, the page number in the PDF viewer then equals the printed one, and a page reference is unambiguous.
+See the [decision record](https://github.com/latextemplates/generator-latex-template/blob/main/docs/decisions/0027-number-pages-continuously.md).
+If your institution wants roman numerals for the front matter, put `\frontmatter` before the title page and `\mainmatter` before the first chapter of the main file, or generate an own copy of the template with the [latex template generator]:
+
+```bash
+npx -p yo -p generator-latex-template -c 'yo latex-template <%= regenerateOptions %> --pagenumbering=roman'
+```
+
+<% } -%>
+<% if (documentclass == "scientific-thesis") { -%>
+### Q: How do I change the font of the table of contents?
+
+With KOMA-Script commands in the preamble of the main file (next to `\setkomafont{disposition}`); the `tocloft` package is not needed and does not go well with KOMA-Script.
+The chapter entries use the font element `chapterentry`, the lower levels are set by `\DeclareTOCStyleEntries`:
+
+```latex
+\setkomafont{chapterentry}{\sffamily\bfseries\large}
+\DeclareTOCStyleEntries[entryformat=\sffamily\large]{tocline}{section}
+\DeclareTOCStyleEntries[entryformat=\sffamily]{tocline}{subsection,subsubsection}
+```
+
+The template sets all entries in the sans-serif font of the headings; see the KOMA-Script manual (`texdoc scrguide`, section on `tocbasic`) for `numwidth`, `indent`, `pagenumberformat`, and the other keys.
+
+<% } -%>
+### Q: How do I speed up compilation with a precompiled preamble?
+
+With pdfLaTeX, the preamble of `<%= filenames.main %>.tex` can be dumped into a format file once ([mylatex](https://ctan.org/pkg/mylatex), part of TeX Live); later runs load the format instead of reading all packages, which saved 26 % per run for the example thesis.
+
+```bash
+pdflatex -ini "&pdflatex" mylatex.ltx <%= filenames.main %>
+pdflatex "&mylatex" <%= filenames.main %>
+```
+
+Caveats: a run with the format skips the preamble of the `.tex` file, so after every change to the preamble, and after a TeX Live update, the first command has to be repeated; otherwise the change is silently ignored.
+Additions placed after a line containing only `% mylatex` (put it right before `\begin{document}`) are read anyway, so new packages and macros can go there while writing.
+`latexmk` does not rebuild the format, so this is for runs by hand while writing; `latexmk` builds the final version as usual.
+The file `mylatex.fmt` (about 14 MB) is a build product and in `.gitignore`.
+LuaLaTeX<% if (reallatexcompiler.startsWith("lualatex")) { %> (the default of this template)<% } %> cannot dump its preamble: Lua states and the loaded fonts are not part of a format.
+The other ways to shorten the edit-compile loop, with measurements, are in the decision record [How to speed up compilation](https://github.com/latextemplates/gadr-latex-packages/blob/main/compilation-speed.md).
+
+<% if (bibtextool == 'biblatex') { -%>
+### Q: How do I change the citation style (APA, Chicago, IEEE, ...)?
+
+The bibliography is typeset by [biblatex] with its built-in styles: `<%= authoryear ? "authoryear" : (documentclass == "lncs" ? "lncs" : "alphabetic") %>` here<% if (!authoryear && documentclass != "lncs") { %> (`--authoryear` at generation time switches to `authoryear`)<% } %>.
+These styles are generic and complete; they follow no published style guide, which is fine unless a department or a journal prescribes one.
+To switch to a prescribed style, replace the `bibstyle` and `citestyle` options in the `\usepackage[...]{biblatex}` block of `<%= filenames.main %>.tex` by the style's option, e.g., `style=apa` ([biblatex-apa](https://ctan.org/pkg/biblatex-apa)) or `style=ieee` ([biblatex-ieee](https://ctan.org/pkg/biblatex-ieee)); Chicago comes as its own package ([biblatex-chicago](https://ctan.org/pkg/biblatex-chicago)), which is loaded instead of biblatex.
+The options `minalphanames` and `maxalphanames` belong to the `alphabetic` style and have to go.
+Rendered examples of each style and the trade-offs are in the decision record [How to cite in a given citation style](https://github.com/latextemplates/gadr-latex-packages/blob/main/citation-styles.md).
+
+<% } -%>
 ### Q: There is an output that biber/biblatex too old
 
 See installation hints of how to update them at different systems.
@@ -1055,15 +1192,52 @@ Please head to <https://koppor.github.io/plantuml/> for installation instruction
 <% if (documentclass == "mwe") { -%>
 ## FAQs
 
-### Q: How do I find the cause of a LaTeX error?
+<% if (listings != "minted" || githubpublish) { -%>
+### Q: pdfLaTeX stops with "Invalid UTF-8 byte sequence (\lst@EC)" in a listing, or an umlaut is missing in it.
 
-In case something goes wrong, you can instruct the LaTeX compiler to stop at the first error:
+Under pdfLaTeX, the `listings` package reads a listing byte by byte, so a character outside ASCII has to be mapped to its LaTeX command.
+The template does this for accented Latin letters and common punctuation with `literate=` in `\lstset` (search for `extendedchars` in `<%= filenames.main %>.tex`).
+A character that is not in the table triggers the error and is dropped.
+Add it with the same pattern, e.g., `{ő}{{\H{o}}}1` (the `1` is its width in characters).
+LuaLaTeX reads UTF-8 directly and needs no table, which is why the table is inside `\ifpdftex`.
+[listingsutf8](https://ctan.org/pkg/listingsutf8) helps with `\lstinputlisting` only, not with the `lstlisting` environment.
+
+<% } -%>
+### Q: How do I include an SVG file?
+
+Convert it once to PDF with Inkscape (1.0 or later) and include the PDF with `\includegraphics`:
 
 ```bash
-<%= reallatexcompiler %> --synctex=1 <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
+inkscape figure.svg --export-type=pdf --export-filename=figure.pdf
 ```
 
-Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `lualatex` afterwards).
+The [svg](https://ctan.org/pkg/svg) package automates this (`\includesvg{figure}` converts at every build), but it needs Inkscape on the machine that compiles and `--shell-escape`, so the conversion fails on Overleaf and in CI; the one-time conversion has neither constraint.
+Text in the SVG stays as it is; the `--export-latex` option of Inkscape writes the text to a `.pdf_tex` file set by LaTeX in the document font instead (see the svg package manual for the `\includeinkscape` workflow).
+
+### Q: How do I find the cause of a LaTeX error?
+
+Run the compiler so that it stops at the first error instead of continuing with a damaged document:
+
+```bash
+<%= reallatexcompiler %> -halt-on-error --synctex=1 <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
+```
+
+The line starting with `!` in the output (and in `<%= filenames.main %>.log`) names the error, the following `l.<number>` line the line of the source.
+`make log` shows only the relevant messages of the last run (using [texlogsieve](https://ctan.org/pkg/texlogsieve)).
+For an interactive run, [texfot](https://ctan.org/pkg/texfot) wraps the compiler and prints only the lines that probably need a change in the source:
+
+```bash
+texfot <%= reallatexcompiler %> <% if (requiresShellEscape) { %>--shell-escape <% } %><%= filenames.main %>
+```
+
+Which tool fits which situation is compared in the [decision record on log filtering](https://github.com/latextemplates/gadr-latex-packages/blob/main/log-filtering.md).
+Run `<%= bibrunner %> <%= filenames.main %>` to get the bibliography rendered (execute `<%= reallatexcompiler %>` afterwards).
+
+If there is no PDF although the log shows only warnings, the compiler stopped on a missing file without an `!` line: search the end of the log for `not found`, `cannot find`, or `Fatal error`.
+A missing font or encoding file is the usual cause (see the questions on `.enc` files and `LatinModernMath` below); warnings such as "THIS IS AN ALPHA VERSION" of a package are harmless.
+<% if (githubpublish) { -%>
+The `Check` workflow builds this template on every change, so a build that fails locally comes from the local TeX installation; compare with the PDF at <https://latextemplates.github.io/<%= templateRepo %>/> or build in the Docker image (see the Makefile).
+<% } -%>
 
 ### Q: How do I spell check a passage in another language?
 

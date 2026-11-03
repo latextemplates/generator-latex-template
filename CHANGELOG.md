@@ -6,6 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+### Added
+
+- `scientific-thesis` (ustutt) README: FAQ for theses at ISTE (cover keys `institute=istesqa` and the project types, free-text institute, generator call for Times and roman front matter). [scientific-thesis-template#70](https://github.com/latextemplates/scientific-thesis-template/issues/70)
+- Theses: writing hints from the ISTE fork of the thesis template: how to document the literature search (search engines, keywords, inclusion criteria; JabRef for the papers), an explicit contribution paragraph, who benefits and lessons learned in the conclusion, and the Goal Question Metric approach and the case-study checklist of Runeson and Höst in the evaluation. [scientific-thesis-template#70](https://github.com/latextemplates/scientific-thesis-template/issues/70)
+- README: FAQ on including an SVG file (one-time Inkscape conversion to PDF, the `svg` package and its constraints). [scientific-thesis-template#122](https://github.com/latextemplates/scientific-thesis-template/issues/122)
+- Tables: example of a wide table scaled to the text width with [adjustbox](https://ctan.org/pkg/adjustbox) (`max width=\textwidth`, scales only if too wide), with a hint when to prefer `tabularx` or a landscape page instead. [scientific-thesis-template#80](https://github.com/latextemplates/scientific-thesis-template/issues/80)
+- pdfLaTeX, `listings`: the `literate` table that maps UTF-8 characters in listings covers more characters (ñ, Ø, ý, ł, Czech, Polish, and Turkish letters, €, £, §, °, µ, …, dashes, and quotes); README FAQ on the error "Invalid UTF-8 byte sequence (`\lst@EC`)" and how to add a character. LuaLaTeX needs no table. [scientific-thesis-template#9](https://github.com/latextemplates/scientific-thesis-template/issues/9)
+- [ChkTeX](https://ctan.org/pkg/chktex) lint: `make chktex` and the job `chktex` of the `Check` workflow check the main file and the chapters for typographic and syntax issues; `.chktexrc` turns off the four warnings that do not fit the template (listed there with the reason) and accepts a spaced en dash, so no `-n` options are needed. The generated files pass without warnings; code in the templates that trips a warning carries `% chktex <number>` at the end of the line, and the example texts were fixed (`\ldots`, `etc.\` with a space, `XML\@.`, `--`). [scientific-thesis-template#108](https://github.com/latextemplates/scientific-thesis-template/issues/108)
+- LuaLaTeX: no line break after a one-letter word such as "a" or "I" (`\suppressonecharbreak` of [chickenize](https://ctan.org/pkg/chickenize)); pdfLaTeX is unaffected. [scientific-thesis-template#84](https://github.com/latextemplates/scientific-thesis-template/issues/84)
+- Papers (`acmart`, `ieee`, `lncs`, with `--githubpublish`): `comparison/` renders the same text with the publisher's class as distributed and with the template; `comparison/build.sh` puts the first, a middle and the last page side by side, the `Check` workflow builds them, and the README shows the images.
+- `Check` workflow (`--githubpublish`): the weekly run compares the built PDF with the one published on gh-pages page by page and uploads the differing pages as artifact `pdf-diff`, so changes from a TeX Live update are visible without an error.
+- `scientific-thesis` (ustutt): the declaration at the end of the thesis is the file `affirmation.tex` (German: `affirmation-de.tex`) of the template instead of the fixed `\Versicherung` of the cover package, so its text can be adapted. [scientific-thesis-template#119](https://github.com/latextemplates/scientific-thesis-template/issues/119)
+- `scientific-thesis` (ustutt) README: FAQ on why the title page says "Masterarbeit" in an English thesis and how to set the type as free text. [scientific-thesis-template#97](https://github.com/latextemplates/scientific-thesis-template/issues/97)
+- The main file header and the PDF properties (custom entry `Template`, shown by `pdfinfo -custom` and in the document properties of viewers) name the template and the generator version the document is based on. [scientific-thesis-template#93](https://github.com/latextemplates/scientific-thesis-template/issues/93)
+- README: FAQ on a precompiled preamble with pdfLaTeX (`mylatex`) and its caveats, with a link to the decision record on compilation speed; `*.fmt` is ignored by git.
+- README (biblatex templates): FAQ on changing the citation style to APA, Chicago, IEEE, etc., pointing to the GADR with rendered examples. [scientific-thesis-template#151](https://github.com/latextemplates/scientific-thesis-template/issues/151)
+
+### Changed
+
+- Theses: all variants number the pages continuously with arabic numerals from the title page on, as ISO 7144 requires (the Hamburg and THU variants used roman numerals for the front matter). The new flag `--pagenumbering=roman` keeps roman numerals for the front matter. ADR-0027 and a GADR record the options. [scientific-thesis-template#69](https://github.com/latextemplates/scientific-thesis-template/issues/69)
+- Theses: writing hints that are question lists or short notes (the self-check questions on the scientific argument, the notes on the evaluation setup) are set as `mindflow` notes, gray and separated from the text, so they are visible as hints and not as thesis text.
+- The longtable example uses booktabs rules (`\toprule`, `\midrule`, `\bottomrule`) without vertical lines, like the other table examples.
+- README FAQ "How do I find the cause of a LaTeX error?": `-halt-on-error`, how to read the `!` line, `make log` and `texfot`, and what to look for when there is no PDF although the log shows only warnings (missing font or encoding file). [scientific-thesis-template#134](https://github.com/latextemplates/scientific-thesis-template/issues/134)
+- Thesis (English): the German summary (`Kurzfassung`) is an appendix instead of a section after the abstract, as the examination regulations of the University of Stuttgart require. [scientific-thesis-template#105](https://github.com/latextemplates/scientific-thesis-template/issues/105)
+- `scientific-thesis`: the entries of the table of contents are set in the sans-serif font of the headings on all levels (KOMA-Script's `\DeclareTOCStyleEntries`); before, only the chapter entries were. README FAQ on changing the fonts of the table of contents. [scientific-thesis-template#150](https://github.com/latextemplates/scientific-thesis-template/issues/150)
+
+### Fixed
+
+- latexmk no longer runs LaTeX one more time only because biblatex flipped its rerun flags in `.run.xml` and `.aux`: the generated `.latexmkrc` ignores these lines (patterns by John Collins). A clean build of the thesis takes four LaTeX runs instead of five.
+- Warnings in the log of a clean build: "Command `\@parboxrestore` has changed" (`lineno` loaded first), "Token not allowed in a PDF string" (the todo on abbreviations), `ifplatform` under pdfLaTeX, and the undefined italic shape of Inconsolata under LuaLaTeX are gone; the diagonal-cell table uses `\centering` instead of a `center` environment. [scientific-thesis-template#135](https://github.com/latextemplates/scientific-thesis-template/issues/135)
+- LuaLaTeX: math and siunitx numbers are set in the math font matching the text font (TeX Gyre Termes Math for `scientific-thesis` and `ieee`, XCharter Math for `ustutt`); before, unicode-math fell back to Latin Modern Math, so numbers in text and in formulas or `\num` differed in design and weight. [scientific-thesis-template#36](https://github.com/latextemplates/scientific-thesis-template/issues/36)
+- `rotating` is loaded before `tablefootnote`, so packages added by the user that need it (`ctable`, `sidewaystable`) no longer fail with "Package rotating loaded after tablefootnote"; a sideways `ctable` is placed correctly. [scientific-thesis-template#101](https://github.com/latextemplates/scientific-thesis-template/issues/101)
+- Theses: the abbreviations example names the right file (`abbreviations.tex`) and command (`\newabbreviation`), links glossaries-extra, and explains that `\glsunset`/`\glsreset` act on the next `\gls`; README FAQ on it. [scientific-thesis-template#121](https://github.com/latextemplates/scientific-thesis-template/issues/121)
+- `ieee`: the date "(2015/08/26)" no longer appears before the reference list; the banner comment that `IEEEtranN-doi.bst` writes into the `.bbl` was longer than BibTeX's line limit, so its second half was typeset.
+
 ## [2026.11.1]
 
 ### Added

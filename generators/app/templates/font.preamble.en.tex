@@ -71,9 +71,9 @@ lualatex
 <%= indent %>% shapely l, upright quotes
 <%= indent %>% If it is too large, add ",Scale=.9"
 <%= indent %>\ifwindows
-<%= indent %>  \setmonofont[StylisticSet={1,3}]{Inconsolata}
+<%= indent %>  \setmonofont[StylisticSet={1,3},ItalicFont=Inconsolata,BoldItalicFont=Inconsolata Bold]{Inconsolata} % no italic: upright instead of a font warning
 <%= indent %>\else
-<%= indent %>  \setmonofont[StylisticSet={1,3}]{Inconsolatazi4}
+<%= indent %>  \setmonofont[StylisticSet={1,3},ItalicFont=*-Regular,BoldItalicFont=*-Bold]{Inconsolatazi4} % no italic: upright instead of a font warning
 <%= indent %>\fi
 <% break; case "times": -%>
 <%# Times New Roman and LuaLaTeX -%>
@@ -81,7 +81,7 @@ lualatex
 
 <%= indent %>% See https://tug.org/FontCatalogue/texgyretermes/ for more information
 <%= indent %>\setmainfont{texgyretermes}[
-<%= indent %>  Extension = .otf,
+<%= indent %>  Extension = .otf, % chktex 26
 <%= indent %>  UprightFont = *-regular,
 <%= indent %>  BoldFont = *-bold,
 <%= indent %>  ItalicFont = *-italic,
@@ -90,6 +90,9 @@ lualatex
 <%= indent %>]
 <%= indent %>% See https://tug.org/FontCatalogue/texgyreheros/ for more information
 <%= indent %>\setsansfont[Scale=.9]{TeX Gyre Heros}
+<%= indent %>% Math (and siunitx numbers) in the matching math font; unicode-math would use Latin Modern Math otherwise
+<%# [impl->req~math-font-matches-text~1] -%>
+<%= indent %>\setmathfont{TeX Gyre Termes Math}
 <% if (documentclass == 'lncs') { -%>
 <%= indent %>% newtxtt looks good with times, but no equivalent for lualatex found,
 <%= indent %>% therefore tried to replace with inconsolata.
@@ -102,9 +105,9 @@ lualatex
 <%= indent %>% shapely l, upright quotes
 <%= indent %>% Normal scaling is too large --> thus, we use ",Scale=.9"
 <%= indent %>\ifwindows
-<%= indent %>  \setmonofont[StylisticSet={1,3},Scale=.9]{Inconsolata}
+<%= indent %>  \setmonofont[StylisticSet={1,3},Scale=.9,ItalicFont=Inconsolata,BoldItalicFont=Inconsolata Bold]{Inconsolata} % no italic: upright instead of a font warning
 <%= indent %>\else
-<%= indent %>  \setmonofont[StylisticSet={1,3},Scale=.9]{Inconsolatazi4}
+<%= indent %>  \setmonofont[StylisticSet={1,3},Scale=.9,ItalicFont=*-Regular,BoldItalicFont=*-Bold]{Inconsolatazi4} % no italic: upright instead of a font warning
 <%= indent %>\fi
 <% } -%>
 <%  break; default: -%>
@@ -113,13 +116,17 @@ lualatex
 <%# IEEEtran sets Times/Helvetica/Courier (Palatino for compsoc journals) as Type 1 fonts via \rmdefault etc.;
 fontspec replaces them with Latin Modern, so the OpenType equivalents are set here -%>
 
+<%# [impl->req~ieee-fonts-lualatex~1] -%>
 <%= indent %>% IEEEtran's fonts (Times, Helvetica, Courier) as OpenType: fontspec would otherwise typeset the paper in Latin Modern
 <%= indent %>\setmainfont{TeX Gyre Termes}
 <%= indent %>\setsansfont{TeX Gyre Heros}
 <%= indent %>\setmonofont{TeX Gyre Cursor}
+<%= indent %>% Math (and siunitx numbers) in the matching math font; unicode-math would use Latin Modern Math otherwise
+<%# [impl->req~math-font-matches-text~1] -%>
+<%= indent %>\setmathfont{TeX Gyre Termes Math}
 <%= indent %>% compsoc journals use Palatino
 <%= indent %>\makeatletter
-<%= indent %>\@IEEEcompsocnotconfonly{\setmainfont{TeX Gyre Pagella}}
+<%= indent %>\@IEEEcompsocnotconfonly{\setmainfont{TeX Gyre Pagella}\setmathfont{TeX Gyre Pagella Math}}
 <%= indent %>\makeatother
 <% break; case "ustutt": -%>
 <%# see also https://github.com/programming-journal/programming/blob/main/programming.cls -%>
@@ -131,6 +138,9 @@ fontspec replaces them with Latin Modern, so the OpenType equivalents are set he
 <%= indent %>  \usepackage{helvet} % source: comment to https://tex.stackexchange.com/q/212357/9075
 <%= indent %>  \setmainfont{XCharter}
 <%= indent %>\fi
+<%= indent %>% Math (and siunitx numbers) in the matching math font; unicode-math would use Latin Modern Math otherwise
+<%# [impl->req~math-font-matches-text~1] -%>
+<%= indent %>\setmathfont{XCharter-Math.otf}
 
 <%= indent %>% Use Inconsolata font (https://ctan.org/pkg/inconsolata)
 <%= indent %>% See https://tex.stackexchange.com/q/2241/9075 for a list of other alternative mono-spaced fonts
@@ -138,9 +148,9 @@ fontspec replaces them with Latin Modern, so the OpenType equivalents are set he
 <%= indent %>% shapely l, upright quotes
 <%= indent %>% If it is too large, add ",Scale=.9"
 <%= indent %>\ifwindows
-<%= indent %>  \setmonofont[StylisticSet={1,3}]{Inconsolata}
+<%= indent %>  \setmonofont[StylisticSet={1,3},ItalicFont=Inconsolata,BoldItalicFont=Inconsolata Bold]{Inconsolata} % no italic: upright instead of a font warning
 <%= indent %>\else
-<%= indent %>  \setmonofont[StylisticSet={1,3}]{Inconsolatazi4}
+<%= indent %>  \setmonofont[StylisticSet={1,3},ItalicFont=*-Regular,BoldItalicFont=*-Bold]{Inconsolatazi4} % no italic: upright instead of a font warning
 <%= indent %>\fi
 <% break; case "scientific-thesis": -%>
 
@@ -179,6 +189,7 @@ fontspec replaces them with Latin Modern, so the OpenType equivalents are set he
 
 <%= indent %>% Enable proper ligatures for English documents (German documents use autotype, see ADR-0008)
 <%= indent %>% For more information see https://ctan.org/pkg/selnolig
+<%# [impl->req~ligatures-copyable~1] -%>
 <%= indent %>\usepackage{selnolig}
 <% } -%>
 
@@ -202,6 +213,7 @@ pdflatex
 <%# Times New Roman and pdflatex -%>
 <%# -%>
 <%= indent %>\RequirePackage{newtxtext}
+<%# [impl->req~mathrm-text-font~1] -%>
 <%= indent %>\RequirePackage{newtxmath}
 <%= indent %>\RequirePackage[zerostyle=b,scaled=.9]{newtxtt}
 <% break; default: -%>
@@ -308,6 +320,13 @@ In addition, we make the code appear more nice -%>
 % Headings are sans-serif (KOMA-Script default) in all languages.
 % For serif headings (classic English book style), uncomment the following line.
 % \setkomafont{disposition}{\normalfont\bfseries}
+
+% Entries of the table of contents in the font of the headings: by default, KOMA-Script sets only the
+% chapter entries in the heading font and the lower levels in the text font. No tocloft needed (it does
+% not go well with KOMA-Script); change entryformat to taste, e.g., \sffamily\large for larger section entries,
+% and \setkomafont{chapterentry}{...} for the chapter entries.
+<%# [impl->req~toc-heading-font~1] -%>
+\DeclareTOCStyleEntries[entryformat=\sffamily]{tocline}{section,subsection,subsubsection}
 
 % Header: the chapter on the left, the current section on the right.
 % autooneside=false keeps the section mark in a single-sided document.

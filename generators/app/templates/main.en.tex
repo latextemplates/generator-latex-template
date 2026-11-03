@@ -21,6 +21,7 @@
 <% } -%>
 % !BIB program = <%= bibrunner %>
 % -*- coding:utf-8 mod:LaTeX -*-
+% Generated with generator-latex-template <%= generatorVersion %><% if (githubpublish) { %> for latextemplates/<%= templateRepo %><% } %>
 %
 <% if (isThesis) { -%>
 % vvvvvvvv  The content starts in line @@CONTENTLINE@@ (\begin{document}); the first
@@ -138,9 +139,27 @@
 
 \usepackage{iftex}
 <% } -%>
-<% if (isThesis) { -%>
+<% if (texlive >= 2021) { -%>
 
+% lineno is loaded by mindflow (used in the examples). It checks \@parboxrestore when it is loaded and warns
+% "Command \@parboxrestore has changed" if another package has patched the command before; loaded here first.
+\usepackage{lineno}
+<% } -%>
+<% if (isThesis && (reallatexcompiler.startsWith("lualatex") || latexcompiler == "both")) { -%>
+
+% \ifwindows selects the system fonts under LuaLaTeX (see the font setup). Under pdfLaTeX, ifplatform needs shell
+% escape and warns without it, so it is loaded for LuaLaTeX only.
+<% if (latexcompiler == "both") { -%>
+\ifluatex
+  \usepackage{ifplatform}
+\else
+  % A conditional named \ifwindows, so that TeX can skip the LuaLaTeX branch of the font setup. Written with \csname:
+  % when LuaLaTeX skips this branch, a literal \ifwindows (defined by ifplatform by then) would unbalance the \ifluatex.
+  \expandafter\newif\csname ifwindows\endcsname
+\fi
+<% } else { -%>
 \usepackage{ifplatform}
+<% } -%>
 <% } -%>
 
 % backticks (`) are rendered as such in verbatim environments.
@@ -465,6 +484,7 @@
 <%= indent %>% Troubleshooting outlined at https://tex.stackexchange.com/a/100618/9075
 <%= indent %>%
 <%= indent %>% According to https://tex.stackexchange.com/q/451235/9075 this is the way to go
+<%# [impl->req~ligatures-copyable~1] -%>
 <%= indent %>\input{glyphtounicode}
 <%= indent %>\pdfgentounicode=1
 <% if (latexcompiler == "both") { -%>
@@ -475,6 +495,7 @@
 
 <% } -%>
 <%- include('linebreaker.preamble.en.tex', this); -%>
+<%- include('chickenize.preamble.en.tex', this); -%>
 <% if (isThesis) { -%>
 <%- include('subfiles.preamble.en.tex', this); -%>
 <% } -%>
@@ -573,7 +594,9 @@
 \iffalse
   \IEEEoverridecommandlockouts
   \IEEEpubid{\begin{minipage}{\textwidth}\ \\[12pt] \centering
-      1551-3203 \copyright 2015 IEEE.
+      % IEEE\@. : after a capital letter, LaTeX takes the period for an abbreviation and sets the narrow space;
+      % \@ restores the sentence space, since the sentence ends here.
+      1551-3203 \copyright 2015 IEEE\@. % chktex 8
       Personal use is permitted, but republication/redistribution requires IEEE permission.
       \\
       See \url{https://www.ieee.org/publications_standards/publications/rights/index.html} for more information.
@@ -582,11 +605,20 @@
 
 \begin{abstract}
 <% break; case "scientific-thesis": -%>
+<%# [impl->req~page-numbering-iso-7144~1] -%>
+<% if (pagenumbering == "roman") { -%>
+% Roman page numbers for the front matter (title page up to the table of contents);
+% \mainmatter below restarts with arabic 1. Generated with --pagenumbering=roman.
+\frontmatter
+<% } else { -%>
+% The pages are numbered continuously from the title page, so no roman numerals for the front matter:
+% ISO 7144 requires this for theses. For roman numerals, regenerate with --pagenumbering=roman
+% (or put \frontmatter here and \mainmatter before the first chapter).
 \pagenumbering{arabic}
+<% } -%>
 <% if (thesisvariant == "ustutt") { -%>
 \Titelblatt
 <% } else if (thesisvariant == "university-of-hamburg") { -%>
-\frontmatter
 \newgeometry{centering,left=2cm,right=2cm,top=2cm,bottom=2cm}
 \begin{titlepage}
   \includegraphics[width=10cm]{figures/uhh-logo.pdf}
@@ -612,14 +644,13 @@
     Studiengang: Wirtschaftsinformatik \\[.2cm]
     Matrikelnummer: 1234567 \\[.5cm]
     Ggf. Abgabedatum: XX.XX.20XX \\[.5cm]  %TODO Optional: delete either "Ggf. " or the whole line
-    Erstgutachterin: Prof. Dr. Eike Kraft \\[.25cm]
-    Zweitgutachter: Dr. Luca Wind               %TODO Adjust the gender of the reviewers if needed
+    Erstgutachterin: Prof.~Dr.~Eike Kraft \\[.25cm]
+    Zweitgutachter: Dr.~Luca Wind               %TODO Adjust the gender of the reviewers if needed
   }
 \end{titlepage}
 
 \restoregeometry
 <% } else if (thesisvariant == "thu") { -%>
-\frontmatter
 \newgeometry{centering,left=2cm,right=2cm,top=2cm,bottom=2cm}
 \begin{titlepage}
   \includegraphics[width=5cm]{figures/thu-logo.png}
@@ -641,7 +672,7 @@
   {\small
     Faculty of Computer Science\\[.2cm]
     Degree programme: Computer Science\\[.2cm]
-    Student ID: 1234567\\[.5cm]
+    Student ID: 1234567\\[.5cm] % chktex 13
     Submission date: Month DD, 20XX\\[.5cm]
     First examiner: Prof.\ Dr.\ Eike Kraft\\[.25cm]
     Second examiner: Prof.\ Dr.\ Luca Wind
@@ -659,10 +690,16 @@
 \section*{Abstract}
 <% break; case "ustutt": -%>
 
+<%# [impl->req~page-numbering-iso-7144~1] -%>
+<% if (pagenumbering == "roman") { -%>
+% Roman page numbers for the front matter; \mainmatter below restarts with arabic 1.
+% Generated with --pagenumbering=roman. Check the doctoral regulations: they may require continuous numbering.
+\frontmatter
+<% } else { -%>
 % The page numbering runs continuously from the title page, so no Roman numerals etc.
 % ISO 7144 even requires this for scientific works, and so do the doctoral regulations.
-% Therefore, \frontmatter is DISABLED
-%\frontmatter
+% Therefore, \frontmatter is not used (regenerate with --pagenumbering=roman to use it).
+<% } -%>
 \title{Thesis Title}
 %\author{\texorpdfstring{\href{http://www.example.org/}{Author Name}}{Author Name}}
 \author{Author Name}
@@ -678,8 +715,6 @@
 % Default: Dr. rer. nat.
 %\degree{Doktors der Naturwissenschaften (Dr.~rer.~nat.)}
 \maketitle
-
-%\mainmatter
 
 \pagestyle{scrheadings}
 
@@ -698,7 +733,7 @@
 <% if (howtotext) { -%>
 \emph{Write an abstract for your work.
   Replace each of the points below with one sentence (two if you must) and you have your abstract.
-  Write it when you finished your entire report.
+  Write it when you finished your entire report.%
   \footnote{https://www.easterbrook.ca/steve/2010/01/how-to-write-a-scientific-abstract-in-six-easy-steps/}}
 
 \emph{Introduction.}
@@ -749,17 +784,6 @@ What can they do with your research.
 
 <% } else { -%>
 \lipsum[1]
-
-<% } -%>
-<% if (documentclass == "scientific-thesis") { -%>
-
-% Solely for German courses of study, which require a German abstract (Kurzfassung) in addition to the English one.
-% Remove this section if your course of study does not require it.
-\section*{Kurzfassung}
-\begin{otherlanguage}{ngerman}
-  %Silbentrennung Deutsch
-  Kurzfassung der Arbeit.
-\end{otherlanguage}
 
 <% } -%>
 <%# Now, the abstract is started and some content exists. We need now to close the abstract. -%>
@@ -849,7 +873,7 @@ The following is typeset for both ustutt and scientific-thesis.
 
 \tableofcontents
 <% break; } -%>
-<% if ((documentclass == "scientific-thesis") && (thesisvariant != "ustutt")) { -%>
+<% if (isThesis && (pagenumbering == "roman")) { -%>
 \mainmatter
 <% } -%>
 
@@ -945,13 +969,13 @@ At the end of this section, you have established a \emph{knowledge gap} between 
 In this section you state in which way you will address the knowledge gap you identified at the end of <%- cref %>{sec:introduction:state-of-art}.
 One work cannot address and resolve the entire knowledge gap.
 The purpose of this section is to detail the specific part of the knowledge that you will address.
-You thereby make all the assumptions explicit that underlie your work (``in this report we focus on genomes of female giraffes who lived in the years 1950-2000 in South Africa'').
+You thereby make all the assumptions explicit that underlie your work (``in this report we focus on genomes of female giraffes who lived in the years 1950--2000 in South Africa'').
 
 Your general research question states
 \begin{itemize}
-  \item The starting point/assumptions you are making from which your research starts (``for the given 13 genomes of female giraffes...''), and
-  \item the final objective/solution you want to reach (``...identify the genes involved in color expression of giraffe tongues...'')
-  \item and the evaluation criteria that will determine whether you are successful (``...that are present in at least 75\% of the studied giraffes'')
+  \item The starting point/assumptions you are making from which your research starts (``for the given 13 genomes of female giraffes\ldots''), and
+  \item the final objective/solution you want to reach (``\ldots{}identify the genes involved in color expression of giraffe tongues\ldots'')
+  \item and the evaluation criteria that will determine whether you are successful (``\ldots{}that are present in at least 75\% of the studied giraffes'')
 \end{itemize}
 
 Break your general research question down into sub-research questions.
@@ -999,6 +1023,9 @@ State whether, and to which degree, the research question from <%- cref %>{sec:i
 
 Close by stating how much closer society and science have come in answering the general objective you outlined in <%- cref %>{sec:introduction:topic}.
 
+\emph{Contribution}.
+Make your own contribution explicit in one paragraph (<%- bquote %>The contribution of this thesis is \ldots<%- equote %>): the artifact, method, or insight that did not exist before, and what the reader can do with it.
+
 %%LTG-CHAPTER background
 %%% ===============================================================================
 <%= heading1 %>{Background (SM1)}\label{sec:background}
@@ -1014,8 +1041,8 @@ The background chapter has multiple roles.
   \item \emph{Preliminaries.}
         It has to provide all (and exactly the) information that is necessary to understand the methodological and technical parts of your work in the specific area of study.
         Assume as starting point another student in your degree who did not study the specific subject you are studying but has the task to understand your work.
-        Which concepts, terms, definitions, etc. does the student have to know?
-        Which formulas, symbols, etc. are standard in this topic?
+        Which concepts, terms, definitions, etc.\ does the student have to know?
+        Which formulas, symbols, etc.\ are standard in this topic?
         Only introduce definitions if you actually need them in any of the subsequent chapters.
 
   \item \emph{Related Work.}
@@ -1123,7 +1150,7 @@ Here you can infer what a particular observation means (for you), how it can be 
 Do not interpret your results before you have described all of them.
 This is a common mistake done by most beginner writers.
 Get to the point: the final finding or interpretation.
-But you forget that your reader does not understand yet what you are interpreting - they do not know yet what you do know.
+But you forget that your reader does not understand yet what you are interpreting -- they do not know yet what you do know.
 Interpret the results only after describing all of them.
 The interpretation must be based on the written description only.
 Then you can be sure that your readers can follow your interpretation and reach the same conclusions as you have.
@@ -1144,14 +1171,19 @@ Some sections need not restate the background (SM1) or the research problem (SM2
 Sometimes, a section is only dedicated to describing the method (SM3) and execution (SM4) and does not contain any results or interpretations.
 Sometimes results (SM5) and interpretations (SM6) only come in the evaluation chapter.
 
-What is important for you when you are writing a scientific argument is not to slavishly have SM1-SM6 in each section explicitly, but that you are always fully aware of the following:
-%
-\begin{itemize}
-  \item Which step of a scientific argument am I currently writing (SM1, SM2, ..., SM6)?
-  \item Does the step that I am writing come in the right order, i.e., if you are writing about execution (SM4, e.g., details of building a model), is there a preceding paragraph or section that describes the method (SM3) and is that one preceded by a clear statement of the (sub-)problem addressed (SM2)?
-  \item Are you really \emph{not} writing interpretation SM6 before SM5, SM4, or SM3?
-  \item Is it clear to the reader which part of the scientific argument you are currently making?
-\end{itemize}
+<% if (texlive >= 2021) { -%>
+\begin{mindflow}
+<% } -%>
+  What is important for you when you are writing a scientific argument is not to slavishly have SM1-SM6 in each section explicitly, but that you are always fully aware of the following:
+  \begin{itemize}
+    \item Which step of a scientific argument am I currently writing (SM1, SM2, ..., SM6)?
+    \item Does the step that I am writing come in the right order, i.e., if you are writing about execution (SM4, e.g., details of building a model), is there a preceding paragraph or section that describes the method (SM3) and is that one preceded by a clear statement of the (sub-)problem addressed (SM2)?
+    \item Are you really \emph{not} writing interpretation SM6 before SM5, SM4, or SM3?
+    \item Is it clear to the reader which part of the scientific argument you are currently making?
+  \end{itemize}
+<% if (texlive >= 2021) { -%>
+\end{mindflow}
+<% } -%>
 
 %%LTG-CHAPTER second real chapter
 %%% ===============================================================================
@@ -1181,13 +1213,20 @@ The evaluation chapter should be the most formal and rigorously structured chapt
 % ---------------------------------------------------------------------------------
 
 State what you want to evaluate and what you want to measure.
+The Goal Question Metric approach~\cite{Basili1994} derives the measurements from the goal: state the goal, ask the questions that tell whether it is reached, and define a metric that answers each question.
 
 % ---------------------------------------------------------------------------------
 <%= heading2 %>{Setup (SM3)}\label{sec:evaluation:setup}
 % ---------------------------------------------------------------------------------
 
-State which data, participants, tools, etc. you chose and why.
-State how you measure outcomes and how you compare them to baselines, reference groups, etc.
+<% if (texlive >= 2021) { -%>
+\begin{mindflow}
+<% } -%>
+  State which data, participants, tools, etc. you chose and why.
+  State how you measure outcomes and how you compare them to baselines, reference groups, etc.
+<% if (texlive >= 2021) { -%>
+\end{mindflow}
+<% } -%>
 
 % ---------------------------------------------------------------------------------
 <%= heading2 %>{Execution (SM4)}\label{sec:evaluation:execution}
@@ -1235,6 +1274,8 @@ Typical questions are:
   \item[Reliability] Would another person obtain the same results and conclusions following <%- cref %>{sec:evaluation:execution}?
 \end{description}
 
+<% if (available.citet) { %>\citet<% } else { %>Runeson and Höst~\cite<% } %>{Runeson2009} give a checklist for these threats in case studies in software engineering.
+
 <% } else { -%>
 %%LTG-CHAPTER introduction
 <%= heading1 %>{Introduction}
@@ -1258,7 +1299,8 @@ The paper closes with a conclusion and an outlook on future work (<%- cref %>{se
 Winery~\citep{Winery} is a graphical \textcomment{modeling}{modeling with one ``l'', because of American English} tool.
 The whole idea of TOSCA is explained by <% if (available.citet) { %>\citet<% } else { %>Binz et al.~\cite<% } %>{Binz2009}.
 
-To search for related work, \href{https://www.scienceos.ai/}{ScienceOS}\footnote{\url{https://www.scienceos.ai/}} can be used; it stores data in the EU and backs its answers with citations, which you still have to read and check yourself.
+Tools for the literature search are, among others, \href{https://www.scienceos.ai/}{ScienceOS}, \href{https://dblp.org/}{dblp}, \href{https://scholar.google.com/}{Google Scholar}, \href{https://ieeexplore.ieee.org/}{IEEE Xplore}, and the \href{https://dl.acm.org/}{ACM Digital Library}; \href{https://www.jabref.org/}{JabRef} manages the found papers, fetches the bibliographic data by DOI, and keeps the PDFs.
+If the search is systematic (as in a literature review), the keywords, the time span, and the inclusion criteria belong into the thesis so that a reader can repeat the search.
 Writing hints for student theses are given in the open-access book \href{https://vdf.ch/product/student-thesis-projects-en.html}{\emph{Student Thesis Projects}}\footnote{\url{https://vdf.ch/product/student-thesis-projects-en.html}}.
 More hints are given in \href{https://doi.org/10.1007/978-1-4471-6639-9}{\emph{Writing for Computer Science}}\footnote{\url{https://doi.org/10.1007/978-1-4471-6639-9}}.
 <% } -%>
@@ -1378,6 +1420,8 @@ See \url{https://help.jabref.org/en/CleanupEntries} for an overview of the clean
 Your conclusions are more than a factual summary of your work: they position, interpret, and defend your findings against the state of the art that you discussed in <%- cref %>{sec:introduction:state-of-art}.
 You specifically outline which concrete findings or methodological contributions advance our knowledge towards the general objective you introduced in <%- cref %>{sec:introduction:topic}.
 Objectively discuss which parts you solved and in which parts you failed.
+State who benefits from your results (developers, architects, testers, researchers, \ldots) and how.
+Name the lessons you learned, e.g., on the evaluation setup or the literature search, that help someone repeating or extending your study.
 
 You should explicitly discuss limitations and shortcomings of your work and detail what kind of future studies are needed to overcome these limitations.
 Be specific in the sense that your arguments for future work should be based on concrete findings and insights you obtained in your report.
@@ -1469,7 +1513,7 @@ Be specific in the sense that your arguments for future work should be based on 
 <% break; default: -%>
 <% break; } -%>
 <% if (isPaper) { -%>
-<%= indent%>Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which comes right before the reference section in your document \cite{acmart}.
+<%= indent%>Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which comes right before the reference section in your document~\cite{acmart}.
 <% if (howtotext) { -%>
 
 <%= indent%>The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology}{LaTeX template for Bachelor and Master theses at Eindhoven University of Technology}.
@@ -1603,12 +1647,33 @@ All links were last followed on October 5, 2020.
   \bottomrule
 \end{tabular}
 <% } -%>
+<% if (documentclass == "scientific-thesis") { -%>
+
+%%% ===============================================================================
+<%# [impl->req~kurzfassung-appendix~1] -%>
+<%= heading1 %>{Kurzfassung}\label{sec:kurzfassung}
+%%% ===============================================================================
+
+\begin{otherlanguage}{ngerman}
+  %Silbentrennung Deutsch
+  Kurzfassung der Arbeit.
+\end{otherlanguage}
+<% if (howtotext) { -%>
+
+\emph{Solely for German courses of study that allow a thesis in English but require a German summary as an appendix.
+  For example, the examination regulations of the University of Stuttgart for the B.Sc.\ in Informatik, Software Engineering, Medieninformatik, and Artificial Intelligence and Data Science demand it in
+  \href{https://www.uni-stuttgart.de/universitaet/aktuelles/bekanntmachungen/Amtliche-Bekanntmachung-Nummer-26-2025/}{§\,27 Absatz 6}.
+  Remove this appendix if your course of study does not require it.}
+<% } -%>
+<% } -%>
 
 \pagestyle{empty}
 \renewcommand*{\chapterpagestyle}{empty}
 <% if (documentclass == "scientific-thesis") { -%>
 <% if (thesisvariant == "ustutt") { -%>
-\Versicherung
+% The declaration is in affirmation.tex; adapt the text there (the package command \Affirmation would print the fixed text of the University of Stuttgart)
+<%# [impl->req~affirmation-editable~1] -%>
+\input{affirmation}
 <% } else { -%>
 \clearpage
 \backmatter
@@ -1623,7 +1688,7 @@ All links were last followed on October 5, 2020.
   \blindtext[1]
   \vspace*{1cm}\\
   <%= (thesisvariant == "thu") ? "Ulm" : "Hamburg" %>, den XX.XX.20XX
-  \hspace*{\fill}\begin{tabular}{@{}l@{}}\hline
+  \hspace*{\fill}\begin{tabular}{@{}l@{}}\hline % chktex 44
     \makebox[5cm]{Vorname Nachname}
   \end{tabular}
   \vspace*{3cm}
@@ -1633,7 +1698,7 @@ All links were last followed on October 5, 2020.
   \blindtext[1]
   \vspace*{1cm}\\
   <%= (thesisvariant == "thu") ? "Ulm" : "Hamburg" %>, den XX.XX.20XX
-  \hspace*{\fill}\begin{tabular}{@{}l@{}}\hline
+  \hspace*{\fill}\begin{tabular}{@{}l@{}}\hline % chktex 44
     \makebox[5cm]{Vorname Nachname}
   \end{tabular}
 }
