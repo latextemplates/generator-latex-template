@@ -214,6 +214,11 @@ which `yeoman-test` declares as a peer dependency, so it is an explicit devDepen
 **Exception — `update-files.yml`:** this workflow is template-managed (NOT generated).
 Apply Dependabot bumps that touch it directly on each template's `main`; Dependabot then
 auto-closes. `check.yml` IS generated → handle it here in the generator.
+Its `generatetex` job loops over the variants (listings/minted, languages, fonts, thesis
+variants) in **one** job and pushes **one** bot commit per push; the variant that owns the
+shared files (README, Makefile, `.latexmkrc`, `check.yml`: minted + the main language) is
+generated last so that its files win. Keep it that way — the earlier matrix pushed one
+commit per variant with a pull-rebase race, up to twelve bot commits per generator push.
 
 ## CHANGELOG discipline — mirror generator-sourced changes
 
