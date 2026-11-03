@@ -120,3 +120,18 @@ formats) catch things a single local `yo` + compile does not. Two that have bitt
   `\gls` entries language-exclusive breaks the other language's variant with
   ``Glossary entry `…' has not been defined``. The same single-shared-file logic applies to
   other `this.fs.copy`'d siblings (`commands.tex`, …).
+
+## `IEEEtranN-doi.bst` is a versioned modification of IEEEtranN.bst
+
+`generators/app/templates/IEEEtranN-doi.bst` is TeX Live's `IEEEtranN.bst` (1.14, 2015/08/26) plus
+`IEEEtranN-doi.bst.patch`; the patch is the record, the `.bst` is what the templates ship. The file
+carries its **own** version (`doi.bst.version`/`doi.bst.date` next to Michael Shell's unchanged
+`bst.file.version`), which the BibTeX terminal banner and the first `.bbl` line print, so a `.bbl`
+never claims to come from an unmodified IEEEtranN.bst. When you change the `.bst`:
+
+1. Bump `doi.bst.version` and `doi.bst.date`, and add the change to the version list in the file header.
+2. Regenerate the patch from TeX Live's original (labels must stay `IEEEtranN.bst`/`IEEEtranN-doi.bst`):
+   `cp "$(kpsewhich IEEEtranN.bst)" /tmp && diff -u --label IEEEtranN.bst --label IEEEtranN-doi.bst /tmp/IEEEtranN.bst generators/app/templates/IEEEtranN-doi.bst > generators/app/templates/IEEEtranN-doi.bst.patch`
+   (in the TeX Live docker image when the host has no TeX Live).
+3. Keep every `write$` line of `begin.bib` under 79 characters, or BibTeX wraps it and the rest of
+   the banner is typeset before the first reference (`req~ieee-bst-banner~1`).

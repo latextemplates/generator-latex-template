@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- `IEEEtranN-doi.bst` carries its own version (3, 2026/11/03) next to the unchanged IEEEtranN.bst 1.14; the BibTeX banner and the first `.bbl` line name both, instead of reporting IEEEtranN.bst 1.14 only.
 - The `Check` workflow verifies that "workflow" and "dwarflike" can be copied from the built PDF as plain words (no `fl`/`fi` ligature characters).
 - Under LuaLaTeX, a `\usepackage{newtxtext}` added by hand stops the build with an error pointing to the fontspec setup, instead of silently switching to TeX Gyre Termes X without TeX ligatures (`` and '' as two single quotes).
 
