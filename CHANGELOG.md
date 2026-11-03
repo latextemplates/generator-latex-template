@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- IEEE under LuaLaTeX: no more `Font shape `TU/ptm/m/n' undefined` warnings. IEEEtran selects Times before fontspec runs; the preamble now declares the `TU` shapes for `ptm` and `ppl`.
 - Two-column papers (`ieee`, `acmart` with `sigconf`): the wide-table example is scaled to the column width (`\linewidth`), not to `\textwidth`, which let it run into the other column.
 - `minted` listings use the same font size as `listings` ones (`\footnotesize`; `\small` in the `ustutt` dissertation) instead of the text size.
 

@@ -1,0 +1,21 @@
+<% if ((reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { -%>
+<%# IEEEtran selects the Type 1 families ptm/ppl while loading, before fontspec runs. LuaLaTeX has no TU/ptm shapes,
+warns four times "Font shape `TU/ptm/m/n' undefined", and substitutes Latin Modern until \setmainfont below.
+These declarations map the families to the OpenType fonts the preamble uses anyway. Must come before \documentclass. -%>
+<%# [impl->req~ieee-fonts-lualatex~1] -%>
+% IEEEtran selects Times (ptm; Palatino, ppl, for compsoc journals) while loading, before fontspec can.
+% Without these shapes, LuaLaTeX warns "Font shape `TU/ptm/m/n' undefined" and substitutes Latin Modern.
+\ifdefined\directlua
+  \DeclareFontFamily{TU}{ptm}{}
+  \DeclareFontShape{TU}{ptm}{m}{n}{<-> "[texgyretermes-regular.otf]:mode=node;script=latn;+tlig;"}{}
+  \DeclareFontShape{TU}{ptm}{m}{it}{<-> "[texgyretermes-italic.otf]:mode=node;script=latn;+tlig;"}{}
+  \DeclareFontShape{TU}{ptm}{bx}{n}{<-> "[texgyretermes-bold.otf]:mode=node;script=latn;+tlig;"}{}
+  \DeclareFontShape{TU}{ptm}{bx}{it}{<-> "[texgyretermes-bolditalic.otf]:mode=node;script=latn;+tlig;"}{}
+  \DeclareFontFamily{TU}{ppl}{}
+  \DeclareFontShape{TU}{ppl}{m}{n}{<-> "[texgyrepagella-regular.otf]:mode=node;script=latn;+tlig;"}{}
+  \DeclareFontShape{TU}{ppl}{m}{it}{<-> "[texgyrepagella-italic.otf]:mode=node;script=latn;+tlig;"}{}
+  \DeclareFontShape{TU}{ppl}{bx}{n}{<-> "[texgyrepagella-bold.otf]:mode=node;script=latn;+tlig;"}{}
+  \DeclareFontShape{TU}{ppl}{bx}{it}{<-> "[texgyrepagella-bolditalic.otf]:mode=node;script=latn;+tlig;"}{}
+\fi
+
+<% } -%>
