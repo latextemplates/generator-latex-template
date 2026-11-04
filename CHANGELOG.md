@@ -8,6 +8,15 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- IEEE: FAQ on what IEEE PDF eXpress needs from the final PDF (embedded fonts, no Type 3, paper size) and how to check it.
+- Under LuaLaTeX, loading `newtxmath` stops with an error pointing to `\setmathfont`, like `newtxtext` already does.
+
+### Fixed
+
+- IEEE README: the font list is a plain sentence instead of a table inside the list (the table made the whole list loose), and names the real LuaLaTeX math font, TeX Gyre Termes Math.
+
 ## [2026.11.4]
 
 ### Added

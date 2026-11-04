@@ -55,10 +55,12 @@ lualatex
 <% if (documentclass != "acmart") { -%>
 <%= indent %><% if (overleaf || texlive < 2024 || true) { %>\usepackage{unicode-math}<% } else { %>\usepackage{minim-math}<% } %>
 <% } -%>
-<%= indent %>% newtxtext is for pdflatex. Under LuaLaTeX, it replaces the fonts set below by TeX Gyre Termes X without TeX ligatures: `` and '' appear as two single quotes (e.g., in the bibliography)
-<%= indent %>\newcommand{\ltgNewtxtextError}{\GenericError{}{newtxtext loaded under LuaLaTeX}{}{Remove \string\usepackage{newtxtext}: the fonts are set with fontspec in <%= filenames.main %>.tex (search for \string\setmainfont).}}
-<%= indent %>\IfPackageLoadedTF{newtxtext}{\ltgNewtxtextError}{}
-<%= indent %>\AddToHook{package/newtxtext/before}{\ltgNewtxtextError}
+<%= indent %>% newtxtext and newtxmath are for pdflatex. Under LuaLaTeX, newtxtext replaces the fonts set below by TeX Gyre Termes X without TeX ligatures (`` and '' appear as two single quotes, e.g., in the bibliography); newtxmath clashes with unicode-math.
+<%= indent %>\newcommand{\ltgPdflatexOnlyError}[2]{\GenericError{}{#1 loaded under LuaLaTeX}{}{Remove \string\usepackage{#1}: the fonts are set with fontspec in <%= filenames.main %>.tex (search for \string#2).}}
+<%= indent %>\IfPackageLoadedTF{newtxtext}{\ltgPdflatexOnlyError{newtxtext}{\setmainfont}}{}
+<%= indent %>\AddToHook{package/newtxtext/before}{\ltgPdflatexOnlyError{newtxtext}{\setmainfont}}
+<%= indent %>\IfPackageLoadedTF{newtxmath}{\ltgPdflatexOnlyError{newtxmath}{\setmathfont}}{}
+<%= indent %>\AddToHook{package/newtxmath/before}{\ltgPdflatexOnlyError{newtxmath}{\setmathfont}}
 <% switch (font) { case "arial": -%>
 <%# Arial and LuaLaTeX -%>
 <%# -%>
