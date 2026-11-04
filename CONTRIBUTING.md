@@ -202,7 +202,7 @@ ejslint.cmd c:\git-repositories\latextemplates\generator-latex-template\generato
 > So after the squash-merge, `git switch main && git pull` and confirm `git branch --show-current` prints `main` before doing anything below.
 
 1. Once the `refine-ltg` PR is green, **squash-merge** it into `main`, then `git switch main && git pull` (confirm you are on `main`).
-2. Update `CHANGELOG.md`: rename the top `## [Unreleased]` heading to `## [<version>]`, add the matching `[<version>]: …/compare/<prev>...<version>` link definition, and bump `[Unreleased]: …/compare/<version>...main`.
+2. Update `CHANGELOG.md`: rename the top `## [Unreleased]` heading to `## [<version>]`, insert an empty `## [Unreleased]` heading above it (markdownlint MD053 otherwise flags the `[Unreleased]:` link as unused), add the matching `[<version>]: …/compare/<prev>...<version>` link definition, and bump `[Unreleased]: …/compare/<version>...main`.
 3. **Verify the CHANGELOG before publishing:**
    - Run heylogs (the same check as CI's `check-changelog.yml`) and get **0 problems**:
      `jbang com.github.nbbrd.heylogs:heylogs-cli:0.18.1:bin check CHANGELOG.md`
