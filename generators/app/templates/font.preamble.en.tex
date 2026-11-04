@@ -55,6 +55,10 @@ lualatex
 <% if (documentclass != "acmart") { -%>
 <%= indent %><% if (overleaf || texlive < 2024 || true) { %>\usepackage{unicode-math}<% } else { %>\usepackage{minim-math}<% } %>
 <% } -%>
+<%= indent %>% newtxtext is for pdflatex. Under LuaLaTeX, it replaces the fonts set below by TeX Gyre Termes X without TeX ligatures: `` and '' appear as two single quotes (e.g., in the bibliography)
+<%= indent %>\newcommand{\ltgNewtxtextError}{\GenericError{}{newtxtext loaded under LuaLaTeX}{}{Remove \string\usepackage{newtxtext}: the fonts are set with fontspec in <%= filenames.main %>.tex (search for \string\setmainfont).}}
+<%= indent %>\IfPackageLoadedTF{newtxtext}{\ltgNewtxtextError}{}
+<%= indent %>\AddToHook{package/newtxtext/before}{\ltgNewtxtextError}
 <% switch (font) { case "arial": -%>
 <%# Arial and LuaLaTeX -%>
 <%# -%>
@@ -192,7 +196,6 @@ fontspec replaces them with Latin Modern, so the OpenType equivalents are set he
 <%# [impl->req~ligatures-copyable~1] -%>
 <%= indent %>\usepackage{selnolig}
 <% } -%>
-
 <% } -%>
 <% if ((!reallatexcompiler.startsWith("lualatex")) || (latexcompiler == "both")) { -%>
 <% if (latexcompiler == "both") { -%>

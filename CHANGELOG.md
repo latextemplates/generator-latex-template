@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 From 2025-01-13 onwards, versioning is done using [Calendar Versioning](https://calver.org/).
 We use dots as date separators, because it is supported in `package.json` (and dashes are not).
 
+## [Unreleased]
+
+## [2026.11.4]
+
+### Added
+
+- `IEEEtranN-doi.bst` carries its own version (3, 2026/11/03) next to the unchanged IEEEtranN.bst 1.14; the BibTeX banner and the first `.bbl` line name both, instead of reporting IEEEtranN.bst 1.14 only.
+- The `Check` workflow verifies that "workflow" and "dwarflike" can be copied from the built PDF as plain words (no `fl`/`fi` ligature characters).
+- Under LuaLaTeX, a `\usepackage{newtxtext}` added by hand stops the build with an error pointing to the fontspec setup, instead of silently switching to TeX Gyre Termes X without TeX ligatures (`` and '' as two single quotes).
+
+### Fixed
+
+- The generated LTeX+ and TeXtidote word lists are sorted like `make dictionaries` sorts them (case-insensitive), so the "Update files" bot and the "Dictionaries" workflow no longer rewrite them in turns (14 commits without a change in one PR).
+- IEEE under LuaLaTeX: no more ``Font shape `TU/ptm/m/n' undefined`` warnings. IEEEtran selects Times before fontspec runs; the preamble now declares the `TU` shapes for `ptm` and `ppl`.
+- Two-column papers (`ieee`, `acmart` with `sigconf`): the wide-table example is scaled to the column width (`\linewidth`), not to `\textwidth`, which let it run into the other column.
+- `minted` listings use the same font size as `listings` ones (`\footnotesize`; `\small` in the `ustutt` dissertation) instead of the text size.
+
 ## [2026.11.3]
 
 ### Added
@@ -722,7 +739,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
-[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.3...main
+[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.4...main
+[2026.11.4]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.3...2026.11.4
 [2026.11.3]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.1...2026.11.3
 [2026.11.1]: https://github.com/latextemplates/generator-latex-template/compare/2026.10.30...2026.11.1
 [2026.10.30]: https://github.com/latextemplates/generator-latex-template/compare/2026.10.26...2026.10.30
