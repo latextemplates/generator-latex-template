@@ -136,6 +136,8 @@ never claims to come from an unmodified IEEEtranN.bst. When you change the `.bst
 3. Check the result against the IEEE Reference Guide: `comparison/build.sh` of a generated IEEE template
    builds `comparison-reference-guide.pdf`, every guide example next to the `.bst` output (sources
    `comparison-reference-guide.ieee.{tex,bib}`, vendored from the sibling `biblatex-ieee` checkout by
-   `scripts/ieee-reference-guide.py`, never edited by hand).
+   `scripts/ieee-reference-guide.py`, never edited by hand). `scripts/ieee-reference-guide-diff.py <dir>`
+   diffs the text of that PDF example by example and prints the counts (version 4: 101 of 145 identical;
+   the rest are the guide's own inconsistencies or data the fields cannot carry). Do not let it drop.
 4. Keep every `write$` line of `begin.bib` under 79 characters, or BibTeX wraps it and the rest of
    the banner is typeset before the first reference (`req~ieee-bst-banner~1`).
