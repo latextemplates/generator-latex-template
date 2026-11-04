@@ -172,6 +172,11 @@ The sources are in [comparison/](comparison/); `comparison/build.sh` renders the
 
 ![<%= page[0].toUpperCase() + page.slice(1) %> page: as distributed (left) and this template (right)](https://latextemplates.github.io/<%= templateRepo %>/comparison-<%= page %>.png)
 <% } -%>
+<% if (documentclass == "ieee") { -%>
+
+[comparison-reference-guide.pdf](https://latextemplates.github.io/<%= templateRepo %>/comparison-reference-guide.pdf) shows every example of the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (V 3.28.2025) next to the output of `IEEEtranN-doi.bst`, so that the two can be compared.
+The entries ([comparison/reference-guide.bib](comparison/reference-guide.bib)) come from [biblatex-ieee](https://github.com/koppor/biblatex-ieee), which does the same for biblatex.
+<% } -%>
 <% } -%>
 <% if (!(githubpublish && ((documentclass == "ustutt") || (documentclass == "scientific-thesis")))) { -%>
 

@@ -671,6 +671,13 @@ export default class extends Generator {
         [`comparison-body.${this.props.documentclass}.tex`, "body.tex"],
         [`comparison-plain.${this.props.documentclass}.tex`, "plain.tex"],
         ["comparison-build.sh", "build.sh"],
+        // IEEE: every example of the IEEE Reference Guide next to the output of IEEEtranN-doi.bst
+        ...(this.props.documentclass === "ieee"
+          ? [
+              ["comparison-reference-guide.ieee.tex", "reference-guide.tex"],
+              ["comparison-reference-guide.ieee.bib", "reference-guide.bib"],
+            ]
+          : []),
       ]) {
         this.fs.copyTpl(
           this.templatePath(src),
