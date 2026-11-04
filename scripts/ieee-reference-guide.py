@@ -17,43 +17,83 @@ def split_date(val):
 
 
 def convert(etype, fields):
-    """biblatex entry type and fields -> what IEEEtran*.bst knows."""
+    """biblatex entry type and fields -> what IEEEtranN-doi.bst knows."""
     f = dict(fields)
     out = {}
     t = etype.lower()
-    if "date" in f:
-        y, mo, d = split_date(f.pop("date"))
-        out["year"] = y
-        if mo:
-            out["month"] = MONTHS[int(mo) - 1]  # BibTeX month macro, so the .bst abbreviates it ("Sep.")
-        if d:
-            out["day"] = str(int(d))
+    sub = f.pop("entrysubtype", "")
+    for k in ("date", "eventdate"):
+        if k in f:
+            span = f.pop(k).split("/")  # "2010-10-05/2010-10-08" is a range: day "5--8"
+            y, mo, d = split_date(span[0])
+            if k == "eventdate" and "year" in out:
+                continue
+            out["year"] = y
+            if mo:
+                out["month"] = MONTHS[int(mo) - 1]  # BibTeX month macro, so the .bst abbreviates it ("Sep.")
+            if d:
+                out["day"] = str(int(d))
+                d2 = split_date(span[1])[2] if len(span) > 1 else None
+                if d2:
+                    out["day"] += "--" + str(int(d2))
     if "year" in f:
         out["year"] = f.pop("year")
-    if "urldate" in f:
-        y, mo, d = split_date(f.pop("urldate"))
-        accessed = (MONTHS[int(mo) - 1].capitalize() + ". " if mo else "") + (str(int(d)) + ", " if d else "") + y
-        f["note"] = (f["note"] + " " if f.get("note") else "") + "Accessed: " + accessed + "."
-    for a, b in {"journaltitle": "journal", "location": "address", "eid": "pages", "eventtitle": "booktitle"}.items():
+    if "eventtitle" in f:
+        ev = f.pop("eventtitle")
+        if t == "inproceedings" and "booktitle" not in f:
+            f["intype"] = "presented at the"
+            f["booktitle"] = ev
+            if "number" in f:
+                f["paper"] = f.pop("number")
+        else:
+            f["note"] = (f["note"] + ". " if f.get("note") else "") + "Presented at " + ev + (", " + f.pop("venue") if "venue" in f else "")
+    for a, b in {"journaltitle": "journal", "location": "address", "venue": "address"}.items():
         if a in f and b not in f:
             f[b] = f.pop(a)
-    if t == "online":
-        t = "electronic"
+    if "pubstate" in f:
+        f["note"] = (f["note"] + ", " if f.get("note") else "") + {
+            "forthcoming": "to be published", "inpress": "to be published", "submitted": "submitted for publication",
+            "early access": "early access", "prepublished": "early access"}.get(f.pop("pubstate"), "to be published")
+    if "eprint" in f:
+        f["note"] = (f["note"] + ", " if f.get("note") else "") + ("arXiv:" if f.get("eprinttype", "").lower() == "arxiv" else "") + f.pop("eprint")
+    ty = f.get("type", "")
+    if t == "online":  # a dated document: "Author. (Date). Title."; a web page: "Author. "Title." Site. Accessed: ..."
+        t = "misc" if "url" not in f else "electronic" if "year" in out else "online"
+    elif t == "standard" and f.get("number", "").startswith("Rec. "):
+        f["type"], f["number"] = f["number"].split(" ", 1)
     elif t == "thesis":
-        ty = f.get("type", "").lower()
-        t = "phdthesis" if any(w in ty for w in ("phd", "doctor", "dissertation")) else "mastersthesis"
+        t = "phdthesis" if ty.lower() in ("phdthesis", "phd") or any(w in ty.lower() for w in ("doctor", "dissertation")) and ty.lower() != "mathesis" else "mastersthesis"
+        if ty.lower() in ("phdthesis", "mathesis"):
+            f.pop("type")
         if "institution" in f:
             f["school"] = f.pop("institution")
     elif t == "report":
         t = "techreport"
-    elif t in ("software", "dataset", "video", "unpublished"):
-        t = "misc"
+        if ty:
+            f["type"] = {"techreport": "Tech. Rep.", "resreport": "Res. Rep."}.get(ty.lower(), ty)
+    elif t == "patent":
+        if ty.lower().startswith("patent") or ty.lower().startswith("patreq"):
+            country = ty[6:].upper()
+            f["nationality"] = {"US": "U.S."}.get(country, country)
+            f["type"] = "Patent Appl." if ty.lower().startswith("patreq") else "Patent"
+    elif t == "software":
+        pass
+    elif t == "unpublished":
+        pass
+    elif t == "inbook" and "booktitle" in f:
+        t = "incollection"
     elif t == "incollection" and "booktitle" not in f:
         t = "book"
+    elif t == "periodical" and "issuetitle" in f:
+        f["journal"] = f.pop("title")
+        f["title"] = "{" + f.pop("issuetitle") + "}"
+    if t == "misc" and "number" in f:
+        f["paper"] = re.sub(r"^Paper\s+", "", f.pop("number"))
+    if t == "misc" and "author" not in f and "title" in f:  # legal citations: the title is not quoted
+        f["howpublished"] = f.pop("title") + (", " + f["howpublished"] if "howpublished" in f else "")
     if "institution" in f and "organization" not in f and t != "techreport":
         f["organization"] = f.pop("institution")
-    for k in ("venue", "eventdate", "pubstate", "issuetitle", "maintitle", "translator", "addendum",
-              "part", "eprinttype", "eprint", "language", "entrysubtype"):
+    for k in ("issuetitle", "maintitle", "addendum", "eprinttype"):
         f.pop(k, None)
     if "url" in f:
         f["url"] = f["url"].replace("#", "\\#")  # a bare # breaks the \gdef that bibentry stores the entry with
