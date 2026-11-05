@@ -435,7 +435,29 @@
      space.normal 'this.status.space :=
      quote.no 'this.status.quote :=
      cap.yes  'status.cap :=
-@@ -1443,7 +1722,9 @@
+@@ -1342,6 +1621,21 @@
+   if$
+ }
+ 
++% "(n.d.)" for an online document without a date (IEEE Reference Guide, "Style")
++FUNCTION {format.date.electronic.nd}
++{ year empty$ month empty$ and
++    { this.to.prev.status
++      this.status.std
++      "(n.d.)"
++      punct.period 'this.status.punct :=
++      space.normal 'this.status.space :=
++      quote.no 'this.status.quote :=
++      cap.yes  'status.cap :=
++    }
++    { format.date.electronic }
++  if$
++}
++
+ 
+ 
+ %% edition/title
+@@ -1443,7 +1737,9 @@
    "title" bibinfo.check
    duplicate$ empty$ 
      { skip$ } 
@@ -446,7 +468,7 @@
    if$
  }
  
-@@ -1694,20 +1975,24 @@
+@@ -1694,20 +1990,24 @@
  %% technical report number
  
  FUNCTION {format.tech.report.number}
@@ -484,7 +506,7 @@
    if$
  }
  
-@@ -1721,6 +2006,7 @@
+@@ -1721,6 +2021,7 @@
      { this.to.prev.status
        this.status.std
        punct.period 'this.status.punct :=
@@ -492,7 +514,7 @@
        note #1 #1 substring$
        duplicate$ "{" =
          { skip$ }
-@@ -1790,7 +2076,7 @@
+@@ -1790,7 +2091,7 @@
        swap$
        duplicate$ empty$
          { pop$ }
@@ -501,7 +523,7 @@
        if$
      }
    if$
-@@ -1829,6 +2115,14 @@
+@@ -1829,6 +2130,14 @@
  
  %% standard
  
@@ -516,7 +538,7 @@
  FUNCTION {format.organization.institution.standard.type.number}
  { this.to.prev.status
    this.status.std
-@@ -1903,6 +2197,21 @@
+@@ -1903,6 +2212,21 @@
  
  
  
@@ -538,7 +560,7 @@
  %% URL
  
  FUNCTION {format.url}
-@@ -1944,12 +2253,17 @@
+@@ -1944,12 +2268,17 @@
    format.authors "author" output.warn
    name.or.dash
    format.article.title "title" output.warn
@@ -556,7 +578,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -1960,20 +2274,25 @@
+@@ -1960,20 +2289,25 @@
    start.entry
    if.url.alt.interword.spacing
    author empty$
@@ -586,7 +608,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -1991,6 +2310,7 @@
+@@ -1991,6 +2325,7 @@
    format.address "address" bibinfo.check output
    format.date output
    format.note output
@@ -594,7 +616,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2002,13 +2322,23 @@
+@@ -2002,13 +2337,23 @@
    if.url.alt.interword.spacing
    format.authors output
    name.or.dash
@@ -602,9 +624,9 @@
 -  format.article.title.electronic output
 +  author empty$
 +    { format.article.title.electronic output
-+      format.date.electronic output
++      format.date.electronic.nd output
 +    }
-+    { format.date.electronic output
++    { format.date.electronic.nd output
 +      format.article.title.electronic output
 +    }
 +  if$
@@ -620,7 +642,7 @@
    fin.entry
    empty.entry.warn
    if.url.std.interword.spacing
-@@ -2031,6 +2361,7 @@
+@@ -2031,6 +2376,7 @@
    format.chapter output
    format.pages output
    format.note output
@@ -628,7 +650,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2043,15 +2374,17 @@
+@@ -2043,15 +2389,17 @@
    format.authors "author" output.warn
    name.or.dash
    format.article.title "title" output.warn
@@ -651,7 +673,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2065,41 +2398,82 @@
+@@ -2065,41 +2413,82 @@
    name.or.dash
    format.article.title "title" output.warn
    format.in.booktitle "booktitle" output.warn
@@ -741,7 +763,7 @@
  FUNCTION {mastersthesis}
  { std.status.using.comma
    start.entry
-@@ -2110,8 +2484,10 @@
+@@ -2110,8 +2499,10 @@
    format.master.thesis.type output.nonnull
    format.school "school" bibinfo.warn output
    format.address "address" bibinfo.check output
@@ -752,7 +774,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2125,11 +2501,15 @@
+@@ -2125,11 +2516,15 @@
    name.or.dash
    format.article.title output
    format.howpublished "howpublished" bibinfo.check output 
@@ -769,7 +791,7 @@
    format.url output
    fin.entry
    empty.entry.warn
-@@ -2143,9 +2523,11 @@
+@@ -2143,9 +2538,11 @@
    format.authors output
    name.or.dash
    format.article.title output
@@ -781,7 +803,7 @@
    format.url output
    fin.entry
    empty.entry.warn
-@@ -2158,13 +2540,20 @@
+@@ -2158,13 +2555,20 @@
    if.url.alt.interword.spacing
    format.editors output
    name.or.dash
@@ -803,7 +825,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2180,8 +2569,10 @@
+@@ -2180,8 +2584,10 @@
    format.phd.thesis.type output.nonnull
    format.school "school" bibinfo.warn output
    format.address "address" bibinfo.check output
@@ -814,7 +836,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2204,6 +2595,7 @@
+@@ -2204,6 +2610,7 @@
      }
    if$
    format.note output
@@ -822,7 +844,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2217,10 +2609,17 @@
+@@ -2217,10 +2624,17 @@
    name.or.dash
    format.book.title "title" output.warn
    format.howpublished "howpublished" bibinfo.check output 
@@ -841,7 +863,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2236,9 +2635,12 @@
+@@ -2236,9 +2650,12 @@
    format.howpublished "howpublished" bibinfo.check output 
    format.institution "institution" bibinfo.warn output
    format.address "address" bibinfo.check output
@@ -855,7 +877,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2253,6 +2655,7 @@
+@@ -2253,6 +2670,7 @@
    format.article.title "title" output.warn
    format.date output
    format.note "note" output.warn
@@ -863,7 +885,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2375,10 +2778,80 @@
+@@ -2375,10 +2793,80 @@
  
  
  %%%%%%%%%%%%%%%%%%%

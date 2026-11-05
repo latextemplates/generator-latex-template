@@ -17,7 +17,7 @@
 +%%   4 (2026/11/05): entry formats of the IEEE Reference Guide: days in dates,
 +%%                   urldate ("Accessed:"), language ("(in Russian)"),
 +%%                   translator, eid ("Art. no."), part, series in parentheses
-+%%                   after book titles, volume/editors/edition order in
++%%                   after book titles, "(n.d.)" without a date, volume/editors/edition order in
 +%%                   collections, "Standard", "M.S. thesis", "Paper", and the
 +%%                   entry types online (web page), video, dataset, software
 +%%   3 (2026/11/03): banners name this file and its version, not only IEEEtranN.bst
@@ -443,7 +443,29 @@
      space.normal 'this.status.space :=
      quote.no 'this.status.quote :=
      cap.yes  'status.cap :=
-@@ -1505,7 +1791,9 @@
+@@ -1404,6 +1690,21 @@
+   if$
+ }
+ 
++% "(n.d.)" for an online document without a date (IEEE Reference Guide, "Style")
++FUNCTION {format.date.electronic.nd}
++{ year empty$ month empty$ and
++    { this.to.prev.status
++      this.status.std
++      "(n.d.)"
++      punct.period 'this.status.punct :=
++      space.normal 'this.status.space :=
++      quote.no 'this.status.quote :=
++      cap.yes  'status.cap :=
++    }
++    { format.date.electronic }
++  if$
++}
++
+ 
+ 
+ %% edition/title
+@@ -1505,7 +1806,9 @@
    "title" bibinfo.check
    duplicate$ empty$ 
      { skip$ } 
@@ -454,7 +476,7 @@
    if$
  }
  
-@@ -1756,20 +2044,24 @@
+@@ -1756,20 +2059,24 @@
  %% technical report number
  
  FUNCTION {format.tech.report.number}
@@ -492,7 +514,7 @@
    if$
  }
  
-@@ -1783,6 +2075,7 @@
+@@ -1783,6 +2090,7 @@
      { this.to.prev.status
        this.status.std
        punct.period 'this.status.punct :=
@@ -500,7 +522,7 @@
        note #1 #1 substring$
        duplicate$ "{" =
          { skip$ }
-@@ -1852,7 +2145,7 @@
+@@ -1852,7 +2160,7 @@
        swap$
        duplicate$ empty$
          { pop$ }
@@ -509,7 +531,7 @@
        if$
      }
    if$
-@@ -1891,6 +2184,14 @@
+@@ -1891,6 +2199,14 @@
  
  %% standard
  
@@ -524,7 +546,7 @@
  FUNCTION {format.organization.institution.standard.type.number}
  { this.to.prev.status
    this.status.std
-@@ -1965,6 +2266,21 @@
+@@ -1965,6 +2281,21 @@
  
  
  
@@ -546,7 +568,7 @@
  %% URL
  
  FUNCTION {format.url}
-@@ -2006,12 +2322,17 @@
+@@ -2006,12 +2337,17 @@
    format.authors "author" output.warn
    name.or.dash
    format.article.title "title" output.warn
@@ -564,7 +586,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2022,20 +2343,25 @@
+@@ -2022,20 +2358,25 @@
    start.entry
    if.url.alt.interword.spacing
    author empty$
@@ -594,7 +616,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2053,6 +2379,7 @@
+@@ -2053,6 +2394,7 @@
    format.address "address" bibinfo.check output
    format.date output
    format.note output
@@ -602,7 +624,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2064,13 +2391,23 @@
+@@ -2064,13 +2406,23 @@
    if.url.alt.interword.spacing
    format.authors output
    name.or.dash
@@ -610,9 +632,9 @@
 -  format.article.title.electronic output
 +  author empty$
 +    { format.article.title.electronic output
-+      format.date.electronic output
++      format.date.electronic.nd output
 +    }
-+    { format.date.electronic output
++    { format.date.electronic.nd output
 +      format.article.title.electronic output
 +    }
 +  if$
@@ -628,7 +650,7 @@
    fin.entry
    empty.entry.warn
    if.url.std.interword.spacing
-@@ -2093,6 +2430,7 @@
+@@ -2093,6 +2445,7 @@
    format.chapter output
    format.pages output
    format.note output
@@ -636,7 +658,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2105,15 +2443,17 @@
+@@ -2105,15 +2458,17 @@
    format.authors "author" output.warn
    name.or.dash
    format.article.title "title" output.warn
@@ -659,7 +681,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2127,41 +2467,82 @@
+@@ -2127,41 +2482,82 @@
    name.or.dash
    format.article.title "title" output.warn
    format.in.booktitle "booktitle" output.warn
@@ -749,7 +771,7 @@
  FUNCTION {mastersthesis}
  { std.status.using.comma
    start.entry
-@@ -2172,8 +2553,10 @@
+@@ -2172,8 +2568,10 @@
    format.master.thesis.type output.nonnull
    format.school "school" bibinfo.warn output
    format.address "address" bibinfo.check output
@@ -760,7 +782,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2187,11 +2570,15 @@
+@@ -2187,11 +2585,15 @@
    name.or.dash
    format.article.title output
    format.howpublished "howpublished" bibinfo.check output 
@@ -777,7 +799,7 @@
    format.url output
    fin.entry
    empty.entry.warn
-@@ -2205,9 +2592,11 @@
+@@ -2205,9 +2607,11 @@
    format.authors output
    name.or.dash
    format.article.title output
@@ -789,7 +811,7 @@
    format.url output
    fin.entry
    empty.entry.warn
-@@ -2220,13 +2609,20 @@
+@@ -2220,13 +2624,20 @@
    if.url.alt.interword.spacing
    format.editors output
    name.or.dash
@@ -811,7 +833,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2242,8 +2638,10 @@
+@@ -2242,8 +2653,10 @@
    format.phd.thesis.type output.nonnull
    format.school "school" bibinfo.warn output
    format.address "address" bibinfo.check output
@@ -822,7 +844,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2266,6 +2664,7 @@
+@@ -2266,6 +2679,7 @@
      }
    if$
    format.note output
@@ -830,7 +852,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2279,10 +2678,17 @@
+@@ -2279,10 +2693,17 @@
    name.or.dash
    format.book.title "title" output.warn
    format.howpublished "howpublished" bibinfo.check output 
@@ -849,7 +871,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2298,9 +2704,12 @@
+@@ -2298,9 +2719,12 @@
    format.howpublished "howpublished" bibinfo.check output 
    format.institution "institution" bibinfo.warn output
    format.address "address" bibinfo.check output
@@ -863,7 +885,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2315,6 +2724,7 @@
+@@ -2315,6 +2739,7 @@
    format.article.title "title" output.warn
    format.date output
    format.note "note" output.warn
@@ -871,7 +893,7 @@
    format.url output
    fin.entry
    if.url.std.interword.spacing
-@@ -2437,10 +2847,80 @@
+@@ -2437,10 +2862,80 @@
  
  
  %%%%%%%%%%%%%%%%%%%

@@ -41,6 +41,9 @@ def convert(etype, fields):
                     out["day"] += "--" + str(int(d2))
     if "year" in f:
         out["year"] = f.pop("year")
+    undated = out.get("year") == "n.d."  # an undated online document: the .bst prints "(n.d.)" itself
+    if undated:
+        out.pop("year")
     if "eventtitle" in f:
         ev = f.pop("eventtitle")
         if t == "inproceedings" and "booktitle" not in f:
@@ -61,7 +64,7 @@ def convert(etype, fields):
         f["note"] = (f["note"] + ", " if f.get("note") else "") + ("arXiv:" if f.get("eprinttype", "").lower() == "arxiv" else "") + f.pop("eprint")
     ty = f.get("type", "")
     if t == "online":  # a dated document: "Author. (Date). Title."; a web page: "Author. "Title." Site. Accessed: ..."
-        t = "misc" if "url" not in f else "electronic" if "year" in out else "online"
+        t = "misc" if "url" not in f else "electronic" if "year" in out or undated else "online"
     elif t == "standard" and f.get("number", "").startswith("Rec. "):
         f["type"], f["number"] = f["number"].split(" ", 1)
     elif t == "thesis":
