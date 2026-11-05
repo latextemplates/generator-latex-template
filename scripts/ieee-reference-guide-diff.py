@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
-# Compares every example of the IEEE Reference Guide with the IEEEtranN-doi.bst output in a built
-# comparison-reference-guide.pdf (see generators/app/CLAUDE.md): prints the differing examples
-# ("G:" guide, "O:" our .bst) and the counts. Whitespace is ignored (URLs wrap differently).
-# Usage: scripts/ieee-reference-guide-diff.py <dir with comparison-reference-guide.pdf and .aux>
+# Compares every example of the IEEE Reference Guide with the output of IEEEtranN-doi.bst (or of biblatex-ieee)
+# in a built comparison-reference-guide-bibtex.pdf (-biblatex.pdf), see generators/app/CLAUDE.md: prints the
+# differing examples ("G:" guide, "O:" output) and the counts. Whitespace is ignored (URLs wrap differently).
+# Usage: scripts/ieee-reference-guide-diff.py <dir with the built PDF> [bibtex|biblatex]
 # Needs pdftotext (poppler).
 import pathlib, re, subprocess, sys
 
 d = pathlib.Path(sys.argv[1])
-txt = subprocess.run(["pdftotext", "-raw", d / "comparison-reference-guide.pdf", "-"], check=True, capture_output=True, text=True).stdout
-num2key = {n: k for k, n in re.findall(r"\\bibcite\{([^}]+)\}\{\{(\d+)\}", (d / "comparison-reference-guide.aux").read_text())}
+which = sys.argv[2] if len(sys.argv) > 2 else "bibtex"
+base = d / f"comparison-reference-guide-{which}"
+label = {"bibtex": "IEEEtranN-doi:\n", "biblatex": "biblatex-ieee: "}[which]
+txt = subprocess.run(["pdftotext", "-raw", f"{base}.pdf", "-"], check=True, capture_output=True, text=True).stdout
+num2key = {}
+if which == "bibtex":
+    num2key = {n: k for k, n in re.findall(r"\\bibcite\{([^}]+)\}\{\{(\d+)\}", pathlib.Path(f"{base}.aux").read_text())}
 lines = [l for l in txt.replace("\f", "\n").split("\n") if not re.fullmatch(r"\s*\d+\s*", l)]  # page numbers
-pairs = re.findall(r"\[(\d+)\] Guide: (.*?)\nIEEEtranN-doi:\n(.*?)(?=\n\[\d+\] Guide: |\n\d{1,2}(?:\.\d+)? [A-Z][a-z]|\Z)", "\n".join(lines), re.S)
-
+pairs = re.findall(r"\[(\d+)\] Guide: (.*?)\n" + label + r"(.*?)(?=\nBibTeX:|\n\[\d+\] Guide: |\n\d{1,2}(?:\.\d+)? [A-Z][a-z]|\Z)", "\n".join(lines), re.S)
 
 def norm(s):
     s = re.sub(r"\s+", " ", s).strip()

@@ -10,7 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
-- IEEE: `comparison/reference-guide.tex` typesets every example of the IEEE Reference Guide (V 3.28.2025) next to the output of `IEEEtranN-doi.bst`; `comparison/build.sh` builds it and gh-pages publishes `comparison-reference-guide.pdf`.
+- IEEE: `comparison/reference-guide-bibtex.tex` and `comparison/reference-guide-biblatex.tex` typeset every example of the IEEE Reference Guide (V 3.28.2025) next to the output of `IEEEtranN-doi.bst` and of `biblatex-ieee`; the `reference-guide` job of `check.yml` builds them (in ieee-enhanced only) and gh-pages publishes the PDFs.
 - IEEE: FAQ on what IEEE PDF eXpress needs from the final PDF (embedded fonts, no Type 3, paper size) and how to check it.
 - Under LuaLaTeX, loading `newtxmath` stops with an error pointing to `\setmathfont`, like `newtxtext` already does.
 

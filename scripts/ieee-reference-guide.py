@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 # Vendors the IEEE Reference Guide comparison from a checkout of biblatex-ieee
-# (https://github.com/koppor/biblatex-ieee, directory ieee-reference-guide/):
-#   generators/app/templates/comparison-reference-guide.ieee.bib  (its .bib with BibTeX fields)
-#   generators/app/templates/comparison-reference-guide.ieee.tex  (every guide example next to IEEEtranN-doi.bst)
+# (https://github.com/koppor/biblatex-ieee, directory ieee-reference-guide/) into generators/app/templates/:
+#   comparison-reference-guide-bibtex.ieee.bib    its .bib with BibTeX fields
+#   comparison-reference-guide-bibtex.ieee.tex    every guide example next to the output of IEEEtranN-doi.bst
+#   comparison-reference-guide-biblatex.ieee.bib  its .bib as is
+#   comparison-reference-guide-biblatex.ieee.tex  its ieee-reference-guide-biblatex.tex: the same with biblatex-ieee as
+#                                                 distributed by TeX Live (not the checkout's patched style)
 # Usage: scripts/ieee-reference-guide.py <path to biblatex-ieee checkout>
 import re, sys, pathlib
 
@@ -106,7 +109,7 @@ entries = []
 for m in re.finditer(r"^@(\w+)\{([^,]+),\n(.*?)^\}", bib, re.S | re.M):
     fields = re.findall(r"^\s*(\w+)\s*=\s*\{(.*)\},\s*$", m.group(3), re.M)
     entries.append((m.group(2),) + convert(m.group(1), fields))
-with open(out_dir / "comparison-reference-guide.ieee.bib", "w") as w:
+with open(out_dir / "comparison-reference-guide-bibtex.ieee.bib", "w") as w:
     w.write("% The examples of the IEEE Reference Guide (V 3.28.2025), converted to BibTeX fields\n"
             "% by scripts/ieee-reference-guide.py from biblatex-ieee's ieee-reference-guide.bib. Do not edit.\n\n")
     for key, t, out in entries:
@@ -115,15 +118,15 @@ with open(out_dir / "comparison-reference-guide.ieee.bib", "w") as w:
             w.write("  %s = %s,\n" % (k, v if k == "month" else "{" + v + "}"))
         w.write("}\n\n")
 
-tex = (src_dir / "ieee-reference-guide.tex").read_text()
+tex = (src_dir / "ieee-reference-guide-biblatex.tex").read_text()
 body = tex[tex.index("\\section"):tex.index("\\end{document}")]
 body = re.sub(r"\\(begin|end)\{examples\}\n", "", body)
 body = re.sub(r"\\printbibliography.*\n", "", body)
 doc = r"""% Every example of the IEEE Reference Guide (V 3.28.2025) next to the output of IEEEtranN-doi.bst,
 % so that differences can be spotted by eye. Text and examples come from biblatex-ieee's
-% ieee-reference-guide.tex (https://github.com/koppor/biblatex-ieee), vendored by
+% ieee-reference-guide-biblatex.tex (https://github.com/koppor/biblatex-ieee), vendored by
 % scripts/ieee-reference-guide.py of generator-latex-template. Do not edit.
-% Built by comparison/build.sh: pdflatex + bibtex, from the directory of paper.tex.
+% Built by the reference-guide job of check.yml: pdflatex + bibtex, from the directory of paper.tex.
 \documentclass{article}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -176,15 +179,25 @@ doc = r"""% Every example of the IEEE Reference Guide (V 3.28.2025) next to the 
 
 \begin{document}
 \maketitle
-\nobibliography{comparison/reference-guide}
+\nobibliography{comparison/reference-guide-bibtex}
 \bibliographystyle{IEEEtranN-doi}
 
 Each example of the
 \href{https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf}{IEEE Reference Guide, V 3.28.2025}
 is shown twice: as given in the guide (``Guide''; plain text, the guide's italics are not reproduced),
-and as typeset by IEEEtranN-doi.bst (``IEEEtranN-doi'') from the matching entry of comparison/reference-guide.bib.
+and as typeset by IEEEtranN-doi.bst (``IEEEtranN-doi'') from the matching entry of comparison/reference-guide-bibtex.bib.
 The entries were written for biblatex-ieee and converted to BibTeX fields; types without an IEEEtran driver are entered as \texttt{@misc}.
 
 """ + body + "\n\\end{document}\n"
-(out_dir / "comparison-reference-guide.ieee.tex").write_text(doc)
+(out_dir / "comparison-reference-guide-bibtex.ieee.tex").write_text(doc)
+
+# the biblatex document and database as they are, with the paths of the template
+(out_dir / "comparison-reference-guide-biblatex.ieee.bib").write_text(bib)
+bl = tex.replace("ieee-reference-guide.bib", "comparison/reference-guide-biblatex.bib")
+bl = bl.replace("% Compile with: latexmk ieee-reference-guide-biblatex (LuaLaTeX, see .latexmkrc)",
+                "% Vendored from biblatex-ieee by scripts/ieee-reference-guide.py of generator-latex-template; do not edit.\n"
+                "% Built by the reference-guide job of check.yml with biblatex-ieee as distributed by TeX Live:\n"
+                "% latexmk -lualatex -jobname=comparison-reference-guide-biblatex comparison/reference-guide-biblatex.tex")
+assert bl != tex
+(out_dir / "comparison-reference-guide-biblatex.ieee.tex").write_text(bl)
 print(len(entries), "entries;", body.count("\\guide{"), "examples")

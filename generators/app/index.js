@@ -674,8 +674,22 @@ export default class extends Generator {
         // IEEE: every example of the IEEE Reference Guide next to the output of IEEEtranN-doi.bst
         ...(this.props.documentclass === "ieee"
           ? [
-              ["comparison-reference-guide.ieee.tex", "reference-guide.tex"],
-              ["comparison-reference-guide.ieee.bib", "reference-guide.bib"],
+              [
+                "comparison-reference-guide-bibtex.ieee.tex",
+                "reference-guide-bibtex.tex",
+              ],
+              [
+                "comparison-reference-guide-bibtex.ieee.bib",
+                "reference-guide-bibtex.bib",
+              ],
+              [
+                "comparison-reference-guide-biblatex.ieee.tex",
+                "reference-guide-biblatex.tex",
+              ],
+              [
+                "comparison-reference-guide-biblatex.ieee.bib",
+                "reference-guide-biblatex.bib",
+              ],
             ]
           : []),
       ]) {
