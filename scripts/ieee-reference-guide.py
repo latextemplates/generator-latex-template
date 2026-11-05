@@ -122,7 +122,9 @@ tex = (src_dir / "ieee-reference-guide-biblatex.tex").read_text()
 body = tex[tex.index("\\section"):tex.index("\\end{document}")]
 body = re.sub(r"\\(begin|end)\{examples\}\n", "", body)
 body = re.sub(r"\\printbibliography.*\n", "", body)
-doc = r"""% Every example of the IEEE Reference Guide (V 3.28.2025) next to the output of IEEEtranN-doi.bst,
+doc = r"""% !TeX program = pdflatex
+% !BIB program = bibtex
+% Every example of the IEEE Reference Guide (V 3.28.2025) next to the output of IEEEtranN-doi.bst,
 % so that differences can be spotted by eye. Text and examples come from biblatex-ieee's
 % ieee-reference-guide-biblatex.tex (https://github.com/koppor/biblatex-ieee), vendored by
 % scripts/ieee-reference-guide.py of generator-latex-template. Do not edit.
@@ -195,6 +197,7 @@ The entries were written for biblatex-ieee and converted to BibTeX fields; types
 (out_dir / "comparison-reference-guide-biblatex.ieee.bib").write_text(bib)
 bl = tex.replace("ieee-reference-guide.bib", "comparison/reference-guide-biblatex.bib")
 bl = bl.replace("% Compile with: latexmk ieee-reference-guide-biblatex (LuaLaTeX, see .latexmkrc)",
+                "% !TeX program = lualatex\n% !BIB program = biber\n"
                 "% Vendored from biblatex-ieee by scripts/ieee-reference-guide.py of generator-latex-template; do not edit.\n"
                 "% Built by the reference-guide job of check.yml with biblatex-ieee as distributed by TeX Live:\n"
                 "% latexmk -lualatex -jobname=comparison-reference-guide-biblatex comparison/reference-guide-biblatex.tex")
