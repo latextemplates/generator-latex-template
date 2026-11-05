@@ -244,9 +244,7 @@ Following features are enabled in this template:
   - Citation ranges are written out: `[1], [2], [3]` instead of `[1]–[3]`.
     For ranges, use the natbib option `sort&compress` instead of `sort`.
 <% if (font == "default" || githubpublish) { -%>
-- The fonts IEEEtran intends (Times, Helvetica, Courier) with both engines; with LuaLaTeX, fontspec would otherwise fall back to Latin Modern.
-  pdfLaTeX uses Nimbus Roman, Nimbus Sans, [newtxtt](https://tug.org/FontCatalogue/newtxtt/) for code, and [Computer Modern](https://tug.org/FontCatalogue/computermodern/) for math.
-  LuaLaTeX uses [TeX Gyre Termes](https://tug.org/FontCatalogue/texgyretermes/), [TeX Gyre Heros](https://tug.org/FontCatalogue/texgyreheros/), [TeX Gyre Cursor](https://tug.org/FontCatalogue/texgyrecursor/) for code, and TeX Gyre Termes Math for math.
+- The fonts IEEEtran intends (Times, Helvetica, Courier) with both engines; with LuaLaTeX, fontspec would otherwise fall back to Latin Modern (see the table below).
 <% } -%>
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
@@ -303,6 +301,15 @@ Following features are enabled in this template:
 - Proper hyphenation and microtype for English texts.
 <% if (howtotext) { -%>
 - Hints on writing an abstract and thesis by Dirk Fahland.
+<% } -%>
+<% if ((documentclass == "ieee") && (font == "default" || githubpublish)) { -%>
+
+The fonts differ between the engines:
+
+| Engine | Text | Sans | Code | Math |
+| --- | --- | --- | --- | --- |
+| pdfLaTeX | Nimbus Roman | Nimbus Sans | [newtxtt](https://tug.org/FontCatalogue/newtxtt/) | [Computer Modern](https://tug.org/FontCatalogue/computermodern/) |
+| LuaLaTeX | [TeX Gyre Termes](https://tug.org/FontCatalogue/texgyretermes/) | [TeX Gyre Heros](https://tug.org/FontCatalogue/texgyreheros/) | [TeX Gyre Cursor](https://tug.org/FontCatalogue/texgyrecursor/) | [TeX Gyre Termes Math](https://www.gust.org.pl/projects/e-foundry/tg-math) |
 <% } -%>
 
 ### Disabled features
