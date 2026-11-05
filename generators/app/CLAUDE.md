@@ -123,6 +123,11 @@ formats) catch things a single local `yo` + compile does not. Two that have bitt
 
 ## `IEEEtranN-doi.bst` is a versioned modification of IEEEtranN.bst
 
+`IEEEtran-doi.bst` (+ `IEEEtran-doi.bst.patch`) is the same modification of the plain `IEEEtran.bst`, shipped for
+documents without natbib; the template itself uses the natbib twin. Make every change in both files and keep their
+`doi.bst.version` and `doi.bst.date` equal; the patch of the natbib twin applies to `IEEEtran.bst` except for the
+hunks that name the file (header, banner, `bbl.*` strings, `begin.bib`), which are ported by hand.
+
 `generators/app/templates/IEEEtranN-doi.bst` is TeX Live's `IEEEtranN.bst` (1.14, 2015/08/26) plus
 `IEEEtranN-doi.bst.patch`; the patch is the record, the `.bst` is what the templates ship. The file
 carries its **own** version (`doi.bst.version`/`doi.bst.date` next to Michael Shell's unchanged
@@ -132,7 +137,7 @@ never claims to come from an unmodified IEEEtranN.bst. When you change the `.bst
 1. Bump `doi.bst.version` and `doi.bst.date`, and add the change to the version list in the file header.
 2. Regenerate the patch from TeX Live's original (labels must stay `IEEEtranN.bst`/`IEEEtranN-doi.bst`):
    `cp "$(kpsewhich IEEEtranN.bst)" /tmp && diff -u --label IEEEtranN.bst --label IEEEtranN-doi.bst /tmp/IEEEtranN.bst generators/app/templates/IEEEtranN-doi.bst > generators/app/templates/IEEEtranN-doi.bst.patch`
-   (in the TeX Live docker image when the host has no TeX Live).
+   (in the TeX Live docker image when the host has no TeX Live); the same with `IEEEtran.bst`/`IEEEtran-doi.bst`.
 3. Check the result against the IEEE Reference Guide: in a generated IEEE template, build
    `comparison/reference-guide-bibtex.tex` as the `reference-guide` job of `check.yml` does (pdflatex + bibtex,
    jobname `comparison-reference-guide-bibtex`, from the template's root); it shows every guide example next to

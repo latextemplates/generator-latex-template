@@ -714,6 +714,11 @@ export default class extends Generator {
         this.templatePath("IEEEtranN-doi.bst"),
         this.destinationPath("IEEEtranN-doi.bst"),
       );
+      // the same modification of IEEEtran.bst, for documents without natbib (other papers, not this template)
+      this.fs.copy(
+        this.templatePath("IEEEtran-doi.bst"),
+        this.destinationPath("IEEEtran-doi.bst"),
+      );
     }
 
     // Photo for the JPEG example in floats.example.*.tex (CC0, see README)
