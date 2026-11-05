@@ -147,5 +147,6 @@ never claims to come from an unmodified IEEEtranN.bst. When you change the `.bst
    `scripts/ieee-reference-guide-diff.py <dir> [bibtex|biblatex]` diffs the text of the built PDF example by
    example and prints the counts (version 4: 101 of 145 identical; biblatex-ieee's own patched style: 82; the
    rest are the guide's own inconsistencies or data the fields cannot carry). Do not let the count drop.
+   Flaws of the guide itself are reported to IEEE through the IEEE Reference Assistant, <https://refassist.ieee.org/>.
 4. Keep every `write$` line of `begin.bib` under 79 characters, or BibTeX wraps it and the rest of
    the banner is typeset before the first reference (`req~ieee-bst-banner~1`).
