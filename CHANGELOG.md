@@ -8,6 +8,22 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- IEEE: `IEEEtran-doi.bst`, the same modification of the plain `IEEEtran.bst` for papers without natbib, ships next to `IEEEtranN-doi.bst`.
+- IEEE: `comparison/reference-guide-bibtex.tex` and `comparison/reference-guide-biblatex.tex` typeset every example of the IEEE Reference Guide (V 3.28.2025) next to the output of `IEEEtranN-doi.bst` and of `biblatex-ieee`; the `reference-guide` job of `check.yml` builds them (in ieee-enhanced only) and gh-pages publishes the PDFs.
+- IEEE: FAQ on what IEEE PDF eXpress needs from the final PDF (embedded fonts, no Type 3, paper size) and how to check it.
+- Under LuaLaTeX, loading `newtxmath` stops with an error pointing to `\setmathfont`, like `newtxtext` already does.
+
+### Changed
+
+- IEEE: `IEEEtranN-doi.bst` version 4 follows the IEEE Reference Guide (V 3.28.2025) in 101 of its 145 examples (version 3: 20): days in dates, `urldate` as "Accessed:", `language` as "(in Russian)", `translator`, `eid` as "Art. no.", `part`, series in parentheses after book titles, volume/editors/edition order in collections, "Standard" and "M.S. thesis" spelled out, and the entry types `online` (web page), `video`, `dataset`, and `software`.
+
+### Fixed
+
+- ACM and Markdown quick-start under LuaLaTeX: `selnolig` is loaded with the `english` option; without it (the class option is only passed by IEEEtran, llncs, and KOMA-Script) the package loaded no rules, so wrong ligatures such as "shelfful" were not suppressed.
+- IEEE README: the font list is a plain sentence instead of a table inside the list (the table made the whole list loose), and names the real LuaLaTeX math font, TeX Gyre Termes Math.
+
 ## [2026.11.4]
 
 ### Added

@@ -238,17 +238,13 @@ Following features are enabled in this template:
   Differences to the [IEEEtran package](https://ctan.org/pkg/ieeetran) on CTAN:
   - `IEEEtranN-doi.bst` is `IEEEtranN.bst` changed by [`IEEEtranN-doi.bst.patch`](https://github.com/latextemplates/generator-latex-template/blob/main/generators/app/templates/IEEEtranN-doi.bst.patch):
     references show the DOI (", doi: 10.xxx"), and repeated author names are written out instead of a dash.
+    The entry formats follow the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (V 3.28.2025), checked example by example in [comparison-reference-guide-bibtex.pdf](https://latextemplates.github.io/<%= templateRepo %>/comparison-reference-guide-bibtex.pdf): dates with days, `urldate` as "Accessed:", `language` as "(in Russian)", `translator`, `eid` as "Art. no.", `part`, and the entry types `online` (web page), `video`, `dataset`, and `software`.
     For the original output, use `\bibliographystyle{IEEEtranN}`.
+    `IEEEtran-doi.bst` is the same modification of `IEEEtran.bst` for a document without natbib: copy it next to your `.tex` file and use `\bibliographystyle{IEEEtran-doi}` with the plain `\cite`.
   - Citation ranges are written out: `[1], [2], [3]` instead of `[1]–[3]`.
     For ranges, use the natbib option `sort&compress` instead of `sort`.
 <% if (font == "default" || githubpublish) { -%>
-- The fonts IEEEtran intends (Times, Helvetica, Courier) with both engines; with LuaLaTeX, fontspec would otherwise fall back to Latin Modern.
-
-  | Engine | Text | Sans | Code | Math |
-  | --- | --- | --- | --- | --- |
-  | pdfLaTeX | Nimbus Roman | Nimbus Sans | [newtxtt](https://tug.org/FontCatalogue/newtxtt/) | [Computer Modern](https://tug.org/FontCatalogue/computermodern/) |
-  | LuaLaTeX | [TeX Gyre Termes](https://tug.org/FontCatalogue/texgyretermes/) | [TeX Gyre Heros](https://tug.org/FontCatalogue/texgyreheros/) | [TeX Gyre Cursor](https://tug.org/FontCatalogue/texgyrecursor/) | [Latin Modern Math](https://tug.org/FontCatalogue/latinmodernroman/) |
-
+- The fonts IEEEtran intends (Times, Helvetica, Courier) with both engines; with LuaLaTeX, fontspec would otherwise fall back to Latin Modern (see the table below).
 <% } -%>
 <% } -%>
 <% if (documentclass == 'lncs') { -%>
@@ -305,6 +301,15 @@ Following features are enabled in this template:
 - Proper hyphenation and microtype for English texts.
 <% if (howtotext) { -%>
 - Hints on writing an abstract and thesis by Dirk Fahland.
+<% } -%>
+<% if ((documentclass == "ieee") && (font == "default" || githubpublish)) { -%>
+
+The fonts differ between the engines:
+
+| Engine | Text | Sans | Code | Math |
+| --- | --- | --- | --- | --- |
+| pdfLaTeX | Nimbus Roman | Nimbus Sans | [newtxtt](https://tug.org/FontCatalogue/newtxtt/) | [Computer Modern](https://tug.org/FontCatalogue/computermodern/) |
+| LuaLaTeX | [TeX Gyre Termes](https://tug.org/FontCatalogue/texgyretermes/) | [TeX Gyre Heros](https://tug.org/FontCatalogue/texgyreheros/) | [TeX Gyre Cursor](https://tug.org/FontCatalogue/texgyrecursor/) | [TeX Gyre Termes Math](https://www.gust.org.pl/projects/e-foundry/tg-math) |
 <% } -%>
 
 ### Disabled features
@@ -858,6 +863,13 @@ The [flushend](https://ctan.org/pkg/flushend) package balances them automaticall
 An `\AtEndDocument` hook in the preamble (right after `\usepackage{flushend}`) activates flushend for the last page and, when the text ends in the first column, ends that column, so that flushend distributes the text over both columns.
 If you do not want balanced columns, remove `\usepackage{flushend}` together with that hook.
 If flushend produces odd spacing on the last page (IEEEtran's author warns about that for references), balance by hand instead: remove flushend and enable `\IEEEtriggeratref{N}` in front of `\bibliographystyle`, which starts a new column before reference `N`.
+
+### Q: What does IEEE PDF eXpress need from the final PDF?
+
+All fonts embedded, no Type 3 fonts, and the paper size of the call for papers.
+The template meets the font requirements with both engines: pdfLaTeX embeds Type 1 fonts, LuaLaTeX embeds OpenType fonts (`pdffonts` lists them as "CID Type 0C").
+The paper size is the `a4paper` or `letterpaper` option of `\documentclass`; most IEEE conferences want US letter.
+Check with `pdffonts <%= filenames.main %>.pdf` (every row "emb yes", no "Type 3") and `pdfinfo <%= filenames.main %>.pdf` ("Page size").
 <% break; case "ustutt": -%>
 
 ### Q: How to rename `thesis-example.tex`?
@@ -1269,7 +1281,7 @@ To remove a word, delete it from the aspell and the LTeX+ word list<% if (docume
 
 <% } -%>
 <% if (githubpublish && (documentclass == "ieee")) { -%>
-## Attention regarding `compsocconf`
+## `compsocconf` option is not needed any more
 
 Some conferences distribute a `IEEEtran.cls` V1.7a dated 2007 and a parameter `compsocconf`.
 **The parameter `compsocconf` was NEVER included in Michael Shell's `IEEEtran.cls` file. It is unclear, who did this patch and why it is around in the wild.**
@@ -1306,6 +1318,12 @@ Hence, **double check with your conference whether you have to use `compsoc` or 
 Statement from IEEE:
 
 > Please note that, as stated on the webpage <https://www.ieee.org/conferences_events/conferences/publishing/templates.html>. "IEEE does not require a specific format for their conference articles". Thus, we dot not purport that the "compsoc" is a requirement for publishing conference papers with us.
+
+## Note on the reference style
+
+[comparison-reference-guide-bibtex.pdf](https://latextemplates.github.io/<%= templateRepo %>/comparison-reference-guide-bibtex.pdf) shows every example of the [IEEE Reference Guide](https://journals.ieeeauthorcenter.ieee.org/wp-content/uploads/sites/7/IEEE_Reference_Guide.pdf) (V 3.28.2025) next to the output of `IEEEtranN-doi.bst`, so that the two can be compared.
+[comparison-reference-guide-biblatex.pdf](https://latextemplates.github.io/<%= templateRepo %>/comparison-reference-guide-biblatex.pdf) does the same for `biblatex-ieee` as distributed by TeX Live.
+The documents and the entries come from [biblatex-ieee](https://github.com/koppor/biblatex-ieee) (directory `ieee-reference-guide/`); the `reference-guide` job of `check.yml` builds them.
 
 <% } -%>
 ## Further information
