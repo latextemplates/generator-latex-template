@@ -21,6 +21,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- ACM and Markdown quick-start under LuaLaTeX: `selnolig` is loaded with the `english` option; without it (the class option is only passed by IEEEtran, llncs, and KOMA-Script) the package loaded no rules, so wrong ligatures such as "shelfful" were not suppressed.
 - IEEE README: the font list is a plain sentence instead of a table inside the list (the table made the whole list loose), and names the real LuaLaTeX math font, TeX Gyre Termes Math.
 
 ## [2026.11.4]
