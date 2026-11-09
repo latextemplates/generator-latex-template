@@ -671,6 +671,27 @@ export default class extends Generator {
         [`comparison-body.${this.props.documentclass}.tex`, "body.tex"],
         [`comparison-plain.${this.props.documentclass}.tex`, "plain.tex"],
         ["comparison-build.sh", "build.sh"],
+        // IEEE: every example of the IEEE Reference Guide next to the output of IEEEtranN-doi.bst
+        ...(this.props.documentclass === "ieee"
+          ? [
+              [
+                "comparison-reference-guide-bibtex.ieee.tex",
+                "reference-guide-bibtex.tex",
+              ],
+              [
+                "comparison-reference-guide-bibtex.ieee.bib",
+                "reference-guide-bibtex.bib",
+              ],
+              [
+                "comparison-reference-guide-biblatex.ieee.tex",
+                "reference-guide-biblatex.tex",
+              ],
+              [
+                "comparison-reference-guide-biblatex.ieee.bib",
+                "reference-guide-biblatex.bib",
+              ],
+            ]
+          : []),
       ]) {
         this.fs.copyTpl(
           this.templatePath(src),
@@ -692,6 +713,11 @@ export default class extends Generator {
         // [impl->req~ieee-bst-banner~1]
         this.templatePath("IEEEtranN-doi.bst"),
         this.destinationPath("IEEEtranN-doi.bst"),
+      );
+      // the same modification of IEEEtran.bst, for documents without natbib (other papers, not this template)
+      this.fs.copy(
+        this.templatePath("IEEEtran-doi.bst"),
+        this.destinationPath("IEEEtran-doi.bst"),
       );
     }
 
