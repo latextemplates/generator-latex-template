@@ -8,6 +8,12 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+## [2026.11.12]
+
+### Security
+
+- The transitive dependencies `minimatch` and `glob` are pinned to versions without the two moderate Dependabot alerts (npm overrides).
+
 ## [2026.11.9]
 
 ### Added
@@ -757,7 +763,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
-[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.9...main
+[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.12...main
+[2026.11.12]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.9...2026.11.12
 [2026.11.9]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.4...2026.11.9
 [2026.11.4]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.3...2026.11.4
 [2026.11.3]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.1...2026.11.3
