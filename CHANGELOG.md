@@ -12,6 +12,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 - The scientific thesis sets the page numbers of section and subsection entries in the table of contents in sans-serif, like the entries themselves.
 - The scientific thesis for the University of Stuttgart (`--thesisvariant=ustutt`) is laid out two-sided again (`twoside`, `open=right`), as the university requires double-sided PDFs.
+- The scientific thesis for the University of Stuttgart sets the cover page in its previous layout (option `ustutt` of `scientific-thesis-cover`, version 5.3.0).
 
 ## [2026.11.12]
 
