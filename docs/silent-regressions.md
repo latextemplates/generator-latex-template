@@ -74,7 +74,7 @@ Needs: impl
 
 `req~toc-heading-font~1`
 
-Section and subsection entries of the table of contents are in the sans-serif heading font, like the chapter entries.
+Section and subsection entries of the table of contents, including their page numbers, are in the sans-serif heading font, like the chapter entries.
 Shows in the table of contents.
 [scientific-thesis-template#150](https://github.com/latextemplates/scientific-thesis-template/issues/150)
 
