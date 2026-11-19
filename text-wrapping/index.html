@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --w: 340px; --font: 16px "DejaVu Sans", sans-serif; }
+  body { margin: 16px; font: var(--font); line-height: 1.6; background: #fff; color: #1c1e21; }
+  .grid { display: grid; grid-template-columns: repeat(3, var(--w)); gap: 32px; }
+  h2 { font: bold 13px sans-serif; margin: 0 0 6px; color: #2e7d32; }
+  .p { width: var(--w); outline: 1px dashed #bbb; margin: 0; position: relative; }
+  .justify { text-align: justify; }
+  .pretty { text-wrap: pretty; hyphens: auto; }
+  .kp span { position: absolute; white-space: pre; }
+</style>
+</head>
+<body>
+<div class="grid" id="grid"></div>
+<script src="linked-list.js"></script>
+<script src="linebreak.js"></script>
+<script src="hypher.js"></script>
+<script src="en-us.js"></script>
+<script src="formatter.js"></script>
+<script>
+const text = "Each page takes one “ingredient” — a package such as siunitx, cleveref or todonotes — and shows the LaTeX you write next to the rendered output, compiled from the real source. This is meant as a modern, runnable complement to The LaTeX Companion: the Companion explains the packages in depth; here you see each one working and can copy the snippet straight into your document.";
+const grid = document.getElementById('grid');
+const W = 340, LH = 16 * 1.6;
+
+function panel(title, cls) {
+  const d = document.createElement('div');
+  d.innerHTML = `<h2>${title}</h2>`;
+  const p = document.createElement('p');
+  p.className = 'p ' + cls;
+  d.appendChild(p);
+  grid.appendChild(d);
+  return p;
+}
+
+// Knuth-Plass via bramstein/typeset, rendered as absolutely positioned spans
+// (the library ships only a canvas demo; this mirrors its draw() loop).
+function kp(p, type) {
+  const m = document.createElement('span'); m.style.visibility = 'hidden'; m.style.whiteSpace = 'pre'; p.appendChild(m);
+  const measure = s => { m.textContent = s; return m.getBoundingClientRect().width; };
+  const nodes = Typeset.formatter(measure)[type](text);
+  m.remove();
+  const breaks = Typeset.linebreak(nodes, [W], { tolerance: type === 'left' ? 4 : 3 });
+  let start = 0, y = 0;
+  for (let i = 1; i < breaks.length; i++) {
+    const { position, ratio } = breaks[i];
+    while (start < nodes.length && nodes[start].type !== 'box') start++;
+    let x = 0;
+    nodes.slice(start, position + 1).forEach((n, idx, arr) => {
+      if (n.type === 'box') { add(n.value, x, y); x += n.width; }
+      else if (n.type === 'glue') x += n.width + ratio * (ratio < 0 ? n.shrink : n.stretch);
+      else if (n.type === 'penalty' && n.penalty === 100 && idx === arr.length - 1) add('-', x, y);
+    });
+    start = position; y += LH;
+  }
+  p.style.height = y + 'px';
+  function add(t, x, y) { const s = document.createElement('span'); s.textContent = t; s.style.left = x + 'px'; s.style.top = y + 'px'; p.appendChild(s); }
+}
+
+panel('Justified — browser default', 'justify').textContent = text;
+panel('Justified — text-wrap: pretty + hyphens', 'justify pretty').textContent = text;
+kp(panel('Justified — bramstein/typeset (Knuth–Plass)', 'kp'), 'justify');
+panel('Ragged right — browser default', '').textContent = text;
+panel('Ragged right — text-wrap: pretty + hyphens', 'pretty').textContent = text;
+kp(panel('Ragged right — bramstein/typeset (Knuth–Plass)', 'kp'), 'left');
+</script>
+</body>
+</html>
