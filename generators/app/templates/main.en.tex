@@ -473,6 +473,16 @@
 
 <% if (thesisvariant != "ustutt") { -%>
 \usepackage{geometry}
+<% } else { -%>
+% Same left and right margins on every page: the text block stays in the middle of the page (reading on screen),
+% while page numbers and headers alternate between left-hand and right-hand pages (two-sided printing).
+\usepackage[
+  left=3cm,right=3cm,top=2.5cm,bottom=2.5cm,
+  headsep=18pt,
+  footskip=30pt,
+  includehead,
+  includefoot
+]{geometry}
 <% } -%>
 <%- include('scientific-thesis-cover.preamble.en.tex', this); %>
 <% break; } -%>
@@ -867,7 +877,7 @@ The following is typeset for both ustutt and scientific-thesis.
 
 <% } -%>
 % Abbreviations / Acronyms
-\printnoidxglossary[type=\acronymtype,sort=word,title={Abbreviations}]
+\printnoidxglossary[type=\acronymtype,sort=word,title={List of Abbreviations}]
 % \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075
 
 \microtypesetup{protrusion=true}
@@ -890,6 +900,8 @@ The following is typeset for both ustutt and scientific-thesis.
 %%% ===============================================================================
 <% if (isThesis) { -%>
 \progress{10}
+
+\emph{The chapter structure of this template is only an example. Agree on the actual structure of your thesis with your supervisor.}
 <% } -%>
 
 \emph{Purpose and scope of your entire report}.

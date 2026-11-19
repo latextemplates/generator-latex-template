@@ -115,7 +115,7 @@ Needs: impl
 `req~abbreviation-first-use~1`
 
 The first `\gls` gives the long form, later ones the short form; `\glsunset` and `\glsreset` change this for the next use, as the example explains.
-Shows in "Abbreviations".
+Shows in "List of Abbreviations".
 [scientific-thesis-template#121](https://github.com/latextemplates/scientific-thesis-template/issues/121)
 
 Needs: impl
