@@ -36,6 +36,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- Papers with `--listings=listings`: under LuaLaTeX, the box with the LaTeX code of an example no longer starts with a line of special characters (`œŒűŰőŐł…`). listings typesets the characters above U+00FF of the lines it skips; these lines are now read as empty lines.
 - The example figures of the how-to chapters show a placeholder image instead of only a caption.
 - Dissertation (`ustutt`): unnumbered chapters such as the abstract no longer show "Chapter 0", and chapter titles are not hyphenated. The chapter heads use KOMA-Script's own interface instead of `fncychap`.
 

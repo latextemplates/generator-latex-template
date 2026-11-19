@@ -372,6 +372,24 @@
 \newenvironment{ltgexample}%
 {\LTGbeginlineexample=\numexpr\inputlineno+1\relax}%
 {\LTGendlineexample=\numexpr\inputlineno-1\relax%
+<% if (listings == 'listings') { -%>
+  % LuaLaTeX: listings überspringt die Zeilen außerhalb von firstline/lastline, setzt aber trotzdem ihre Zeichen
+  % oberhalb von U+00FF (z.B. erscheint die Tabelle der pdfLaTeX-listings-Einstellungen in der Präambel als Zeile œŒűŰ...).
+  % Daher wird jede Zeile dieser Datei außerhalb des Beispiels als leere Zeile gelesen, solange die Box die Datei liest.
+  \ifdefined\directlua
+    \directlua{
+      local file = "\luaescapestring{\currfilename}"
+      local first, last, line = \the\LTGbeginlineexample, \the\LTGendlineexample, 0
+      luatexbase.add_to_callback("process_input_buffer", function(text)
+        if status.filename:sub(-string.len(file)) == file then
+          line = line + 1
+          if line < first or line > last then return "" end
+        end
+        return text
+      end, "ltgexample")
+    }%
+  \fi
+<% } -%>
   \tcbinputlisting{%
     listing only,
 <% if (twocolumn) { -%>
@@ -417,7 +435,10 @@
         numbersep=8pt
       }
 <% } -%>
-  }
+  }%
+<% if (listings == 'listings') { -%>
+  \ifdefined\directlua\directlua{luatexbase.remove_from_callback("process_input_buffer", "ltgexample")}\fi
+<% } -%>
 }%
 <% } -%>
 <% } -%>
