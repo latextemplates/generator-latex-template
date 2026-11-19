@@ -754,6 +754,19 @@ export default class extends Generator {
       this.props,
     );
 
+    // IEEE and LNCS: an anonymous version for double-blind review that inputs the main
+    // file (acmart has its own anonymous class option).
+    if (
+      this.props.documentclass === "ieee" ||
+      this.props.documentclass === "lncs"
+    ) {
+      this.fs.copyTpl(
+        this.templatePath("paper-anon.tex"),
+        this.destinationPath(this.props.filenames.main + "-anon.tex"),
+        this.props,
+      );
+    }
+
     // The big main's preamble is long, so its header tells readers in which
     // line the content starts. The line numbers are only known after
     // rendering, so the template carries placeholders that are filled here.

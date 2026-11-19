@@ -306,6 +306,9 @@
 <%- include('footnotes.preamble.en.tex', this); -%>
 
 <%- include('todos.preamble.en.tex', this); -%>
+<% if (documentclass == "ieee" || documentclass == "lncs") { -%>
+<%- include('anon.preamble.en.tex', this); -%>
+<% } -%>
 
 <%- include('siunitx.preamble.en.tex'); %>
 <% if (markdown) { -%>
@@ -532,13 +535,13 @@
 % If Title is too long, use \titlerunning
 %\titlerunning{Short Title}
 
-% Single institute
-\author{Firstname Lastname \and Firstname Lastname}
+% Single institute; \anon{...} hides a name in the anonymous version (paper-anon.tex)
+\author{\anon{Firstname Lastname} \and \anon{Firstname Lastname}}
 
 % If there are too many authors, use \authorrunning
 %\authorrunning{First Author et al.}
 
-\institute{Institute}
+\institute{\anon{Institute}}
 
 %% Multiple institutes - ALTERNATIVE to the above
 % \author{%
@@ -579,16 +582,17 @@
 
 \title{Quick start for LaTeXing with the IEEEtran class for\\ IEEE Computer Society Conferences}
 
+% \anon{...} hides the authors in the anonymous version (paper-anon.tex)
 \author{%
-  \IEEEauthorblockN{First Author, Second Author}
-  \IEEEauthorblockA{University of Examples, Germany\\
-    \{lastname\}@example.org}
+  \IEEEauthorblockN{\anon[5cm]{First Author, Second Author}}
+  \IEEEauthorblockA{\anon[4cm]{University of Examples, Germany\\
+      \{lastname\}@example.org}}
   \and
-  \IEEEauthorblockN{Third Author}
-  \IEEEauthorblockA{School of Electrical and\\Computer Examples\\
-    Georgia Institute of Examples\\
-    Atlanta, Georgia 30332--0250\\
-    \url{http://www.example.org}}
+  \IEEEauthorblockN{\anon{Third Author}}
+  \IEEEauthorblockA{\anon[4cm]{School of Electrical and\\Computer Examples\\
+      Georgia Institute of Examples\\
+      Atlanta, Georgia 30332--0250\\
+      \url{http://www.example.org}}}
 }
 
 % use for special paper notices
@@ -1522,7 +1526,11 @@ Be specific in the sense that your arguments for future work should be based on 
 <% break; default: -%>
 <% break; } -%>
 <% if (isPaper) { -%>
+<% if (documentclass == "acmart") { -%>
 <%= indent%>Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which comes right before the reference section in your document~\cite{acmart}.
+<% } else { -%>
+\anon[\linewidth]{Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which comes right before the reference section in your document~\cite{acmart}.}
+<% } -%>
 <% if (howtotext) { -%>
 
 <%= indent%>The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology}{LaTeX template for Bachelor and Master theses at Eindhoven University of Technology}.
