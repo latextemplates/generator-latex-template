@@ -43,7 +43,7 @@ jobs:
           texhash
           tlmgr generate language --rebuild-sys
       - run: latexmk <%= filenames.main %>
-<% if (documentclass == "ieee" || documentclass == "lncs") { -%>
+<% if (isPaper) { -%>
       - run: latexmk <%= filenames.main %>-anon
 <% } -%>
 <% if (githubpublish || (lang == "en") && (reallatexcompiler.startsWith("lualatex"))) { -%>
@@ -172,7 +172,7 @@ jobs:
             <%= filenames.main %>.pdf
             <%= filenames.main %>.log
             <%= filenames.main %>.fls
-<% if (documentclass == "ieee" || documentclass == "lncs") { -%>
+<% if (isPaper) { -%>
             <%= filenames.main %>-anon.pdf
 <% } -%>
 <% if (githubpublish && isPaper) { -%>

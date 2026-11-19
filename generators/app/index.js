@@ -754,12 +754,9 @@ export default class extends Generator {
       this.props,
     );
 
-    // IEEE and LNCS: an anonymous version for double-blind review that inputs the main
-    // file (acmart has its own anonymous class option).
-    if (
-      this.props.documentclass === "ieee" ||
-      this.props.documentclass === "lncs"
-    ) {
+    // Papers: an anonymous version for double-blind review that inputs the main file
+    // (for acmart, it sets the class option anonymous).
+    if (this.props.isPaper) {
       this.fs.copyTpl(
         this.templatePath("paper-anon.tex"),
         this.destinationPath(this.props.filenames.main + "-anon.tex"),

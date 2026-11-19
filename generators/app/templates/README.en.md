@@ -720,11 +720,16 @@ If your seminar at the Technische Hochschule Ulm (THU) requires the IEEE confere
 Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN-doi`, `\citet`, links without colored boxes) is already set up.
 
 <% } -%>
-<% if (documentclass == "ieee" || documentclass == "lncs") { -%>
+<% if (isPaper) { -%>
 ## Anonymous submission (double-blind review)
 
+<% if (documentclass == "acmart") { -%>
+`<%= filenames.main %>-anon.tex` typesets `<%= filenames.main %>.tex` with acmart's class option `anonymous`: compile it with `latexmk <%= filenames.main %>-anon`.
+It hides the authors and the acknowledgments; `\anon{...}` hides anything else that identifies you (it prints ANONYMOUS), and `\anon[an anonymous university]{...}` prints a replacement.
+<% } else { -%>
 `<%= filenames.main %>-anon.tex` typesets `<%= filenames.main %>.tex` with every `\anon{...}` replaced by a gray bar: compile it with `latexmk <%= filenames.main %>-anon`.
-Wrap the authors, the affiliations, and the acknowledgments in `\anon{...}`; `\anon[6cm]{...}` sets the length of the bar.
+Wrap the authors, the affiliations, and the acknowledgments in `\anon{...}`; `\anon[an anonymous university]{...}` prints a replacement instead and `\anon[\anonbar{6cm}]{...}` a longer bar (same interface as acmart's `\anon`).
+<% } -%>
 Write self-citations in the third person ("Doe et al. [3] showed" instead of "in our previous work [3]") and link an anonymized copy of your repository, e.g., via <https://anonymous.4open.science/>.
 
 <% } -%>
