@@ -8,8 +8,16 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Theses: an example of a table set with [tabularray](https://ctan.org/pkg/tabularray): layout (columns, header rows, cells spanning rows or columns, row colors) in front of the content.
+
 ### Changed
 
+- Theses: definitions are set on a light gray background with a bar on the left.
+- Theses: the dot leaders in the table of contents and the lists of figures and tables are light gray.
+- Dissertation: the lists of figures, tables, listings, definitions, and abbreviations are at the end, after the bibliography and the appendices.
+- Tables written in Markdown have their caption above the table, as all other tables.
 - The scientific thesis sets the page numbers of section and subsection entries in the table of contents in sans-serif, like the entries themselves.
 - The scientific thesis for the University of Stuttgart (`--thesisvariant=ustutt`) is laid out two-sided again (`twoside`, `open=right`), as the university requires double-sided PDFs.
 - The scientific thesis for the University of Stuttgart sets the cover page in its previous layout and with its previous English labels ("Supervisor", "Course of Study", "Commenced", "Completed"; option `ustutt` of `scientific-thesis-cover`, version 5.3.0).
@@ -23,6 +31,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Fixed
 
+- The example figures of the how-to chapters show a placeholder image instead of only a caption.
 - Dissertation (`ustutt`): unnumbered chapters such as the abstract no longer show "Chapter 0", and chapter titles are not hyphenated. The chapter heads use KOMA-Script's own interface instead of `fncychap`.
 
 ## [2026.11.12]

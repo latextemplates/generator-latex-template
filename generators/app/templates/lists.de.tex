@@ -1,0 +1,27 @@
+\listoffigures
+
+\listoftables
+<% if (listings == 'listings') { -%>
+
+% We use lstlisting environments with caption parameters.
+% Thus, we need that command.
+% Alternative: \listof{Listing}{List of Listings}
+\lstlistoflistings
+<% } else { -%>
+\listoflistings
+<% } -%>
+
+%mittels \newfloat wurde die Algorithmus-Gleitumgebung definiert.
+%Mit folgendem Befehl werden alle floats dieses Typs ausgegeben
+%\listof{Algorithmus}{Verzeichnis der Algorithmen}
+%\listofalgorithms %Ist nur für Algorithmen, die mittels \begin{algorithm} umschlossen werden, nötig
+
+<% if (documentclass == 'ustutt') { -%>
+\chapter*{Definitionsverzeichnis}
+\addcontentsline{toc}{chapter}{Definitionsverzeichnis}
+\listtheorems{definition}
+
+<% } -%>
+% Abkürzungsverzeichnis / Acronyms / Abbreviations
+\printnoidxglossary[type=\acronymtype,sort=word,title={Abkürzungsverzeichnis}]
+% \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075

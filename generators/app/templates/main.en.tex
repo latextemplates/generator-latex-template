@@ -284,6 +284,10 @@
 <% } -%>
 <% if (isThesis && examples) { -%>
 
+<%- include('tabularray.preamble.en.tex', this); -%>
+<% } -%>
+<% if (isThesis && examples) { -%>
+
 <%- include('uml.preamble.en.tex', this); -%>
 <% } -%>
 <% if (uml == "tikz-uml") { -%>
@@ -854,32 +858,10 @@ The following is typeset for both ustutt and scientific-thesis.
 %  \addtocontents{toc}{\protect\newpage}
 \tableofcontents
 
-\listoffigures
-
-\listoftables
-<% if (listings == 'listings') { -%>
-
-% We use lstlisting environments with caption parameters.
-% Thus, we need that command.
-% Alternative: \listof{Listing}{List of Listings}
-\lstlistoflistings
-<% } else { -%>
-\listoflistings
-<% } -%>
-
-% List of the algorithms (only for algorithms within \begin{algorithm} ... \end{algorithm})
-%\listofalgorithms
-
-<% if (documentclass == 'ustutt') { -%>
-\chapter*{List of Definitions}
-\addcontentsline{toc}{chapter}{List of Definitions}
-\listtheorems{definition}
+<% if (documentclass != 'ustutt') { -%>
+<%- include('lists.en.tex', this); -%>
 
 <% } -%>
-% Abbreviations / Acronyms
-\printnoidxglossary[type=\acronymtype,sort=word,title={List of Abbreviations}]
-% \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075
-
 \microtypesetup{protrusion=true}
 
 % Headline and footline
@@ -1163,7 +1145,7 @@ Make use of appendices if certain details take too much space.
 
 \begin{figure}
   \centering
-  %%%\includegraphics{/path/to/figure.pdf}
+  \includegraphics[width=.6\linewidth]{example-image-a} % replace by your figure, e.g., figures/runtime.pdf
   \caption{A scientific figure that has to be explained in the text}
   \label{fig:my_label}
 \end{figure}
@@ -1270,7 +1252,7 @@ Make use of appendices if certain details take too much space.
 
 \begin{figure}
   \centering
-  %%%\includegraphics{/path/to/figure.pdf}
+  \includegraphics[width=.6\linewidth]{example-image-a} % replace by your figure, e.g., figures/runtime.pdf
   \caption{Another scientific figure that has to be explained in the text}
   \label{fig:my_label2}
 \end{figure}
@@ -1389,6 +1371,10 @@ It focuses on minimal examples, which can be directly adapted to the content
 <% } -%>
 
 <%- include('tables.example.en.tex', this); -%>
+<% if (isThesis) { -%>
+
+<%- include('tabularray.example.en.tex', this); -%>
+<% } -%>
 <% if (longtable && !twocolumn) { -%>
 
 <%- include('longtable.example.en.tex', this); -%>
@@ -1690,6 +1676,12 @@ All links were last followed on September 25, 2027.
 <% } -%>
 <% } -%>
 
+<% if (documentclass == 'ustutt') { -%>
+
+\clearpage
+% Lists at the end of the dissertation, after the bibliography and the appendices
+<%- include('lists.en.tex', this); -%>
+<% } -%>
 \pagestyle{empty}
 \renewcommand*{\chapterpagestyle}{empty}
 <% if (documentclass == "scientific-thesis") { -%>
