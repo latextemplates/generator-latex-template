@@ -21,6 +21,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The introduction of the thesis states in a TODO that its chapter structure is only an example to be agreed on with the supervisor: a `\todo` box with `--todo=todonotes`, bold red text otherwise.
 - `--todo=todonotes` adds `todonotes` to the `Texlivefile`.
 
+### Fixed
+
+- Dissertation (`ustutt`): unnumbered chapters such as the abstract no longer show "Chapter 0", and chapter titles are not hyphenated. The chapter heads use KOMA-Script's own interface instead of `fncychap`.
+
 ## [2026.11.12]
 
 ### Security
