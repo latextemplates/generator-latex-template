@@ -283,6 +283,14 @@ Following features are enabled in this template:
 - Support of hyperlinked references without extra color thanx to [hyperref].
 - Better breaking of long URLs.
 - Support for `\powerset` command.
+<% if (todo == "zebra") { -%>
+- TODOs (`\todo{...}`) as short notes in the text with a numbered symbol in the margin, and a list of all open notes at the end of the document.
+  This is enabled by the [zebra](https://ctan.org/pkg/zebra) package.
+<% } -%>
+<% if (todo == "todonotes") { -%>
+- TODOs (`\todo{...}`) in the margin.
+  This is enabled by the [todonotes](https://ctan.org/pkg/todonotes) package<% if (latexcompiler != "pdflatex") { %>; with LuaLaTeX, [luatodonotes](https://ctan.org/pkg/luatodonotes) places the notes so that they do not overlap<% } %>.
+<% } -%>
 <% if (todo == "pdfcomment" || githubpublish) { -%>
 - <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
 <% } -%>
@@ -1187,7 +1195,11 @@ We are collecting alternatives at the issue [#25](https://github.com/latextempla
 
 - If you included some version control statements, please remove them. Currently, the template does not support any, but it used to support SVN.
 - By using `\largepage` and `\shortpage`, single lines at the bottom or at the top of the page can be manually fixed.
-- Search the PDF for "TODO" or similar things. Remove `\usepackage{todonotes}` in your main `.tex` file.
+<% if (todo == "zebra") { -%>
+- Check the list of notes at the end of the PDF. Then switch to `\usepackage[final]{zebra}` in your main `.tex` file (the line is there as a comment): this hides all notes and the list.
+<% } else { -%>
+- Search the PDF for "TODO" or similar things.<% if (todo == "todonotes") { %> Remove `\usepackage{<% if (latexcompiler != "pdflatex") { %>lua<% } %>todonotes}` in your main `.tex` file.<% } %>
+<% } -%>
 - Uncomment `\phfDisableCommentingCommands` in your main `.tex` file to hide all edits and comments made with `\FA{...}`.
 - Ensure that you run `lualatex` at least three times and that there are no "undefined references".
 - The margins are intended for good screen reading. **Do not change them** (or do exactly know what you are doing).

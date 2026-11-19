@@ -18,6 +18,9 @@ amsmath
 <% if (githubpublish || (lang == "de")) { -%>
 autotype
 <% } -%>
+<% if (githubpublish || ((todo == "todonotes") && (latexcompiler != "pdflatex"))) { -%>
+atbegshi<%# required by luatodonotes %>
+<% } -%>
 auxhook
 babel
 babel-english
@@ -161,6 +164,9 @@ hyphenex
 ieeetran
 <% } -%>
 ifmtarg<%# required by acmart at least %>
+<% if (githubpublish || ((todo == "todonotes") && (latexcompiler != "pdflatex"))) { -%>
+ifoddpage<%# required by luatodonotes %>
+<% } -%>
 <% if (githubpublish || isThesis) { -%>
 ifplatform
 <% } -%>
@@ -220,8 +226,14 @@ lua-widow-control
 luatex85
 luatexbase
 <% } -%>
+<% if (githubpublish || ((todo == "todonotes") && (latexcompiler != "pdflatex"))) { -%>
+luatodonotes
+<% } -%>
 <% if (githubpublish || isThesis) { -%>
 ly1<%# required by mathdesign-font %>
+<% } -%>
+<% if (githubpublish || (todo == "zebra")) { -%>
+manfnt<%# margin symbol of zebra %>
 <% } -%>
 marginnote
 <% if (githubpublish || (documentclass == "mwe") || markdown) { -%>
@@ -402,6 +414,9 @@ xpatch
 <% } -%>
 xstring<%# this includes stfloats; required by textcomp %>
 xurl
+<% if (githubpublish || (todo == "zebra")) { -%>
+zebra
+<% } -%>
 zref
 <% if (githubpublish || (documentclass == "mwe") || (crossref == "zref-clever")) { -%>
 zref-clever

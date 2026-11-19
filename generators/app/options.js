@@ -396,12 +396,16 @@ export const options = [
     message: "Which package to mark TODOs?",
     choices: [
       {
-        name: "pdfcomment",
-        value: "pdfcomment",
+        name: "zebra (inline notes, symbol in the margin, list at the end)",
+        value: "zebra",
       },
       {
-        name: "todonotes",
+        name: "todonotes (luatodonotes with LuaLaTeX)",
         value: "todonotes",
+      },
+      {
+        name: "pdfcomment",
+        value: "pdfcomment",
       },
       {
         name: "Plain LaTeX (simple \\todo command is defined)",
@@ -412,7 +416,7 @@ export const options = [
         value: "none",
       },
     ],
-    default: "pdfcomment",
+    default: "zebra",
   },
   {
     type: "confirm",

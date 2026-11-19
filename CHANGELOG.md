@@ -14,6 +14,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
+- TODOs: new option `--todo=zebra`, now the default: [zebra](https://ctan.org/pkg/zebra) sets TODOs as short inline notes with a numbered symbol in the margin and lists all open notes at the end of the document. `\comment[name]{...}` is a zebra note, and `\begin{comment}` still comments out text. See [ADR-0028](docs/decisions/0028-use-zebra-for-todos.md).
+- TODOs: with `--todo=todonotes`, documents compiled with LuaLaTeX load [luatodonotes](https://ctan.org/pkg/luatodonotes), which places the notes so that notes and lines do not overlap; with `--latexcompiler=both`, pdfLaTeX still loads todonotes.
 - Dissertation (`ustutt`): chapter heads show a small gray "Chapter N" line, the title, and a thin gray rule below. The previous head with the number in a gray box is kept as commented-out alternative in the preamble.
 - Theses: definitions are set on a light gray background with a bar on the left.
 - Theses: the dot leaders in the table of contents and the lists of figures and tables are light gray.

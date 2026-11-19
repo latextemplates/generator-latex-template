@@ -24,7 +24,7 @@ fonts = ['default', 'times']
 listings = ['listings', 'minted']
 enquotes = ['csquotes', 'plainlatex']
 tweakouterquotes = ['babel', 'outerquote']
-todos = ['pdfcomment', 'none']
+todos = ['zebra', 'todonotes', 'pdfcomment', 'none']
 examples = ['true', 'false']
 howtotexts = ['true', 'false']
 
