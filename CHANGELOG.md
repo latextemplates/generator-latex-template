@@ -10,6 +10,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Added
 
+- `\TODO{...}` and `\FIXME{...}` mark a normal and an important TODO with whichever TODO package is selected; with zebra, `\FIXME` is the template's own note type `\fixme`.
 - Theses: an example of a table set with [tabularray](https://ctan.org/pkg/tabularray): layout (columns, header rows, cells spanning rows or columns, row colors) in front of the content.
 
 ### Changed
