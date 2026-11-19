@@ -14,6 +14,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ### Changed
 
+- Dissertation (`ustutt`): chapter heads show a small gray "Chapter N" line, the title, and a thin gray rule below. The previous head with the number in a gray box is kept as commented-out alternative in the preamble.
 - Theses: definitions are set on a light gray background with a bar on the left.
 - Theses: the dot leaders in the table of contents and the lists of figures and tables are light gray.
 - Dissertation: the lists of figures, tables, listings, definitions, and abbreviations are at the end, after the bibliography and the appendices.
