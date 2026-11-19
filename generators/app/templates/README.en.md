@@ -143,18 +143,21 @@ This is a **minimal Markdown quick start**. Write your content as plain Markdown
 - [paper-newtx.pdf](https://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
 - [paper-basic-listings.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings.pdf) - paper using the listings package (instead of minted) for source code.
 - [paper-basic-listings-newtx.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings-newtx.pdf) - paper using the listings package (instead of minted) for source code, typeset in Times Roman.
+- [paper-anon.pdf](https://latextemplates.github.io/lncs-enhanced/paper-anon.pdf) - the same paper anonymized for a double-blind review (see [Anonymous submission](#anonymous-submission-double-blind-review)).
 <% break; case "ieee": -%>
 
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/ieee-enhanced/paper.pdf) - regular conference paper.
 - [paper-basic-listings.pdf](https://latextemplates.github.io/ieee-enhanced/paper-basic-listings.pdf) - the same paper using the listings package (instead of minted) for source code.
+- [paper-anon.pdf](https://latextemplates.github.io/ieee-enhanced/paper-anon.pdf) - the same paper anonymized for a double-blind review (see [Anonymous submission](#anonymous-submission-double-blind-review)).
 <% break; case "acmart": -%>
 
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/acm-enhanced/paper.pdf) - regular conference paper.
 - [paper-basic-listings.pdf](https://latextemplates.github.io/acm-enhanced/paper-basic-listings.pdf) - the same paper using the listings package (instead of minted) for source code.
+- [paper-anon.pdf](https://latextemplates.github.io/acm-enhanced/paper-anon.pdf) - the same paper anonymized for a double-blind review (see [Anonymous submission](#anonymous-submission-double-blind-review)).
 <% break; default: -%>
 <% break; } } -%>
 <% if (githubpublish && isPaper) { -%>
