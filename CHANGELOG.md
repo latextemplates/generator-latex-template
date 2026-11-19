@@ -17,6 +17,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 - The progress bars of the thesis are hidden by default; `\showprogresstrue` shows them.
 - The list of abbreviations is titled "List of Abbreviations" and uses the more compact glossary style `index`.
 - The example start and end dates on the scientific-thesis cover page and the date the links were last followed are in 2027.
+- The README of the dissertation explains how to prepare the print version (front matter, interior, cover, and spine), based on the requirements of BoD – Books on Demand.
 - The introduction of the thesis states in a bold red TODO that its chapter structure is only an example to be agreed on with the supervisor.
 
 ## [2026.11.12]
