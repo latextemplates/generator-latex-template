@@ -35,7 +35,8 @@ Node ≥18).
   `Handin-LaTeX-template`, `scientific-thesis-cover`, `uni-stuttgart-dissertation-cover`)
   is standalone — not part of the generator cycle.
 - **`latex-snippets`** — a Docusaurus site; embeds this repo as a submodule at path
-  `generator-latex-template` (tracking `main`) but has **no** `update-files.yml` and isn't
+  `generator-latex-template` (tracking `main`), and `gadr-latex-packages` likewise
+  (tracking `main`, bumped by the same Dependabot rule), but has **no** `update-files.yml` and isn't
   globbed by the cycle scripts (`begin-new-cycle.sh` / `spread-updates.sh` /
   `end-new-cycle.sh`), so it is **not** touched by them. **The post-release submodule bump
   needs no manual step:** because the submodule tracks `main`, Dependabot opens a bump PR to
@@ -61,6 +62,11 @@ Node ≥18).
   catalog: the TODO GADR compares `pdfcomment`/`pdfmarginpar`, not the showcased
   `todonotes`). Kept **semi-manual on purpose** — the pros/cons are a judgement call, so
   there is no generator; this hint *is* the mechanism.
+  On the site, the entry's `gadr` field (the record's file name without `.md`) shows a
+  "GADR" badge linking the record. A package the generator does **not** provide can still
+  get a page: `mwe: "<record>/<file>.tex"` compiles that GADR MWE as is, and the page says
+  the templates do not contain it (first case: `changes`). Showcase a package the templates
+  use via the generator, not via `mwe`.
   **Our own decisions** (which package the templates use) live only in this repo's
   `docs/decisions/` (MADR, listed in its `index.md`). A package decision there records the
   choice and links the matching GADR for the general options and pros/cons — so when a
