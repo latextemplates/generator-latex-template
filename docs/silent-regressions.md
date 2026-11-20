@@ -74,7 +74,7 @@ Needs: impl
 
 `req~toc-heading-font~1`
 
-Section and subsection entries of the table of contents are in the sans-serif heading font, like the chapter entries.
+Section and subsection entries of the table of contents, including their page numbers, are in the sans-serif heading font, like the chapter entries.
 Shows in the table of contents.
 [scientific-thesis-template#150](https://github.com/latextemplates/scientific-thesis-template/issues/150)
 
@@ -115,7 +115,7 @@ Needs: impl
 `req~abbreviation-first-use~1`
 
 The first `\gls` gives the long form, later ones the short form; `\glsunset` and `\glsreset` change this for the next use, as the example explains.
-Shows in "Abbreviations".
+Shows in "List of Abbreviations".
 [scientific-thesis-template#121](https://github.com/latextemplates/scientific-thesis-template/issues/121)
 
 Needs: impl

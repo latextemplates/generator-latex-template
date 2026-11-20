@@ -15,8 +15,8 @@ How to show the writing progress?
 
 Chosen option: "progressbar", because it only draws the bar and leaves the headings alone.
 `progress` redefines `\chapter` and fails in the appendix ("Missing number", it compares the chapter letter with a number).
-`\progress{60}` draws a bar filled to 60 % across the text width; `\showprogressfalse` hides all bars.
-Theses enable it, papers contain it as commented-out lines.
+`\progress{60}` draws a bar filled to 60 % across the text width; the bars are hidden by default (`\showprogressfalse`), `\showprogresstrue` shows them.
+Theses load it (bars hidden by default, as University of Stuttgart staff did not like them in submitted theses), papers contain it as commented-out lines.
 
 ### Consequences
 

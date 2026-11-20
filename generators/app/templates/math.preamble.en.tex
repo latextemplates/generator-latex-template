@@ -40,12 +40,24 @@
 % italic letters, including Greek.
 \usepackage{fixmath}
 
+<% if (isThesis) { -%>
+\usepackage{framed} % for the shaded definitions below
+<% } -%>
 %for theorems, replacement for amsthm
-\usepackage[amsmath,hyperref]{ntheorem}
+\usepackage[amsmath,hyperref<% if (isThesis) { %>,framed<% } %>]{ntheorem} % option framed: \newshadedtheorem
 \theorempreskipamount 2ex plus1ex minus0.5ex
 \theorempostskipamount 2ex plus1ex minus0.5ex
 \theoremstyle{break}
+<% if (isThesis) { -%>
+% Definitions on a light gray background with a bar on the left, so that they stand out in the text
+\theoremheaderfont{\normalfont\bfseries}
+\theorembodyfont{\normalfont}
+\newcommand{\definitionframe}[1]{{\color{black!45}\vrule width 2pt}\colorbox{black!4}{#1}}
+\def\theoremframecommand{\definitionframe}
+\newshadedtheorem{definition}{Definition}[chapter]
+<% } else { -%>
 \newtheorem{definition}{Definition}[chapter]
+<% } -%>
 
 %%% Doc: http://mirror.ctan.org/tex-archive/macros/latex/contrib/onlyamsmath/onlyamsmath.dvi
 % Warnt bei Benutzung von Befehlen die mit amsmath inkompatibel sind.

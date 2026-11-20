@@ -100,9 +100,14 @@
   numbers=autoendperiod,
   ngerman,  % Neue deutsche Rechtschreibung; der Parameter wird an andere Pakete weiter gegeben
   a4paper,  % KOMAScript allows for both paper=a4 and (standard) a4paper - https://tex.stackexchange.com/a/61044/9075
+<% if (thesisvariant == "ustutt") { -%>
+  twoside,  % die Universität Stuttgart verlangt beidseitigen Druck: Kapitel beginnen auf einer rechten Seite
+  open=right,
+<% } else { -%>
   twoside=false,  % optimiert für das Lesen am Bildschirm: gleiche Ränder auf jeder Seite und keine leeren Seiten
   open=any,       % ein Kapitel beginnt auf der nächsten Seite, nicht unbedingt auf einer rechten
   % Für beidseitigen Druck die beiden Zeilen darüber durch "twoside, open=right," ersetzen
+<% } -%>
   bibliography=totoc,
   captions=tableheading,  % table captions are set above the table: put the space between caption and table, not above the caption
   % idxtotoc,   % Index ins Inhaltsverzeichnis
@@ -291,6 +296,10 @@
 <% } -%>
 <% if (isThesis && examples) { -%>
 
+<%- include('tabularray.preamble.en.tex', this); -%>
+<% } -%>
+<% if (isThesis && examples) { -%>
+
 <%- include('uml.preamble.en.tex', this); -%>
 <% } -%>
 <% if (uml == "tikz-uml") { -%>
@@ -309,6 +318,9 @@
 <%- include('footnotes.preamble.en.tex', this); -%>
 
 <%- include('todos.preamble.en.tex', this); -%>
+<% if (documentclass == "ieee" || documentclass == "lncs") { -%>
+<%- include('anon.preamble.en.tex', this); -%>
+<% } -%>
 
 <%- include('siunitx.preamble.de.tex'); %>
 <% if (markdown) { -%>
@@ -352,6 +364,13 @@
 <% } -%>
 <% if (useExampleEnvironment) { -%>
 \usepackage[realmainfile]{currfile}
+<% if (isPaper) { -%>
+% <%= filenames.main %>-anon.tex inputs this file before currfile is loaded, so currfile takes <%= filenames.main %>-anon.tex as the current file;
+% \ltgexamplefile (set there) names the file the examples are in
+\providecommand{\ltgexamplefile}{\currfilename}
+<% } else { -%>
+\newcommand{\ltgexamplefile}{\currfilename}
+<% } -%>
 \usepackage{tcolorbox}
 \tcbuselibrary{<%= listings %><% if (twocolumn) { %>,breakable<% } %>}
 % Benötigt für eine korrekte Darstellung der Hinweise im erzeugten PDF
@@ -360,6 +379,27 @@
 \newenvironment{ltgexample}%
 {\LTGbeginlineexample=\numexpr\inputlineno+1\relax}%
 {\LTGendlineexample=\numexpr\inputlineno-1\relax%
+<% if (listings == 'listings') { -%>
+  % LuaLaTeX: listings überspringt die Zeilen außerhalb von firstline/lastline, setzt aber trotzdem ihre Zeichen
+  % oberhalb von U+00FF (z.B. erscheint die Tabelle der pdfLaTeX-listings-Einstellungen in der Präambel als Zeile œŒűŰ...).
+  % Daher wird jede Zeile dieser Datei außerhalb des Beispiels als leere Zeile gelesen, solange die Box die Datei liest.
+  \ifdefined\directlua
+    \directlua{
+      % Lua strings in [[...]] and a space before each parenthesis keep ChkTeX quiet; noindent keeps latexindent from flattening the Lua code
+      % \begin{noindent}
+      local file = [[\ltgexamplefile]]
+      local first, last, line = \the\LTGbeginlineexample, \the\LTGendlineexample, 0
+      luatexbase.add_to_callback ([[process_input_buffer]], function (text)
+        if status.filename:sub (-string.len (file)) == file then
+          line = line + 1
+          if line < first or line > last then return [[]] end
+        end
+        return text
+      end, [[ltgexample]])
+      % \end{noindent}
+    }%
+  \fi
+<% } -%>
   \tcbinputlisting{%
     listing only,
 <% if (twocolumn) { -%>
@@ -367,13 +407,13 @@
     breakable,
 <% } -%>
     % \currfilename statt \currfilepath: ein Kapitel wird über den Import-Pfad von subfiles gelesen, den minted sonst noch einmal voranstellt
-    listing file=\currfilename,
+    listing file=\ltgexamplefile,
     colback=green!5!white,
     colframe=green!25,
     coltitle=black!90,
     coltext=black!90,
     left=8mm,
-    title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\currfilename},
+    title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\ltgexamplefile},
 <% if (listings == 'listings') { -%>
     listing options={
         frame=none,
@@ -389,7 +429,7 @@
         belowskip=0mm,
         numbers=left,
         xleftmargin=0mm,
-        numberstyle=\tiny,
+        numberstyle=\tiny\lstnocopy,
         numbersep=8pt%
       }
 <% } else { -%>
@@ -405,7 +445,10 @@
         numbersep=8pt
       }
 <% } -%>
-  }
+  }%
+<% if (listings == 'listings') { -%>
+  \ifdefined\directlua\directlua{luatexbase.remove_from_callback ([[process_input_buffer]], [[ltgexample]])}\fi
+<% } -%>
 }%
 <% } -%>
 <% } -%>
@@ -490,6 +533,16 @@
 
 <% if (thesisvariant != "ustutt") { -%>
 \usepackage{geometry}
+<% } else { -%>
+% Gleiche Ränder links und rechts auf jeder Seite: der Text steht in der Seitenmitte (Lesen am Bildschirm),
+% Seitenzahlen und Kopfzeilen wechseln zwischen linken und rechten Seiten (beidseitiger Druck).
+\usepackage[
+  left=3cm,right=3cm,top=2.5cm,bottom=2.5cm,
+  headsep=18pt,
+  footskip=30pt,
+  includehead,
+  includefoot
+]{geometry}
 <% } -%>
 <%- include('scientific-thesis-cover.preamble.de.tex', this); %>
 <% break; } -%>
@@ -546,13 +599,13 @@
 % If Title is too long, use \titlerunning
 %\titlerunning{Short Title}
 
-% Single institute
-\author{Firstname Lastname \and Firstname Lastname}
+% Single institute; \anon{...} hides a name in the anonymous version (paper-anon.tex)
+\author{\anon{Firstname Lastname} \and \anon{Firstname Lastname}}
 
 % If there are too many authors, use \authorrunning
 %\authorrunning{First Author et al.}
 
-\institute{Institute}
+\institute{\anon{Institute}}
 
 %% Multiple institutes - ALTERNATIVE to the above
 % \author{%
@@ -593,16 +646,17 @@
 
 \title{Quick start for LaTeXing with the IEEEtran class for\\ IEEE Computer Society Conferences}
 
+% \anon{...} hides the authors in the anonymous version (paper-anon.tex)
 \author{%
-  \IEEEauthorblockN{First Author, Second Author}
-  \IEEEauthorblockA{University of Examples, Germany\\
-    \{lastname\}@example.org}
+  \IEEEauthorblockN{\anon{First Author, Second Author}}
+  \IEEEauthorblockA{\anon{University of Examples, Germany\\
+      \{lastname\}@example.org}}
   \and
-  \IEEEauthorblockN{Third Author}
-  \IEEEauthorblockA{School of Electrical and\\Computer Examples\\
-    Georgia Institute of Examples\\
-    Atlanta, Georgia 30332--0250\\
-    \url{http://www.example.org}}
+  \IEEEauthorblockN{\anon{Third Author}}
+  \IEEEauthorblockA{\anon{School of Electrical and\\Computer Examples\\
+      Georgia Institute of Examples\\
+      Atlanta, Georgia 30332--0250\\
+      \url{http://www.example.org}}}
 }
 
 % use for special paper notices
@@ -659,8 +713,8 @@
   \vspace*{2cm}
   \Large
   \begin{center}
-    {\color{uhhred}\textbf{\so{BACHELORTHESIS}}}
-    %TODO ...oder {\color{uhhred}\textbf{\so{MASTERTHESIS}}}
+    {\color{uhhred}\textbf{\textls[200]{BACHELORTHESIS}}}
+    %TODO ...oder {\color{uhhred}\textbf{\textls[200]{MASTERTHESIS}}}
     \vspace*{2.0cm}\\
     {\LARGE \textbf{Titel}}
     \vspace*{2.0cm}\\
@@ -877,34 +931,10 @@ The following is typeset for both ustutt and scientific-thesis.
 % an der passenden Stelle im Fließtext erzwungen werden.
 \tableofcontents
 
-\listoffigures
-
-\listoftables
-<% if (listings == 'listings') { -%>
-
-% We use lstlisting environments with caption parameters.
-% Thus, we need that command.
-% Alternative: \listof{Listing}{List of Listings}
-\lstlistoflistings
-<% } else { -%>
-\listoflistings
-<% } -%>
-
-%mittels \newfloat wurde die Algorithmus-Gleitumgebung definiert.
-%Mit folgendem Befehl werden alle floats dieses Typs ausgegeben
-%\listof{Algorithmus}{Verzeichnis der Algorithmen}
-%\listofalgorithms %Ist nur für Algorithmen, die mittels \begin{algorithm} umschlossen werden, nötig
-
-<% if (documentclass == 'ustutt') { -%>
-\chapter*{Definitionsverzeichnis}
-\addcontentsline{toc}{chapter}{Definitionsverzeichnis}
-\listtheorems{definition}
+<% if (documentclass != 'ustutt') { -%>
+<%- include('lists.de.tex', this); -%>
 
 <% } -%>
-% Abkürzungsverzeichnis / Acronyms / Abbreviations
-\printnoidxglossary[type=\acronymtype,sort=word,title={Abkürzungsverzeichnis}]
-% \printunsrtglossaries cannot be used, because then no indexing happens; source: https://tex.stackexchange.com/a/287128/9075
-
 \microtypesetup{protrusion=true}
 
 % Headline and footline
@@ -925,6 +955,13 @@ The following is typeset for both ustutt and scientific-thesis.
 %%% ===============================================================================
 <% if (isThesis) { -%>
 \progress{10}
+
+% Dieses TODO löschen, sobald die Gliederung abgestimmt ist.
+<% if (todo == "todonotes" || todo == "zebra") { -%>
+\todo{Die Kapitelstruktur dieser Vorlage ist nur ein Beispiel. Die tatsächliche Gliederung der Arbeit ist mit der Betreuerin oder dem Betreuer abzustimmen.}
+<% } else { -%>
+\textbf{\textcolor{red}{TODO: Die Kapitelstruktur dieser Vorlage ist nur ein Beispiel. Die tatsächliche Gliederung der Arbeit ist mit der Betreuerin oder dem Betreuer abzustimmen.}}
+<% } -%>
 <% } -%>
 
 \emph{Purpose and scope of your entire report}.
@@ -1091,6 +1128,7 @@ The background chapter has multiple roles.
         Your discussion has to summarize these prior works and has to explain in which way the research question you are solving (<%- cref %>{sec:introduction:research-question}) has not been solved yet because prior work had more limiting assumptions, addressed a different angle, their results are not complete etc. Depending on the subject you are studying, the related work part can be larger and warrant an entire chapter on its own, or be fully concluded within <%- cref %>{sec:introduction:state-of-art}.
 
         You can close the related work discussion by clarifying the positioning and formulation of your research question (SM2) in relation to all the prior work, making more explicit whether you address an existing research question under different premises or whether you work on a modified or completely new research question.
+        While writing, mark a claim whose source you still have to look up with \verb|\CITE|, for example: giraffes sleep less than two hours a day~\CITE{Study on the sleep of giraffes}.
 \end{itemize}
 
 %%LTG-CHAPTER problemdarstellung
@@ -1181,7 +1219,7 @@ Make use of appendices if certain details take too much space.
 
 \begin{figure}
   \centering
-  %%%\includegraphics{/path/to/figure.pdf}
+  \includegraphics[width=.6\linewidth]{example-image-a} % durch die eigene Abbildung ersetzen, z.B. figures/laufzeit.pdf
   \caption{A scientific figure that has to be explained in the text}
   \label{fig:my_label}
 \end{figure}
@@ -1288,7 +1326,7 @@ Make use of appendices if certain details take too much space.
 
 \begin{figure}
   \centering
-  %%%\includegraphics{/path/to/figure.pdf}
+  \includegraphics[width=.6\linewidth]{example-image-a} % durch die eigene Abbildung ersetzen, z.B. figures/laufzeit.pdf
   \caption{Another scientific figure that has to be explained in the text}
   \label{fig:my_label2}
 \end{figure}
@@ -1345,7 +1383,13 @@ Der Abschnitt kann je nach Kontext auch an anderer Stelle stehen.
 
 Winery~\citep{Winery} is a graphical \textcomment{modeling}{modeling with one ``l'', because of American English} tool.
 The whole idea of TOSCA is explained by <% if (available.citet) { %>\citet<% } else { %>Binz et al.~\cite<% } %>{Binz2009}.
+TOSCA wird in der Industrie eingesetzt~\CITE{Einsatz von TOSCA in der Industrie}.
 
+<% if (isPaper) { -%>
+In einer anonymen Einreichung (siehe \texttt{<%= filenames.main %>-anon.tex}) wird die eigene Arbeit in der dritten Person zitiert, wie jede andere: „Binz et al.~\cite{Binz2009} zeigten“, nicht „in unserer früheren Arbeit~\cite{Binz2009}“.
+Alles andere, was die Autoren erkennen lässt, kommt in \verb+\anon+: Diese Arbeit entstand \anon[an einer anonymen Universität]{an der Universität Stuttgart}.
+
+<% } -%>
 Werkzeuge für die Literatursuche sind unter anderem \href{https://www.scienceos.ai/}{ScienceOS}, \href{https://dblp.org/}{dblp}, \href{https://scholar.google.com/}{Google Scholar}, \href{https://ieeexplore.ieee.org/}{IEEE Xplore} und die \href{https://dl.acm.org/}{ACM Digital Library}; \href{https://www.jabref.org/}{JabRef} verwaltet die gefundenen Arbeiten, holt die bibliografischen Daten per DOI und verwaltet die PDFs.
 Ist die Suche systematisch (wie bei einem Literatur-Review), gehören die Suchbegriffe, der Zeitraum und die Aufnahmekriterien in die Arbeit, damit die Suche nachvollziehbar ist.
 Schreibhinweise für studentische Arbeiten gibt das Open-Access-Buch \href{https://vdf.ch/product/student-thesis-projects-en.html}{\emph{Student Thesis Projects}}\footnote{\url{https://vdf.ch/product/student-thesis-projects-en.html}}.
@@ -1412,6 +1456,10 @@ Hier sollen allgemeine \LaTeX-Hinweise gegeben werden, damit man Minimalbeispiel
 <% } -%>
 
 <%- include('tables.example.en.tex', this); -%>
+<% if (isThesis) { -%>
+
+<%- include('tabularray.example.en.tex', this); -%>
+<% } -%>
 <% if (longtable && !twocolumn) { -%>
 
 <%- include('longtable.example.en.tex', this); -%>
@@ -1560,7 +1608,11 @@ Hier bitte einen kurzen Durchgang durch die Arbeit.
 <% break; default: -%>
 <% break; } -%>
 <% if (isPaper) { -%>
+<% if (documentclass == "acmart") { -%>
 <%= indent %>Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which comes right before the reference section in your document~\cite{acmart}.
+<% } else { -%>
+\anon[\anonbar{\linewidth}]{Identification of funding sources and other support, and thanks to individuals and groups that assisted in the research and the preparation of the work should be included in an acknowledgment section, which comes right before the reference section in your document~\cite{acmart}.}
+<% } -%>
 <% if (howtotext) { -%>
 
 <%= indent %>The hints on writing a paper/thesis are taken from Dirk Fahland's \href{https://github.com/dfahland/Master-or-Bachelor-thesis-Template-Eindhoven-University-of-Technology}{LaTeX template for Bachelor and Master theses at Eindhoven University of Technology}.
@@ -1627,7 +1679,7 @@ Hier bitte einen kurzen Durchgang durch die Arbeit.
 \ \\
 %
 \noindent
-Alle Links wurden zuletzt am 29.03.2021 geprüft.
+Alle Links wurden zuletzt am 25.09.2027 geprüft.
 
 <% switch (documentclass) { case "lncs": -%>
 %%% ===============================================================================
@@ -1696,6 +1748,12 @@ Alle Links wurden zuletzt am 29.03.2021 geprüft.
 \end{tabular}
 <% } -%>
 
+<% if (documentclass == 'ustutt') { -%>
+
+\clearpage
+% Verzeichnisse am Ende der Dissertation, nach Literaturverzeichnis und Anhängen
+<%- include('lists.de.tex', this); -%>
+<% } -%>
 \pagestyle{empty}
 \renewcommand*{\chapterpagestyle}{empty}
 <% if (documentclass == "scientific-thesis") { -%>

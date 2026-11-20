@@ -8,6 +8,39 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Added
+
+- Papers: `paper-anon.tex` typesets the paper for a double-blind review. ACM sets acmart's class option `anonymous`; IEEE and LNCS replace the authors, affiliations, and acknowledgments wrapped in `\anon{...}` by gray bars (as in [skeldoc](https://ctan.org/pkg/skeldoc)), with the same interface as acmart's `\anon`. The related work section shows how to cite one's own work and hide the institution in the text.
+- `\TODO{...}`, `\FIXME{...}`, and `\CITE{...}` mark a normal TODO, an important one, and a claim that still needs a citation with whichever TODO package is selected; with zebra, `\FIXME` and `\CITE` are the template's own note types `\fixme` and `\source`.
+- Theses: an example of a table set with [tabularray](https://ctan.org/pkg/tabularray): layout (columns, header rows, cells spanning rows or columns, row colors) in front of the content.
+
+### Changed
+
+- Code listings (`--listings=listings` and `minted`): the line numbers are not copied along with the code, using [accsupp](https://ctan.org/pkg/accsupp) (in PDF viewers that support `ActualText`, such as Acrobat, Evince, and Okular).
+- TODOs: new option `--todo=zebra`, now the default: [zebra](https://ctan.org/pkg/zebra) sets TODOs as short inline notes with a numbered symbol in the margin and lists all open notes at the end of the document. `\comment[name]{...}` is a zebra note, and `\begin{comment}` still comments out text. See [ADR-0028](docs/decisions/0028-use-zebra-for-todos.md).
+- TODOs: with `--todo=todonotes`, documents compiled with LuaLaTeX load [luatodonotes](https://ctan.org/pkg/luatodonotes), which places the notes so that notes and lines do not overlap; with `--latexcompiler=both`, pdfLaTeX still loads todonotes.
+- Dissertation (`ustutt`): chapter heads show a small gray "Chapter N" line, the title, and a thin gray rule below. The previous head with the number in a gray box is kept as commented-out alternative in the preamble.
+- Theses: definitions are set on a light gray background with a bar on the left.
+- Theses: the dot leaders in the table of contents and the lists of figures and tables are light gray.
+- Dissertation: the lists of figures, tables, listings, definitions, and abbreviations are at the end, after the bibliography and the appendices.
+- Tables written in Markdown have their caption above the table, as all other tables.
+- The scientific thesis sets the page numbers of section and subsection entries in the table of contents in sans-serif, like the entries themselves.
+- The scientific thesis for the University of Stuttgart (`--thesisvariant=ustutt`) is laid out two-sided again (`twoside`, `open=right`), as the university requires double-sided PDFs.
+- The scientific thesis for the University of Stuttgart sets the cover page in its previous layout and with its previous English labels ("Supervisor", "Course of Study", "Commenced", "Completed"; option `ustutt` of `scientific-thesis-cover`, version 5.3.0).
+- The scientific thesis for the University of Stuttgart keeps the text block in the middle of the page (same left and right margins, as before 2025-10), while the page numbers alternate.
+- The progress bars of the thesis are hidden by default; `\showprogresstrue` shows them.
+- The list of abbreviations is titled "List of Abbreviations" and uses the more compact glossary style `index`.
+- The example start and end dates on the scientific-thesis cover page and the date the links were last followed are in 2027.
+- The README of the dissertation explains how to prepare the print version (front matter, interior, cover, and spine), based on the requirements of BoD – Books on Demand.
+- The introduction of the thesis states in a TODO that its chapter structure is only an example to be agreed on with the supervisor: a `\todo` box with `--todo=todonotes`, bold red text otherwise.
+- `--todo=todonotes` adds `todonotes` to the `Texlivefile`.
+
+### Fixed
+
+- Papers with `--listings=listings`: under LuaLaTeX, the box with the LaTeX code of an example no longer starts with a line of special characters (`œŒűŰőŐł…`). listings typesets the characters above U+00FF of the lines it skips; these lines are now read as empty lines.
+- The example figures of the how-to chapters show a placeholder image instead of only a caption.
+- Dissertation (`ustutt`): unnumbered chapters such as the abstract no longer show "Chapter 0", and chapter titles are not hyphenated. The chapter heads use KOMA-Script's own interface instead of `fncychap`.
+
 ## [2026.11.12]
 
 ### Security

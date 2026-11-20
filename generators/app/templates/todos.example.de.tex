@@ -34,6 +34,34 @@ Hier nur ein Kommentar\sidecomment{Kommentar}.
 \todo{Hier muss noch kräftig Text produziert werden}
 <%- eexample %>
 
+\verb|\TODO|, \verb|\FIXME| und \verb|\CITE| funktionieren mit jedem TODO-Paket der Vorlage: \verb|\TODO| ist ein normales TODO, \verb|\FIXME| ein wichtiges, und \verb|\CITE| markiert eine Aussage, der noch ein Beleg fehlt.
+
+<%- bexample %>
+\TODO{Evaluation ergänzen}
+
+\FIXME{Die Zahlen sind veraltet}
+
+Die meisten wissenschaftlichen Texte der Informatik werden mit \LaTeX{} geschrieben~\CITE{Umfrage zu den Werkzeugen beim Schreiben}.
+<%- eexample %>
+
+<% if (todo == "zebra") { -%>
+Bei zebra nimmt \verb|\todo| die verantwortliche Person als optionales Argument; weitere Notizarten sind \verb|<%= documentclass == 'lncs' ? '\\zebranote' : '\\note' %>|, \verb|\comment|, \verb|\fixed|, \verb|\placeholder|, \verb|\fixme| und \verb|\source| (von der Vorlage definiert, genutzt von \verb|\FIXME| und \verb|\CITE|).
+Alle Notizen werden am Ende des Dokuments aufgelistet.
+
+<%- bexample %>
+\todo[FA]{Add a citation}
+
+<%= documentclass == 'lncs' ? '\\zebranote' : '\\note' %>{Shorten this paragraph?}
+
+\comment[FA]{Is this claim backed by the evaluation?}
+
+\fixed{Typo corrected}
+
+\placeholder{Table with the results}
+<%- eexample %>
+
+<% } -%>
+
 Mehrere Autoren können ihre Änderungen und Kommentare mit dem Paket \href{https://ctan.org/pkg/phfcc}{phfcc} markieren; die Initialen erscheinen einmal pro Seite am Rand.
 Pro Autor wird in der Präambel ein Befehl definiert (\verb|\phfMakeCommentingCommand|); \verb|\phfDisableCommentingCommands| blendet für die finale Version alles aus.
 

@@ -35,7 +35,8 @@ Node ≥18).
   `Handin-LaTeX-template`, `scientific-thesis-cover`, `uni-stuttgart-dissertation-cover`)
   is standalone — not part of the generator cycle.
 - **`latex-snippets`** — a Docusaurus site; embeds this repo as a submodule at path
-  `generator-latex-template` (tracking `main`) but has **no** `update-files.yml` and isn't
+  `generator-latex-template` (tracking `main`), and `gadr-latex-packages` likewise
+  (tracking `main`, bumped by the same Dependabot rule), but has **no** `update-files.yml` and isn't
   globbed by the cycle scripts (`begin-new-cycle.sh` / `spread-updates.sh` /
   `end-new-cycle.sh`), so it is **not** touched by them. **The post-release submodule bump
   needs no manual step:** because the submodule tracks `main`, Dependabot opens a bump PR to
@@ -61,6 +62,11 @@ Node ≥18).
   catalog: the TODO GADR compares `pdfcomment`/`pdfmarginpar`, not the showcased
   `todonotes`). Kept **semi-manual on purpose** — the pros/cons are a judgement call, so
   there is no generator; this hint *is* the mechanism.
+  On the site, the entry's `gadr` field (the record's file name without `.md`) shows a
+  "GADR" badge linking the record. A package the generator does **not** provide can still
+  get a page: `mwe: "<record>/<file>.tex"` compiles that GADR MWE as is, and the page says
+  the templates do not contain it (first case: `changes`). Showcase a package the templates
+  use via the generator, not via `mwe`.
   **Our own decisions** (which package the templates use) live only in this repo's
   `docs/decisions/` (MADR, listed in its `index.md`). A package decision there records the
   choice and links the matching GADR for the general options and pros/cons — so when a
@@ -173,9 +179,14 @@ LaTeX-free generation check:
 - **`npm test`** runs the generator across a **pairwise** subset of the switch matrix and
   asserts it produces output (any EJS/template error fails). Fast (~seconds). Runs as the
   `ESLint + Tests` CI job.
-- **`npm run test:all`** runs the **full** matrix (`__tests__/combinations.all.js`, 7680
-  runs, ~1.5 min). Not part of `npm test` (named so `node --test` skips it locally), but it
-  **does** run in CI as the `Full matrix` job on every push/PR.
+- **`npm run test:all`** runs the **full** matrix (`__tests__/combinations.all.js`,
+  27652 runs). Not part of `npm test` (named so `node --test` skips it locally), but it
+  **does** run in CI as the `Full matrix` job on every push/PR. Each yeoman-test run keeps about
+  1.2 MB (mostly buffers), so CI splits the matrix into 8 shards on their own runners
+  (`SHARD=<i>/<n>`, the `Full matrix <i>/8` jobs); the `Full matrix` job (the required check) is green
+  when all are. In a single process, the run aborted with a heap-out-of-memory error or the runner
+  "lost communication". Locally, run a part with e.g. `SHARD=0/8 npm run test:all`; the whole matrix in
+  one process needs about 33 GB. Add shards when the matrix grows.
 - Both share `__tests__/matrix.js` (the matrix definition + a greedy all-pairs selector).
 
 This proves the generator *generates* for every combination; it does **not** prove the

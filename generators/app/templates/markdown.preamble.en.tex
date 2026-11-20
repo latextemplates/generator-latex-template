@@ -11,7 +11,7 @@
 <%= markdownIndent %>  notes,              % [^label] referenced footnotes
 <%= markdownIndent %>  inlineNotes,        % ^[inline footnote text]
 <%= markdownIndent %>  pipeTables,         % | a | b | style tables
-<%= markdownIndent %>  tableCaptions,      % : Caption text below a table
+<%= markdownIndent %>  tableCaptions,      % : Caption text below a table (typeset above it, see below)
 <%= markdownIndent %>  tableAttributes,    % {#id} identifier on a table caption
 <%= markdownIndent %>  headerAttributes,   % {#id} identifier on a heading
 <%= markdownIndent %>  relativeReferences, % <#id> to reference an id defined via {#id} (typeset by <%- cref %>, see below)
@@ -25,6 +25,29 @@
 <%= markdownIndent %>\renewcommand{\markdownRendererHeadingThree}[1]{\subsubsection{#1}}
 <%= markdownIndent %>% textidote: ignore end
 <% } -%>
+<%= markdownIndent %>% Table captions above the table, as for all other tables (the markdown package puts them below)
+<%= markdownIndent %>\makeatletter
+<%= markdownIndent %>\ExplSyntaxOn
+<%= markdownIndent %>\markdownSetup{rendererPrototypes={
+<%= markdownIndent %>      table = {
+<%= markdownIndent %>          \markdownLaTeXTable={}
+<%= markdownIndent %>          \markdownLaTeXTableAlignment={}
+<%= markdownIndent %>          % begin and end in nested order, so ChkTeX finds the pairs
+<%= markdownIndent %>          \IfBlankF {#1} {
+<%= markdownIndent %>            \addto@hook\markdownLaTeXTable{\begin{table}\centering\caption{#1}}
+<%= markdownIndent %>            \seq_map_inline:Nn \l__markdown_table_identifiers_seq { \addto@hook\markdownLaTeXTable{\label{##1}} }
+<%= markdownIndent %>          }
+<%= markdownIndent %>          \addto@hook\markdownLaTeXTable{\begin{tabular}}
+<%= markdownIndent %>          \markdownLaTeXTableEnd={\markdownLaTeXBottomRule\end{tabular}}
+<%= markdownIndent %>          \IfBlankF {#1} { \addto@hook\markdownLaTeXTableEnd{\end{table}} }
+<%= markdownIndent %>          \markdownLaTeXRowCounter=0
+<%= markdownIndent %>          \markdownLaTeXRowTotal=#2
+<%= markdownIndent %>          \markdownLaTeXColumnTotal=#3
+<%= markdownIndent %>          \markdownLaTeXRenderTableRow
+<%= markdownIndent %>        }
+<%= markdownIndent %>    }}
+<%= markdownIndent %>\ExplSyntaxOff
+<%= markdownIndent %>\makeatother
 <%- include('markdown-references.preamble.en.tex', this); -%>
 <% if (latexcompiler == "both") { -%>
 \fi

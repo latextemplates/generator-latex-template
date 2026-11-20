@@ -143,18 +143,21 @@ This is a **minimal Markdown quick start**. Write your content as plain Markdown
 - [paper-newtx.pdf](https://latextemplates.github.io/lncs-enhanced/paper-newtx.pdf) - paper typeset in Times Roman to save some space.
 - [paper-basic-listings.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings.pdf) - paper using the listings package (instead of minted) for source code.
 - [paper-basic-listings-newtx.pdf](https://latextemplates.github.io/lncs-enhanced/paper-basic-listings-newtx.pdf) - paper using the listings package (instead of minted) for source code, typeset in Times Roman.
+- [paper-anon.pdf](https://latextemplates.github.io/lncs-enhanced/paper-anon.pdf) - the same paper anonymized for a double-blind review (see [Anonymous submission](#anonymous-submission-double-blind-review)).
 <% break; case "ieee": -%>
 
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/ieee-enhanced/paper.pdf) - regular conference paper.
 - [paper-basic-listings.pdf](https://latextemplates.github.io/ieee-enhanced/paper-basic-listings.pdf) - the same paper using the listings package (instead of minted) for source code.
+- [paper-anon.pdf](https://latextemplates.github.io/ieee-enhanced/paper-anon.pdf) - the same paper anonymized for a double-blind review (see [Anonymous submission](#anonymous-submission-double-blind-review)).
 <% break; case "acmart": -%>
 
 ## Examples
 
 - [paper.pdf](https://latextemplates.github.io/acm-enhanced/paper.pdf) - regular conference paper.
 - [paper-basic-listings.pdf](https://latextemplates.github.io/acm-enhanced/paper-basic-listings.pdf) - the same paper using the listings package (instead of minted) for source code.
+- [paper-anon.pdf](https://latextemplates.github.io/acm-enhanced/paper-anon.pdf) - the same paper anonymized for a double-blind review (see [Anonymous submission](#anonymous-submission-double-blind-review)).
 <% break; default: -%>
 <% break; } } -%>
 <% if (githubpublish && isPaper) { -%>
@@ -283,6 +286,14 @@ Following features are enabled in this template:
 - Support of hyperlinked references without extra color thanx to [hyperref].
 - Better breaking of long URLs.
 - Support for `\powerset` command.
+<% if (todo == "zebra") { -%>
+- TODOs (`\todo{...}`) as short notes in the text with a numbered symbol in the margin, and a list of all open notes at the end of the document.
+  This is enabled by the [zebra](https://ctan.org/pkg/zebra) package.
+<% } -%>
+<% if (todo == "todonotes") { -%>
+- TODOs (`\todo{...}`) in the margin.
+  This is enabled by the [todonotes](https://ctan.org/pkg/todonotes) package<% if (latexcompiler != "pdflatex") { %>; with LuaLaTeX, [luatodonotes](https://ctan.org/pkg/luatodonotes) places the notes so that they do not overlap<% } %>.
+<% } -%>
 <% if (todo == "pdfcomment" || githubpublish) { -%>
 - <% if (githubpublish && !isThesis) { -%>(Optional) <% } %>Support todos as pdf annotations. This is enabled by the [pdfcomment] package.
 <% } -%>
@@ -713,6 +724,19 @@ Everything else (A4 paper, numeric citations with `natbib` and `IEEEtranN-doi`, 
 
 <% } -%>
 <% if (isPaper) { -%>
+## Anonymous submission (double-blind review)
+
+<% if (documentclass == "acmart") { -%>
+`<%= filenames.main %>-anon.tex` typesets `<%= filenames.main %>.tex` with acmart's class option `anonymous`: compile it with `latexmk <%= filenames.main %>-anon`.
+It hides the authors and the acknowledgments; `\anon{...}` hides anything else that identifies you (it prints ANONYMOUS), and `\anon[an anonymous university]{...}` prints a replacement.
+<% } else { -%>
+`<%= filenames.main %>-anon.tex` typesets `<%= filenames.main %>.tex` with every `\anon{...}` replaced by a gray bar: compile it with `latexmk <%= filenames.main %>-anon`.
+Wrap the authors, the affiliations, and the acknowledgments in `\anon{...}`; `\anon[an anonymous university]{...}` prints a replacement instead and `\anon[\anonbar{6cm}]{...}` a longer bar (same interface as acmart's `\anon`).
+<% } -%>
+Write self-citations in the third person ("Doe et al. [3] showed" instead of "in our previous work [3]") and link an anonymized copy of your repository, e.g., via <https://anonymous.4open.science/>.
+
+<% } -%>
+<% if (isPaper) { -%>
 ## Final submission
 
 ### arXiv
@@ -1102,11 +1126,11 @@ The chapter entries use the font element `chapterentry`, the lower levels are se
 
 ```latex
 \setkomafont{chapterentry}{\sffamily\bfseries\large}
-\DeclareTOCStyleEntries[entryformat=\sffamily\large]{tocline}{section}
-\DeclareTOCStyleEntries[entryformat=\sffamily]{tocline}{subsection,subsubsection}
+\DeclareTOCStyleEntries[entryformat=\sffamily\large,pagenumberformat=\sffamily]{tocline}{section}
+\DeclareTOCStyleEntries[entryformat=\sffamily,pagenumberformat=\sffamily]{tocline}{subsection,subsubsection}
 ```
 
-The template sets all entries in the sans-serif font of the headings; see the KOMA-Script manual (`texdoc scrguide`, section on `tocbasic`) for `numwidth`, `indent`, `pagenumberformat`, and the other keys.
+The template sets all entries and their page numbers in the sans-serif font of the headings; see the KOMA-Script manual (`texdoc scrguide`, section on `tocbasic`) for `numwidth`, `indent`, `pagenumberformat`, and the other keys.
 
 <% } -%>
 ### Q: How do I speed up compilation with a precompiled preamble?
@@ -1187,7 +1211,11 @@ We are collecting alternatives at the issue [#25](https://github.com/latextempla
 
 - If you included some version control statements, please remove them. Currently, the template does not support any, but it used to support SVN.
 - By using `\largepage` and `\shortpage`, single lines at the bottom or at the top of the page can be manually fixed.
-- Search the PDF for "TODO" or similar things. Remove `\usepackage{todonotes}` in your main `.tex` file.
+<% if (todo == "zebra") { -%>
+- Check the list of notes at the end of the PDF. Then switch to `\usepackage[final]{zebra}` in your main `.tex` file (the line is there as a comment): this hides all notes and the list.
+<% } else { -%>
+- Search the PDF for "TODO" or similar things.<% if (todo == "todonotes") { %> Remove `\usepackage{<% if (latexcompiler != "pdflatex") { %>lua<% } %>todonotes}` in your main `.tex` file.<% } %>
+<% } -%>
 - Uncomment `\phfDisableCommentingCommands` in your main `.tex` file to hide all edits and comments made with `\FA{...}`.
 - Ensure that you run `lualatex` at least three times and that there are no "undefined references".
 - The margins are intended for good screen reading. **Do not change them** (or do exactly know what you are doing).
@@ -1346,6 +1374,21 @@ The documents and the entries come from [biblatex-ieee](https://github.com/koppo
 - Charles Lipson, [Cite Right, Second Edition: A Quick Guide to Citation Styles--MLA, APA, Chicago, the Sciences, Professions, and More](http://www.press.uchicago.edu/ucp/books/book/chicago/C/bo10702043.html), Chicago Guides to Writing, Editing, and Publishing, 2011. - Recommended in case you are unsure about how to correctly cite something.
 - Other templates: <https://latextemplates.github.io/>
 
+<% if (documentclass == "ustutt") { -%>
+## Printing the dissertation
+
+The dissertation is laid out for an A5 book: `paper=a5`, two-sided, with the inner margin narrower than the outer one.
+We had good experiences with the print-on-demand service [BoD – Books on Demand](https://www.bod.de); its page [Buch gestalten](https://www.bod.de/buch/buch-gestalten) describes what the files need.
+
+- **Front matter:** A book starts with four unnumbered pages, the [Titelei](https://www.bod.de/buch/buch-gestalten#c497): half-title (Schmutztitel), a blank page, title page, and imprint (Impressum, with the ISBN and the publisher). Check with the publisher and the doctoral regulations whether the title page of the submitted version can stay.
+- **Interior:** One page per PDF page (not two pages side by side), no crop marks. Bleed (5 mm on each side) is only needed if a figure reaches the edge of the page. Images need at least 300 dpi, line art without gray values 1200 dpi; RGB images can stay RGB, the printer converts them.
+- **Cover:** [`print-version--cover/cover.tex`](print-version--cover/) builds the cover (back, spine, front) with the [bookcover](https://ctan.org/pkg/bookcover) class. The front shows the first page of `thesis-example.pdf`, so cover and title page match.
+  - `spinewidth` depends on the number of pages and the paper; take it from the cover calculator of the printer (BoD: "Coverberechnung"). `coverwidth=14.80cm` and `coverheight=21cm` are A5, `bleedwidth=0.50cm` is the bleed.
+  - Replace `barcode.png` with the ISBN barcode you get from the publisher and `publisher-logo.pdf` with the publisher's logo (or use the commented variant without logo).
+  - Adjust name, title, and year on the spine.
+- **Spine only:** [`print-version--spine/spine.tex`](print-version--spine/) typesets the spine alone, e.g., for a bookbinder. For a print-on-demand book, the spine is part of `cover.pdf`.
+
+<% } -%>
 ## License
 
 The license of this work is [0BSD](https://spdx.org/licenses/0BSD.html) which corresponds to "public domain".

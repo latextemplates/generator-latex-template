@@ -38,3 +38,4 @@ General pros and cons of LaTeX packages for typical problems are in [gadr-latex-
 - [ADR-0025](0025-use-gitver-for-the-document-version.md) - Use gitver for the document version
 - [ADR-0026](0026-use-subfiles-to-compile-single-chapters.md) - Use subfiles to compile single chapters
 - [ADR-0027](0027-number-pages-continuously.md) - Number the pages continuously from the title page
+- [ADR-0028](0028-use-zebra-for-todos.md) - Use zebra for TODOs

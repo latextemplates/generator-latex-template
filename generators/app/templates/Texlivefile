@@ -3,8 +3,8 @@ latexindent
 latexmk
 texlogsieve
 
-<% if (githubpublish || (listings == 'listings')) { -%>
-accsupp<%# gray hook marker on soft-wrapped listings lines %>
+<% if (githubpublish || (listings == 'listings') || (listings == 'minted')) { -%>
+accsupp<%# gray hook marker on soft-wrapped listings lines; line numbers not copied (listings and minted) %>
 <% } -%>
 <% if (githubpublish || (documentclass == "acmart")) { -%>
 acmart
@@ -17,6 +17,9 @@ algpseudocodex
 amsmath
 <% if (githubpublish || (lang == "de")) { -%>
 autotype
+<% } -%>
+<% if (githubpublish || ((todo == "todonotes") && (latexcompiler != "pdflatex"))) { -%>
+atbegshi<%# required by luatodonotes %>
 <% } -%>
 auxhook
 babel
@@ -117,10 +120,10 @@ floatbytocbasic<%# required by scrhack%>
 <% } -%>
 <% } -%>
 floatflt<%# required by acmart and lncs %>
-<% if (githubpublish || (documentclass == "ustutt")) { -%>
-fncychap
-<% } -%>
 fontaxes<%# required by at least acmart and scientific-thesis-template %>
+<% if (githubpublish || isThesis) { -%>
+framed<%# shaded definitions (ntheorem) %>
+<% } -%>
 <% if (githubpublish || (reallatexcompiler.startsWith("lualatex"))) { -%>
 fontspec
 <% } -%>
@@ -161,6 +164,9 @@ hyphenex
 ieeetran
 <% } -%>
 ifmtarg<%# required by acmart at least %>
+<% if (githubpublish || ((todo == "todonotes") && (latexcompiler != "pdflatex"))) { -%>
+ifoddpage<%# required by luatodonotes %>
+<% } -%>
 <% if (githubpublish || isThesis) { -%>
 ifplatform
 <% } -%>
@@ -220,8 +226,14 @@ lua-widow-control
 luatex85
 luatexbase
 <% } -%>
+<% if (githubpublish || ((todo == "todonotes") && (latexcompiler != "pdflatex"))) { -%>
+luatodonotes
+<% } -%>
 <% if (githubpublish || isThesis) { -%>
 ly1<%# required by mathdesign-font %>
+<% } -%>
+<% if (githubpublish || (todo == "zebra")) { -%>
+manfnt<%# margin symbol of zebra %>
 <% } -%>
 marginnote
 <% if (githubpublish || (documentclass == "mwe") || markdown) { -%>
@@ -266,6 +278,9 @@ newfloat
 newtx
 newtxtt
 nfssext-cfr
+<% } -%>
+<% if (githubpublish || isThesis) { -%>
+ninecolors<%# required by tabularray %>
 <% } -%>
 nowidow
 <% if (githubpublish || isThesis) { -%>
@@ -343,6 +358,9 @@ svn-prov<%# at least required by acmart, ustutt, scientific-thesis%>
 tabto-ltx
 <% } -%>
 tablefootnote
+<% if (githubpublish || isThesis) { -%>
+tabularray
+<% } -%>
 tcolorbox
 tex-gyre<%# at least required by acm, ieee, font config "times"; provides ts1-qtmr %>
 tex-gyre-math<%# TeX Gyre Termes Math and Pagella Math: math font of ieee and font config "times" under LuaLaTeX %>
@@ -357,6 +375,9 @@ tikzmark
 times
 <% } -%>
 tools<%# contains dcolumn and varioref %>
+<% if (todo == "todonotes") { -%>
+todonotes
+<% } -%>
 <% if (githubpublish || isThesis) { -%>
 totcount
 <% } -%>
@@ -393,6 +414,9 @@ xpatch
 <% } -%>
 xstring<%# this includes stfloats; required by textcomp %>
 xurl
+<% if (githubpublish || (todo == "zebra")) { -%>
+zebra
+<% } -%>
 zref
 <% if (githubpublish || (documentclass == "mwe") || (crossref == "zref-clever")) { -%>
 zref-clever

@@ -754,6 +754,16 @@ export default class extends Generator {
       this.props,
     );
 
+    // Papers: an anonymous version for double-blind review that inputs the main file
+    // (for acmart, it sets the class option anonymous).
+    if (this.props.isPaper) {
+      this.fs.copyTpl(
+        this.templatePath("paper-anon.tex"),
+        this.destinationPath(this.props.filenames.main + "-anon.tex"),
+        this.props,
+      );
+    }
+
     // The big main's preamble is long, so its header tells readers in which
     // line the content starts. The line numbers are only known after
     // rendering, so the template carries placeholders that are filled here.

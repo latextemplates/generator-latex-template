@@ -1,0 +1,15 @@
+% Anonymous version of <%= filenames.main %>.tex for a double-blind review: latexmk <%= filenames.main %>-anon
+<% if (documentclass == "acmart") { -%>
+% It sets acmart's class option anonymous: the authors and the acknowledgments are hidden, and \anon{...} prints ANONYMOUS.
+<% } else { -%>
+% Every \anon{...} in <%= filenames.main %>.tex (authors, affiliations, funding) becomes a gray bar.
+<% } -%>
+% Write self-citations in the third person ("Doe et al. [3] showed"), as the text itself is not changed.
+<% if (documentclass == "acmart") { -%>
+\PassOptionsToClass{anonymous}{acmart}
+<% } else { -%>
+\def\ltganonymous{}
+<% } -%>
+% The boxes with the LaTeX code of the examples read their lines from <%= filenames.main %>.tex
+\def\ltgexamplefile{<%= filenames.main %>.tex}
+\input{<%= filenames.main %>}

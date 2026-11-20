@@ -43,6 +43,9 @@ jobs:
           texhash
           tlmgr generate language --rebuild-sys
       - run: latexmk <%= filenames.main %>
+<% if (isPaper) { -%>
+      - run: latexmk <%= filenames.main %>-anon
+<% } -%>
 <% if (githubpublish || (lang == "en") && (reallatexcompiler.startsWith("lualatex"))) { -%>
 
       # Highlight misspelled words in the PDF
@@ -169,6 +172,9 @@ jobs:
             <%= filenames.main %>.pdf
             <%= filenames.main %>.log
             <%= filenames.main %>.fls
+<% if (isPaper) { -%>
+            <%= filenames.main %>-anon.pdf
+<% } -%>
 <% if (githubpublish && isPaper) { -%>
 <%# [impl->req~publisher-comparison~1] -%>
   comparison:
@@ -414,7 +420,7 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # Finds common misspellings (configured in .typos.toml)
-      - uses: crate-ci/typos@7f9d0819ca1c008ade73f4b41fa9d258d48f605b # v1.51.1
+      - uses: crate-ci/typos@276087d9a4f06398b3e04825487805e2d7375888 # v1.52.2
 <%# TeXtidote checks one language; the German templates contain English template text, so only English documents are checked. -%>
 <% if (language == "en") { -%>
   textidote:
