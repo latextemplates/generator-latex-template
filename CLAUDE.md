@@ -179,9 +179,11 @@ LaTeX-free generation check:
 - **`npm test`** runs the generator across a **pairwise** subset of the switch matrix and
   asserts it produces output (any EJS/template error fails). Fast (~seconds). Runs as the
   `ESLint + Tests` CI job.
-- **`npm run test:all`** runs the **full** matrix (`__tests__/combinations.all.js`, 7680
-  runs, ~1.5 min). Not part of `npm test` (named so `node --test` skips it locally), but it
-  **does** run in CI as the `Full matrix` job on every push/PR.
+- **`npm run test:all`** runs the **full** matrix (`__tests__/combinations.all.js`, 17875
+  runs, ~20 min). Not part of `npm test` (named so `node --test` skips it locally), but it
+  **does** run in CI as the `Full matrix` job on every push/PR. Each yeoman-test run keeps about
+  0.2 MB on the heap, so the script raises Node's heap limit to 8 GB (the default 4 GB ran out at
+  17875 runs, which shows as a heap-out-of-memory abort or as a job that stops logging until it times out).
 - Both share `__tests__/matrix.js` (the matrix definition + a greedy all-pairs selector).
 
 This proves the generator *generates* for every combination; it does **not** prove the
