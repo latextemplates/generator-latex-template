@@ -364,6 +364,13 @@
 <% } -%>
 <% if (useExampleEnvironment) { -%>
 \usepackage[realmainfile]{currfile}
+<% if (isPaper) { -%>
+% <%= filenames.main %>-anon.tex inputs this file before currfile is loaded, so currfile takes <%= filenames.main %>-anon.tex as the current file;
+% \ltgexamplefile (set there) names the file the examples are in
+\providecommand{\ltgexamplefile}{\currfilename}
+<% } else { -%>
+\newcommand{\ltgexamplefile}{\currfilename}
+<% } -%>
 \usepackage{tcolorbox}
 \tcbuselibrary{<%= listings %><% if (twocolumn) { %>,breakable<% } %>}
 % Benötigt für eine korrekte Darstellung der Hinweise im erzeugten PDF
@@ -378,7 +385,7 @@
   % Daher wird jede Zeile dieser Datei außerhalb des Beispiels als leere Zeile gelesen, solange die Box die Datei liest.
   \ifdefined\directlua
     \directlua{
-      local file = "\luaescapestring{\currfilename}"
+      local file = "\luaescapestring{\ltgexamplefile}"
       local first, last, line = \the\LTGbeginlineexample, \the\LTGendlineexample, 0
       luatexbase.add_to_callback("process_input_buffer", function(text)
         if status.filename:sub(-string.len(file)) == file then
@@ -397,13 +404,13 @@
     breakable,
 <% } -%>
     % \currfilename statt \currfilepath: ein Kapitel wird über den Import-Pfad von subfiles gelesen, den minted sonst noch einmal voranstellt
-    listing file=\currfilename,
+    listing file=\ltgexamplefile,
     colback=green!5!white,
     colframe=green!25,
     coltitle=black!90,
     coltext=black!90,
     left=8mm,
-    title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\currfilename},
+    title=Zugehöriger \LaTeX{}-Quelltext aus \texttt{\ltgexamplefile},
 <% if (listings == 'listings') { -%>
     listing options={
         frame=none,

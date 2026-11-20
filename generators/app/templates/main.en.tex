@@ -352,6 +352,13 @@
 <% } -%>
 <% if (useExampleEnvironment) { -%>
 \usepackage[realmainfile]{currfile}
+<% if (isPaper) { -%>
+% <%= filenames.main %>-anon.tex inputs this file before currfile is loaded, so currfile takes <%= filenames.main %>-anon.tex as the current file;
+% \ltgexamplefile (set there) names the file the examples are in
+\providecommand{\ltgexamplefile}{\currfilename}
+<% } else { -%>
+\newcommand{\ltgexamplefile}{\currfilename}
+<% } -%>
 \usepackage{tcolorbox}
 \tcbuselibrary{<%= listings %><% if (twocolumn) { %>,breakable<% } %>}
 % Required for proper example rendering in the compiled PDF
@@ -366,7 +373,7 @@
   % of this file outside the example is read as empty line while the box reads the file.
   \ifdefined\directlua
     \directlua{
-      local file = "\luaescapestring{\currfilename}"
+      local file = "\luaescapestring{\ltgexamplefile}"
       local first, last, line = \the\LTGbeginlineexample, \the\LTGendlineexample, 0
       luatexbase.add_to_callback("process_input_buffer", function(text)
         if status.filename:sub(-string.len(file)) == file then
@@ -384,14 +391,14 @@
     % Split across columns and pages. An unbreakable box overflows into the floats or the bottom margin when the floats of a page leave the narrow columns too little room
     breakable,
 <% } -%>
-    % \currfilename, not \currfilepath: a chapter is read through the import path of subfiles, which minted would prepend once more
-    listing file=\currfilename,
+    % \currfilename (in \ltgexamplefile), not \currfilepath: a chapter is read through the import path of subfiles, which minted would prepend once more
+    listing file=\ltgexamplefile,
     colback=green!5!white,
     colframe=green!25,
     coltitle=black!90,
     coltext=black!90,
     left=8mm,
-    title=Corresponding \LaTeX{} code of \texttt{\currfilename},
+    title=Corresponding \LaTeX{} code of \texttt{\ltgexamplefile},
 <% if (listings == 'listings') { -%>
     listing options={
         frame=none,
