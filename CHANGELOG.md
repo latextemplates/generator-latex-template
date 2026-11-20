@@ -8,6 +8,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+## [2026.11.20]
+
 ### Added
 
 - Papers: `paper-anon.tex` typesets the paper for a double-blind review. ACM sets acmart's class option `anonymous`; IEEE and LNCS replace the authors, affiliations, and acknowledgments wrapped in `\anon{...}` by gray bars (as in [skeldoc](https://ctan.org/pkg/skeldoc)), with the same interface as acmart's `\anon`. The related work section shows how to cite one's own work and hide the institution in the text.
@@ -796,7 +798,8 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 First release of Markdown Architectural Decision Records.
 
-[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.12...main
+[Unreleased]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.20...main
+[2026.11.20]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.12...2026.11.20
 [2026.11.12]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.9...2026.11.12
 [2026.11.9]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.4...2026.11.9
 [2026.11.4]: https://github.com/latextemplates/generator-latex-template/compare/2026.11.3...2026.11.4
