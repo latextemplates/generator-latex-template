@@ -11,7 +11,7 @@ We use dots as date separators, because it is supported in `package.json` (and d
 ### Added
 
 - Papers: `paper-anon.tex` typesets the paper for a double-blind review. ACM sets acmart's class option `anonymous`; IEEE and LNCS replace the authors, affiliations, and acknowledgments wrapped in `\anon{...}` by gray bars (as in [skeldoc](https://ctan.org/pkg/skeldoc)), with the same interface as acmart's `\anon`. The related work section shows how to cite one's own work and hide the institution in the text.
-- `\TODO{...}` and `\FIXME{...}` mark a normal and an important TODO with whichever TODO package is selected; with zebra, `\FIXME` is the template's own note type `\fixme`.
+- `\TODO{...}`, `\FIXME{...}`, and `\CITE{...}` mark a normal TODO, an important one, and a claim that still needs a citation with whichever TODO package is selected; with zebra, `\FIXME` and `\CITE` are the template's own note types `\fixme` and `\source`.
 - Theses: an example of a table set with [tabularray](https://ctan.org/pkg/tabularray): layout (columns, header rows, cells spanning rows or columns, row colors) in front of the content.
 
 ### Changed
