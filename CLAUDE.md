@@ -154,7 +154,8 @@ layout is a hard requirement.
    as body (`gh release create <date> --title <date> --notes-file <section.md>`).
    See tag `2026-07-30` in any template for the reference commit.
    `scripts/release-templates.sh <YYYY-MM-DD>` does all of this for every template with unreleased
-   entries; `--dry-run` shows the CHANGELOG diffs and the release notes first.
+   entries and attaches the example PDFs from `gh-pages` to each release (it waits until the workflows on
+   `main` finished, so the PDFs match the release); `--dry-run` shows the CHANGELOG diffs and the release notes first.
 
 The list of variants (documentclasses, `texlives`, fonts, …) is defined in **two places
 that must be kept in sync**: the top of `.github/generate-workflows.py` (drives the LaTeX

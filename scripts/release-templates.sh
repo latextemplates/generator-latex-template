@@ -6,7 +6,7 @@
 # Usage: scripts/release-templates.sh <YYYY-MM-DD> [--dry-run]
 #   For each template: rename "## [Unreleased]" to "## [<date>]", add the "[<date>]:" compare link,
 #   bump the "[Unreleased]:" link, check with heylogs, commit "Release <date>", tag, push, and create
-#   the GitHub release with the CHANGELOG section as notes.
+#   the GitHub release with the CHANGELOG section as notes, then attaches the example PDFs from gh-pages.
 #   --dry-run shows the CHANGELOG diff and the notes, then reverts; nothing is committed or pushed.
 set -euo pipefail
 usage="Usage: $0 <YYYY-MM-DD> [--dry-run]"
@@ -19,6 +19,7 @@ if [ -n "$dry" ] && [ "$dry" != "--dry-run" ]; then
   echo "Unknown option: '$dry'" >&2; echo "$usage" >&2; exit 1
 fi
 notes_dir=$(mktemp -d)
+released=()
 cd ..
 for t in acm-enhanced ieee-enhanced lncs-enhanced scientific-thesis-template uni-stuttgart-dissertation-template markdown-latex-quickstart; do
   echo "== $t"
@@ -49,5 +50,24 @@ for t in acm-enhanced ieee-enhanced lncs-enhanced scientific-thesis-template uni
   git tag "$date"
   git push -q && git push -q origin "$date"
   gh release create "$date" --title "$date" --notes-file "$notes_dir/$t.md"
+  released+=("$t")
   cd ..
+done
+
+# Attach the example PDFs to each release. The workflows on main publish them to gh-pages,
+# so wait until no run on main is queued or in progress (at most 60 min).
+for t in "${released[@]}"; do
+  echo "== $t: example PDFs"
+  for _ in $(seq 120); do
+    [ -z "$(gh run list -R "latextemplates/$t" -b main -L 20 --json status -q '.[]|select(.status!="completed")|.status')" ] && break
+    sleep 30
+  done
+  dir="$notes_dir/$t-pdf"
+  mkdir -p "$dir"
+  git -C "$t" fetch -q origin gh-pages
+  # comparison-*.pdf compare bibliography styles; they are no example documents
+  mapfile -t pdfs < <(git -C "$t" ls-tree --name-only FETCH_HEAD | grep '\.pdf$' | grep -v '^comparison-')
+  for f in "${pdfs[@]}"; do git -C "$t" show "FETCH_HEAD:$f" > "$dir/$f"; done
+  (cd "$dir" && gh release upload "$date" -R "latextemplates/$t" --clobber "${pdfs[@]}")
+  echo "   ${#pdfs[@]} PDFs attached"
 done
