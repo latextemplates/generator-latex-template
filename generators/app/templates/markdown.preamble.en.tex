@@ -33,13 +33,13 @@
 <%= markdownIndent %>          \markdownLaTeXTable={}
 <%= markdownIndent %>          \markdownLaTeXTableAlignment={}
 <%= markdownIndent %>          % begin and end in nested order, so ChkTeX finds the pairs
-<%= markdownIndent %>          \tl_if_empty:nF {#1} {
+<%= markdownIndent %>          \IfBlankF {#1} {
 <%= markdownIndent %>            \addto@hook\markdownLaTeXTable{\begin{table}\centering\caption{#1}}
 <%= markdownIndent %>            \seq_map_inline:Nn \l__markdown_table_identifiers_seq { \addto@hook\markdownLaTeXTable{\label{##1}} }
 <%= markdownIndent %>          }
 <%= markdownIndent %>          \addto@hook\markdownLaTeXTable{\begin{tabular}}
 <%= markdownIndent %>          \markdownLaTeXTableEnd={\markdownLaTeXBottomRule\end{tabular}}
-<%= markdownIndent %>          \tl_if_empty:nF {#1} { \addto@hook\markdownLaTeXTableEnd{\end{table}} }
+<%= markdownIndent %>          \IfBlankF {#1} { \addto@hook\markdownLaTeXTableEnd{\end{table}} }
 <%= markdownIndent %>          \markdownLaTeXRowCounter=0
 <%= markdownIndent %>          \markdownLaTeXRowTotal=#2
 <%= markdownIndent %>          \markdownLaTeXColumnTotal=#3
