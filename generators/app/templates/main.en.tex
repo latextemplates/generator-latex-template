@@ -373,15 +373,18 @@
   % of this file outside the example is read as empty line while the box reads the file.
   \ifdefined\directlua
     \directlua{
-      local file = "\luaescapestring{\ltgexamplefile}"
+      % Lua strings in [[...]] and a space before each parenthesis keep ChkTeX quiet; noindent keeps latexindent from flattening the Lua code
+      % \begin{noindent}
+      local file = [[\ltgexamplefile]]
       local first, last, line = \the\LTGbeginlineexample, \the\LTGendlineexample, 0
-      luatexbase.add_to_callback("process_input_buffer", function(text)
-        if status.filename:sub(-string.len(file)) == file then
+      luatexbase.add_to_callback ([[process_input_buffer]], function (text)
+        if status.filename:sub (-string.len (file)) == file then
           line = line + 1
-          if line < first or line > last then return "" end
+          if line < first or line > last then return [[]] end
         end
         return text
-      end, "ltgexample")
+      end, [[ltgexample]])
+      % \end{noindent}
     }%
   \fi
 <% } -%>
@@ -432,7 +435,7 @@
 <% } -%>
   }%
 <% if (listings == 'listings') { -%>
-  \ifdefined\directlua\directlua{luatexbase.remove_from_callback("process_input_buffer", "ltgexample")}\fi
+  \ifdefined\directlua\directlua{luatexbase.remove_from_callback ([[process_input_buffer]], [[ltgexample]])}\fi
 <% } -%>
 }%
 <% } -%>
