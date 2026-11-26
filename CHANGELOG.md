@@ -8,6 +8,10 @@ We use dots as date separators, because it is supported in `package.json` (and d
 
 ## [Unreleased]
 
+### Fixed
+
+- Table of contents, list of figures, and list of tables: the page number links to its entry, not only the title.
+
 ## [2026.11.20]
 
 ### Added
