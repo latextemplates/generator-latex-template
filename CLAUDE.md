@@ -72,6 +72,10 @@ Node ≥18).
   choice and links the matching GADR for the general options and pros/cons — so when a
   template switches packages, update both (supersede the old ADR, as 0003 → 0014). The
   templates carry no ADRs; their README links to `docs/decisions/`.
+  The "Pick" column of the `choose-latex-package` skill
+  (`github.com/koppor/koppor-skills`, `skills/tex/choose-latex-package/SKILL.md`, push to
+  `main`) copies these decisions: when an ADR supersedes another, update its row too. Its
+  weekly check only catches a new GADR record or snippet, not a changed pick.
 
 ## The update cycle (e.g. "support TeX Live 2026", or any generator change)
 
